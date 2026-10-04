@@ -91,7 +91,7 @@ export default function Grupal() {
             </button>
           </div>
         </QuestionCard>
-        <p className="muted center">🔒 En el modo grupal no se guarda nada. Lo que se dice en la mesa, queda en la mesa.</p>
+        <p className="muted center">En el modo grupal no se guarda nada. Lo que se dice en la mesa, queda en la mesa.</p>
       </div>
     )
   }
@@ -151,7 +151,7 @@ export default function Grupal() {
                 aria-pressed={active}
                 onClick={() => toggleCategory(c.key)}
               >
-                {c.emoji} {c.label}
+                {c.label}
               </button>
             )
           })}

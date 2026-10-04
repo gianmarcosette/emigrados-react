@@ -1,5 +1,6 @@
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
 import { useEffect } from 'react'
+import Wordmark from './Wordmark.jsx'
 
 const LINKS = [
   { to: '/individual', label: 'Individual' },
@@ -19,8 +20,7 @@ export default function Layout() {
     <div className={`app ${pathname === '/' ? 'app--home' : ''}`}>
       <header className="topbar">
         <NavLink to="/" className="brand" aria-label="Emigrados, volver al inicio">
-          <span className="brand__pin" aria-hidden="true">📍</span>
-          EMIGRADOS
+          <Wordmark />
         </NavLink>
         <nav className="topbar__nav" aria-label="Secciones">
           {LINKS.map((l) => (

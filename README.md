@@ -1,4 +1,4 @@
-# 📍 Emigrados — En Palabras
+# Emigrados — En Palabras
 
 **Emigrados** es un juego de preguntas creado para la activación de la marca **En Palabras**. Su objetivo es hablar de todo el proceso que implica emigrar: lo que pensábamos antes de irnos, lo que sentimos en el nuevo lugar y cómo nos reinventamos. Un espacio seguro, en medio de la rutina, para conocernos más y entender por qué estamos donde estamos.
 
@@ -22,7 +22,7 @@ Otros comandos: `npm run build` (versión de producción), `npm test` (tests con
 | Ruta          | Pantalla   | Qué hace |
 |---------------|------------|----------|
 | `/`           | Inicio     | Elegís modo: Individual, Grupal (y Online, próximamente). Input controlado para tu nombre. |
-| `/individual` | Individual | Pregunta al azar con su país y etapa. La respuesta se guarda con fecha y clava un 📍 en el mapa. Si la pregunta se repite, ves y comparás lo que respondiste antes. |
+| `/individual` | Individual | Pregunta al azar con su país y etapa. La respuesta se guarda con fecha y marca su país en el mapa. Si la pregunta se repite, ves y comparás lo que respondiste antes. |
 | `/grupal`     | Grupal     | Cargás jugadores y etapas; las preguntas rotan por turnos. **No se guarda nada.** |
 | `/mapa`       | Mi mapa    | Mapa del mundo con los países visitados, la ruta del viaje y el detalle de las respuestas por país. |
 | `/diario`     | Diario     | Todas tus respuestas con su historial de fechas, búsqueda, filtro por etapa y descarga en `.txt`. |

@@ -11,7 +11,7 @@ export default function QuestionCard({ question, eyebrow, children }) {
       <div className="ticket__main">
         <div className="ticket__meta">
           <span className="chip" style={{ background: category.color }}>
-            {category.emoji} {category.label}
+            {category.label}
           </span>
           <span className="ticket__number">{eyebrow ?? `Pregunta N.º ${question.id}`}</span>
         </div>

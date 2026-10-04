@@ -18,9 +18,11 @@ const path = geoPath(projection)
 const SHAPES = LAND.map((f) => ({ id: f.id, d: path(f) }))
 const GRATICULE = path(geoGraticule10())
 const OUTLINE = path({ type: 'Sphere' })
+// Marcador de ubicación dibujado en SVG, con la punta en (0, 0).
+const PIN_PATH = 'M0 0C-2-5.5-9-10-9-15.5a9 9 0 0 1 18 0C9-10 2-5.5 0 0Z'
 
 /**
- * Mapa del mundo con los países "visitados" pintados y un 📍 por cada país.
+ * Mapa del mundo con los países "visitados" pintados y un marcador por cada país.
  * - pins: [{ country, count }] países con respuestas
  * - destinations: países por visitar (se marcan con un punto)
  * - route: países en el orden en que se respondieron (se dibuja la ruta del viaje)
@@ -103,9 +105,10 @@ export default function WorldMap({
             aria-label={onSelect ? label : undefined}
           >
             <title>{label}</title>
-            <text className="pin__emoji" textAnchor="middle" y={compact ? -2 : 0}>
-              📍
-            </text>
+            <g className="pin__shape">
+              <path d={PIN_PATH} className="pin__body" />
+              <circle cy={-15} r={3.6} className="pin__hole" />
+            </g>
           </g>
         )
       })}

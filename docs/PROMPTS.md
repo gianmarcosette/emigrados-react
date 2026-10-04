@@ -15,7 +15,7 @@ Archivos adjuntos: guía de evaluación del Momento 2 y mockups de Emigrados (PD
 | 1 | Armar la base del proyecto en React con React Router | Proyecto Vite + React 19 + React Router 7 |
 | 2 | Escribir al menos 200 preguntas y asociar cada una a un país | 208 preguntas en 8 etapas, 52 países, tests que lo verifican |
 | 3 | Guardar respuestas con fecha y permitir comparar al repetir | Reducer `journeyReducer` + `localStorage` con historial por pregunta |
-| 4 | Mapa del mundo con un 📍 por cada país "visitado" | `WorldMap` con d3-geo, ruta del viaje y panel por país |
+| 4 | Mapa del mundo con un marcador por cada país "visitado" | `WorldMap` con d3-geo, ruta del viaje y panel por país |
 | 5 | Mejorar los mockups | Rediseño: tarjeta de embarque, sellos de pasaporte, paleta verde azulado + amarillo del mockup original |
 | 6 | Modo grupal sin guardado | Jugadores con turnos, filtro por etapas, mazo mezclado |
 | 7 | Extras | Diario con búsqueda y descarga, modo Online marcado como "próximamente" |

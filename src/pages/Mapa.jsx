@@ -18,7 +18,7 @@ export default function Mapa() {
       <header className="page__header">
         <h1>Tu vuelta al mundo</h1>
         <p className="muted">
-          Cada pregunta respondida clava un 📍 en un país. Tocá un 📍 para releer lo que escribiste ahí, o un punto para ver qué destinos te faltan.
+          Cada pregunta respondida marca un país. Tocá un marcador para releer lo que escribiste ahí, o un punto para ver qué destinos te faltan.
         </p>
       </header>
 
@@ -72,12 +72,12 @@ function CountryPanel({ country, answers, onClose }) {
       <div className="country-panel__head">
         <CountryStamp country={country} />
         <button type="button" className="btn btn--text" onClick={onClose} aria-label="Cerrar">
-          ✕
+          Cerrar
         </button>
       </div>
       <p className="muted">
         {plural(answered.length, 'pregunta respondida', 'preguntas respondidas')} ·{' '}
-        {pending ? `te ${pending === 1 ? 'falta' : 'faltan'} ${pending}` : '¡país completo! 🎉'}
+        {pending ? `te ${pending === 1 ? 'falta' : 'faltan'} ${pending}` : '¡país completo!'}
       </p>
       <ul className="country-panel__list">
         {answered.map((q) => {

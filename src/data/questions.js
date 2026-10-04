@@ -2,14 +2,14 @@ import { COUNTRIES } from './countries.js'
 
 // Cada categoría acompaña una etapa del proceso migratorio.
 export const CATEGORIES = [
-  { key: 'antes', label: 'Antes de partir', emoji: '🧳', color: '#e8704f' },
-  { key: 'despedida', label: 'La despedida', emoji: '👋', color: '#d9a42b' },
-  { key: 'llegada', label: 'Los primeros días', emoji: '🛬', color: '#3f8f7f' },
-  { key: 'cultura', label: 'Idioma y costumbres', emoji: '🗣️', color: '#5b6fc7' },
-  { key: 'vinculos', label: 'Vínculos', emoji: '🫂', color: '#c45c8a' },
-  { key: 'identidad', label: 'Identidad', emoji: '🪞', color: '#7a5bc4' },
-  { key: 'reinventarse', label: 'Reinventarse', emoji: '🌱', color: '#4f9a3e' },
-  { key: 'hogar', label: 'Hogar y futuro', emoji: '🏡', color: '#2f6f9f' },
+  { key: 'antes', label: 'Antes de partir', color: '#e8704f' },
+  { key: 'despedida', label: 'La despedida', color: '#d9a42b' },
+  { key: 'llegada', label: 'Los primeros días', color: '#3f8f7f' },
+  { key: 'cultura', label: 'Idioma y costumbres', color: '#5b6fc7' },
+  { key: 'vinculos', label: 'Vínculos', color: '#c45c8a' },
+  { key: 'identidad', label: 'Identidad', color: '#7a5bc4' },
+  { key: 'reinventarse', label: 'Reinventarse', color: '#4f9a3e' },
+  { key: 'hogar', label: 'Hogar y futuro', color: '#2f6f9f' },
 ]
 
 export const CATEGORY_BY_KEY = Object.fromEntries(CATEGORIES.map((c) => [c.key, c]))

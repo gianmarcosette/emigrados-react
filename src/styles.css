@@ -17,8 +17,8 @@
   --sky-3: #cfe3ea;
   --radius: 18px;
   --shadow: 0 10px 30px rgba(20, 63, 58, 0.12);
-  --font-display: 'Fraunces', Georgia, serif;
-  --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Montserrat', 'Gotham', 'Helvetica Neue', Arial, sans-serif;
+  --font-body: 'Montserrat', 'Gotham', 'Helvetica Neue', Arial, sans-serif;
   color-scheme: light;
 }
 
@@ -45,7 +45,9 @@ h1,
 h2,
 h3 {
   font-family: var(--font-display);
-  line-height: 1.15;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
   margin: 0 0 0.5em;
 }
 
@@ -107,14 +109,24 @@ textarea {
 }
 
 .brand {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 1.35rem;
-  letter-spacing: 0.04em;
+  font-size: 1.15rem;
   text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
+}
+
+/* Logotipo: prefijo en negrita recta + resto en itálica espaciada, como DESCONECTADOS */
+.wordmark {
+  font-family: var(--font-display);
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+.wordmark strong {
+  font-weight: 800;
+}
+
+.wordmark em {
+  font-weight: 500;
+  letter-spacing: 0.12em;
 }
 
 .app--home .brand,
@@ -390,8 +402,8 @@ textarea:focus {
   stroke-dasharray: 6 8;
 }
 
-.hero__plane {
-  font-size: 28px;
+.hero__dot {
+  fill: var(--yellow);
 }
 
 .hero__tagline {
@@ -403,9 +415,8 @@ textarea:focus {
 }
 
 .hero__title {
-  font-size: clamp(3rem, 12vw, 6.5rem);
-  font-weight: 800;
-  letter-spacing: 0.06em;
+  font-size: clamp(2.2rem, 9vw, 5rem);
+  font-weight: 400;
   margin: 0;
   text-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
 }
@@ -494,9 +505,6 @@ a.mode:hover {
   opacity: 0.75;
 }
 
-.mode__icon {
-  font-size: 2rem;
-}
 
 .mode__cta {
   font-weight: 700;
@@ -589,7 +597,7 @@ a.mode:hover {
 }
 
 .ticket__question {
-  font-size: clamp(1.4rem, 3.6vw, 2rem);
+  font-size: clamp(1.25rem, 3vw, 1.7rem);
   color: var(--teal-dark);
   background: var(--yellow);
   padding: 18px 22px;
@@ -657,9 +665,11 @@ a.mode:hover {
   text-align: center;
 }
 
-.stamp__flag {
-  font-size: 2.2rem;
-  line-height: 1;
+.stamp__coords {
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  margin-top: 2px;
 }
 
 .stamp__name {
@@ -678,9 +688,6 @@ a.mode:hover {
   vertical-align: middle;
 }
 
-.stamp--sm .stamp__flag {
-  font-size: 1.2rem;
-}
 
 .stamp--sm .stamp__name {
   font-size: 0.75rem;
@@ -790,13 +797,6 @@ a.mode:hover {
   transition: width 0.6s ease;
 }
 
-.progress__plane {
-  position: absolute;
-  right: -10px;
-  top: 50%;
-  transform: translateY(-55%);
-  font-size: 18px;
-}
 
 /* ───────────── Guardado ───────────── */
 .saved {
@@ -821,13 +821,19 @@ a.mode:hover {
   width: 56px;
   height: 56px;
   margin: 0 auto;
-  border-radius: 50%;
-  background: var(--teal);
-  color: var(--yellow);
-  display: grid;
-  place-items: center;
-  font-size: 1.6rem;
   animation: pop 0.4s ease-out;
+}
+
+.saved__check circle {
+  fill: var(--teal);
+}
+
+.saved__check path {
+  fill: none;
+  stroke: var(--yellow);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .saved__where {
@@ -901,27 +907,45 @@ a.mode:hover {
   fill: var(--yellow);
 }
 
-.pin__emoji {
-  font-size: 22px;
-  user-select: none;
-}
 
-.worldmap--compact .pin__emoji {
-  font-size: 26px;
-}
 
 .pin--clickable {
   cursor: pointer;
 }
 
-.pin--clickable:hover .pin__emoji,
-.pin--selected .pin__emoji {
-  font-size: 30px;
+.pin__body {
+  fill: var(--coral);
+  stroke: var(--card);
+  stroke-width: 1.5;
 }
 
-.pin--new .pin__emoji {
+.pin__hole {
+  fill: var(--card);
+}
+
+.pin__shape {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  transition: transform 0.2s;
+}
+
+.worldmap--compact .pin__shape {
+  transform: scale(1.25);
+}
+
+.pin--clickable:hover .pin__shape,
+.pin--selected .pin__shape {
+  transform: scale(1.4);
+}
+
+.pin--selected .pin__body {
+  fill: var(--teal);
+}
+
+.pin--new .pin__shape {
   animation: drop 0.7s cubic-bezier(0.3, 1.6, 0.5, 1) both;
 }
+
 
 @keyframes drop {
   from {
@@ -935,8 +959,8 @@ a.mode:hover {
   outline: none;
 }
 
-.pin:focus-visible .pin__emoji {
-  font-size: 30px;
+.pin:focus-visible .pin__shape {
+  transform: scale(1.4);
 }
 
 .stats {
@@ -1218,8 +1242,8 @@ a.mode:hover {
     padding: 4px 12px;
   }
 
-  .stamp__flag {
-    font-size: 1.5rem;
+  .stamp__coords {
+    margin-top: 0;
   }
 
   .map-layout:has(.country-panel) {
