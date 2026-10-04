@@ -12,7 +12,7 @@
 Mayores de 16 años que hayan vivido al menos seis meses fuera de su país, sin importar el destino.
 
 **4. Cómo se juega — demo (60 s)**
-- **Individual:** sale una pregunta al azar, como una tarjeta de embarque con una escala en un país. Escribo y guardo: la respuesta queda con fecha y aparece un 📍 en el mapa. Responder todas es dar la vuelta al mundo. Si una pregunta vuelve, veo lo que contesté antes y puedo comparar cómo cambié.
+- **Individual:** sale una pregunta al azar, como una tarjeta de embarque con una escala en un país. Escribo y guardo: la respuesta queda con fecha y se marca su país en el mapa. Responder todas es dar la vuelta al mundo. Si una pregunta vuelve, veo lo que contesté antes y puedo comparar cómo cambié.
 - **Grupal:** cargamos los nombres y las preguntas rotan por turnos. No se guarda nada: está pensado para que fluya la conversación entre amigos.
 - **Mapa y Diario:** mi recorrido y todas mis respuestas en un solo lugar.
 

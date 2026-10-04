@@ -9,9 +9,7 @@ export default function ProgressBar({ value, max, label }) {
         </strong>
       </div>
       <div className="progress__track" role="progressbar" aria-valuenow={value} aria-valuemin={0} aria-valuemax={max}>
-        <div className="progress__fill" style={{ width: `${pct}%` }}>
-          <span className="progress__plane" aria-hidden="true">✈️</span>
-        </div>
+        <div className="progress__fill" style={{ width: `${pct}%` }} />
       </div>
     </div>
   )

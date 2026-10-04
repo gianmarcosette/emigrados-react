@@ -75,9 +75,10 @@ function IndividualGame({ params }) {
     return (
       <div className="page page--narrow">
         <section className="saved">
-          <p className="saved__check" aria-hidden="true">
-            ✔
-          </p>
+          <svg className="saved__check" viewBox="0 0 56 56" aria-hidden="true">
+            <circle cx="28" cy="28" r="28" />
+            <path d="M17 29l7 7 15-16" />
+          </svg>
           <h1>Tu respuesta se ha guardado con éxito.</h1>
           <p className="saved__where">
             {firstTime ? 'Nueva escala en tu vuelta al mundo:' : 'Volviste a pasar por:'}{' '}
@@ -112,13 +113,13 @@ function IndividualGame({ params }) {
             <option value="all">Todas las etapas</option>
             {CATEGORIES.map((c) => (
               <option key={c.key} value={c.key}>
-                {c.emoji} {c.label}
+                {c.label}
               </option>
             ))}
           </select>
         </label>
         <span className="toolbar__count">
-          {finished ? '🌍 ¡Diste la vuelta al mundo!' : `${plural(pendingInPool, 'pregunta pendiente', 'preguntas pendientes')}`}
+          {finished ? '¡Diste la vuelta al mundo!' : `${plural(pendingInPool, 'pregunta pendiente', 'preguntas pendientes')}`}
         </span>
       </div>
 
@@ -126,7 +127,7 @@ function IndividualGame({ params }) {
         {previous.length > 0 && (
           <div className="history">
             <button type="button" className="history__toggle" onClick={() => setShowHistory((v) => !v)}>
-              🔁 Ya respondiste esta pregunta {plural(previous.length, 'vez', 'veces')} ·{' '}
+              Ya respondiste esta pregunta {plural(previous.length, 'vez', 'veces')} ·{' '}
               {showHistory ? 'Ocultar' : 'Comparar'}
             </button>
             {showHistory && (
@@ -162,7 +163,7 @@ function IndividualGame({ params }) {
             <div className="actions">
               {answeredCount - (previous.length ? 1 : 0) > 0 && (
                 <button type="button" className="btn btn--text" onClick={() => nextQuestion({ revisit: true })}>
-                  🔁 Repetir una anterior
+                  Repetir una anterior
                 </button>
               )}
               <button type="button" className="btn btn--ghost" onClick={() => nextQuestion()}>

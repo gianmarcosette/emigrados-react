@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import ProgressBar from '../components/ProgressBar.jsx'
+import Wordmark from '../components/Wordmark.jsx'
 import { COUNTRIES } from '../data/countries.js'
 import { useJourney } from '../state/useJourney.js'
 
@@ -12,15 +13,16 @@ export default function Home() {
       <section className="hero">
         <svg className="hero__flight" viewBox="0 0 600 160" aria-hidden="true">
           <path id="flight-arc" d="M20 140 Q300 -40 580 140" className="hero__arc" />
-          <text className="hero__plane">
-            <textPath href="#flight-arc" startOffset="0%">
-              ✈️
-              <animate attributeName="startOffset" from="0%" to="100%" dur="9s" repeatCount="indefinite" />
-            </textPath>
-          </text>
+          <circle r="5" className="hero__dot">
+            <animateMotion dur="9s" repeatCount="indefinite">
+              <mpath href="#flight-arc" />
+            </animateMotion>
+          </circle>
         </svg>
         <p className="hero__tagline">El juego de preguntas creado para hablar de todo el proceso que implica emigrar.</p>
-        <h1 className="hero__title">EMIGRADOS</h1>
+        <h1 className="hero__title">
+          <Wordmark />
+        </h1>
         <p className="hero__lead">
           De lo que pensabas antes de irte, a lo que sentís en tu nuevo lugar y cómo te reinventaste. Un espacio seguro
           para conocerte más y entender por qué estás donde estás.
@@ -36,15 +38,14 @@ export default function Home() {
             onChange={(e) => dispatch({ type: 'setName', name: e.target.value })}
           />
         </label>
-        {name.trim() && <p className="hero__hello">¡Buen viaje, {name.trim()}! 🧭</p>}
+        {name.trim() && <p className="hero__hello">¡Buen viaje, {name.trim()}!</p>}
       </section>
 
       <section className="modes" aria-label="Elegí cómo jugar">
         <Link to="/individual" className="mode mode--individual">
-          <span className="mode__icon" aria-hidden="true">🧍</span>
           <h2>Individual</h2>
           <p>
-            Preguntas al azar. Tus respuestas se guardan con fecha y cada una clava un 📍 en el mapa: respondé las{' '}
+            Preguntas al azar. Tus respuestas se guardan con fecha y cada una marca un país en el mapa: respondé las{' '}
             {totalQuestions} y das la vuelta al mundo.
           </p>
           {started ? (
@@ -55,7 +56,6 @@ export default function Home() {
         </Link>
 
         <Link to="/grupal" className="mode mode--grupal">
-          <span className="mode__icon" aria-hidden="true">👥</span>
           <h2>Grupal</h2>
           <p>
             Para charlar entre amigos. Las preguntas van rotando entre los jugadores y nada queda guardado: lo que se
@@ -66,7 +66,6 @@ export default function Home() {
 
         <div className="mode mode--online" aria-disabled="true">
           <span className="mode__badge">Próximamente</span>
-          <span className="mode__icon" aria-hidden="true">🌐</span>
           <h2>Online</h2>
           <p>Escribí una pregunta y alguien, en algún lugar del mundo, la responderá. Llega en la próxima etapa.</p>
         </div>
@@ -75,10 +74,10 @@ export default function Home() {
       {started && (
         <section className="home__stats">
           <Link to="/mapa" className="statlink">
-            📍 Visitaste <strong>{pins.length}</strong> de {COUNTRIES.length} países · Ver mi mapa →
+            Visitaste <strong>{pins.length}</strong> de {COUNTRIES.length} países · Ver mi mapa →
           </Link>
           <Link to="/diario" className="statlink">
-            📓 Releer mi diario →
+            Releer mi diario →
           </Link>
         </section>
       )}

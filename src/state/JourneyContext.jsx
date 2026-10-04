@@ -23,7 +23,7 @@ export function JourneyProvider({ children }) {
       dispatch,
       answeredCount: answeredIds.length,
       totalQuestions: QUESTIONS.length,
-      // Un 📍 por país visitado, con cuántas preguntas se respondieron ahí
+      // Un marcador por país visitado, con cuántas preguntas se respondieron ahí
       pins: [...perCountry].map(([id, count]) => ({ country: COUNTRY_BY_ID[id], count })),
       routeCountries: answeredIds.map((id) => COUNTRY_BY_ID[QUESTION_BY_ID[id].countryId]),
     }

@@ -32,7 +32,7 @@ export default function Diario() {
     const lines = [`EMIGRADOS · Diario${name.trim() ? ` de ${name.trim()}` : ''}`, '']
     for (const { question, list } of entries) {
       const country = COUNTRY_BY_ID[question.countryId]
-      lines.push(`${country.flag} ${country.name} — ${CATEGORY_BY_KEY[question.category].label}`, question.text)
+      lines.push(`${country.name} — ${CATEGORY_BY_KEY[question.category].label}`, question.text)
       for (const a of list) lines.push(`  · ${formatDate(a.date)}: ${a.text}`)
       lines.push('')
     }
@@ -54,7 +54,7 @@ export default function Diario() {
   if (!answeredCount) {
     return (
       <div className="page page--narrow center">
-        <h1>Tu diario está vacío 📓</h1>
+        <h1>Tu diario está vacío</h1>
         <p className="muted">Las respuestas que guardes en el modo individual van a aparecer acá, con su fecha.</p>
         <Link to="/individual" className="btn btn--primary">
           Empezar a responder
@@ -89,7 +89,7 @@ export default function Diario() {
             <option value="all">Todas</option>
             {CATEGORIES.map((c) => (
               <option key={c.key} value={c.key}>
-                {c.emoji} {c.label}
+                {c.label}
               </option>
             ))}
           </select>
@@ -106,7 +106,7 @@ export default function Diario() {
               <div className="entry__head">
                 <CountryStamp country={COUNTRY_BY_ID[question.countryId]} size="sm" />
                 <span className="chip" style={{ background: cat.color }}>
-                  {cat.emoji} {cat.label}
+                  {cat.label}
                 </span>
               </div>
               <h2 className="entry__question">{question.text}</h2>
@@ -119,7 +119,7 @@ export default function Diario() {
                 ))}
               </ol>
               <Link to={`/individual?q=${question.id}`} className="btn btn--text">
-                ✍️ Volver a responder
+                Volver a responder
               </Link>
             </li>
           )
