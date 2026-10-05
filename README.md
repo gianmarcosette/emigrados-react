@@ -57,7 +57,6 @@ Tecnologías: React 19, React Router 7, Vite, d3-geo + world-atlas (mapa), Vites
 | Estructura React con navegación entre al menos 2 pantallas usando React Router | `src/App.jsx`: 5 pantallas + 404, navegación en `Layout.jsx` |
 | Al menos una interacción: evento conectado a un cambio de estado | Textarea controlada + "Guardar respuesta" (`useReducer`), alta de jugadores y turnos en Grupal, filtros, mapa clickeable |
 | Evidencia de iteración con un agente de IA | Historial de commits y [`docs/PROMPTS.md`](docs/PROMPTS.md) |
-| Presentación y pitch de 2–3 minutos | Guion en [`docs/PITCH.md`](docs/PITCH.md) |
 
 ## Plan hacia el Momento 3 (100%)
 
