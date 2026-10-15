@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom'
+import Avatar from '../components/Avatar.jsx'
 import ProgressBar from '../components/ProgressBar.jsx'
 import Wordmark from '../components/Wordmark.jsx'
 import { COUNTRIES } from '../data/countries.js'
 import { useJourney } from '../state/useJourney.js'
 
 export default function Home() {
-  const { name, dispatch, answeredCount, totalQuestions, pins } = useJourney()
+  const { profile, answeredCount, totalQuestions, pins } = useJourney()
   const started = answeredCount > 0
 
   return (
@@ -28,17 +29,18 @@ export default function Home() {
           para conocerte más y entender por qué estás donde estás.
         </p>
 
-        <label className="namefield">
-          <span>¿Cómo te llamás?</span>
-          <input
-            type="text"
-            value={name}
-            maxLength={30}
-            placeholder="Tu nombre (opcional)"
-            onChange={(e) => dispatch({ type: 'setName', name: e.target.value })}
-          />
-        </label>
-        {name.trim() && <p className="hero__hello">¡Buen viaje, {name.trim()}!</p>}
+        {profile ? (
+          <Link to="/perfil" className="hero__profile">
+            <Avatar profile={profile} size="md" />
+            <span>
+              ¡Buen viaje, {profile.name.split(' ')[0]}!<small>Ver mi perfil</small>
+            </span>
+          </Link>
+        ) : (
+          <Link to="/perfil" className="btn btn--hero">
+            Creá tu perfil
+          </Link>
+        )}
       </section>
 
       <section className="modes" aria-label="Elegí cómo jugar">

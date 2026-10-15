@@ -8,7 +8,7 @@ import { useJourney } from '../state/useJourney.js'
 
 // Diario: todas las respuestas del modo individual, con su historial de fechas.
 export default function Diario() {
-  const { answers, answeredCount, dispatch, name } = useJourney()
+  const { answers, answeredCount, dispatch, profile } = useJourney()
   const [category, setCategory] = useState('all')
   const [search, setSearch] = useState('')
 
@@ -29,7 +29,7 @@ export default function Diario() {
   }, [answers, category, search])
 
   function exportDiary() {
-    const lines = [`EMIGRADOS · Diario${name.trim() ? ` de ${name.trim()}` : ''}`, '']
+    const lines = [`EMIGRADOS · Diario${profile ? ` de ${profile.name}` : ''}`, '']
     for (const { question, list } of entries) {
       const country = COUNTRY_BY_ID[question.countryId]
       lines.push(`${country.name} — ${CATEGORY_BY_KEY[question.category].label}`, question.text)

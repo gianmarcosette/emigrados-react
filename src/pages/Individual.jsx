@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import CountryStamp from '../components/CountryStamp.jsx'
+import ProfileForm from '../components/ProfileForm.jsx'
 import ProgressBar from '../components/ProgressBar.jsx'
 import QuestionCard from '../components/QuestionCard.jsx'
 import WorldMap from '../components/WorldMap.jsx'
@@ -12,9 +13,51 @@ import { pickQuestion } from '../state/journey.js'
 
 const MAX_LENGTH = 1500
 
+const SKIP_PROFILE_KEY = 'emigrados:sin-perfil'
+
+function readSkip() {
+  try {
+    return localStorage.getItem(SKIP_PROFILE_KEY) === '1'
+  } catch {
+    return false
+  }
+}
+
 // Se remonta cuando cambian los parámetros (?q= o ?pais=) para arrancar con esa pregunta.
 export default function Individual() {
   const [params] = useSearchParams()
+  const { profile, dispatch } = useJourney()
+  const [skipped, setSkipped] = useState(readSkip)
+
+  if (!profile && !skipped) {
+    return (
+      <div className="page page--narrow">
+        <header className="page__header">
+          <p className="kicker">Antes de despegar</p>
+          <h1>Creá tu perfil de viaje</h1>
+          <p className="muted">
+            Así tus respuestas, tu mapa y tu diario quedan a tu nombre. Lleva menos de un minuto.
+          </p>
+        </header>
+        <section className="panel">
+          <ProfileForm
+            initial={null}
+            submitLabel="Crear perfil y empezar"
+            onSave={(next) => dispatch({ type: 'saveProfile', profile: next })}
+            onCancel={() => {
+              try {
+                localStorage.setItem(SKIP_PROFILE_KEY, '1')
+              } catch {
+                // Sin almacenamiento: se omite solo por esta visita.
+              }
+              setSkipped(true)
+            }}
+          />
+        </section>
+      </div>
+    )
+  }
+
   return <IndividualGame key={params.toString()} params={params} />
 }
 
@@ -31,7 +74,7 @@ function firstQuestion(params, answers) {
 }
 
 function IndividualGame({ params }) {
-  const { answers, dispatch, answeredCount, totalQuestions, pins, routeCountries, name } = useJourney()
+  const { answers, dispatch, answeredCount, totalQuestions, pins, routeCountries, profile } = useJourney()
   const [category, setCategory] = useState('all')
   const [question, setQuestion] = useState(() => firstQuestion(params, answers))
   const [draft, setDraft] = useState('')
@@ -106,7 +149,7 @@ function IndividualGame({ params }) {
   return (
     <div className="page">
       <div className="toolbar">
-        <span className="pill">Individual{name.trim() ? ` · ${name.trim()}` : ''}</span>
+        <span className="pill">Individual{profile ? ` · ${profile.name}` : ''}</span>
         <label className="select">
           <span>Etapa</span>
           <select value={category} onChange={(e) => changeCategory(e.target.value)}>

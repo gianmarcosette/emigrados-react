@@ -18,13 +18,6 @@ describe('journeyReducer', () => {
     ])
     expect(s.route).toEqual([2])
   })
-
-  it('reset borra respuestas pero conserva el nombre', () => {
-    let s = journeyReducer(initialJourney, { type: 'setName', name: 'Gian' })
-    s = journeyReducer(s, { type: 'saveAnswer', questionId: 1, text: 'x' })
-    s = journeyReducer(s, { type: 'reset' })
-    expect(s).toEqual({ ...initialJourney, name: 'Gian' })
-  })
 })
 
 describe('persistencia', () => {

@@ -25,6 +25,7 @@ Otros comandos: `npm run build` (versión de producción), `npm test` (tests con
 | `/individual` | Individual | Pregunta al azar con su país y etapa. La respuesta se guarda con fecha y marca su país en el mapa. Si la pregunta se repite, ves y comparás lo que respondiste antes. |
 | `/grupal`     | Grupal     | Cargás jugadores y etapas; las preguntas rotan por turnos. **No se guarda nada.** |
 | `/mapa`       | Mi mapa    | Mapa del mundo con los países visitados, la ruta del viaje y el detalle de las respuestas por país. |
+| `/perfil`     | Perfil     | Creá y editá tu perfil: nombre, edad, una breve descripción y foto. Se guarda en el dispositivo. |
 | `/diario`     | Diario     | Todas tus respuestas con su historial de fechas, búsqueda, filtro por etapa y descarga en `.txt`. |
 
 ## Mecánica
@@ -32,7 +33,7 @@ Otros comandos: `npm run build` (versión de producción), `npm test` (tests con
 - **208 preguntas** en 8 etapas del proceso migratorio: *Antes de partir, La despedida, Los primeros días, Idioma y costumbres, Vínculos, Identidad, Reinventarse, Hogar y futuro*.
 - Cada pregunta está asociada a uno de **52 países** (4 preguntas por país). Al responderla, el país queda "visitado" en el mapa.
 - El modo individual prioriza las preguntas que todavía no respondiste; con "Repetir una anterior" (o al terminar todas) vuelven preguntas ya respondidas para comparar.
-- Las respuestas se guardan en el navegador (`localStorage`), sin cuentas ni servidores.
+- El perfil (nombre, edad, descripción y foto) y las respuestas se guardan en el navegador (`localStorage`). La foto se recorta y se reduce a 320 px antes de guardarse.
 
 ## Estructura
 

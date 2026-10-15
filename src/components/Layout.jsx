@@ -1,5 +1,7 @@
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
 import { useEffect } from 'react'
+import { useJourney } from '../state/useJourney.js'
+import Avatar from './Avatar.jsx'
 import Wordmark from './Wordmark.jsx'
 
 const LINKS = [
@@ -11,6 +13,7 @@ const LINKS = [
 
 export default function Layout() {
   const { pathname } = useLocation()
+  const { profile } = useJourney()
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -28,6 +31,13 @@ export default function Layout() {
               {l.label}
             </NavLink>
           ))}
+          <NavLink
+            to="/perfil"
+            className={({ isActive }) => `navlink navlink--profile ${isActive ? 'navlink--active' : ''}`}
+          >
+            {profile ? <Avatar profile={profile} size="nav" /> : null}
+            {profile ? 'Mi perfil' : 'Crear perfil'}
+          </NavLink>
         </nav>
       </header>
       <main className="main">

@@ -6,6 +6,7 @@ import Home from './pages/Home.jsx'
 import Individual from './pages/Individual.jsx'
 import Mapa from './pages/Mapa.jsx'
 import NotFound from './pages/NotFound.jsx'
+import Perfil from './pages/Perfil.jsx'
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
         <Route path="grupal" element={<Grupal />} />
         <Route path="mapa" element={<Mapa />} />
         <Route path="diario" element={<Diario />} />
+        <Route path="perfil" element={<Perfil />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
