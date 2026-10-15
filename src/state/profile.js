@@ -5,6 +5,21 @@ export const MAX_AGE = 120
 export const NAME_MAX = 40
 export const BIO_MAX = 200
 
+// Código de pasajero como el localizador de una reserva aérea: 6 caracteres,
+// sin los que se confunden al leerlos (0/O, 1/I/L).
+const CODE_ALPHABET = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'
+const CODE_LENGTH = 6
+export const CODE_PATTERN = new RegExp(`^[${CODE_ALPHABET}]{${CODE_LENGTH}}$`)
+
+export function generatePassengerCode(random = cryptoRandom) {
+  return Array.from({ length: CODE_LENGTH }, () => CODE_ALPHABET[Math.floor(random() * CODE_ALPHABET.length)]).join('')
+}
+
+function cryptoRandom() {
+  const [n] = globalThis.crypto.getRandomValues(new Uint32Array(1))
+  return n / 2 ** 32
+}
+
 /** Devuelve { campo: mensaje } con los errores; vacío si el perfil es válido. */
 export function validateProfile({ name, age, bio }) {
   const errors = {}
@@ -28,6 +43,7 @@ export function buildProfile(form, previous, now = new Date().toISOString()) {
     age: Number(form.age),
     bio: (form.bio ?? '').trim(),
     photo: form.photo ?? null,
+    code: previous?.code ?? generatePassengerCode(),
     createdAt: previous?.createdAt ?? now,
     updatedAt: now,
   }
@@ -41,12 +57,22 @@ export function normalizeProfile(data, legacyName) {
       age: Number.isInteger(data.age) ? data.age : null,
       bio: typeof data.bio === 'string' ? data.bio : '',
       photo: typeof data.photo === 'string' && data.photo.startsWith('data:image/') ? data.photo : null,
+      // Los perfiles creados antes de que existiera el código reciben uno nuevo
+      code: typeof data.code === 'string' && CODE_PATTERN.test(data.code) ? data.code : generatePassengerCode(),
       createdAt: typeof data.createdAt === 'string' ? data.createdAt : null,
       updatedAt: typeof data.updatedAt === 'string' ? data.updatedAt : null,
     }
   }
   if (typeof legacyName === 'string' && legacyName.trim()) {
-    return { name: legacyName.trim(), age: null, bio: '', photo: null, createdAt: null, updatedAt: null }
+    return {
+      name: legacyName.trim(),
+      age: null,
+      bio: '',
+      photo: null,
+      code: generatePassengerCode(),
+      createdAt: null,
+      updatedAt: null,
+    }
   }
   return null
 }

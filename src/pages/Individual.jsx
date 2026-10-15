@@ -170,7 +170,7 @@ function IndividualGame({ params }) {
         </span>
       </div>
 
-      <QuestionCard question={question} passenger={profile?.name}>
+      <QuestionCard question={question} passenger={profile?.name} passengerCode={profile?.code}>
         {previous.length > 0 && (
           <div className="history">
             <button type="button" className="history__toggle" onClick={() => setShowHistory((v) => !v)}>

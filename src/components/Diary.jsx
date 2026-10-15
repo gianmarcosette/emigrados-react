@@ -16,6 +16,7 @@ export default function Diary() {
   const [page, setPage] = useState(null) // null: el cuaderno abre en la última página escrita
   const [turned, setTurned] = useState(false) // después de la primera hoja ya no se espera a la tapa
   const [open, setOpen] = useState(false)
+  const [closed, setClosed] = useState(false)
   const bookRef = useRef(null)
 
   // El cuaderno se abre recién cuando aparece en pantalla (está más abajo en el perfil).
@@ -58,6 +59,11 @@ export default function Diary() {
     setPage(null)
   }
 
+  function reopen() {
+    setClosed(false)
+    setTurned(false)
+  }
+
   function turnTo(next) {
     setTurned(true)
     setPage(next)
@@ -87,15 +93,32 @@ export default function Diary() {
 
   return (
     <section id="diario" className="diary-section">
-      <div ref={bookRef} className={`notebook ${open ? 'is-open' : ''}`}>
-        {/* Tapa: se abre girando sobre el lomo */}
-        <div className="notebook__cover" aria-hidden="true">
+      <div ref={bookRef} className={`notebook ${closed ? 'is-closed' : open ? 'is-open' : ''}`}>
+        {/* Tapa: se abre girando sobre el lomo; cerrada, se toca para volver a abrir */}
+        <div
+          className="notebook__cover"
+          role={closed ? 'button' : undefined}
+          tabIndex={closed ? 0 : -1}
+          aria-hidden={!closed}
+          aria-label={closed ? 'Abrir el diario' : undefined}
+          onClick={closed ? reopen : undefined}
+          onKeyDown={(e) => {
+            if (closed && (e.key === 'Enter' || e.key === ' ')) {
+              e.preventDefault()
+              reopen()
+            }
+          }}
+        >
           <span className="notebook__cover-title">Diario de viaje</span>
           <span className="notebook__cover-name">{profile?.name}</span>
+          <span className="notebook__cover-hint">Tocá para abrir</span>
           <span className="notebook__band" />
         </div>
 
         <div className="notebook__page notebook__page--left">
+          <button type="button" className="notebook__close" onClick={() => setClosed(true)} disabled={closed}>
+            Cerrar
+          </button>
           <h2 className="notebook__title">Diario de viaje</h2>
           {profile && <p className="notebook__owner">de {profile.name}</p>}
           <p className="notebook__count">
@@ -170,7 +193,7 @@ export default function Diary() {
         </div>
       </div>
 
-      {pages > 1 && (
+      {pages > 1 && !closed && (
         <nav className="notebook__nav" aria-label="Hojas del diario">
           <button type="button" className="btn btn--text" disabled={current === 0} onClick={() => turnTo(current - 1)}>
             ‹ Anterior

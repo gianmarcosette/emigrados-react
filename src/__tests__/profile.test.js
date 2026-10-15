@@ -1,6 +1,14 @@
 import { describe, expect, it } from 'vitest'
 import { initialJourney, journeyReducer, loadJourney, saveJourney } from '../state/journey.js'
-import { buildProfile, initials, isProfileComplete, normalizeProfile, validateProfile } from '../state/profile.js'
+import {
+  CODE_PATTERN,
+  buildProfile,
+  generatePassengerCode,
+  initials,
+  isProfileComplete,
+  normalizeProfile,
+  validateProfile,
+} from '../state/profile.js'
 
 function memoryStorage() {
   const data = {}
@@ -32,8 +40,17 @@ describe('validateProfile', () => {
 describe('buildProfile', () => {
   it('limpia los datos y conserva la fecha de creación al editar', () => {
     const first = buildProfile({ name: ' Ana ', age: '30', bio: ' hola ', photo: null }, null, 't1')
-    expect(first).toEqual({ name: 'Ana', age: 30, bio: 'hola', photo: null, createdAt: 't1', updatedAt: 't1' })
+    expect(first).toEqual({
+      name: 'Ana',
+      age: 30,
+      bio: 'hola',
+      photo: null,
+      code: expect.stringMatching(CODE_PATTERN),
+      createdAt: 't1',
+      updatedAt: 't1',
+    })
     const edited = buildProfile({ ...first, age: '31' }, first, 't2')
+    expect(edited.code).toBe(first.code)
     expect(edited.createdAt).toBe('t1')
     expect(edited.updatedAt).toBe('t2')
   })
@@ -74,4 +91,21 @@ it('initials', () => {
   expect(initials('Gian Marco Settembrini')).toBe('GS')
   expect(initials('Ana')).toBe('A')
   expect(initials('')).toBe('')
+})
+
+describe('código de pasajero', () => {
+  it('tiene 6 caracteres sin letras ni números ambiguos', () => {
+    for (let i = 0; i < 200; i++) {
+      const code = generatePassengerCode()
+      expect(code).toMatch(CODE_PATTERN)
+      expect(code).not.toMatch(/[01OIL]/)
+    }
+  })
+
+  it('se mantiene al recargar y se asigna a perfiles viejos', () => {
+    expect(normalizeProfile({ name: 'A', age: 20, code: 'K7M4QX' }).code).toBe('K7M4QX')
+    expect(normalizeProfile({ name: 'A', age: 20 }).code).toMatch(CODE_PATTERN)
+    expect(normalizeProfile({ name: 'A', age: 20, code: 'abc' }).code).toMatch(CODE_PATTERN)
+    expect(normalizeProfile(null, 'Viejo').code).toMatch(CODE_PATTERN)
+  })
 })

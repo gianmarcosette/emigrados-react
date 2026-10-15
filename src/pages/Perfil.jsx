@@ -67,6 +67,10 @@ export default function Perfil() {
         <p className="profile-card__meta">
           {profile.age} años{since && ` · Viajando desde ${since}`}
         </p>
+        <p className="passenger-code">
+          <span>Código de pasajero</span>
+          <strong>{profile.code}</strong>
+        </p>
         {profile.bio && <p className="profile-card__bio">{profile.bio}</p>}
 
         <div className="profile-card__stats">
