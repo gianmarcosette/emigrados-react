@@ -153,7 +153,7 @@ function IndividualGame({ params }) {
   return (
     <div className="page">
       <div className="toolbar">
-        <span className="pill">Individual{profile ? ` · ${profile.name}` : ''}</span>
+        <span className="pill">Individual</span>
         <label className="select">
           <span>Etapa</span>
           <select value={category} onChange={(e) => changeCategory(e.target.value)}>
@@ -170,7 +170,7 @@ function IndividualGame({ params }) {
         </span>
       </div>
 
-      <QuestionCard question={question}>
+      <QuestionCard question={question} passenger={profile?.name}>
         {previous.length > 0 && (
           <div className="history">
             <button type="button" className="history__toggle" onClick={() => setShowHistory((v) => !v)}>

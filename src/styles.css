@@ -1995,3 +1995,213 @@ h3 {
 .panel:has(> .title:not(.title--left)) > .muted {
   text-align: center;
 }
+
+/* Encabezado: logo · frase · menú */
+.topbar__tagline {
+  display: none;
+  margin: 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(0.92rem, 1.15vw, 1.12rem);
+  line-height: 1.2;
+  color: var(--ink-soft);
+  text-align: center;
+  text-wrap: balance;
+  max-width: min(440px, 28vw);
+  justify-self: center;
+}
+
+@media (min-width: 960px) {
+  .topbar {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+  }
+
+  .topbar__tagline {
+    display: block;
+  }
+
+  .topbar__nav {
+    justify-self: end;
+    flex-wrap: nowrap;
+  }
+
+  /* La frase ya está en el encabezado: el inicio no la repite */
+  .hero__tagline {
+    display: none;
+  }
+}
+
+/* ═════════════ Tarjeta de embarque ═════════════ */
+.ticket {
+  grid-template-columns: minmax(0, 1fr) 200px;
+}
+
+.ticket__main {
+  gap: 18px;
+}
+
+.ticket__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1.5px dashed var(--ink);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.ticket__flight {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  letter-spacing: 0.12em;
+}
+
+.ticket__plane {
+  width: 16px;
+  height: 16px;
+  fill: var(--ink);
+  transform: scaleX(-1);
+}
+
+.ticket__fields {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr);
+  gap: 12px;
+  margin: 0;
+}
+
+.ticket__fields dt,
+.ticket__passenger span {
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.ticket__fields dd {
+  margin: 2px 0 0;
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.2;
+}
+
+.ticket__stub {
+  justify-content: space-between;
+  gap: 18px;
+  padding: 24px 16px;
+}
+
+.ticket__passenger {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 2px;
+}
+
+.ticket__passenger strong {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.5rem;
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+}
+
+.ticket__barcode {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.ticket__barcode svg {
+  width: 100%;
+  max-width: 140px;
+  height: 40px;
+  fill: var(--ink);
+}
+
+.ticket__barcode span {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+}
+
+/* Las muescas del corte, en la línea punteada */
+.ticket {
+  position: relative;
+}
+
+@media (max-width: 760px) {
+  .ticket {
+    grid-template-columns: 1fr;
+  }
+
+  .ticket__fields {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  /* En el celular el talón va abajo, como el troquel de un pase */
+  .ticket__stub {
+    order: 0;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 12px 16px;
+    border-left: none;
+    border-bottom: none;
+    border-top: 2px dashed var(--ink);
+    padding: 16px 20px 18px;
+  }
+
+  .ticket__head {
+    font-size: 0.64rem;
+    letter-spacing: 0.12em;
+    white-space: nowrap;
+  }
+
+  /* Menos es más: en el talón angosto basta con el nombre del país */
+  .ticket__stub .stamp__coords {
+    display: none;
+  }
+
+  .ticket__stub .stamp {
+    white-space: nowrap;
+  }
+
+  .ticket__passenger {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .ticket__stub .stamp-group {
+    justify-self: end;
+  }
+
+  .ticket__barcode {
+    grid-column: 1 / -1;
+  }
+
+  .ticket__barcode svg {
+    max-width: none;
+    height: 32px;
+  }
+}
+
+.navlink {
+  white-space: nowrap;
+}
+
+@media (min-width: 960px) and (max-width: 1239px) {
+  .navlink {
+    padding: 8px 10px;
+  }
+}

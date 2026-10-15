@@ -81,7 +81,11 @@ export default function Grupal() {
           </div>
         )}
 
-        <QuestionCard question={question} eyebrow={`Carta ${index + 1} de ${deck.length}`}>
+        <QuestionCard
+          question={question}
+          eyebrow={`Carta ${index + 1} de ${deck.length}`}
+          passenger={current ?? 'Toda la mesa'}
+        >
           <p className="group-hint">
             Respondé en voz alta. Después, cualquiera puede sumar su experiencia: ¿a alguien más le pasó algo parecido?
           </p>
