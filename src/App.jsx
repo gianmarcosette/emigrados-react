@@ -1,11 +1,11 @@
-import { Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 import Layout from './components/Layout.jsx'
-import Diario from './pages/Diario.jsx'
 import Grupal from './pages/Grupal.jsx'
 import Home from './pages/Home.jsx'
 import Individual from './pages/Individual.jsx'
 import Mapa from './pages/Mapa.jsx'
 import NotFound from './pages/NotFound.jsx'
+import Perfil from './pages/Perfil.jsx'
 
 export default function App() {
   return (
@@ -15,7 +15,9 @@ export default function App() {
         <Route path="individual" element={<Individual />} />
         <Route path="grupal" element={<Grupal />} />
         <Route path="mapa" element={<Mapa />} />
-        <Route path="diario" element={<Diario />} />
+        {/* El diario ahora vive dentro del perfil; se mantiene la dirección vieja. */}
+        <Route path="diario" element={<Navigate to="/perfil#diario" replace />} />
+        <Route path="perfil" element={<Perfil />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

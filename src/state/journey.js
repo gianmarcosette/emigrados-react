@@ -1,10 +1,13 @@
 // Lógica pura del "viaje" del modo individual: estado, reducer y persistencia.
 // Se mantiene sin React para poder testearla con Vitest.
 
+import { normalizeProfile } from './profile.js'
+
 export const STORAGE_KEY = 'emigrados:v1'
 
 export const initialJourney = {
-  name: '',
+  // Perfil del modo individual ({ name, age, bio, photo, createdAt, updatedAt }) o null
+  profile: null,
   // { [questionId]: [{ text, date }] } — cada pregunta guarda todas sus respuestas
   answers: {},
   // Orden en que se respondió cada pregunta por primera vez (traza la ruta en el mapa)
@@ -13,8 +16,10 @@ export const initialJourney = {
 
 export function journeyReducer(state, action) {
   switch (action.type) {
-    case 'setName':
-      return { ...state, name: action.name }
+    case 'saveProfile':
+      return { ...state, profile: action.profile }
+    case 'deleteProfile':
+      return { ...state, profile: null }
     case 'saveAnswer': {
       const { questionId, text, date = new Date().toISOString() } = action
       const previous = state.answers[questionId] ?? []
@@ -27,7 +32,7 @@ export function journeyReducer(state, action) {
     case 'import':
       return normalize(action.data)
     case 'reset':
-      return { ...initialJourney, name: state.name }
+      return { ...initialJourney, profile: state.profile }
     default:
       throw new Error(`Acción desconocida: ${action.type}`)
   }
@@ -37,7 +42,8 @@ function normalize(data) {
   if (!data || typeof data !== 'object') return initialJourney
   const answers = data.answers && typeof data.answers === 'object' ? data.answers : {}
   const route = Array.isArray(data.route) ? data.route : Object.keys(answers).map(Number)
-  return { name: typeof data.name === 'string' ? data.name : '', answers, route }
+  // Versiones anteriores guardaban solo `name`: se migra a un perfil incompleto.
+  return { profile: normalizeProfile(data.profile, data.name), answers, route }
 }
 
 export function loadJourney(storage = globalThis.localStorage) {

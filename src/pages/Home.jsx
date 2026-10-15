@@ -1,45 +1,48 @@
 import { Link } from 'react-router-dom'
+import Avatar from '../components/Avatar.jsx'
+import PlaneWindow from '../components/PlaneWindow.jsx'
+import WindowRow from '../components/illustrations/WindowRow.jsx'
 import ProgressBar from '../components/ProgressBar.jsx'
 import Wordmark from '../components/Wordmark.jsx'
 import { COUNTRIES } from '../data/countries.js'
 import { useJourney } from '../state/useJourney.js'
 
 export default function Home() {
-  const { name, dispatch, answeredCount, totalQuestions, pins } = useJourney()
+  const { profile, answeredCount, totalQuestions, pins } = useJourney()
   const started = answeredCount > 0
 
   return (
     <div className="home">
       <section className="hero">
-        <svg className="hero__flight" viewBox="0 0 600 160" aria-hidden="true">
-          <path id="flight-arc" d="M20 140 Q300 -40 580 140" className="hero__arc" />
-          <circle r="5" className="hero__dot">
-            <animateMotion dur="9s" repeatCount="indefinite">
-              <mpath href="#flight-arc" />
-            </animateMotion>
-          </circle>
-        </svg>
-        <p className="hero__tagline">El juego de preguntas creado para hablar de todo el proceso que implica emigrar.</p>
+        <div className="hero__window">
+          <PlaneWindow scene={profile ? 'clouds' : 'takeoff'} />
+        </div>
+        <div className="hero__text">
         <h1 className="hero__title">
           <Wordmark />
         </h1>
+        <p className="hero__tagline">El juego de preguntas creado para hablar de todo el proceso que implica emigrar.</p>
         <p className="hero__lead">
           De lo que pensabas antes de irte, a lo que sentís en tu nuevo lugar y cómo te reinventaste. Un espacio seguro
           para conocerte más y entender por qué estás donde estás.
         </p>
 
-        <label className="namefield">
-          <span>¿Cómo te llamás?</span>
-          <input
-            type="text"
-            value={name}
-            maxLength={30}
-            placeholder="Tu nombre (opcional)"
-            onChange={(e) => dispatch({ type: 'setName', name: e.target.value })}
-          />
-        </label>
-        {name.trim() && <p className="hero__hello">¡Buen viaje, {name.trim()}!</p>}
+        {profile ? (
+          <Link to="/perfil" className="hero__profile">
+            <Avatar profile={profile} size="md" />
+            <span>
+              ¡Buen viaje, {profile.name.split(' ')[0]}!<small>Ver mi perfil</small>
+            </span>
+          </Link>
+        ) : (
+          <Link to="/perfil" className="btn btn--hero">
+            Creá tu perfil
+          </Link>
+        )}
+        </div>
       </section>
+
+      <WindowRow />
 
       <section className="modes" aria-label="Elegí cómo jugar">
         <Link to="/individual" className="mode mode--individual">
@@ -76,7 +79,7 @@ export default function Home() {
           <Link to="/mapa" className="statlink">
             Visitaste <strong>{pins.length}</strong> de {COUNTRIES.length} países · Ver mi mapa →
           </Link>
-          <Link to="/diario" className="statlink">
+          <Link to="/perfil#diario" className="statlink">
             Releer mi diario →
           </Link>
         </section>

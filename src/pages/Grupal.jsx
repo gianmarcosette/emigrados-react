@@ -1,12 +1,15 @@
 import { useState } from 'react'
 import QuestionCard from '../components/QuestionCard.jsx'
+import Title from '../components/Title.jsx'
 import { CATEGORIES, QUESTIONS } from '../data/questions.js'
 import { shuffle } from '../state/journey.js'
+import { useWindowScene } from '../state/scene.js'
 
 const MAX_PLAYERS = 12
 
 // Modo grupal: nada se guarda. Solo vive en el estado de este componente.
 export default function Grupal() {
+  useWindowScene('clouds')
   const [players, setPlayers] = useState([])
   const [newPlayer, setNewPlayer] = useState('')
   const [categories, setCategories] = useState(() => CATEGORIES.map((c) => c.key))
@@ -78,7 +81,11 @@ export default function Grupal() {
           </div>
         )}
 
-        <QuestionCard question={question} eyebrow={`Carta ${index + 1} de ${deck.length}`}>
+        <QuestionCard
+          question={question}
+          eyebrow={`Carta ${index + 1} de ${deck.length}`}
+          passenger={current ?? 'Toda la mesa'}
+        >
           <p className="group-hint">
             Respondé en voz alta. Después, cualquiera puede sumar su experiencia: ¿a alguien más le pasó algo parecido?
           </p>
@@ -99,7 +106,7 @@ export default function Grupal() {
   return (
     <div className="page page--narrow">
       <section className="panel">
-        <h1>Armá la ronda</h1>
+        <Title>Armá la ronda</Title>
         <p className="muted">
           Sumá a quienes van a jugar para que las preguntas vayan rotando. Si preferís, también pueden jugar sin
           nombres.
@@ -147,7 +154,6 @@ export default function Grupal() {
                 key={c.key}
                 type="button"
                 className={`chip chip--toggle ${active ? 'chip--on' : ''}`}
-                style={active ? { background: c.color } : undefined}
                 aria-pressed={active}
                 onClick={() => toggleCategory(c.key)}
               >

@@ -1,1 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#1f5c55"/><path d="M32 12c-8.3 0-15 6.5-15 14.6C17 37.5 32 52 32 52s15-14.5 15-25.4C47 18.5 40.3 12 32 12z" fill="#ffe97a"/><circle cx="32" cy="27" r="6" fill="#1f5c55"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Ventanilla de avión con un sol en el horizonte: el ícono de Emigrados -->
+  <rect x="9" y="3" width="46" height="58" rx="19" fill="#fbf9f5" stroke="#161616" stroke-width="5"/>
+  <clipPath id="vidrio"><rect x="17.5" y="11.5" width="29" height="41" rx="12"/></clipPath>
+  <g clip-path="url(#vidrio)">
+    <rect x="17.5" y="11.5" width="29" height="41" fill="#fdfcfa"/>
+    <rect x="17.5" y="11.5" width="29" height="9" fill="#161616"/>
+    <path d="M24 40a8 8 0 0 1 16 0z" fill="#ffe066" stroke="#161616" stroke-width="2"/>
+    <path d="M17 40h30" stroke="#161616" stroke-width="2.5"/>
+    <path d="M22 46h6M33 46h9" stroke="#161616" stroke-width="2" stroke-linecap="round"/>
+  </g>
+  <rect x="17.5" y="11.5" width="29" height="41" rx="12" fill="none" stroke="#161616" stroke-width="3"/>
+</svg>

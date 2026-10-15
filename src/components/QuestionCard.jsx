@@ -1,27 +1,93 @@
 import { COUNTRY_BY_ID } from '../data/countries.js'
-import { CATEGORY_BY_KEY } from '../data/questions.js'
+import { CATEGORIES, CATEGORY_BY_KEY } from '../data/questions.js'
 import CountryStamp from './CountryStamp.jsx'
+import Title from './Title.jsx'
 
-// La pregunta se presenta como una tarjeta de embarque: cada pregunta es una escala.
-export default function QuestionCard({ question, eyebrow, children }) {
+// La pregunta se presenta como una tarjeta de embarque: cada pregunta es un vuelo
+// con destino a un país. El talón lleva el pasajero, el sello y un código de barras.
+export default function QuestionCard({ question, eyebrow, passenger, passengerCode, children }) {
   const country = COUNTRY_BY_ID[question.countryId]
   const category = CATEGORY_BY_KEY[question.category]
+  const flight = `EM ${String(question.id).padStart(3, '0')}`
+  const gate = CATEGORIES.findIndex((c) => c.key === question.category) + 1
+
   return (
-    <article className="ticket" style={{ '--cat': category.color }}>
+    <article className="ticket">
       <div className="ticket__main">
-        <div className="ticket__meta">
-          <span className="chip" style={{ background: category.color }}>
-            {category.label}
+        <header className="ticket__head">
+          <span>Tarjeta de embarque</span>
+          <span className="ticket__flight">
+            <PlaneIcon />
+            {eyebrow ?? `Vuelo ${flight}`}
           </span>
-          <span className="ticket__number">{eyebrow ?? `Pregunta N.º ${question.id}`}</span>
-        </div>
-        <h1 className="ticket__question">{question.text}</h1>
+        </header>
+
+        <dl className="ticket__fields">
+          <div>
+            <dt>Etapa</dt>
+            <dd>{category.label}</dd>
+          </div>
+          <div>
+            <dt>Puerta</dt>
+            <dd>{gate}</dd>
+          </div>
+          <div>
+            <dt>Asiento</dt>
+            <dd>{seatFor(question.id)}</dd>
+          </div>
+        </dl>
+
+        <Title className="ticket__question">{question.text}</Title>
         {children}
       </div>
+
       <aside className="ticket__stub">
-        <span className="ticket__label">Escala</span>
-        <CountryStamp country={country} />
+        <div className="ticket__passenger">
+          <span>Pasajero</span>
+          <strong>{passenger || 'Invitado'}</strong>
+          {passengerCode && <em className="ticket__code">{passengerCode}</em>}
+        </div>
+        <CountryStamp country={country} shape="below" />
+        <Barcode seed={question.id} label={flight} />
       </aside>
     </article>
+  )
+}
+
+// Asiento fijo para cada pregunta: fila 1–30 y letra A–F.
+function seatFor(id) {
+  return `${((id * 7) % 30) + 1}${'ABCDEF'[id % 6]}`
+}
+
+function PlaneIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="ticket__plane" aria-hidden="true">
+      <path d="M2 13l8-1 5-8h3l-3 8 5 .5 2-2.5h2l-1.5 4 1.5 4h-2l-2-2.5-5 .5 3 8h-3l-5-8-8-1z" />
+    </svg>
+  )
+}
+
+// Código de barras decorativo, siempre igual para la misma pregunta.
+function Barcode({ seed, label }) {
+  let n = seed * 9301 + 49297
+  const random = () => {
+    n = (n * 9301 + 49297) % 233280
+    return n / 233280
+  }
+  const bars = []
+  for (let x = 0; x < 116; ) {
+    const w = 1 + Math.floor(random() * 3)
+    bars.push({ x, w })
+    x += w + 1 + Math.floor(random() * 3)
+  }
+  return (
+    <div className="ticket__barcode">
+      <svg viewBox="0 0 116 36" preserveAspectRatio="none" aria-hidden="true">
+        {bars.map(({ x, w }) => (
+          <rect key={x} x={x} y="0" width={w} height="36" />
+        ))}
+      </svg>
+      <span>{label}</span>
+    </div>
   )
 }

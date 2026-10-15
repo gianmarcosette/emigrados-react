@@ -21,18 +21,25 @@ Otros comandos: `npm run build` (versión de producción), `npm test` (tests con
 
 | Ruta          | Pantalla   | Qué hace |
 |---------------|------------|----------|
-| `/`           | Inicio     | Elegís modo: Individual, Grupal (y Online, próximamente). Input controlado para tu nombre. |
-| `/individual` | Individual | Pregunta al azar con su país y etapa. La respuesta se guarda con fecha y marca su país en el mapa. Si la pregunta se repite, ves y comparás lo que respondiste antes. |
+| `/`           | Inicio     | Elegís modo: Individual, Grupal (y Online, próximamente). Ventanilla con el despegue y fila de pasajeros animados. |
+| `/individual` | Individual | Cada pregunta es una tarjeta de embarque (vuelo, etapa, puerta, asiento y talón con pasajero, sello, silueta del país y código de barras). La respuesta se escribe a mano, se guarda con fecha y marca su país en el mapa. Si la pregunta se repite, ves lo que respondiste antes. |
 | `/grupal`     | Grupal     | Cargás jugadores y etapas; las preguntas rotan por turnos. **No se guarda nada.** |
 | `/mapa`       | Mi mapa    | Mapa del mundo con los países visitados, la ruta del viaje y el detalle de las respuestas por país. |
-| `/diario`     | Diario     | Todas tus respuestas con su historial de fechas, búsqueda, filtro por etapa y descarga en `.txt`. |
+| `/perfil`     | Mi perfil  | Nombre, edad, descripción, foto y código de pasajero (localizador de 6 caracteres). Incluye el **diario de viaje**: un cuaderno que se abre y se cierra, donde las respuestas aparecen escritas a mano con su fecha, la pregunta subrayada y la firma. `/diario` redirige acá. |
 
 ## Mecánica
 
 - **208 preguntas** en 8 etapas del proceso migratorio: *Antes de partir, La despedida, Los primeros días, Idioma y costumbres, Vínculos, Identidad, Reinventarse, Hogar y futuro*.
 - Cada pregunta está asociada a uno de **52 países** (4 preguntas por país). Al responderla, el país queda "visitado" en el mapa.
 - El modo individual prioriza las preguntas que todavía no respondiste; con "Repetir una anterior" (o al terminar todas) vuelven preguntas ya respondidas para comparar.
-- Las respuestas se guardan en el navegador (`localStorage`), sin cuentas ni servidores.
+- El perfil (nombre, edad, descripción, foto y código de pasajero) y las respuestas se guardan en el navegador (`localStorage`). La foto se recorta y se reduce a 320 px antes de guardarse.
+- Una ventanilla de avión acompaña cada sección con una escena animada: despegue (inicio y crear perfil), sobre las nubes (preguntas) y atardecer (mapa y perfil).
+
+## Diseño
+
+- Estilo minimalista: tinta negra sobre crema, con el amarillo como único acento.
+- Ilustraciones de línea propias en SVG: ventanillas con pasajeros (durmiendo, leyendo, tomando mate, saludando…) como fondo y en el inicio.
+- Tipografías: Instrument Serif (títulos), Caveat (solo para escribir respuestas y en el diario) y Montserrat (textos y logo). Incluidas con Fontsource, funcionan sin internet.
 
 ## Estructura
 
@@ -40,11 +47,12 @@ Otros comandos: `npm run build` (versión de producción), `npm test` (tests con
 src/
 ├── App.jsx                 # Rutas
 ├── main.jsx                # BrowserRouter + JourneyProvider
-├── components/             # Layout, QuestionCard (tarjeta de embarque), WorldMap, ProgressBar, CountryStamp
-├── pages/                  # Home, Individual, Grupal, Mapa, Diario, NotFound
+├── components/             # Layout, QuestionCard (tarjeta de embarque), PlaneWindow, Diary (cuaderno), WorldMap, ProfileForm…
+│   └── illustrations/      # Viñetas de pasajeros, fondo de pantalla y fila de ventanillas
+├── pages/                  # Home, Individual, Grupal, Mapa, Perfil, NotFound
 ├── data/                   # questions.js (208 preguntas), countries.js (52 países)
-├── state/                  # journey.js (reducer + persistencia), JourneyContext.jsx, useJourney.js
-├── lib/format.js           # Fechas en español
+├── state/                  # journey.js (reducer + persistencia), profile.js, scene.js, JourneyContext.jsx
+├── lib/                    # Fechas, fotos de perfil y siluetas de países
 └── __tests__/              # Tests del banco de preguntas y del estado
 ```
 
@@ -54,7 +62,7 @@ Tecnologías: React 19, React Router 7, Vite, d3-geo + world-atlas (mapa), Vites
 
 | Requisito | Dónde se cumple |
 |-----------|-----------------|
-| Estructura React con navegación entre al menos 2 pantallas usando React Router | `src/App.jsx`: 5 pantallas + 404, navegación en `Layout.jsx` |
+| Estructura React con navegación entre al menos 2 pantallas usando React Router | `src/App.jsx`: 5 pantallas + 404 y redirección de `/diario`, navegación en `Layout.jsx` |
 | Al menos una interacción: evento conectado a un cambio de estado | Textarea controlada + "Guardar respuesta" (`useReducer`), alta de jugadores y turnos en Grupal, filtros, mapa clickeable |
 | Evidencia de iteración con un agente de IA | Historial de commits y [`docs/PROMPTS.md`](docs/PROMPTS.md) |
 

@@ -32,3 +32,12 @@ describe('banco de preguntas', () => {
     for (const c of COUNTRIES) expect(ids.has(c.id), c.name).toBe(true)
   })
 })
+
+describe('siluetas de los países', () => {
+  it('cada país del juego tiene su contorno', async () => {
+    const { allCountryShapes } = await import('../lib/countryShapes.js')
+    for (const { country, d } of allCountryShapes()) {
+      expect(d, country.name).toMatch(/^M/)
+    }
+  })
+})

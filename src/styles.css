@@ -1,24 +1,26 @@
 /* ───────────── Tokens ───────────── */
 :root {
-  --teal: #1f5c55;
-  --teal-dark: #143f3a;
-  --teal-soft: #d8e9e4;
-  --yellow: #ffe97a;
-  --yellow-soft: #fff6c7;
-  --coral: #e8704f;
-  --paper: #f6f1e7;
-  --card: #fffdf8;
-  --ink: #1d2b2a;
-  --ink-soft: #5b6b68;
-  --line: #e2d9c7;
+  /* Estilo minimalista: tinta negra sobre crema, con el amarillo como único acento.
+     Los nombres de las variables se conservan para no tocar cada regla. */
+  --teal: #161616;
+  --teal-dark: #000;
+  --teal-soft: #ece7dd;
+  --yellow: #ffe066;
+  --yellow-soft: #fff5c9;
+  --coral: #161616;
+  --paper: #f3efe8;
+  --card: #fbf9f5;
+  --glass: #fdfcfa;
+  --ink: #161616;
+  --ink-soft: #5f5a54;
+  --line: #d9d2c4;
   --danger: #b4432e;
-  --sky-1: #0e2c4a;
-  --sky-2: #2a6f8f;
-  --sky-3: #cfe3ea;
   --radius: 18px;
-  --shadow: 0 10px 30px rgba(20, 63, 58, 0.12);
-  --font-display: 'Montserrat', 'Gotham', 'Helvetica Neue', Arial, sans-serif;
+  --shadow: none;
+  --border: 2px solid var(--ink);
+  --font-display: 'Instrument Serif', Georgia, 'Times New Roman', serif;
   --font-body: 'Montserrat', 'Gotham', 'Helvetica Neue', Arial, sans-serif;
+  --font-hand: 'Caveat', 'Segoe Print', 'Bradley Hand', cursive;
   color-scheme: light;
 }
 
@@ -92,12 +94,6 @@ textarea {
   flex-direction: column;
 }
 
-.app--home {
-  background:
-    radial-gradient(ellipse 60% 30% at 15% 62%, rgba(255, 255, 255, 0.55), transparent 70%),
-    radial-gradient(ellipse 50% 25% at 85% 70%, rgba(255, 255, 255, 0.5), transparent 70%),
-    linear-gradient(180deg, var(--sky-1) 0%, var(--sky-2) 34%, var(--sky-3) 62%, var(--paper) 82%);
-}
 
 .topbar {
   display: flex;
@@ -115,7 +111,7 @@ textarea {
 
 /* Logotipo: prefijo en negrita recta + resto en itálica espaciada, como DESCONECTADOS */
 .wordmark {
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   letter-spacing: 0.08em;
   white-space: nowrap;
 }
@@ -129,10 +125,6 @@ textarea {
   letter-spacing: 0.12em;
 }
 
-.app--home .brand,
-.app--home .navlink {
-  color: #fff;
-}
 
 .topbar__nav {
   display: flex;
@@ -153,9 +145,6 @@ textarea {
   background: rgba(31, 92, 85, 0.1);
 }
 
-.app--home .navlink:hover {
-  background: rgba(255, 255, 255, 0.15);
-}
 
 .navlink--active {
   background: var(--teal);
@@ -280,6 +269,7 @@ textarea {
 
 input[type='text'],
 input[type='search'],
+input[type='number'],
 select,
 textarea {
   background: var(--card);
@@ -381,79 +371,144 @@ textarea:focus {
 }
 
 .hero {
-  text-align: center;
-  color: #fff;
-  padding: 8px 0 32px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(240px, 340px);
+  align-items: center;
+  gap: clamp(24px, 5vw, 64px);
+  padding: 16px 0 40px;
+}
+
+.hero__window {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.hero__text {
+  grid-column: 1;
+  grid-row: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
-}
-
-.hero__flight {
-  width: min(560px, 100%);
-  height: auto;
-  margin-bottom: -24px;
-}
-
-.hero__arc {
-  fill: none;
-  stroke: rgba(255, 255, 255, 0.55);
-  stroke-width: 2;
-  stroke-dasharray: 6 8;
-}
-
-.hero__dot {
-  fill: var(--yellow);
+  align-items: flex-start;
 }
 
 .hero__tagline {
-  color: var(--yellow);
+  color: var(--teal);
   font-weight: 700;
-  font-size: clamp(1rem, 2.4vw, 1.25rem);
-  max-width: 560px;
-  margin: 0 0 8px;
+  font-size: clamp(1rem, 2.2vw, 1.2rem);
+  max-width: 520px;
+  margin: 0 0 12px;
 }
 
 .hero__title {
-  font-size: clamp(2.2rem, 9vw, 5rem);
+  font-size: clamp(2.6rem, 8vw, 5rem);
   font-weight: 400;
+  color: var(--teal-dark);
   margin: 0;
-  text-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
 }
 
 .hero__lead {
-  max-width: 600px;
-  font-size: 1.05rem;
-  margin: 12px 0 24px;
-  color: rgba(255, 255, 255, 0.92);
+  max-width: 560px;
+  font-size: 1.08rem;
+  margin: 16px 0 28px;
+  color: var(--ink-soft);
 }
 
-.namefield {
-  display: flex;
+.hero__profile {
+  display: inline-flex;
   align-items: center;
-  gap: 10px;
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(6px);
+  gap: 14px;
+  padding: 8px 22px 8px 8px;
   border-radius: 999px;
-  padding: 6px 6px 6px 18px;
-  font-weight: 600;
-  width: min(420px, 100%);
+  background: var(--card);
+  box-shadow: var(--shadow);
+  color: var(--teal-dark);
+  text-decoration: none;
+  font-weight: 700;
+  text-align: left;
+  transition: background 0.2s;
 }
 
-.namefield span {
-  white-space: nowrap;
+.hero__profile:hover {
+  background: #fff;
 }
 
-.namefield input {
-  color: var(--ink);
-  border-radius: 999px;
-  border: none;
-  padding: 8px 14px;
+.hero__profile small {
+  display: block;
+  font-weight: 500;
+  font-size: 0.85rem;
+  opacity: 0.85;
 }
 
-.hero__hello {
-  margin: 12px 0 0;
-  font-weight: 600;
+.btn--hero {
+  background: var(--teal);
+  color: var(--yellow);
+  box-shadow: 0 4px 0 var(--teal-dark);
+  font-size: 1.05rem;
+  padding: 14px 28px;
+}
+
+/* Ventanilla al costado del contenido (escritorio) o arriba (celular) */
+.shell {
+  flex: 1;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.main {
+  min-width: 0;
+}
+
+.shell__window {
+  width: min(520px, calc(100% - 32px));
+  margin: 4px auto 8px;
+}
+
+/* En pantallas angostas la ventanilla se vuelve una franja apaisada */
+@media (max-width: 1179px) {
+  .shell__window .plane-window {
+    flex-direction: row;
+    gap: 14px;
+  }
+
+  .shell__window .plane-window__frame {
+    aspect-ratio: auto;
+    height: 128px;
+    padding: 12px 16px;
+    border-radius: 40px;
+  }
+
+  .shell__window .plane-window__pane {
+    border-radius: 999px;
+  }
+
+  .shell__window .plane-window__shade {
+    height: 16%;
+    border-radius: 0;
+  }
+
+  /* En la franja apaisada la nube cercana solo mostraría su borde */
+  .shell__window .pw-pass {
+    display: none;
+  }
+}
+
+@media (min-width: 1180px) {
+  .shell:not(.shell--home) {
+    grid-template-columns: 260px minmax(0, 1fr);
+    gap: 8px;
+    padding-left: clamp(16px, 2vw, 32px);
+  }
+
+  .shell__window {
+    width: 100%;
+    margin: 16px 0 0;
+    position: sticky;
+    top: 24px;
+    align-self: start;
+  }
 }
 
 .modes {
@@ -1181,43 +1236,295 @@ a.mode:hover {
 }
 
 /* ───────────── Diario ───────────── */
-.diary {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: 16px;
+
+
+
+
+
+/* ───────────── Perfil ───────────── */
+.kicker {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin: 0 0 8px;
 }
 
-.entry {
+.avatar--me {
+  background: var(--teal);
+  color: var(--yellow);
+  overflow: hidden;
+  letter-spacing: 0.02em;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.avatar__silhouette {
+  width: 62%;
+  height: 62%;
+  fill: var(--yellow);
+  opacity: 0.85;
+}
+
+.avatar--nav {
+  width: 28px;
+  height: 28px;
+  font-size: 0.75rem;
+}
+
+.avatar--md {
+  width: 52px;
+  height: 52px;
+  font-size: 1.1rem;
+}
+
+.avatar--lg {
+  width: 128px;
+  height: 128px;
+  font-size: 2.6rem;
+  box-shadow: 0 0 0 6px var(--card), 0 10px 30px rgba(20, 63, 58, 0.18);
+}
+
+.navlink--profile {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.navlink--profile:has(.avatar) {
+  padding-left: 5px;
+}
+
+.profile-form {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+.profile-form__photo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.profile-form__photo .field__error {
+  max-width: 160px;
+  text-align: center;
+}
+
+.photo-picker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.photo-picker:hover .avatar {
+  filter: brightness(0.92);
+}
+
+.photo-picker__label {
+  font-weight: 700;
+  color: var(--teal);
+  font-size: 0.9rem;
+}
+
+.profile-form__fields {
+  display: grid;
+  gap: 18px;
+  min-width: 0;
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+}
+
+.field label {
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.field label .muted {
+  font-weight: 500;
+}
+
+.field--short input {
+  max-width: 140px;
+}
+
+.field textarea {
+  resize: vertical;
+}
+
+.field input[aria-invalid='true'],
+.field textarea[aria-invalid='true'] {
+  border-color: var(--danger);
+}
+
+.field__hint {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  text-align: right;
+}
+
+.field__error {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--danger);
+}
+
+.actions--center {
+  justify-content: center;
+}
+
+.profile-card {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
   background: var(--card);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
-  padding: 20px 22px;
-  border-left: 6px solid var(--cat, var(--teal));
-}
-
-.entry__head {
+  padding: 44px clamp(20px, 5vw, 40px) 36px;
+  text-align: center;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 10px;
+  gap: 10px;
+  animation: slide-in 0.35s ease-out;
 }
 
-.entry__question {
-  font-size: 1.2rem;
+.profile-card__name {
+  font-size: clamp(1.8rem, 5vw, 2.4rem);
   color: var(--teal-dark);
+  margin: 14px 0 0;
 }
 
-.entry .btn--text {
-  margin-top: 8px;
-  padding-left: 0;
+.profile-card__meta {
+  margin: 0;
+  color: var(--ink-soft);
+  font-weight: 600;
+}
+
+.profile-card__bio {
+  margin: 8px 0 0;
+  max-width: 460px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.profile-card__stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  width: 100%;
+  max-width: 420px;
+  margin: 18px 0 10px;
+}
+
+.profile-card__stats div {
+  background: var(--paper);
+  border-radius: 14px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-card__stats strong {
+  font-size: 1.8rem;
+  color: var(--teal);
+  line-height: 1.1;
+}
+
+.profile-card__stats span {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+.privacy-note {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+.btn--link {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--danger);
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* Diario dentro del perfil */
+.diary-section {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 28px;
+  padding-top: 32px;
+  border-top: 2px dashed var(--line);
+  scroll-margin-top: 16px;
+}
+
+.diary-section h2 {
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  color: var(--teal-dark);
+  margin: 0 0 4px;
+}
+
+.diary-section header p {
+  margin: 0;
+}
+
+.diary-section--empty {
+  align-items: center;
+  text-align: center;
 }
 
 /* ───────────── Responsive ───────────── */
 @media (max-width: 760px) {
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding-top: 4px;
+  }
+
+  .hero__window {
+    grid-column: 1;
+    grid-row: 1;
+    width: min(220px, 62%);
+    justify-self: center;
+  }
+
+  .hero__text {
+    grid-column: 1;
+    grid-row: 2;
+    align-items: center;
+    text-align: center;
+  }
+
+  .profile-form {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
   .ticket {
     grid-template-columns: 1fr;
   }
@@ -1268,12 +1575,6 @@ a.mode:hover {
 }
 
 @media (max-width: 480px) {
-  .namefield {
-    flex-direction: column;
-    border-radius: 18px;
-    padding: 12px;
-  }
-
   .topbar {
     justify-content: center;
   }
@@ -1294,5 +1595,1030 @@ a.mode:hover {
   *::after {
     animation: none !important;
     transition: none !important;
+  }
+}
+
+/* ═════════════ Estilo minimalista (dibujo de línea + letra a mano) ═════════════ */
+h1,
+h2,
+h3 {
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.05;
+}
+
+.page__header h1 {
+  font-size: clamp(2.4rem, 6vw, 3.6rem);
+}
+
+/* Tarjetas: contorno de tinta en lugar de sombras */
+.ticket,
+.mode,
+.panel,
+.saved,
+.profile-card,
+.stat,
+.map-card,
+.country-panel,
+.turn {
+  border: var(--border);
+  box-shadow: none;
+}
+
+.howto {
+  border: 2px dashed var(--ink);
+}
+
+.mode,
+.mode--grupal {
+  border-top: var(--border);
+}
+
+.mode--online {
+  border-style: dashed;
+  opacity: 0.75;
+}
+
+.mode h2 {
+  font-size: 2.2rem;
+}
+
+.ticket__stub {
+  background: transparent;
+  border-left: 2px dashed var(--ink);
+}
+
+.ticket__stub::before,
+.ticket__stub::after {
+  border: var(--border);
+  left: -13px;
+}
+
+.ticket__question {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.8rem, 4.2vw, 2.5rem);
+  line-height: 1.08;
+  border-radius: 6px;
+}
+
+.chip {
+  background: transparent;
+  color: var(--ink);
+  border: 1.5px solid var(--ink);
+}
+
+.chip--toggle {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+
+.chip--on {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* Botones */
+.btn--primary {
+  background: var(--ink);
+  color: var(--paper);
+  box-shadow: none;
+}
+
+.btn--primary:hover:not(:disabled) {
+  background: #333;
+}
+
+.btn--ghost {
+  background: transparent;
+  border-color: var(--ink);
+  color: var(--ink);
+}
+
+.btn--ghost:hover:not(:disabled) {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.btn--hero {
+  background: var(--ink);
+  color: var(--paper);
+  box-shadow: none;
+}
+
+.navlink--active,
+.pill {
+  color: var(--paper) !important;
+}
+
+.avatar {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.avatar--me {
+  color: var(--yellow);
+}
+
+.avatar--lg {
+  box-shadow: 0 0 0 5px var(--card), 0 0 0 7px var(--ink);
+}
+
+.hero__profile {
+  border: var(--border);
+}
+
+.progress__fill {
+  background: var(--ink);
+}
+
+.history {
+  background: var(--yellow-soft);
+}
+
+/* Letra a mano: todo lo que escribe quien juega */
+.answer__input {
+  font-family: var(--font-hand);
+  font-size: 1.6rem;
+  line-height: 36px;
+  padding: 2px 16px;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 35px,
+    var(--line) 35px,
+    var(--line) 36px
+  );
+}
+
+.answer__input::placeholder {
+  font-family: var(--font-hand);
+}
+
+.history__list p,
+.country-panel__a {
+  font-family: var(--font-hand);
+  font-size: 1.5rem;
+  font-style: normal;
+  line-height: 1.2;
+}
+
+.country-panel__q {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.6rem;
+  line-height: 1.1;
+}
+
+.diary-section h2,
+.panel h1,
+.saved h1,
+.profile-card__name {
+  font-weight: 400;
+}
+
+.saved h1 {
+  font-size: clamp(1.9rem, 5vw, 2.6rem);
+}
+
+.profile-card__name {
+  font-size: clamp(2.4rem, 6vw, 3rem);
+}
+
+.profile-card__bio {
+  font-family: var(--font-hand);
+  font-size: 1.5rem;
+  line-height: 1.2;
+}
+
+/* Mapa en línea */
+.worldmap__sea {
+  fill: var(--glass);
+}
+
+.worldmap__graticule {
+  stroke: #e9e3d8;
+}
+
+.worldmap__land {
+  fill: #ebe5d9;
+  stroke: var(--ink);
+  stroke-width: 0.5;
+}
+
+.worldmap__land--visited {
+  fill: var(--yellow);
+}
+
+.worldmap__land--selected {
+  fill: var(--ink);
+}
+
+.worldmap__route {
+  stroke: var(--ink);
+  stroke-width: 1.4;
+  opacity: 0.7;
+}
+
+.destination {
+  fill: var(--card);
+  stroke: var(--ink);
+  stroke-width: 1.6;
+}
+
+.pin__body {
+  fill: var(--ink);
+  stroke: var(--card);
+}
+
+.pin--selected .pin__body {
+  fill: var(--yellow);
+  stroke: var(--ink);
+}
+
+/* Fondo de ilustraciones */
+.app {
+  position: relative;
+  isolation: isolate;
+}
+
+.wallpaper {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  color: var(--ink);
+  opacity: 0.055;
+  pointer-events: none;
+}
+
+.wallpaper .vg-paper,
+.wallpaper .vg-sky {
+  fill: none;
+}
+
+/* Fila de ventanillas del inicio: el costado de un avión que pasa */
+.window-row {
+  position: relative;
+  overflow: hidden;
+  margin: 8px 0 40px;
+  padding: 18px 0;
+  border-top: var(--border);
+  border-bottom: var(--border);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+.window-row__track {
+  display: flex;
+  gap: 28px;
+  width: max-content;
+  animation: window-row 60s linear infinite;
+}
+
+.window-row:hover .window-row__track {
+  animation-play-state: paused;
+}
+
+.window-row__item {
+  width: 92px;
+  flex-shrink: 0;
+}
+
+@keyframes window-row {
+  to {
+    transform: translateX(calc(-50% - 14px));
+  }
+}
+
+/* Silueta del país junto al sello */
+.stamp-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.stamp-group--below {
+  flex-direction: column;
+  gap: 18px;
+}
+
+.country-shape {
+  width: 92px;
+  height: 92px;
+  flex-shrink: 0;
+}
+
+.stamp-group--side .country-shape {
+  width: 64px;
+  height: 64px;
+}
+
+.country-shape path {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+/* Títulos: centrados si ocupan hasta 3 líneas (ver components/Title.jsx) */
+.title {
+  text-align: center;
+  text-wrap: balance;
+}
+
+.title--left {
+  text-align: left;
+  text-wrap: pretty;
+}
+
+.page__header:has(.title:not(.title--left)) {
+  text-align: center;
+}
+
+.page__header:has(.title:not(.title--left)) p {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 640px;
+}
+
+.diary-section > header:has(.title:not(.title--left)) {
+  text-align: center;
+}
+
+@media (max-width: 760px) {
+  .ticket__stub .stamp-group--below {
+    flex-direction: row;
+    gap: 12px;
+  }
+
+  .ticket__stub .country-shape {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+.panel:has(> .title:not(.title--left)) > .muted {
+  text-align: center;
+}
+
+/* Encabezado: logo · frase · menú */
+.topbar__tagline {
+  display: none;
+  margin: 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(0.92rem, 1.15vw, 1.12rem);
+  line-height: 1.2;
+  color: var(--ink-soft);
+  text-align: center;
+  text-wrap: balance;
+  max-width: min(440px, 28vw);
+  justify-self: center;
+}
+
+@media (min-width: 960px) {
+  .topbar {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+  }
+
+  .topbar__tagline {
+    display: block;
+  }
+
+  .topbar__nav {
+    justify-self: end;
+    flex-wrap: nowrap;
+  }
+
+}
+
+/* ═════════════ Tarjeta de embarque ═════════════ */
+.ticket {
+  grid-template-columns: minmax(0, 1fr) 200px;
+}
+
+.ticket__main {
+  gap: 18px;
+}
+
+.ticket__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1.5px dashed var(--ink);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.ticket__flight {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  letter-spacing: 0.12em;
+}
+
+.ticket__plane {
+  width: 16px;
+  height: 16px;
+  fill: var(--ink);
+  transform: scaleX(-1);
+}
+
+.ticket__fields {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr);
+  gap: 12px;
+  margin: 0;
+}
+
+.ticket__fields dt,
+.ticket__passenger span {
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.ticket__fields dd {
+  margin: 2px 0 0;
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.2;
+}
+
+.ticket__stub {
+  justify-content: space-between;
+  gap: 18px;
+  padding: 24px 16px;
+}
+
+.ticket__passenger {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 2px;
+}
+
+.ticket__passenger strong {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.5rem;
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+}
+
+.ticket__barcode {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.ticket__barcode svg {
+  width: 100%;
+  max-width: 140px;
+  height: 40px;
+  fill: var(--ink);
+}
+
+.ticket__barcode span {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+}
+
+/* Las muescas del corte, en la línea punteada */
+.ticket {
+  position: relative;
+}
+
+@media (max-width: 760px) {
+  .ticket {
+    grid-template-columns: 1fr;
+  }
+
+  .ticket__fields {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  /* En el celular el talón va abajo, como el troquel de un pase */
+  .ticket__stub {
+    order: 0;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 12px 16px;
+    border-left: none;
+    border-bottom: none;
+    border-top: 2px dashed var(--ink);
+    padding: 16px 20px 18px;
+  }
+
+  .ticket__head {
+    font-size: 0.64rem;
+    letter-spacing: 0.12em;
+    white-space: nowrap;
+  }
+
+  /* Menos es más: en el talón angosto basta con el nombre del país */
+  .ticket__stub .stamp__coords {
+    display: none;
+  }
+
+  .ticket__stub .stamp {
+    white-space: nowrap;
+  }
+
+  .ticket__passenger {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .ticket__stub .stamp-group {
+    justify-self: end;
+  }
+
+  .ticket__barcode {
+    grid-column: 1 / -1;
+  }
+
+  .ticket__barcode svg {
+    max-width: none;
+    height: 32px;
+  }
+}
+
+.navlink {
+  white-space: nowrap;
+}
+
+@media (min-width: 960px) and (max-width: 1239px) {
+  .navlink {
+    padding: 8px 10px;
+  }
+}
+
+/* ═════════════ Diario: cuaderno ═════════════ */
+.notebook {
+  --rule: 36px;
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) 30px minmax(0, 1.2fr);
+  grid-template-areas: 'left spine right';
+  perspective: 2200px;
+  margin-top: 8px;
+}
+
+.notebook__page {
+  position: relative;
+  min-height: 560px;
+  background-color: var(--card);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent calc(var(--rule) - 1px),
+    var(--line) calc(var(--rule) - 1px),
+    var(--line) var(--rule)
+  );
+  border: var(--border);
+  padding: var(--rule) 28px var(--rule);
+}
+
+.notebook__page--left {
+  grid-area: left;
+  border-radius: 10px 2px 2px 10px;
+  border-right: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.notebook__page--right {
+  grid-area: right;
+  border-radius: 2px 10px 10px 2px;
+  border-left: none;
+  padding-left: 64px;
+  /* Margen del cuaderno */
+  background-image:
+    linear-gradient(to right, transparent 44px, rgba(22, 22, 22, 0.35) 44px, rgba(22, 22, 22, 0.35) 45.5px, transparent 45.5px),
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent calc(var(--rule) - 1px),
+      var(--line) calc(var(--rule) - 1px),
+      var(--line) var(--rule)
+    );
+  transform-origin: left center;
+}
+
+.notebook.is-open .notebook__page--right {
+  animation: nb-turn 0.55s ease-out both;
+}
+
+/* Lomo con anillos */
+.notebook__spine {
+  grid-area: spine;
+  border-top: var(--border);
+  border-bottom: var(--border);
+  background:
+    radial-gradient(circle at 50% 50%, transparent 5px, var(--ink) 5px, var(--ink) 7.5px, transparent 7.5px) 0 12px / 100% 34px,
+    linear-gradient(90deg, #e6e0d4, var(--card) 45%, var(--card) 55%, #e6e0d4);
+}
+
+/* Tapa */
+.notebook__cover {
+  grid-area: right;
+  z-index: 3;
+  position: relative;
+  border-radius: 4px 12px 12px 4px;
+  background: var(--ink);
+  color: var(--paper);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  transform-origin: left center;
+  backface-visibility: hidden;
+  pointer-events: none;
+}
+
+.notebook.is-open .notebook__cover {
+  animation: nb-open 1.3s cubic-bezier(0.6, 0, 0.3, 1) 0.25s forwards;
+}
+
+.notebook__cover-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 4vw, 3rem);
+}
+
+.notebook__cover-name {
+  font-family: var(--font-hand);
+  font-size: 1.6rem;
+  color: var(--yellow);
+}
+
+.notebook__band {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 18%;
+  width: 10px;
+  background: #3a3a3a;
+}
+
+/* Página izquierda: datos del cuaderno */
+.notebook__title {
+  font-size: clamp(2rem, 3.6vw, 2.6rem);
+  line-height: var(--rule);
+  margin: 0;
+}
+
+.notebook__owner,
+.notebook__count {
+  margin: 0;
+  font-family: var(--font-hand);
+  font-size: 1.5rem;
+  line-height: var(--rule);
+}
+
+.notebook__count {
+  color: var(--ink-soft);
+}
+
+.notebook__tools {
+  display: grid;
+  gap: 14px;
+  margin-top: var(--rule);
+}
+
+.notebook__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  margin-top: 6px;
+}
+
+/* Anotaciones escritas a mano */
+.note {
+  margin-bottom: var(--rule);
+}
+
+.note > * {
+  margin: 0;
+  /* Aire a la derecha: la letra a mano se inclina y el recorte la cortaba */
+  padding-right: 10px;
+  font-family: var(--font-hand);
+  line-height: var(--rule);
+}
+
+.notebook.is-open .note > * {
+  animation: nb-write 0.9s steps(18, end) both;
+  animation-delay: var(--d);
+}
+
+.note__date {
+  font-size: 1.25rem;
+  color: var(--ink-soft);
+}
+
+.note__question {
+  font-weight: 700;
+  font-size: 1.6rem;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 5px;
+  animation-delay: calc(var(--d) + 0.35s) !important;
+}
+
+.note__answer {
+  font-size: 1.5rem;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  animation-duration: 1.4s !important;
+  animation-delay: calc(var(--d) + 0.8s) !important;
+}
+
+.note__signature {
+  text-align: right;
+  font-size: 1.45rem;
+  animation-delay: calc(var(--d) + 1.6s) !important;
+}
+
+.note__again {
+  display: block;
+  text-align: right;
+  font-family: var(--font-body) !important;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+}
+
+.notebook.is-open .note__again {
+  animation: nb-fade 0.4s ease-out both !important;
+  animation-delay: calc(var(--d) + 2s) !important;
+}
+
+@keyframes nb-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+.notebook__empty {
+  font-family: var(--font-hand);
+  font-size: 1.5rem;
+  line-height: var(--rule);
+  display: grid;
+  justify-items: start;
+  gap: var(--rule);
+  margin: 0;
+}
+
+.notebook__folio {
+  position: absolute;
+  bottom: 10px;
+  right: 18px;
+  font-family: var(--font-hand);
+  font-size: 1.2rem;
+  color: var(--ink-soft);
+}
+
+.notebook__nav {
+  white-space: nowrap;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+  margin-top: 14px;
+  font-weight: 600;
+}
+
+@keyframes nb-open {
+  0% {
+    transform: rotateY(0);
+  }
+  100% {
+    transform: rotateY(-180deg);
+    visibility: hidden;
+  }
+}
+
+@keyframes nb-turn {
+  from {
+    transform: rotateY(-70deg);
+    opacity: 0.3;
+  }
+}
+
+/* La tinta aparece de izquierda a derecha, como al escribir */
+@keyframes nb-write {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@media (max-width: 760px) {
+  .notebook {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: 'left' 'right';
+  }
+
+  .notebook__spine {
+    display: none;
+  }
+
+  .notebook__page {
+    min-height: 0;
+    padding: var(--rule) 18px;
+  }
+
+  .notebook__page--left {
+    border: var(--border);
+    border-bottom: 1.5px dashed var(--ink);
+    border-radius: 10px 10px 0 0;
+  }
+
+  .notebook__page--right {
+    border: var(--border);
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+    padding-left: 52px;
+    min-height: 420px;
+    background-image:
+      linear-gradient(to right, transparent 36px, rgba(22, 22, 22, 0.35) 36px, rgba(22, 22, 22, 0.35) 37.5px, transparent 37.5px),
+      repeating-linear-gradient(
+        to bottom,
+        transparent 0,
+        transparent calc(var(--rule) - 1px),
+        var(--line) calc(var(--rule) - 1px),
+        var(--line) var(--rule)
+      );
+  }
+
+  .notebook__cover {
+    grid-area: 1 / 1 / 3 / 2;
+    border-radius: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .notebook__cover {
+    display: none;
+  }
+}
+
+/* Inicio: la frase como subtítulo del logo, en negrita */
+.hero__tagline {
+  color: var(--ink);
+  font-weight: 700;
+  font-size: clamp(1.1rem, 2vw, 1.35rem);
+  line-height: 1.35;
+  max-width: 520px;
+  margin: 10px 0 0;
+}
+
+/* Sin la frase en el centro, el encabezado del inicio mantiene el menú a la derecha */
+.app--home .topbar {
+  grid-template-columns: auto 1fr;
+}
+
+/* Código de pasajero (localizador) */
+.passenger-code {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 4px 0 0;
+  padding: 6px 14px;
+  border: 1.5px dashed var(--ink);
+  border-radius: 6px;
+}
+
+.passenger-code span {
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.passenger-code strong,
+.ticket__code {
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-style: normal;
+  letter-spacing: 0.24em;
+}
+
+.ticket__code {
+  font-size: 0.78rem;
+  margin-top: 2px;
+}
+
+/* La letra a mano queda solo para responder y para el diario */
+.profile-card__bio {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.country-panel__a {
+  font-family: var(--font-body);
+  font-size: 0.98rem;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* Cerrar y volver a abrir el cuaderno */
+.notebook__close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  background: none;
+  border: 1.5px solid var(--ink);
+  border-radius: 999px;
+  padding: 4px 14px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.notebook__close:hover:not(:disabled) {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.notebook.is-closed .notebook__cover {
+  animation: nb-close 1s cubic-bezier(0.6, 0, 0.3, 1) forwards;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.notebook__cover-hint {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0;
+  transition: opacity 0.3s 0.9s;
+}
+
+.notebook.is-closed .notebook__cover-hint {
+  opacity: 0.7;
+}
+
+.notebook__cover:focus-visible {
+  outline: 3px solid var(--yellow);
+  outline-offset: 4px;
+}
+
+@keyframes nb-close {
+  from {
+    transform: rotateY(-180deg);
+    visibility: visible;
+  }
+  to {
+    transform: rotateY(0);
+  }
+}
+
+/* Cerrado en escritorio: queda solo la libreta, centrada */
+@media (min-width: 761px) {
+  .notebook {
+    transition: transform 0.5s ease;
+  }
+
+  .notebook__page--left,
+  .notebook__spine {
+    transition: opacity 0.3s ease;
+  }
+
+  .notebook.is-closed {
+    /* La tapa ocupa la columna derecha: este corrimiento la deja en el centro */
+    transform: translateX(calc(-20% - 9px));
+    transition-delay: 0.75s;
+  }
+
+  .notebook.is-closed .notebook__page--left,
+  .notebook.is-closed .notebook__spine {
+    opacity: 0;
+    transition-delay: 0.7s;
   }
 }
