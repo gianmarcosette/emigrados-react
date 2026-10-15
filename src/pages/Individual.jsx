@@ -10,6 +10,7 @@ import { CATEGORIES, QUESTIONS, QUESTION_BY_ID } from '../data/questions.js'
 import { formatDate, plural } from '../lib/format.js'
 import { useJourney } from '../state/useJourney.js'
 import { pickQuestion } from '../state/journey.js'
+import { useWindowScene } from '../state/scene.js'
 
 const MAX_LENGTH = 1500
 
@@ -28,8 +29,10 @@ export default function Individual() {
   const [params] = useSearchParams()
   const { profile, dispatch } = useJourney()
   const [skipped, setSkipped] = useState(readSkip)
+  const onboarding = !profile && !skipped
+  useWindowScene(onboarding ? 'takeoff' : 'clouds')
 
-  if (!profile && !skipped) {
+  if (onboarding) {
     return (
       <div className="page page--narrow">
         <header className="page__header">

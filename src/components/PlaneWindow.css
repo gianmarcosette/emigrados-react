@@ -1,0 +1,301 @@
+/* ───────── Ventanilla de avión ───────── */
+.plane-window {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Panel de plástico de la cabina alrededor de la ventanilla */
+.plane-window__frame {
+  width: 100%;
+  aspect-ratio: 5 / 7;
+  padding: 9%;
+  border-radius: 30% / 22%;
+  background: linear-gradient(150deg, #fbf9f4 0%, #ebe6db 55%, #ddd6c8 100%);
+  box-shadow:
+    inset 0 2px 0 #fff,
+    inset 0 -8px 18px rgba(60, 50, 30, 0.1),
+    0 18px 40px rgba(20, 63, 58, 0.18);
+}
+
+/* El vidrio: recorta la escena y lleva sombra interior, reflejo y bisel */
+.plane-window__pane {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50% / 37%;
+  overflow: hidden;
+  background: #9cc6ea;
+  isolation: isolate;
+  box-shadow:
+    0 0 0 5px #d3ccbd,
+    0 0 0 9px #f4f1ea;
+}
+
+.plane-window__pane::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 3;
+  background: linear-gradient(125deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0) 32%),
+    linear-gradient(305deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 20%);
+  box-shadow:
+    inset 0 0 0 3px rgba(0, 0, 0, 0.08),
+    inset 0 10px 26px rgba(0, 0, 0, 0.35),
+    inset 0 -6px 16px rgba(0, 0, 0, 0.18);
+}
+
+/* Cortina a medio bajar */
+.plane-window__shade {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 13%;
+  z-index: 2;
+  background: linear-gradient(180deg, #f3eee3, #ded6c6);
+  border-bottom: 3px solid #c9c0ad;
+}
+
+.plane-window__shade::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 5px;
+  width: 22%;
+  height: 4px;
+  transform: translateX(-50%);
+  border-radius: 4px;
+  background: #c3b9a4;
+}
+
+.plane-window__caption {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--teal);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.plane-window__caption::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--coral);
+  animation: pw-blink 2.4s ease-in-out infinite;
+}
+
+/* Variante apaisada para pantallas angostas */
+.plane-window--band .plane-window__frame {
+  aspect-ratio: auto;
+  height: 150px;
+  padding: 14px 18px;
+  border-radius: 40px;
+}
+
+.plane-window--band .plane-window__pane {
+  border-radius: 999px;
+}
+
+.plane-window--band .plane-window__shade {
+  height: 16%;
+}
+
+/* ───────── Escenas ───────── */
+.pw-scene {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  animation: pw-in 0.9s ease-out both;
+}
+
+.pw-scene.pw-bob {
+  animation:
+    pw-in 0.9s ease-out both,
+    pw-bob 7s ease-in-out infinite;
+}
+
+.pw-scene g,
+.pw-scene circle,
+.pw-scene rect {
+  transform-box: view-box;
+}
+
+.pw-drift {
+  animation: pw-drift 60s linear infinite;
+}
+
+.pw-drift--slow {
+  animation-duration: 110s;
+}
+
+.pw-drift--far {
+  animation-duration: 70s;
+}
+
+.pw-drift--mid {
+  animation-duration: 26s;
+}
+
+.pw-drift--sea {
+  animation-duration: 38s;
+}
+
+.pw-roll {
+  animation: pw-drift 0.8s linear infinite;
+}
+
+.pw-roll--far {
+  animation-duration: 2.6s;
+}
+
+.pw-tilt {
+  transform-origin: 200px 300px;
+  animation: pw-tilt 12s ease-in-out infinite;
+}
+
+.pw-ground {
+  animation: pw-ground 12s ease-in infinite;
+}
+
+.pw-loop-fade {
+  animation: pw-loop-fade 12s linear infinite;
+}
+
+.pw-pass {
+  animation: pw-pass 11s linear infinite;
+  animation-delay: -3s;
+}
+
+.pw-wing {
+  transform-origin: 0 510px;
+  animation: pw-wing 5s ease-in-out infinite;
+}
+
+.pw-glint {
+  opacity: 0.5;
+  animation: pw-glint 2.2s ease-in-out infinite;
+}
+
+.pw-glow {
+  transform-origin: 224px 316px;
+  animation: pw-glow 6s ease-in-out infinite;
+}
+
+@keyframes pw-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes pw-drift {
+  to {
+    transform: translateX(-400px);
+  }
+}
+
+@keyframes pw-bob {
+  0%,
+  100% {
+    transform: scale(1.04) translateY(0);
+  }
+  50% {
+    transform: scale(1.04) translateY(-5px);
+  }
+}
+
+/* Carreteo por la pista y despegue: la pista queda abajo y el horizonte se inclina */
+@keyframes pw-ground {
+  0%,
+  36% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-3px);
+  }
+  82%,
+  100% {
+    transform: translateY(330px);
+  }
+}
+
+@keyframes pw-tilt {
+  0%,
+  38% {
+    transform: translateY(0) rotate(0);
+  }
+  86%,
+  100% {
+    transform: translateY(26px) rotate(-6deg);
+  }
+}
+
+@keyframes pw-loop-fade {
+  0% {
+    opacity: 1;
+  }
+  6%,
+  91% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes pw-pass {
+  from {
+    transform: translateX(440px);
+  }
+  to {
+    transform: translateX(-640px);
+  }
+}
+
+@keyframes pw-wing {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  50% {
+    transform: rotate(-0.6deg);
+  }
+}
+
+@keyframes pw-glint {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 0.95;
+  }
+}
+
+@keyframes pw-glow {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.06);
+  }
+}
+
+@keyframes pw-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}

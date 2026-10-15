@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import Avatar from '../components/Avatar.jsx'
+import PlaneWindow from '../components/PlaneWindow.jsx'
 import ProgressBar from '../components/ProgressBar.jsx'
 import Wordmark from '../components/Wordmark.jsx'
 import { COUNTRIES } from '../data/countries.js'
@@ -12,14 +13,10 @@ export default function Home() {
   return (
     <div className="home">
       <section className="hero">
-        <svg className="hero__flight" viewBox="0 0 600 160" aria-hidden="true">
-          <path id="flight-arc" d="M20 140 Q300 -40 580 140" className="hero__arc" />
-          <circle r="5" className="hero__dot">
-            <animateMotion dur="9s" repeatCount="indefinite">
-              <mpath href="#flight-arc" />
-            </animateMotion>
-          </circle>
-        </svg>
+        <div className="hero__window">
+          <PlaneWindow scene={profile ? 'clouds' : 'takeoff'} />
+        </div>
+        <div className="hero__text">
         <p className="hero__tagline">El juego de preguntas creado para hablar de todo el proceso que implica emigrar.</p>
         <h1 className="hero__title">
           <Wordmark />
@@ -41,6 +38,7 @@ export default function Home() {
             Creá tu perfil
           </Link>
         )}
+        </div>
       </section>
 
       <section className="modes" aria-label="Elegí cómo jugar">

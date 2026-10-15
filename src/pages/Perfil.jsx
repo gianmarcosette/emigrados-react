@@ -6,6 +6,7 @@ import ProfileForm from '../components/ProfileForm.jsx'
 import { COUNTRIES } from '../data/countries.js'
 import { plural } from '../lib/format.js'
 import { isProfileComplete } from '../state/profile.js'
+import { useWindowScene } from '../state/scene.js'
 import { useJourney } from '../state/useJourney.js'
 
 const memberSince = new Intl.DateTimeFormat('es-AR', { month: 'long', year: 'numeric' })
@@ -14,6 +15,8 @@ export default function Perfil() {
   const { profile, dispatch, answeredCount, totalQuestions, pins } = useJourney()
   const complete = isProfileComplete(profile)
   const [editing, setEditing] = useState(!complete)
+  // Antes de tener perfil el avión recién despega; con perfil y diario, atardecer.
+  useWindowScene(complete ? 'sunset' : 'takeoff')
 
   function save(next) {
     dispatch({ type: 'saveProfile', profile: next })

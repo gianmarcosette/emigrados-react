@@ -5,9 +5,11 @@ import WorldMap from '../components/WorldMap.jsx'
 import { COUNTRIES, COUNTRY_BY_ID } from '../data/countries.js'
 import { QUESTIONS } from '../data/questions.js'
 import { formatDate, plural } from '../lib/format.js'
+import { useWindowScene } from '../state/scene.js'
 import { useJourney } from '../state/useJourney.js'
 
 export default function Mapa() {
+  useWindowScene('sunset')
   const { answers, answeredCount, totalQuestions, pins, routeCountries } = useJourney()
   const [selectedId, setSelectedId] = useState(null)
   const selected = selectedId ? COUNTRY_BY_ID[selectedId] : null

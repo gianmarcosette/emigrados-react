@@ -2,11 +2,13 @@ import { useState } from 'react'
 import QuestionCard from '../components/QuestionCard.jsx'
 import { CATEGORIES, QUESTIONS } from '../data/questions.js'
 import { shuffle } from '../state/journey.js'
+import { useWindowScene } from '../state/scene.js'
 
 const MAX_PLAYERS = 12
 
 // Modo grupal: nada se guarda. Solo vive en el estado de este componente.
 export default function Grupal() {
+  useWindowScene('clouds')
   const [players, setPlayers] = useState([])
   const [newPlayer, setNewPlayer] = useState('')
   const [categories, setCategories] = useState(() => CATEGORIES.map((c) => c.key))
