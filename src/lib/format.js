@@ -22,3 +22,18 @@ export function formatLongDate(iso) {
   const d = new Date(iso)
   return Number.isNaN(d.getTime()) ? '' : longDateFormatter.format(d)
 }
+
+const monthFormatter = new Intl.DateTimeFormat('es-AR', { month: 'long', year: 'numeric' })
+const dayFormatter = new Intl.DateTimeFormat('es-AR', { day: 'numeric', month: 'short' })
+
+// "agosto de 2026": para agrupar el índice del diario
+export function formatMonth(iso) {
+  const d = new Date(iso)
+  return Number.isNaN(d.getTime()) ? '' : monthFormatter.format(d)
+}
+
+// "31 ago"
+export function formatShortDate(iso) {
+  const d = new Date(iso)
+  return Number.isNaN(d.getTime()) ? '' : dayFormatter.format(d).replace('.', '')
+}

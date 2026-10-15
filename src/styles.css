@@ -2622,3 +2622,509 @@ h3 {
     transition-delay: 0.7s;
   }
 }
+
+/* ═════════════ Mapa interactivo ═════════════ */
+.worldmap-zoom {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 960 / 470;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.worldmap--interactive {
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  cursor: grab;
+}
+
+.worldmap--interactive:active {
+  cursor: grabbing;
+}
+
+.worldmap--interactive .worldmap__sea,
+.worldmap--interactive .worldmap__graticule,
+.worldmap--interactive .worldmap__land,
+.worldmap--interactive .worldmap__route {
+  vector-effect: non-scaling-stroke;
+}
+
+/* Marcadores y puntos con tamaño fijo al hacer zoom */
+.worldmap--interactive .pin,
+.worldmap--interactive .destination {
+  transform: scale(calc(1 / var(--k, 1)));
+}
+
+.destination__hit {
+  fill: transparent;
+  stroke: none;
+}
+
+.destination {
+  cursor: pointer;
+}
+
+.worldmap-zoom__controls {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.worldmap-zoom__controls button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: var(--border);
+  background: var(--card);
+  font-size: 1.4rem;
+  font-weight: 600;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.worldmap-zoom__controls button:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.worldmap-zoom__reset svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+}
+
+/* ═════════════ Celular ═════════════ */
+.tabbar {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  /* Arriba solo el logo; la navegación pasa a la barra inferior */
+  .topbar {
+    padding: 14px 16px 6px;
+  }
+
+  .topbar__nav {
+    display: none;
+  }
+
+  .tabbar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 20;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    padding: 6px 8px calc(6px + env(safe-area-inset-bottom));
+    background: var(--card);
+    border-top: var(--border);
+  }
+
+  .tab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 6px 0 4px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--ink-soft);
+  }
+
+  .tab svg {
+    width: 26px;
+    height: 26px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .tab .avatar--nav {
+    width: 26px;
+    height: 26px;
+    font-size: 0.65rem;
+  }
+
+  .tab--active {
+    color: var(--ink);
+    background: var(--yellow);
+  }
+
+  /* Lugar para que la barra no tape el final de la página */
+  .app {
+    padding-bottom: calc(72px + env(safe-area-inset-bottom));
+  }
+
+  .footer {
+    padding-bottom: 20px;
+  }
+
+  /* Ventanilla más baja para que el contenido aparezca antes */
+  .shell__window .plane-window__frame {
+    height: 92px;
+    padding: 9px 12px;
+    border-radius: 30px;
+  }
+
+  .shell__window {
+    margin: 0 auto 4px;
+  }
+}
+
+/* Indicación para el celular: aparece un momento y se va */
+.worldmap-zoom__hint {
+  display: none;
+}
+
+@media (pointer: coarse) {
+  .worldmap-zoom__hint {
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 12px;
+    margin: 0;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: var(--ink);
+    color: var(--paper);
+    font-size: 0.78rem;
+    font-weight: 700;
+    white-space: nowrap;
+    pointer-events: none;
+    transform: translateX(-50%);
+    animation: hint-fade 4.5s ease 0.6s both;
+  }
+}
+
+@keyframes hint-fade {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 6px);
+  }
+  12%,
+  80% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, 0);
+  }
+}
+
+/* Diario: buscar y opciones plegables (solo en el celular) */
+.notebook__tools-toggle {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  /* Mapa: ocupa casi toda la pantalla para poder recorrerlo con los dedos */
+  .page--map .page__header .muted {
+    display: none;
+  }
+
+  .page--map {
+    gap: 12px;
+  }
+
+  .page--map .page__header .title {
+    margin: 0;
+  }
+
+  .map-card {
+    padding: 0;
+    margin: 0 -6px;
+  }
+
+  .worldmap-zoom {
+    aspect-ratio: auto;
+    height: min(66vh, 620px);
+    height: min(66svh, 620px);
+  }
+
+  .page--map .stats {
+    order: 2;
+  }
+
+  /* Detalle del país: hoja que sube desde abajo, sobre la barra de navegación */
+  .country-panel {
+    position: fixed;
+    left: 8px;
+    right: 8px;
+    bottom: calc(70px + env(safe-area-inset-bottom));
+    z-index: 15;
+    max-height: 52vh;
+    max-height: 52svh;
+    padding: 14px 18px 18px;
+    border-radius: 18px;
+    box-shadow: 0 -10px 30px rgba(22, 22, 22, 0.18);
+    animation: sheet-up 0.32s cubic-bezier(0.2, 0.8, 0.3, 1);
+  }
+
+  .country-panel::before {
+    content: '';
+    align-self: center;
+    flex: none;
+    width: 40px;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--line);
+  }
+
+  /* Diario más corto */
+  .notebook {
+    --rule: 30px;
+  }
+
+  .notebook__page--left {
+    padding-top: 18px;
+    padding-bottom: 14px;
+  }
+
+  .notebook__title {
+    font-size: 1.9rem;
+    padding-right: 80px;
+  }
+
+  .notebook__owner,
+  .notebook__count {
+    font-size: 1.3rem;
+  }
+
+  .notebook__tools-toggle {
+    display: block;
+    align-self: flex-start;
+    margin-top: 10px;
+    padding: 6px 14px;
+    border: 1.5px solid var(--ink);
+    border-radius: 999px;
+    background: var(--card);
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .notebook__tools-toggle[aria-expanded='true'] {
+    background: var(--yellow);
+  }
+
+  .notebook__tools {
+    display: none;
+    margin-top: 14px;
+  }
+
+  .notebook__tools.is-expanded {
+    display: grid;
+  }
+
+  .notebook__page--right {
+    min-height: 0;
+    padding-top: 18px;
+    padding-bottom: 30px;
+  }
+
+  .note {
+    margin-bottom: 18px;
+  }
+
+  .notebook__nav {
+    margin-top: 10px;
+  }
+
+  /* Cerrado: queda solo la tapa, sin el largo de las hojas */
+  .notebook.is-closed .notebook__page--right {
+    display: none;
+  }
+
+  .notebook.is-closed .notebook__cover {
+    min-height: 260px;
+  }
+
+  /* Individual: la tarjeta aparece antes */
+  .toolbar .pill {
+    display: none;
+  }
+
+  .toolbar {
+    flex-wrap: nowrap;
+    gap: 8px;
+  }
+
+  .toolbar__count {
+    font-size: 0.8rem;
+    text-align: right;
+  }
+
+  .answer__footer .btn {
+    white-space: nowrap;
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  /* Inicio: ventanilla más chica para que el título entre en la primera pantalla */
+  .hero__window {
+    width: min(170px, 48%);
+  }
+}
+
+@keyframes sheet-up {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+/* ═════════════ Diario: índice ═════════════ */
+.notebook__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.notebook__index-toggle {
+  align-self: flex-start;
+  padding: 6px 14px;
+  border: 1.5px solid var(--ink);
+  border-radius: 999px;
+  background: var(--card);
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.notebook__index-toggle[aria-expanded='true'] {
+  background: var(--yellow);
+}
+
+.notebook__buttons .notebook__tools-toggle {
+  margin-top: 0;
+}
+
+/* Hoja del índice: entradas a mano con línea de puntos hasta el número de hoja */
+.notebook__index {
+  max-height: 520px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: 6px;
+  font-family: var(--font-hand);
+}
+
+.notebook__index-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+  line-height: var(--rule);
+}
+
+.notebook__index-month {
+  margin: 0;
+  font-size: 1.15rem;
+  line-height: var(--rule);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.notebook__index ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.notebook__index button {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 1.15rem;
+  line-height: var(--rule);
+  text-align: left;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.notebook__index-text {
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.notebook__index-where {
+  flex: none;
+  font-style: normal;
+  color: var(--ink-soft);
+}
+
+/* Línea de puntos en el espacio libre antes del número */
+.notebook__index-dots {
+  flex: 1 0 18px;
+  align-self: stretch;
+  background: radial-gradient(circle, var(--ink-soft) 1px, transparent 1.5px) left 68% / 7px 7px repeat-x;
+}
+
+.notebook__index-page {
+  flex: none;
+  min-width: 1.6em;
+  text-align: right;
+}
+
+.notebook__index button:hover .notebook__index-text,
+.notebook__index button:focus-visible .notebook__index-text {
+  text-decoration: underline;
+}
+
+.notebook__index button.is-current {
+  background: var(--yellow-soft);
+}
+
+@media (max-width: 760px) {
+  .notebook__index {
+    max-height: 60vh;
+    max-height: 60svh;
+  }
+
+  /* En el celular: fecha y país arriba, la pregunta abajo con más lugar */
+  .notebook__index button {
+    flex-wrap: wrap;
+    column-gap: 6px;
+    row-gap: 0;
+    font-size: 1.1rem;
+  }
+
+  .notebook__index-where {
+    flex-basis: 100%;
+    font-size: 0.95rem;
+  }
+
+  .notebook__index-text {
+    flex: 1 1 0;
+  }
+
+  .notebook__index-dots {
+    flex: 0 0 26px;
+  }
+}
