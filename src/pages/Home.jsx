@@ -78,7 +78,7 @@ export default function Home() {
           <Link to="/mapa" className="statlink">
             Visitaste <strong>{pins.length}</strong> de {COUNTRIES.length} países · Ver mi mapa →
           </Link>
-          <Link to="/diario" className="statlink">
+          <Link to="/perfil#diario" className="statlink">
             Releer mi diario →
           </Link>
         </section>

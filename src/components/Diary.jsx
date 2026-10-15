@@ -1,13 +1,14 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import CountryStamp from '../components/CountryStamp.jsx'
+import CountryStamp from './CountryStamp.jsx'
 import { COUNTRY_BY_ID } from '../data/countries.js'
 import { CATEGORIES, CATEGORY_BY_KEY, QUESTION_BY_ID } from '../data/questions.js'
 import { formatDate, plural } from '../lib/format.js'
 import { useJourney } from '../state/useJourney.js'
 
 // Diario: todas las respuestas del modo individual, con su historial de fechas.
-export default function Diario() {
+// Vive dentro de "Mi perfil" (sección #diario).
+export default function Diary() {
   const { answers, answeredCount, dispatch, profile } = useJourney()
   const [category, setCategory] = useState('all')
   const [search, setSearch] = useState('')
@@ -53,20 +54,20 @@ export default function Diario() {
 
   if (!answeredCount) {
     return (
-      <div className="page page--narrow center">
-        <h1>Tu diario está vacío</h1>
+      <section id="diario" className="diary-section diary-section--empty">
+        <h2>Tu diario de viaje</h2>
         <p className="muted">Las respuestas que guardes en el modo individual van a aparecer acá, con su fecha.</p>
         <Link to="/individual" className="btn btn--primary">
           Empezar a responder
         </Link>
-      </div>
+      </section>
     )
   }
 
   return (
-    <div className="page">
-      <header className="page__header">
-        <h1>Diario de viaje</h1>
+    <section id="diario" className="diary-section">
+      <header>
+        <h2>Tu diario de viaje</h2>
         <p className="muted">
           {plural(answeredCount, 'pregunta respondida', 'preguntas respondidas')}. Volvé a responder cualquiera para ver
           cómo cambió lo que sentís.
@@ -109,7 +110,7 @@ export default function Diario() {
                   {cat.label}
                 </span>
               </div>
-              <h2 className="entry__question">{question.text}</h2>
+              <h3 className="entry__question">{question.text}</h3>
               <ol className="history__list">
                 {list.map((a, i) => (
                   <li key={a.date + i}>
@@ -134,6 +135,6 @@ export default function Diario() {
           Descargar diario (.txt)
         </button>
       </div>
-    </div>
+    </section>
   )
 }

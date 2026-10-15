@@ -8,16 +8,18 @@ const LINKS = [
   { to: '/individual', label: 'Individual' },
   { to: '/grupal', label: 'Grupal' },
   { to: '/mapa', label: 'Mi mapa' },
-  { to: '/diario', label: 'Diario' },
 ]
 
 export default function Layout() {
-  const { pathname } = useLocation()
+  const { pathname, hash } = useLocation()
   const { profile } = useJourney()
 
+  // Al cambiar de pantalla se vuelve arriba, salvo que el link apunte a una sección (#diario).
   useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [pathname])
+    const target = hash && document.getElementById(hash.slice(1))
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    else window.scrollTo(0, 0)
+  }, [pathname, hash])
 
   return (
     <div className={`app ${pathname === '/' ? 'app--home' : ''}`}>

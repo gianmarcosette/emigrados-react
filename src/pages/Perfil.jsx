@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Avatar from '../components/Avatar.jsx'
+import Diary from '../components/Diary.jsx'
 import ProfileForm from '../components/ProfileForm.jsx'
 import { COUNTRIES } from '../data/countries.js'
 import { plural } from '../lib/format.js'
@@ -46,6 +47,8 @@ export default function Perfil() {
         <p className="privacy-note">
           Por ahora tu perfil y tus respuestas se guardan solo en este dispositivo. Nadie más puede verlos.
         </p>
+        {/* Quien juega sin perfil igual puede releer sus respuestas */}
+        {!profile && answeredCount > 0 && <Diary />}
       </div>
     )
   }
@@ -53,7 +56,7 @@ export default function Perfil() {
   const since = profile.createdAt ? memberSince.format(new Date(profile.createdAt)) : null
 
   return (
-    <div className="page page--narrow">
+    <div className="page">
       <section className="profile-card">
         <Avatar profile={profile} size="lg" />
         <h1 className="profile-card__name">{profile.name}</h1>
@@ -89,6 +92,8 @@ export default function Perfil() {
           Borrar perfil
         </button>
       </p>
+
+      <Diary />
     </div>
   )
 }
