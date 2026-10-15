@@ -40,26 +40,6 @@
   border-radius: 0 0 50% 50% / 0 0 30% 30%;
 }
 
-.plane-window__caption {
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--ink);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.plane-window__caption::before {
-  content: '';
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--ink);
-  animation: pw-blink 2.4s ease-in-out infinite;
-}
-
 /* ───────── Escenas ───────── */
 .pw-sky,
 .pw-loop-fade {
@@ -268,12 +248,3 @@
   }
 }
 
-@keyframes pw-blink {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.25;
-  }
-}

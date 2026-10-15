@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import CountryStamp from './CountryStamp.jsx'
+import Title from './Title.jsx'
 import { COUNTRY_BY_ID } from '../data/countries.js'
 import { CATEGORIES, CATEGORY_BY_KEY, QUESTION_BY_ID } from '../data/questions.js'
 import { formatDate, plural } from '../lib/format.js'
@@ -55,7 +56,7 @@ export default function Diary() {
   if (!answeredCount) {
     return (
       <section id="diario" className="diary-section diary-section--empty">
-        <h2>Tu diario de viaje</h2>
+        <Title as="h2">Tu diario de viaje</Title>
         <p className="muted">Las respuestas que guardes en el modo individual van a aparecer acá, con su fecha.</p>
         <Link to="/individual" className="btn btn--primary">
           Empezar a responder
@@ -67,7 +68,7 @@ export default function Diary() {
   return (
     <section id="diario" className="diary-section">
       <header>
-        <h2>Tu diario de viaje</h2>
+        <Title as="h2">Tu diario de viaje</Title>
         <p className="muted">
           {plural(answeredCount, 'pregunta respondida', 'preguntas respondidas')}. Volvé a responder cualquiera para ver
           cómo cambió lo que sentís.

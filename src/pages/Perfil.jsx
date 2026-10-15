@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import Avatar from '../components/Avatar.jsx'
 import Diary from '../components/Diary.jsx'
 import ProfileForm from '../components/ProfileForm.jsx'
+import Title from '../components/Title.jsx'
 import { COUNTRIES } from '../data/countries.js'
 import { plural } from '../lib/format.js'
 import { isProfileComplete } from '../state/profile.js'
@@ -34,7 +35,7 @@ export default function Perfil() {
     return (
       <div className="page page--narrow">
         <header className="page__header">
-          <h1>{profile ? (complete ? 'Editar perfil' : 'Completá tu perfil') : 'Creá tu perfil'}</h1>
+          <Title>{profile ? (complete ? 'Editar perfil' : 'Completá tu perfil') : 'Creá tu perfil'}</Title>
           <p className="muted">
             Tu perfil acompaña tus respuestas en el modo individual. Podés cambiarlo cuando quieras.
           </p>

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import QuestionCard from '../components/QuestionCard.jsx'
+import Title from '../components/Title.jsx'
 import { CATEGORIES, QUESTIONS } from '../data/questions.js'
 import { shuffle } from '../state/journey.js'
 import { useWindowScene } from '../state/scene.js'
@@ -101,7 +102,7 @@ export default function Grupal() {
   return (
     <div className="page page--narrow">
       <section className="panel">
-        <h1>Armá la ronda</h1>
+        <Title>Armá la ronda</Title>
         <p className="muted">
           Sumá a quienes van a jugar para que las preguntas vayan rotando. Si preferís, también pueden jugar sin
           nombres.

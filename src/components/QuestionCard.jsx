@@ -1,6 +1,7 @@
 import { COUNTRY_BY_ID } from '../data/countries.js'
 import { CATEGORY_BY_KEY } from '../data/questions.js'
 import CountryStamp from './CountryStamp.jsx'
+import Title from './Title.jsx'
 
 // La pregunta se presenta como una tarjeta de embarque: cada pregunta es una escala.
 export default function QuestionCard({ question, eyebrow, children }) {
@@ -15,12 +16,12 @@ export default function QuestionCard({ question, eyebrow, children }) {
           </span>
           <span className="ticket__number">{eyebrow ?? `Pregunta N.º ${question.id}`}</span>
         </div>
-        <h1 className="ticket__question">{question.text}</h1>
+        <Title className="ticket__question">{question.text}</Title>
         {children}
       </div>
       <aside className="ticket__stub">
         <span className="ticket__label">Escala</span>
-        <CountryStamp country={country} />
+        <CountryStamp country={country} shape="below" />
       </aside>
     </article>
   )

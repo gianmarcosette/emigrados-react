@@ -4,6 +4,7 @@ import CountryStamp from '../components/CountryStamp.jsx'
 import ProfileForm from '../components/ProfileForm.jsx'
 import ProgressBar from '../components/ProgressBar.jsx'
 import QuestionCard from '../components/QuestionCard.jsx'
+import Title from '../components/Title.jsx'
 import WorldMap from '../components/WorldMap.jsx'
 import { COUNTRY_BY_ID } from '../data/countries.js'
 import { CATEGORIES, QUESTIONS, QUESTION_BY_ID } from '../data/questions.js'
@@ -37,7 +38,7 @@ export default function Individual() {
       <div className="page page--narrow">
         <header className="page__header">
           <p className="kicker">Antes de despegar</p>
-          <h1>Creá tu perfil de viaje</h1>
+          <Title>Creá tu perfil de viaje</Title>
           <p className="muted">
             Así tus respuestas, tu mapa y tu diario quedan a tu nombre. Lleva menos de un minuto.
           </p>
@@ -125,7 +126,7 @@ function IndividualGame({ params }) {
             <circle cx="28" cy="28" r="28" />
             <path d="M17 29l7 7 15-16" />
           </svg>
-          <h1>Tu respuesta se ha guardado con éxito.</h1>
+          <Title>Tu respuesta se ha guardado con éxito.</Title>
           <p className="saved__where">
             {firstTime ? 'Nueva escala en tu vuelta al mundo:' : 'Volviste a pasar por:'}{' '}
             <CountryStamp country={country} size="sm" />

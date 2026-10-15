@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import CountryStamp from '../components/CountryStamp.jsx'
+import Title from '../components/Title.jsx'
 import WorldMap from '../components/WorldMap.jsx'
 import { COUNTRIES, COUNTRY_BY_ID } from '../data/countries.js'
 import { QUESTIONS } from '../data/questions.js'
@@ -18,7 +19,7 @@ export default function Mapa() {
   return (
     <div className="page page--wide">
       <header className="page__header">
-        <h1>Tu vuelta al mundo</h1>
+        <Title>Tu vuelta al mundo</Title>
         <p className="muted">
           Cada pregunta respondida marca un país. Tocá un marcador para releer lo que escribiste ahí, o un punto para ver qué destinos te faltan.
         </p>
@@ -72,7 +73,7 @@ function CountryPanel({ country, answers, onClose }) {
   return (
     <aside className="country-panel" aria-label={`Respuestas en ${country.name}`}>
       <div className="country-panel__head">
-        <CountryStamp country={country} />
+        <CountryStamp country={country} shape="side" />
         <button type="button" className="btn btn--text" onClick={onClose} aria-label="Cerrar">
           Cerrar
         </button>

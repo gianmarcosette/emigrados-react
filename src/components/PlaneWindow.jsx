@@ -4,15 +4,15 @@ import './PlaneWindow.css'
 // (SVG + CSS, en tinta negra sobre crema, con el amarillo como único acento).
 // Cada sección del juego elige qué se ve del otro lado del vidrio.
 const SCENES = {
-  takeoff: { label: 'Despegando', Scene: Takeoff },
-  clouds: { label: 'Sobre las nubes', Scene: Clouds },
-  sunset: { label: 'Atardecer sobre el mar', Scene: Sunset },
+  takeoff: Takeoff,
+  clouds: Clouds,
+  sunset: Sunset,
 }
 
-export default function PlaneWindow({ scene = 'clouds', caption = true }) {
-  const { label, Scene } = SCENES[scene] ?? SCENES.clouds
+export default function PlaneWindow({ scene = 'clouds' }) {
+  const Scene = SCENES[scene] ?? SCENES.clouds
   return (
-    <figure className="plane-window">
+    <figure className="plane-window" aria-hidden="true">
       <div className="plane-window__frame">
         <div className="plane-window__pane">
           {/* key: al cambiar de sección la escena nueva entra con un fundido */}
@@ -20,7 +20,6 @@ export default function PlaneWindow({ scene = 'clouds', caption = true }) {
           <div className="plane-window__shade" aria-hidden="true" />
         </div>
       </div>
-      {caption && <figcaption className="plane-window__caption">{label}</figcaption>}
     </figure>
   )
 }
