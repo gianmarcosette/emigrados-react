@@ -2,11 +2,14 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { COUNTRY_BY_ID } from '../data/countries.js'
 import { CATEGORIES, CATEGORY_BY_KEY, QUESTION_BY_ID } from '../data/questions.js'
-import { formatDate, formatLongDate, plural } from '../lib/format.js'
+import { buildDiaryIndex } from '../lib/diaryIndex.js'
+import { formatDate, formatLongDate, formatShortDate, plural } from '../lib/format.js'
 import { useJourney } from '../state/useJourney.js'
 
-// En el celular entran dos anotaciones por hoja para que el cuaderno no quede tan largo.
+// En el celular va una anotación por hoja para que el cuaderno no quede largo.
 const MOBILE = '(max-width: 760px)'
+// Con pocas anotaciones alcanza con pasar las hojas; después aparece el índice.
+const INDEX_FROM = 6
 
 function useIsMobile() {
   const [mobile, setMobile] = useState(() => window.matchMedia?.(MOBILE).matches ?? false)
@@ -33,7 +36,8 @@ export default function Diary() {
   const [toolsOpen, setToolsOpen] = useState(false) // en el celular, buscar y opciones van plegados
   const bookRef = useRef(null)
   const touchRef = useRef(null)
-  const perPage = useIsMobile() ? 2 : 3
+  const [showIndex, setShowIndex] = useState(false)
+  const perPage = useIsMobile() ? 1 : 3
 
   // El cuaderno se abre recién cuando aparece en pantalla (está más abajo en el perfil).
   useEffect(() => {
@@ -69,6 +73,9 @@ export default function Diary() {
   const current = Math.min(page ?? pages - 1, pages - 1)
   const visible = notes.slice(current * perPage, current * perPage + perPage)
   const signature = profile?.name ?? 'yo'
+  const hasIndex = notes.length >= INDEX_FROM
+  const indexOpen = showIndex && hasIndex && !closed
+  const index = useMemo(() => (indexOpen ? buildDiaryIndex(notes, perPage) : []), [indexOpen, notes, perPage])
 
   function filterBy(update) {
     update()
@@ -83,6 +90,7 @@ export default function Diary() {
   function turnTo(next) {
     if (next < 0 || next >= pages) return
     setTurned(true)
+    setShowIndex(false)
     setPage(next)
   }
 
@@ -95,7 +103,7 @@ export default function Diary() {
   function onTouchEnd(e) {
     const start = touchRef.current
     touchRef.current = null
-    if (!start || closed) return
+    if (!start || closed || indexOpen) return
     const t = e.changedTouches[0]
     const dx = t.clientX - start.x
     const dy = t.clientY - start.y
@@ -161,15 +169,36 @@ export default function Diary() {
               : 'Todavía sin anotaciones'}
           </p>
 
-          {answeredCount > 0 && (
-            <button
-              type="button"
-              className="notebook__tools-toggle"
-              aria-expanded={toolsOpen}
-              onClick={() => setToolsOpen((v) => !v)}
-            >
-              {toolsOpen ? 'Ocultar búsqueda' : search || category !== 'all' ? 'Búsqueda activa' : 'Buscar y opciones'}
-            </button>
+          {(answeredCount > 0 || hasIndex) && (
+            <div className="notebook__buttons">
+              {hasIndex && (
+                <button
+                  type="button"
+                  className="notebook__index-toggle"
+                  aria-expanded={indexOpen}
+                  onClick={() => {
+                    setTurned(true)
+                    setShowIndex((v) => !v)
+                  }}
+                >
+                  {indexOpen ? 'Volver a la hoja' : 'Índice'}
+                </button>
+              )}
+              {answeredCount > 0 && (
+                <button
+                  type="button"
+                  className="notebook__tools-toggle"
+                  aria-expanded={toolsOpen}
+                  onClick={() => setToolsOpen((v) => !v)}
+                >
+                  {toolsOpen
+                    ? 'Ocultar búsqueda'
+                    : search || category !== 'all'
+                      ? 'Búsqueda activa'
+                      : 'Buscar y opciones'}
+                </button>
+              )}
+            </div>
           )}
 
           {answeredCount > 0 && (
@@ -211,7 +240,7 @@ export default function Diary() {
         {/* key: al pasar de hoja, la página gira y se vuelve a escribir */}
         <div
           className="notebook__page notebook__page--right"
-          key={current}
+          key={indexOpen ? 'indice' : current}
           onTouchStart={pages > 1 ? onTouchStart : undefined}
           onTouchEnd={pages > 1 ? onTouchEnd : undefined}
         >
@@ -226,24 +255,57 @@ export default function Diary() {
           {answeredCount > 0 && !notes.length && (
             <p className="notebook__empty">No hay anotaciones que coincidan con la búsqueda.</p>
           )}
-          {visible.map(({ question, text, date }, i) => (
-            <article key={`${question.id}-${date}`} className="note" style={{ '--d': `${(turned ? 0.35 : 1.3) + i * 1.1}s` }}>
-              <p className="note__date">
-                {formatLongDate(date)} · {COUNTRY_BY_ID[question.countryId].name}
-              </p>
-              <h3 className="note__question">{question.text}</h3>
-              <p className="note__answer">{text}</p>
-              <p className="note__signature">— {signature}</p>
-              <Link to={`/individual?q=${question.id}`} className="note__again">
-                volver a responder
-              </Link>
-            </article>
-          ))}
-          {notes.length > 0 && <span className="notebook__folio">{current + 1}</span>}
+          {indexOpen && (
+            <nav className="notebook__index" aria-label="Índice del diario">
+              <h3 className="notebook__index-title">Índice</h3>
+              {index.map(({ month, entries }) => (
+                <section key={month}>
+                  <h4 className="notebook__index-month">{month}</h4>
+                  <ol>
+                    {entries.map(({ question, date, page: entryPage }) => (
+                      <li key={`${question.id}-${date}`}>
+                        <button
+                          type="button"
+                          className={entryPage - 1 === current ? 'is-current' : undefined}
+                          onClick={() => turnTo(entryPage - 1)}
+                        >
+                          <em className="notebook__index-where">
+                            {formatShortDate(date)} · {COUNTRY_BY_ID[question.countryId].name}
+                          </em>
+                          <span className="notebook__index-text">{question.text}</span>
+                          <span className="notebook__index-dots" aria-hidden="true" />
+                          <span className="notebook__index-page">{entryPage}</span>
+                        </button>
+                      </li>
+                    ))}
+                  </ol>
+                </section>
+              ))}
+            </nav>
+          )}
+          {!indexOpen &&
+            visible.map(({ question, text, date }, i) => (
+              <article
+                key={`${question.id}-${date}`}
+                className="note"
+                style={{ '--d': `${(turned ? 0.35 : 1.3) + i * 1.1}s` }}
+              >
+                <p className="note__date">
+                  {formatLongDate(date)} · {COUNTRY_BY_ID[question.countryId].name}
+                </p>
+                <h3 className="note__question">{question.text}</h3>
+                <p className="note__answer">{text}</p>
+                <p className="note__signature">— {signature}</p>
+                <Link to={`/individual?q=${question.id}`} className="note__again">
+                  volver a responder
+                </Link>
+              </article>
+            ))}
+          {notes.length > 0 && !indexOpen && <span className="notebook__folio">{current + 1}</span>}
         </div>
       </div>
 
-      {pages > 1 && !closed && (
+      {pages > 1 && !closed && !indexOpen && (
         <nav className="notebook__nav" aria-label="Hojas del diario">
           <button type="button" className="btn btn--text" disabled={current === 0} onClick={() => turnTo(current - 1)}>
             ‹ Anterior

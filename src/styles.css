@@ -2991,3 +2991,140 @@ h3 {
     opacity: 1;
   }
 }
+
+/* ═════════════ Diario: índice ═════════════ */
+.notebook__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.notebook__index-toggle {
+  align-self: flex-start;
+  padding: 6px 14px;
+  border: 1.5px solid var(--ink);
+  border-radius: 999px;
+  background: var(--card);
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.notebook__index-toggle[aria-expanded='true'] {
+  background: var(--yellow);
+}
+
+.notebook__buttons .notebook__tools-toggle {
+  margin-top: 0;
+}
+
+/* Hoja del índice: entradas a mano con línea de puntos hasta el número de hoja */
+.notebook__index {
+  max-height: 520px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: 6px;
+  font-family: var(--font-hand);
+}
+
+.notebook__index-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+  line-height: var(--rule);
+}
+
+.notebook__index-month {
+  margin: 0;
+  font-size: 1.15rem;
+  line-height: var(--rule);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.notebook__index ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.notebook__index button {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 1.15rem;
+  line-height: var(--rule);
+  text-align: left;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.notebook__index-text {
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.notebook__index-where {
+  flex: none;
+  font-style: normal;
+  color: var(--ink-soft);
+}
+
+/* Línea de puntos en el espacio libre antes del número */
+.notebook__index-dots {
+  flex: 1 0 18px;
+  align-self: stretch;
+  background: radial-gradient(circle, var(--ink-soft) 1px, transparent 1.5px) left 68% / 7px 7px repeat-x;
+}
+
+.notebook__index-page {
+  flex: none;
+  min-width: 1.6em;
+  text-align: right;
+}
+
+.notebook__index button:hover .notebook__index-text,
+.notebook__index button:focus-visible .notebook__index-text {
+  text-decoration: underline;
+}
+
+.notebook__index button.is-current {
+  background: var(--yellow-soft);
+}
+
+@media (max-width: 760px) {
+  .notebook__index {
+    max-height: 60vh;
+    max-height: 60svh;
+  }
+
+  /* En el celular: fecha y país arriba, la pregunta abajo con más lugar */
+  .notebook__index button {
+    flex-wrap: wrap;
+    column-gap: 6px;
+    row-gap: 0;
+    font-size: 1.1rem;
+  }
+
+  .notebook__index-where {
+    flex-basis: 100%;
+    font-size: 0.95rem;
+  }
+
+  .notebook__index-text {
+    flex: 1 1 0;
+  }
+
+  .notebook__index-dots {
+    flex: 0 0 26px;
+  }
+}
