@@ -18,10 +18,10 @@ export default function Home() {
           <PlaneWindow scene={profile ? 'clouds' : 'takeoff'} />
         </div>
         <div className="hero__text">
-        <p className="hero__tagline">El juego de preguntas creado para hablar de todo el proceso que implica emigrar.</p>
         <h1 className="hero__title">
           <Wordmark />
         </h1>
+        <p className="hero__tagline">El juego de preguntas creado para hablar de todo el proceso que implica emigrar.</p>
         <p className="hero__lead">
           De lo que pensabas antes de irte, a lo que sentís en tu nuevo lugar y cómo te reinventaste. Un espacio seguro
           para conocerte más y entender por qué estás donde estás.

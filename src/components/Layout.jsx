@@ -34,7 +34,10 @@ export default function Layout() {
           <NavLink to="/" className="brand" aria-label="Emigrados, volver al inicio">
             <Wordmark />
           </NavLink>
-          <p className="topbar__tagline">El juego de preguntas creado para hablar de todo el proceso que implica emigrar.</p>
+          {/* En el inicio la frase va como subtítulo del logo */}
+          {!isHome && (
+            <p className="topbar__tagline">El juego de preguntas creado para hablar de todo el proceso que implica emigrar.</p>
+          )}
           <nav className="topbar__nav" aria-label="Secciones">
             {LINKS.map((l) => (
               <NavLink key={l.to} to={l.to} className={({ isActive }) => `navlink ${isActive ? 'navlink--active' : ''}`}>
