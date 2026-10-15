@@ -17,7 +17,7 @@ export default function Mapa() {
   const pct = Math.round((answeredCount / totalQuestions) * 100)
 
   return (
-    <div className="page page--wide">
+    <div className="page page--wide page--map">
       <header className="page__header">
         <Title>Tu vuelta al mundo</Title>
         <p className="muted">
@@ -48,6 +48,8 @@ export default function Mapa() {
             route={routeCountries.slice(-12)}
             selectedId={selectedId}
             onSelect={(id) => setSelectedId((cur) => (cur === id ? null : id))}
+            interactive
+            focus={routeCountries[routeCountries.length - 1]}
           />
           {!answeredCount && (
             <div className="map-empty">

@@ -5,7 +5,20 @@ import { CATEGORIES, CATEGORY_BY_KEY, QUESTION_BY_ID } from '../data/questions.j
 import { formatDate, formatLongDate, plural } from '../lib/format.js'
 import { useJourney } from '../state/useJourney.js'
 
-const PER_PAGE = 3
+// En el celular entran dos anotaciones por hoja para que el cuaderno no quede tan largo.
+const MOBILE = '(max-width: 760px)'
+
+function useIsMobile() {
+  const [mobile, setMobile] = useState(() => window.matchMedia?.(MOBILE).matches ?? false)
+  useEffect(() => {
+    const query = window.matchMedia?.(MOBILE)
+    if (!query) return undefined
+    const update = () => setMobile(query.matches)
+    query.addEventListener('change', update)
+    return () => query.removeEventListener('change', update)
+  }, [])
+  return mobile
+}
 
 // Diario: un cuaderno que se abre y en el que las respuestas aparecen escritas a mano,
 // cada una con su fecha, la pregunta subrayada y la firma. Vive en "Mi perfil" (#diario).
@@ -17,7 +30,10 @@ export default function Diary() {
   const [turned, setTurned] = useState(false) // después de la primera hoja ya no se espera a la tapa
   const [open, setOpen] = useState(false)
   const [closed, setClosed] = useState(false)
+  const [toolsOpen, setToolsOpen] = useState(false) // en el celular, buscar y opciones van plegados
   const bookRef = useRef(null)
+  const touchRef = useRef(null)
+  const perPage = useIsMobile() ? 2 : 3
 
   // El cuaderno se abre recién cuando aparece en pantalla (está más abajo en el perfil).
   useEffect(() => {
@@ -49,9 +65,9 @@ export default function Diary() {
       .sort((a, b) => a.date.localeCompare(b.date))
   }, [answers, category, search])
 
-  const pages = Math.max(1, Math.ceil(notes.length / PER_PAGE))
+  const pages = Math.max(1, Math.ceil(notes.length / perPage))
   const current = Math.min(page ?? pages - 1, pages - 1)
-  const visible = notes.slice(current * PER_PAGE, current * PER_PAGE + PER_PAGE)
+  const visible = notes.slice(current * perPage, current * perPage + perPage)
   const signature = profile?.name ?? 'yo'
 
   function filterBy(update) {
@@ -65,8 +81,26 @@ export default function Diary() {
   }
 
   function turnTo(next) {
+    if (next < 0 || next >= pages) return
     setTurned(true)
     setPage(next)
+  }
+
+  // Deslizar el dedo sobre la hoja pasa de página, como en un cuaderno de verdad.
+  function onTouchStart(e) {
+    const t = e.touches[0]
+    touchRef.current = { x: t.clientX, y: t.clientY }
+  }
+
+  function onTouchEnd(e) {
+    const start = touchRef.current
+    touchRef.current = null
+    if (!start || closed) return
+    const t = e.changedTouches[0]
+    const dx = t.clientX - start.x
+    const dy = t.clientY - start.y
+    if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy) * 1.5) return
+    turnTo(dx < 0 ? current + 1 : current - 1)
   }
 
   function exportDiary() {
@@ -128,7 +162,18 @@ export default function Diary() {
           </p>
 
           {answeredCount > 0 && (
-            <div className="notebook__tools">
+            <button
+              type="button"
+              className="notebook__tools-toggle"
+              aria-expanded={toolsOpen}
+              onClick={() => setToolsOpen((v) => !v)}
+            >
+              {toolsOpen ? 'Ocultar búsqueda' : search || category !== 'all' ? 'Búsqueda activa' : 'Buscar y opciones'}
+            </button>
+          )}
+
+          {answeredCount > 0 && (
+            <div className={`notebook__tools ${toolsOpen ? 'is-expanded' : ''}`}>
               <label>
                 <span className="sr-only">Buscar</span>
                 <input
@@ -164,7 +209,12 @@ export default function Diary() {
         <div className="notebook__spine" aria-hidden="true" />
 
         {/* key: al pasar de hoja, la página gira y se vuelve a escribir */}
-        <div className="notebook__page notebook__page--right" key={current}>
+        <div
+          className="notebook__page notebook__page--right"
+          key={current}
+          onTouchStart={pages > 1 ? onTouchStart : undefined}
+          onTouchEnd={pages > 1 ? onTouchEnd : undefined}
+        >
           {!answeredCount && (
             <div className="notebook__empty">
               <p>Tu primera respuesta va a quedar escrita en esta hoja.</p>
