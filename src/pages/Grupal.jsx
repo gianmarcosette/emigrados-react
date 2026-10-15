@@ -149,7 +149,6 @@ export default function Grupal() {
                 key={c.key}
                 type="button"
                 className={`chip chip--toggle ${active ? 'chip--on' : ''}`}
-                style={active ? { background: c.color } : undefined}
                 aria-pressed={active}
                 onClick={() => toggleCategory(c.key)}
               >

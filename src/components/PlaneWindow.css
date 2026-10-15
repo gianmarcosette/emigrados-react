@@ -7,68 +7,37 @@
   gap: 12px;
 }
 
-/* Panel de plástico de la cabina alrededor de la ventanilla */
+/* Marco: contorno grueso de tinta, como las ilustraciones */
 .plane-window__frame {
   width: 100%;
   aspect-ratio: 5 / 7;
   padding: 9%;
   border-radius: 30% / 22%;
-  background: linear-gradient(150deg, #fbf9f4 0%, #ebe6db 55%, #ddd6c8 100%);
-  box-shadow:
-    inset 0 2px 0 #fff,
-    inset 0 -8px 18px rgba(60, 50, 30, 0.1),
-    0 18px 40px rgba(20, 63, 58, 0.18);
+  background: var(--card);
+  border: 3px solid var(--ink);
 }
 
-/* El vidrio: recorta la escena y lleva sombra interior, reflejo y bisel */
+/* El vidrio: recorta la escena */
 .plane-window__pane {
   position: relative;
   width: 100%;
   height: 100%;
   border-radius: 50% / 37%;
   overflow: hidden;
-  background: #9cc6ea;
+  background: var(--glass);
+  color: var(--ink);
   isolation: isolate;
-  box-shadow:
-    0 0 0 5px #d3ccbd,
-    0 0 0 9px #f4f1ea;
+  border: 2.5px solid var(--ink);
 }
 
-.plane-window__pane::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  z-index: 3;
-  background: linear-gradient(125deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0) 32%),
-    linear-gradient(305deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 20%);
-  box-shadow:
-    inset 0 0 0 3px rgba(0, 0, 0, 0.08),
-    inset 0 10px 26px rgba(0, 0, 0, 0.35),
-    inset 0 -6px 16px rgba(0, 0, 0, 0.18);
-}
-
-/* Cortina a medio bajar */
+/* Cortina a medio bajar: un bloque negro, como en las viñetas */
 .plane-window__shade {
   position: absolute;
   inset: 0 0 auto;
-  height: 13%;
+  height: 12%;
   z-index: 2;
-  background: linear-gradient(180deg, #f3eee3, #ded6c6);
-  border-bottom: 3px solid #c9c0ad;
-}
-
-.plane-window__shade::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  bottom: 5px;
-  width: 22%;
-  height: 4px;
-  transform: translateX(-50%);
-  border-radius: 4px;
-  background: #c3b9a4;
+  background: var(--ink);
+  border-radius: 0 0 50% 50% / 0 0 30% 30%;
 }
 
 .plane-window__caption {
@@ -76,7 +45,7 @@
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--teal);
+  color: var(--ink);
   display: flex;
   align-items: center;
   gap: 8px;
@@ -87,27 +56,36 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: var(--coral);
+  background: var(--ink);
   animation: pw-blink 2.4s ease-in-out infinite;
 }
 
-/* Variante apaisada para pantallas angostas */
-.plane-window--band .plane-window__frame {
-  aspect-ratio: auto;
-  height: 150px;
-  padding: 14px 18px;
-  border-radius: 40px;
-}
-
-.plane-window--band .plane-window__pane {
-  border-radius: 999px;
-}
-
-.plane-window--band .plane-window__shade {
-  height: 16%;
-}
-
 /* ───────── Escenas ───────── */
+.pw-sky,
+.pw-loop-fade {
+  fill: var(--glass);
+}
+
+.pw-paper,
+.pw-cloud {
+  fill: var(--card);
+}
+
+.pw-cloud {
+  stroke: currentColor;
+  stroke-linejoin: round;
+}
+
+.pw-sun,
+.pw-light {
+  fill: var(--yellow);
+}
+
+.pw-rays {
+  transform-origin: 224px 318px;
+  animation: pw-glow 6s ease-in-out infinite;
+}
+
 .pw-scene {
   position: absolute;
   inset: 0;

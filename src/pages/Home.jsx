@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import Avatar from '../components/Avatar.jsx'
 import PlaneWindow from '../components/PlaneWindow.jsx'
+import WindowRow from '../components/illustrations/WindowRow.jsx'
 import ProgressBar from '../components/ProgressBar.jsx'
 import Wordmark from '../components/Wordmark.jsx'
 import { COUNTRIES } from '../data/countries.js'
@@ -40,6 +41,8 @@ export default function Home() {
         )}
         </div>
       </section>
+
+      <WindowRow />
 
       <section className="modes" aria-label="Elegí cómo jugar">
         <Link to="/individual" className="mode mode--individual">

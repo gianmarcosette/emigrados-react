@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { SceneContext } from '../state/scene.js'
 import { useJourney } from '../state/useJourney.js'
 import Avatar from './Avatar.jsx'
+import Wallpaper from './illustrations/Wallpaper.jsx'
 import PlaneWindow from './PlaneWindow.jsx'
 import Wordmark from './Wordmark.jsx'
 
@@ -28,6 +29,7 @@ export default function Layout() {
   return (
     <SceneContext.Provider value={setScene}>
       <div className={`app ${isHome ? 'app--home' : ''}`}>
+        <Wallpaper />
         <header className="topbar">
           <NavLink to="/" className="brand" aria-label="Emigrados, volver al inicio">
             <Wordmark />

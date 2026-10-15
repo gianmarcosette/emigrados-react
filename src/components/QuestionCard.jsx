@@ -7,10 +7,10 @@ export default function QuestionCard({ question, eyebrow, children }) {
   const country = COUNTRY_BY_ID[question.countryId]
   const category = CATEGORY_BY_KEY[question.category]
   return (
-    <article className="ticket" style={{ '--cat': category.color }}>
+    <article className="ticket">
       <div className="ticket__main">
         <div className="ticket__meta">
-          <span className="chip" style={{ background: category.color }}>
+          <span className="chip">
             {category.label}
           </span>
           <span className="ticket__number">{eyebrow ?? `Pregunta N.º ${question.id}`}</span>

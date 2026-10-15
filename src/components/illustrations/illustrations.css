@@ -1,0 +1,153 @@
+/* ───────── Ilustraciones de línea ───────── */
+.vignette {
+  display: block;
+  color: var(--ink);
+  overflow: visible;
+}
+
+.vg-paper {
+  fill: var(--card);
+}
+
+.vg-sky {
+  fill: var(--glass);
+}
+
+.vg-headline {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 6.4px;
+  letter-spacing: 0.4px;
+}
+
+/* Pequeñas animaciones, solo en las viñetas protagonistas */
+.vignette--animated .vg-z {
+  animation: vg-z 3.2s ease-in-out infinite;
+}
+
+.vignette--animated .vg-steam {
+  animation: vg-steam 2.6s ease-in-out infinite;
+}
+
+.vignette--animated .vg-wave {
+  transform-box: fill-box;
+  transform-origin: 30% 100%;
+  animation: vg-wave 1.6s ease-in-out infinite;
+}
+
+.vignette--animated .vg-shade {
+  animation: vg-shade 5s ease-in-out infinite;
+}
+
+.vignette--animated .vg-pen {
+  animation: vg-pen 1.4s ease-in-out infinite;
+}
+
+.vignette--animated .vg-bob {
+  animation: vg-bob 0.9s ease-in-out infinite;
+}
+
+.vignette--animated .vg-notes {
+  animation: vg-z 2.4s ease-in-out infinite;
+}
+
+.vignette--animated .vg-paper-shake {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: vg-page 4s ease-in-out infinite;
+}
+
+.vignette--animated .vg-press {
+  animation: vg-press 2.8s ease-in-out infinite;
+}
+
+@keyframes vg-z {
+  0% {
+    opacity: 0;
+    transform: translate(-3px, 6px);
+  }
+  30%,
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(3px, -6px);
+  }
+}
+
+@keyframes vg-steam {
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: translateY(2px);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes vg-wave {
+  0%,
+  100% {
+    transform: rotate(-8deg);
+  }
+  50% {
+    transform: rotate(10deg);
+  }
+}
+
+@keyframes vg-shade {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes vg-pen {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-6px);
+  }
+}
+
+@keyframes vg-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(1.5px);
+  }
+}
+
+@keyframes vg-page {
+  0%,
+  86%,
+  100% {
+    transform: rotate(0);
+  }
+  90% {
+    transform: rotate(-2deg);
+  }
+  95% {
+    transform: rotate(1.5deg);
+  }
+}
+
+@keyframes vg-press {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(2px);
+  }
+}

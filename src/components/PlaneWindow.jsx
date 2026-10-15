@@ -1,7 +1,7 @@
-import { useId } from 'react'
 import './PlaneWindow.css'
 
-// Ventanilla de avión con escenas animadas (motion graphics en SVG + CSS).
+// Ventanilla de avión vista desde adentro, con escenas animadas en dibujo de línea
+// (SVG + CSS, en tinta negra sobre crema, con el amarillo como único acento).
 // Cada sección del juego elige qué se ve del otro lado del vidrio.
 const SCENES = {
   takeoff: { label: 'Despegando', Scene: Takeoff },
@@ -9,10 +9,10 @@ const SCENES = {
   sunset: { label: 'Atardecer sobre el mar', Scene: Sunset },
 }
 
-export default function PlaneWindow({ scene = 'clouds', variant = 'portrait', caption = true }) {
+export default function PlaneWindow({ scene = 'clouds', caption = true }) {
   const { label, Scene } = SCENES[scene] ?? SCENES.clouds
   return (
-    <figure className={`plane-window plane-window--${variant}`}>
+    <figure className="plane-window">
       <div className="plane-window__frame">
         <div className="plane-window__pane">
           {/* key: al cambiar de sección la escena nueva entra con un fundido */}
@@ -27,23 +27,17 @@ export default function PlaneWindow({ scene = 'clouds', variant = 'portrait', ca
 
 /* ───────── Piezas compartidas ───────── */
 
-// Nube suave: varios círculos con degradé radial (sin filtros, para que sea liviana).
-function Cloud({ x, y, s = 1, fill }) {
-  const puffs = [
-    [0, 0, 26],
-    [-30, 8, 20],
-    [30, 6, 22],
-    [-12, -14, 20],
-    [14, -16, 18],
-    [52, 12, 14],
-    [-52, 14, 13],
-  ]
+const LINE = { fill: 'none', stroke: 'currentColor', strokeLinecap: 'round', strokeLinejoin: 'round' }
+
+// Nube de contorno: rellena de papel para tapar lo que pasa por detrás.
+function Cloud({ x, y, s = 1 }) {
   return (
-    <g transform={`translate(${x} ${y}) scale(${s})`}>
-      {puffs.map(([cx, cy, r], i) => (
-        <circle key={i} cx={cx} cy={cy} r={r * 1.5} fill={fill} />
-      ))}
-    </g>
+    <path
+      transform={`translate(${x} ${y}) scale(${s})`}
+      d="M-40 14 C-56 14 -58 -6 -42 -8 C-42 -26 -18 -30 -10 -16 C-4 -32 22 -32 26 -12 C40 -16 50 -2 42 8 C52 10 50 22 38 22 L-36 22 C-46 22 -48 14 -40 14 Z"
+      className="pw-cloud"
+      strokeWidth={2.4 / s}
+    />
   )
 }
 
@@ -57,229 +51,165 @@ function Loop({ className, children }) {
   )
 }
 
-function Wing({ id, tone = 'day' }) {
-  const fill = tone === 'dusk' ? `url(#${id}-wing-dusk)` : `url(#${id}-wing)`
+// Olas: líneas cortas que se desplazan.
+function Waves({ from = 320, rows = 6, gap = 34, className = 'pw-drift pw-drift--sea' }) {
   return (
-    <g className="pw-wing">
-      <path
-        d="M-20 468 C110 474 250 490 352 510 L366 519 L348 530 C240 530 100 538 -20 552 Z"
-        fill={fill}
-      />
-      <path d="M346 512 L382 462 L391 466 L366 522 Z" fill={fill} />
-      <path d="M40 506 C140 508 240 516 330 526" fill="none" stroke="rgba(0,0,0,.18)" strokeWidth="2" />
-      {tone === 'dusk' && (
-        <path d="M-20 468 C110 474 250 490 352 510" fill="none" stroke="#f2a06b" strokeWidth="2.5" opacity=".8" />
+    <Loop className={className}>
+      {Array.from({ length: rows }, (_, r) =>
+        [0, 1, 2].map((k) => {
+          const x = ((r * 61 + k * 137) % 400) + 4
+          const y = from + 14 + r * gap
+          return <path key={`${r}-${k}`} d={`M${x} ${y} q8 -5 16 0 t16 0`} {...LINE} strokeWidth="2" />
+        }),
       )}
+    </Loop>
+  )
+}
+
+function Wing() {
+  return (
+    <g className="pw-wing" {...LINE} strokeWidth="3">
+      <path d="M-20 470 C110 476 250 492 352 512 L364 520 L346 531 C240 531 100 539 -20 552 Z" className="pw-paper" />
+      <path d="M346 513 L380 466 L389 470 L364 523 Z" className="pw-paper" />
+      <path d="M40 506 C140 508 240 516 330 526" strokeWidth="2" />
+      <path d="M120 520 l-6 16 M200 524 l-6 14" strokeWidth="2" />
     </g>
   )
 }
 
-function WingDefs({ id }) {
-  return (
-    <>
-      <linearGradient id={`${id}-wing`} x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stopColor="#eef1f3" />
-        <stop offset="1" stopColor="#9aa4ac" />
-      </linearGradient>
-      <linearGradient id={`${id}-wing-dusk`} x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stopColor="#4a3a5c" />
-        <stop offset="1" stopColor="#1c1630" />
-      </linearGradient>
-    </>
-  )
+function Fade() {
+  return <rect className="pw-loop-fade" width="400" height="560" opacity="0" />
 }
 
 /* ───────── Escena 1: despegue ───────── */
 function Takeoff() {
-  const id = useId().replace(/:/g, '')
   return (
     <svg className="pw-scene" viewBox="0 0 400 560" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-      <defs>
-        <linearGradient id={`${id}-sky`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#7fb2e3" />
-          <stop offset=".45" stopColor="#c9e1f2" />
-          <stop offset=".9" stopColor="#f3e7cf" />
-        </linearGradient>
-        <linearGradient id={`${id}-ground`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#9bb877" />
-          <stop offset="1" stopColor="#5a7d43" />
-        </linearGradient>
-        <linearGradient id={`${id}-sea`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#5f9ccc" />
-          <stop offset="1" stopColor="#2f6f9e" />
-        </linearGradient>
-        <WingDefs id={id} />
-      </defs>
-
-      {/* Horizonte: se inclina un poco cuando el avión levanta la nariz */}
       <g className="pw-tilt">
-        <rect x="-200" y="-200" width="800" height="500" fill={`url(#${id}-sky)`} />
+        <rect x="-200" y="-200" width="800" height="1100" className="pw-sky" />
         <Loop className="pw-drift pw-drift--slow">
-          <Cloud x={90} y={120} s={0.55} fill="rgba(255,255,255,.75)" />
-          <Cloud x={300} y={70} s={0.4} fill="rgba(255,255,255,.6)" />
+          <Cloud x={90} y={130} s={0.7} />
+          <Cloud x={300} y={80} s={0.5} />
         </Loop>
-        <rect x="-200" y="290" width="800" height="600" fill={`url(#${id}-sea)`} />
-        <path d="M-200 296 L-60 292 L0 286 L60 291 L120 284 L180 290 L600 290 L600 298 L-200 300 Z" fill="#7e8fa0" opacity=".55" />
-        <Loop className="pw-drift pw-drift--sea">
-          {[20, 110, 190, 280, 350].map((x, i) => (
-            <rect key={x} x={x} y={310 + i * 34} width={22 + (i % 3) * 10} height="2" rx="1" fill="rgba(255,255,255,.45)" />
-          ))}
-        </Loop>
+        {/* Horizonte con la costa a lo lejos */}
+        <path d="M-200 292 L600 292" {...LINE} strokeWidth="2.4" />
+        <path d="M-40 292 C-20 282 10 280 30 286 C50 278 80 280 96 292" {...LINE} strokeWidth="2.4" />
+        <Waves from={292} rows={8} gap={30} />
         {/* La costa que aparece abajo al ganar altura */}
-        <path d="M-200 360 C-60 352 20 372 80 392 C140 412 150 452 120 500 C100 540 140 600 160 700 L-200 700 Z" fill="#e8d7a8" />
-        <path d="M-200 372 C-70 366 6 384 64 402 C118 420 126 456 100 500 C84 536 120 600 136 700 L-200 700 Z" fill="#7f9f5f" />
-        {[[-10, 420], [20, 445], [-30, 470], [10, 500], [40, 470]].map(([x, y]) => (
-          <rect key={`${x}${y}`} x={x} y={y} width="16" height="12" rx="2" fill="#d9d2c3" opacity=".9" />
+        <path
+          d="M-200 392 C-70 386 6 400 64 414 C118 430 126 460 100 500 C84 536 120 600 136 700 L-200 700 Z"
+          className="pw-paper"
+          {...LINE}
+          strokeWidth="2.4"
+        />
+        <path d="M-200 380 C-60 372 20 388 80 404 C140 420 150 456 120 500 C100 540 140 600 160 700" {...LINE} strokeWidth="1.8" strokeDasharray="4 7" />
+        {[[-10, 430], [20, 452], [-30, 474], [10, 504], [42, 476]].map(([x, y]) => (
+          <rect key={`${x}${y}`} x={x} y={y} width="16" height="12" rx="2" {...LINE} strokeWidth="2" />
         ))}
 
-        {/* Pista y pasto: pasan rápido y después quedan abajo cuando el avión sube */}
+        {/* Pista: pasa rápido y después queda abajo cuando el avión sube */}
         <g className="pw-ground">
-          <rect x="-200" y="326" width="800" height="420" fill={`url(#${id}-ground)`} />
+          <rect x="-200" y="322" width="800" height="420" className="pw-paper" />
+          <path d="M-200 322 H600" {...LINE} strokeWidth="2.4" />
           <Loop className="pw-roll pw-roll--far">
             {[0, 100, 200, 300].map((x) => (
-              <rect key={x} x={x} y="338" width="60" height="5" rx="2" fill="rgba(60,90,40,.35)" />
+              <path
+                key={x}
+                d={`M${x} 350 l10 -12 M${x + 12} 350 l10 -12 M${x + 24} 350 l10 -12`}
+                {...LINE}
+                strokeWidth="1.8"
+              />
             ))}
           </Loop>
-          <rect x="-200" y="398" width="800" height="116" fill="#5d6166" />
-          <rect x="-200" y="404" width="800" height="3" fill="rgba(255,255,255,.75)" />
-          <rect x="-200" y="505" width="800" height="3" fill="rgba(255,255,255,.75)" />
+          <path d="M-200 396 H600 M-200 512 H600" {...LINE} strokeWidth="2.4" />
           <Loop className="pw-roll">
-            <rect x="10" y="452" width="120" height="8" rx="2" fill="#f4f4f0" />
-            <rect x="210" y="452" width="120" height="8" rx="2" fill="#f4f4f0" />
+            <rect x="10" y="450" width="110" height="9" rx="2" fill="currentColor" />
+            <rect x="210" y="450" width="110" height="9" rx="2" fill="currentColor" />
             {[0, 50, 100, 150, 200, 250, 300, 350].map((x) => (
-              <circle key={x} cx={x + 20} cy="396" r="3.2" fill="#ffd36b" />
+              <circle key={x} cx={x + 20} cy="384" r="4" className="pw-light" {...LINE} strokeWidth="1.6" />
             ))}
           </Loop>
         </g>
       </g>
-
-      <Wing id={id} />
-      <rect className="pw-loop-fade" width="400" height="560" fill="#e9f1f6" opacity="0" />
+      <Wing />
+      <Fade />
     </svg>
   )
 }
 
 /* ───────── Escena 2: sobre las nubes ───────── */
 function Clouds() {
-  const id = useId().replace(/:/g, '')
   return (
     <svg className="pw-scene pw-bob" viewBox="0 0 400 560" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-      <defs>
-        <linearGradient id={`${id}-sky`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#3f7fc4" />
-          <stop offset=".4" stopColor="#8fc1ea" />
-          <stop offset=".56" stopColor="#d9eefb" />
-        </linearGradient>
-        <linearGradient id={`${id}-sea`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#4f8fbf" />
-          <stop offset="1" stopColor="#174d72" />
-        </linearGradient>
-        <radialGradient id={`${id}-puff`}>
-          <stop offset="0" stopColor="#fff" />
-          <stop offset=".55" stopColor="#fff" stopOpacity=".95" />
-          <stop offset="1" stopColor="#fff" stopOpacity="0" />
-        </radialGradient>
-        <radialGradient id={`${id}-puff-soft`}>
-          <stop offset="0" stopColor="#fff" stopOpacity=".85" />
-          <stop offset="1" stopColor="#fff" stopOpacity="0" />
-        </radialGradient>
-        <WingDefs id={id} />
-      </defs>
-
-      <rect width="400" height="560" fill={`url(#${id}-sky)`} />
-      <rect y="310" width="400" height="250" fill={`url(#${id}-sea)`} />
-      <Loop className="pw-drift pw-drift--sea">
-        {[15, 70, 140, 210, 260, 330, 380].map((x, i) => (
-          <rect key={x} x={x} y={330 + ((i * 37) % 160)} width={18 + (i % 3) * 8} height="2" rx="1" fill="rgba(255,255,255,.4)" />
-        ))}
-      </Loop>
-
+      <rect width="400" height="560" className="pw-sky" />
+      <path d="M0 312 H400" {...LINE} strokeWidth="2.4" />
+      <Waves from={312} rows={7} gap={34} />
       {/* Banco de nubes lejano, sobre el horizonte */}
       <Loop className="pw-drift pw-drift--far">
-        {[30, 130, 230, 330].map((x, i) => (
-          <Cloud key={x} x={x} y={312 + (i % 2) * 6} s={0.7} fill={`url(#${id}-puff-soft)`} />
-        ))}
+        <Cloud x={60} y={300} s={0.6} />
+        <Cloud x={170} y={306} s={0.5} />
+        <Cloud x={290} y={298} s={0.65} />
       </Loop>
-      {/* Nubes debajo del avión, entre nosotros y el mar */}
+      {/* Pájaros a lo lejos */}
+      <Loop className="pw-drift pw-drift--slow">
+        <path d="M80 150 q6 -6 12 0 q6 -6 12 0 M260 110 q5 -5 10 0 q5 -5 10 0" {...LINE} strokeWidth="2" />
+      </Loop>
+      {/* Nubes debajo del avión */}
       <Loop className="pw-drift pw-drift--mid">
-        <Cloud x={60} y={400} s={1.1} fill={`url(#${id}-puff)`} />
-        <Cloud x={250} y={430} s={1.3} fill={`url(#${id}-puff)`} />
+        <Cloud x={80} y={410} s={1.1} />
+        <Cloud x={290} y={440} s={1.25} />
       </Loop>
       {/* Una nube que pasa cerca, rápida */}
       <g className="pw-pass">
-        <Cloud x={200} y={200} s={2.4} fill={`url(#${id}-puff)`} />
+        <Cloud x={200} y={210} s={2.2} />
       </g>
-
-      <Wing id={id} />
+      <Wing />
     </svg>
   )
 }
 
 /* ───────── Escena 3: atardecer ───────── */
+const RAYS = Array.from({ length: 9 }, (_, i) => {
+  const a = Math.PI + (i + 1) * (Math.PI / 10)
+  const p = (r) => `${(224 + Math.cos(a) * r).toFixed(1)} ${(318 + Math.sin(a) * r).toFixed(1)}`
+  return `M${p(60)} L${p(82)}`
+})
+
 function Sunset() {
-  const id = useId().replace(/:/g, '')
   const glints = [
-    [214, 334, 32],
-    [206, 352, 48],
-    [220, 370, 26],
-    [198, 390, 60],
-    [214, 412, 40],
-    [190, 436, 72],
-    [210, 462, 46],
-    [184, 490, 84],
+    [212, 336, 30],
+    [202, 356, 50],
+    [218, 378, 24],
+    [194, 400, 64],
+    [212, 426, 38],
+    [188, 452, 76],
+    [208, 482, 44],
   ]
   return (
     <svg className="pw-scene pw-bob" viewBox="0 0 400 560" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-      <defs>
-        <linearGradient id={`${id}-sky`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#232554" />
-          <stop offset=".25" stopColor="#5b3a72" />
-          <stop offset=".42" stopColor="#c45e7c" />
-          <stop offset=".52" stopColor="#f39b5c" />
-          <stop offset=".57" stopColor="#ffd283" />
-        </linearGradient>
-        <linearGradient id={`${id}-sea`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#6a4a78" />
-          <stop offset=".3" stopColor="#3a2c5c" />
-          <stop offset="1" stopColor="#141633" />
-        </linearGradient>
-        <radialGradient id={`${id}-glow`}>
-          <stop offset="0" stopColor="#ffe3a6" stopOpacity=".9" />
-          <stop offset=".35" stopColor="#ffb878" stopOpacity=".45" />
-          <stop offset="1" stopColor="#ff9a6a" stopOpacity="0" />
-        </radialGradient>
-        <WingDefs id={id} />
-      </defs>
-
-      <rect width="400" height="560" fill={`url(#${id}-sky)`} />
-      <circle className="pw-glow" cx="224" cy="316" r="170" fill={`url(#${id}-glow)`} />
+      <rect width="400" height="560" className="pw-sky" />
+      <g className="pw-rays" {...LINE} strokeWidth="2.2">
+        {RAYS.map((d) => (
+          <path key={d} d={d} />
+        ))}
+      </g>
+      <path d="M180 318 A44 44 0 0 1 268 318 Z" className="pw-sun" {...LINE} strokeWidth="2.6" />
       <Loop className="pw-drift pw-drift--slow">
-        <ellipse cx="80" cy="200" rx="90" ry="7" fill="#8e4f7c" opacity=".55" />
-        <ellipse cx="300" cy="160" rx="70" ry="5" fill="#7a4573" opacity=".5" />
-        <ellipse cx="200" cy="250" rx="110" ry="6" fill="#d9707f" opacity=".45" />
+        <path d="M30 190 H140 M60 202 H170 M250 150 H350 M270 162 H380" {...LINE} strokeWidth="2" />
       </Loop>
-      <circle cx="224" cy="314" r="30" fill="#fff0c9" />
-      <rect y="318" width="400" height="242" fill={`url(#${id}-sea)`} />
+      <path d="M0 318 H400" {...LINE} strokeWidth="2.6" />
       {glints.map(([x, y, w], i) => (
-        <rect
+        <path
           key={y}
           className="pw-glint"
           style={{ animationDelay: `${(i % 4) * 0.45}s` }}
-          x={x}
-          y={y}
-          width={w}
-          height="3"
-          rx="1.5"
-          fill="#ffcf8f"
+          d={`M${x} ${y} H${x + w}`}
+          {...LINE}
+          strokeWidth="3"
         />
       ))}
-      <Loop className="pw-drift pw-drift--sea">
-        {[30, 120, 300, 360].map((x, i) => (
-          <rect key={x} x={x} y={350 + i * 38} width="22" height="2" rx="1" fill="rgba(255,190,150,.35)" />
-        ))}
-      </Loop>
-
-      <Wing id={id} tone="dusk" />
+      <Waves from={318} rows={7} gap={32} />
+      <Wing />
     </svg>
   )
 }

@@ -103,10 +103,10 @@ export default function Diary() {
         {entries.map(({ question, list }) => {
           const cat = CATEGORY_BY_KEY[question.category]
           return (
-            <li key={question.id} className="entry" style={{ '--cat': cat.color }}>
+            <li key={question.id} className="entry">
               <div className="entry__head">
                 <CountryStamp country={COUNTRY_BY_ID[question.countryId]} size="sm" />
-                <span className="chip" style={{ background: cat.color }}>
+                <span className="chip">
                   {cat.label}
                 </span>
               </div>

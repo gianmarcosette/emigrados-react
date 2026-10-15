@@ -1,24 +1,26 @@
 /* ───────────── Tokens ───────────── */
 :root {
-  --teal: #1f5c55;
-  --teal-dark: #143f3a;
-  --teal-soft: #d8e9e4;
-  --yellow: #ffe97a;
-  --yellow-soft: #fff6c7;
-  --coral: #e8704f;
-  --paper: #f6f1e7;
-  --card: #fffdf8;
-  --ink: #1d2b2a;
-  --ink-soft: #5b6b68;
-  --line: #e2d9c7;
+  /* Estilo minimalista: tinta negra sobre crema, con el amarillo como único acento.
+     Los nombres de las variables se conservan para no tocar cada regla. */
+  --teal: #161616;
+  --teal-dark: #000;
+  --teal-soft: #ece7dd;
+  --yellow: #ffe066;
+  --yellow-soft: #fff5c9;
+  --coral: #161616;
+  --paper: #f3efe8;
+  --card: #fbf9f5;
+  --glass: #fdfcfa;
+  --ink: #161616;
+  --ink-soft: #5f5a54;
+  --line: #d9d2c4;
   --danger: #b4432e;
-  --sky-1: #0e2c4a;
-  --sky-2: #2a6f8f;
-  --sky-3: #cfe3ea;
   --radius: 18px;
-  --shadow: 0 10px 30px rgba(20, 63, 58, 0.12);
-  --font-display: 'Montserrat', 'Gotham', 'Helvetica Neue', Arial, sans-serif;
+  --shadow: none;
+  --border: 2px solid var(--ink);
+  --font-display: 'Instrument Serif', Georgia, 'Times New Roman', serif;
   --font-body: 'Montserrat', 'Gotham', 'Helvetica Neue', Arial, sans-serif;
+  --font-hand: 'Caveat', 'Segoe Print', 'Bradley Hand', cursive;
   color-scheme: light;
 }
 
@@ -109,7 +111,7 @@ textarea {
 
 /* Logotipo: prefijo en negrita recta + resto en itálica espaciada, como DESCONECTADOS */
 .wordmark {
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   letter-spacing: 0.08em;
   white-space: nowrap;
 }
@@ -452,7 +454,11 @@ textarea:focus {
   max-width: 1440px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.main {
+  min-width: 0;
 }
 
 .shell__window {
@@ -469,9 +475,9 @@ textarea:focus {
 
   .shell__window .plane-window__frame {
     aspect-ratio: auto;
-    height: 132px;
+    height: 128px;
     padding: 12px 16px;
-    border-radius: 36px;
+    border-radius: 40px;
   }
 
   .shell__window .plane-window__pane {
@@ -479,10 +485,16 @@ textarea:focus {
   }
 
   .shell__window .plane-window__shade {
-    height: 18%;
+    height: 16%;
+    border-radius: 0;
   }
 
   .shell__window .plane-window__caption {
+    display: none;
+  }
+
+  /* En la franja apaisada la nube cercana solo mostraría su borde */
+  .shell__window .pw-pass {
     display: none;
   }
 }
@@ -1617,5 +1629,301 @@ a.mode:hover {
   *::after {
     animation: none !important;
     transition: none !important;
+  }
+}
+
+/* ═════════════ Estilo minimalista (dibujo de línea + letra a mano) ═════════════ */
+h1,
+h2,
+h3 {
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.05;
+}
+
+.page__header h1 {
+  font-size: clamp(2.4rem, 6vw, 3.6rem);
+}
+
+/* Tarjetas: contorno de tinta en lugar de sombras */
+.ticket,
+.mode,
+.panel,
+.saved,
+.entry,
+.profile-card,
+.stat,
+.map-card,
+.country-panel,
+.turn {
+  border: var(--border);
+  box-shadow: none;
+}
+
+.howto {
+  border: 2px dashed var(--ink);
+}
+
+.mode,
+.mode--grupal {
+  border-top: var(--border);
+}
+
+.mode--online {
+  border-style: dashed;
+  opacity: 0.75;
+}
+
+.mode h2 {
+  font-size: 2.2rem;
+}
+
+.ticket__stub {
+  background: transparent;
+  border-left: 2px dashed var(--ink);
+}
+
+.ticket__stub::before,
+.ticket__stub::after {
+  border: var(--border);
+  left: -13px;
+}
+
+.ticket__question {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.8rem, 4.2vw, 2.5rem);
+  line-height: 1.08;
+  border-radius: 6px;
+}
+
+.chip {
+  background: transparent;
+  color: var(--ink);
+  border: 1.5px solid var(--ink);
+}
+
+.chip--toggle {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+
+.chip--on {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* Botones */
+.btn--primary {
+  background: var(--ink);
+  color: var(--paper);
+  box-shadow: none;
+}
+
+.btn--primary:hover:not(:disabled) {
+  background: #333;
+}
+
+.btn--ghost {
+  background: transparent;
+  border-color: var(--ink);
+  color: var(--ink);
+}
+
+.btn--ghost:hover:not(:disabled) {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.btn--hero {
+  background: var(--ink);
+  color: var(--paper);
+  box-shadow: none;
+}
+
+.navlink--active,
+.pill {
+  color: var(--paper) !important;
+}
+
+.avatar {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.avatar--me {
+  color: var(--yellow);
+}
+
+.avatar--lg {
+  box-shadow: 0 0 0 5px var(--card), 0 0 0 7px var(--ink);
+}
+
+.hero__profile {
+  border: var(--border);
+}
+
+.progress__fill {
+  background: var(--ink);
+}
+
+.history {
+  background: var(--yellow-soft);
+}
+
+/* Letra a mano: todo lo que escribe quien juega */
+.answer__input {
+  font-family: var(--font-hand);
+  font-size: 1.6rem;
+  line-height: 36px;
+  padding: 2px 16px;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 35px,
+    var(--line) 35px,
+    var(--line) 36px
+  );
+}
+
+.answer__input::placeholder {
+  font-family: var(--font-hand);
+}
+
+.history__list p,
+.country-panel__a {
+  font-family: var(--font-hand);
+  font-size: 1.5rem;
+  font-style: normal;
+  line-height: 1.2;
+}
+
+.entry__question,
+.country-panel__q {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.6rem;
+  line-height: 1.1;
+}
+
+.diary-section h2,
+.panel h1,
+.saved h1,
+.profile-card__name {
+  font-weight: 400;
+}
+
+.saved h1 {
+  font-size: clamp(1.9rem, 5vw, 2.6rem);
+}
+
+.profile-card__name {
+  font-size: clamp(2.4rem, 6vw, 3rem);
+}
+
+.profile-card__bio {
+  font-family: var(--font-hand);
+  font-size: 1.5rem;
+  line-height: 1.2;
+}
+
+/* Mapa en línea */
+.worldmap__sea {
+  fill: var(--glass);
+}
+
+.worldmap__graticule {
+  stroke: #e9e3d8;
+}
+
+.worldmap__land {
+  fill: #ebe5d9;
+  stroke: var(--ink);
+  stroke-width: 0.5;
+}
+
+.worldmap__land--visited {
+  fill: var(--yellow);
+}
+
+.worldmap__land--selected {
+  fill: var(--ink);
+}
+
+.worldmap__route {
+  stroke: var(--ink);
+  stroke-width: 1.4;
+  opacity: 0.7;
+}
+
+.destination {
+  fill: var(--card);
+  stroke: var(--ink);
+  stroke-width: 1.6;
+}
+
+.pin__body {
+  fill: var(--ink);
+  stroke: var(--card);
+}
+
+.pin--selected .pin__body {
+  fill: var(--yellow);
+  stroke: var(--ink);
+}
+
+/* Fondo de ilustraciones */
+.app {
+  position: relative;
+  isolation: isolate;
+}
+
+.wallpaper {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  color: var(--ink);
+  opacity: 0.055;
+  pointer-events: none;
+}
+
+.wallpaper .vg-paper,
+.wallpaper .vg-sky {
+  fill: none;
+}
+
+/* Fila de ventanillas del inicio: el costado de un avión que pasa */
+.window-row {
+  position: relative;
+  overflow: hidden;
+  margin: 8px 0 40px;
+  padding: 18px 0;
+  border-top: var(--border);
+  border-bottom: var(--border);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+.window-row__track {
+  display: flex;
+  gap: 28px;
+  width: max-content;
+  animation: window-row 60s linear infinite;
+}
+
+.window-row:hover .window-row__track {
+  animation-play-state: paused;
+}
+
+.window-row__item {
+  width: 92px;
+  flex-shrink: 0;
+}
+
+@keyframes window-row {
+  to {
+    transform: translateX(calc(-50% - 14px));
   }
 }
