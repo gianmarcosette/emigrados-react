@@ -1,13 +1,22 @@
 // Servidor simulado del modo online (versión de prueba).
 //
-// Todo lo que en la versión real hace el servidor pasa por estas tres funciones:
+// Todo lo que en la versión real hace el servidor pasa por estas funciones:
+//   Duelo
 //   - getOnlineCountries(me): en qué países hay gente conectada ahora
 //   - findOpponent(code, me): conectar con alguien que vive en ese país
 //   - opponentAnswer(question): la respuesta de la otra persona
+//   Charla guiada (después del duelo)
+//   - requestTalk(rival): pedirle a la otra persona seguir la charla (acepta o no)
+//   - rivalAnswer(prompt): su respuesta a la pregunta que le hiciste
+//   - rivalQuestion(stageIndex, used): la pregunta que te hace
+//   - rivalReaction(): su reacción a tu respuesta
+//   - reportRival(rival, reason) / blockRival(rival): denunciar o bloquear
 // Para hacerlo online de verdad se reemplaza este archivo por uno con la misma forma
 // que hable con un servidor (por ejemplo, Supabase Realtime o Firebase). Las pantallas
 // y las reglas del duelo (duel.js) no cambian.
+import { REACTIONS } from '../data/talk.js'
 import { TRIVIA } from '../data/trivia.js'
+import { promptOptions } from './talk.js'
 
 // Nombres de pila de personas simuladas por país donde viven
 const PEOPLE = {
@@ -86,4 +95,39 @@ export async function opponentAnswer(question, random = Math.random) {
   const right = random() < 0.6
   const wrong = [0, 1, 2, 3].filter((i) => i !== question.answer)
   return { choice: right ? question.answer : wrong[Math.floor(random() * wrong.length)], ms }
+}
+
+/** La otra persona decide si quiere seguir la charla: en la prueba acepta 8 de cada 10 veces. */
+export async function requestTalk(rival, random = Math.random) {
+  await wait(1800 + random() * 2000)
+  return { accepted: random() < 0.8 }
+}
+
+/** Respuesta a la pregunta que le hiciste (en la prueba, una respuesta de ejemplo). */
+export async function rivalAnswer(prompt, random = Math.random) {
+  await wait(2500 + random() * 2500)
+  return prompt.sample
+}
+
+/** Pregunta que te hace, del mismo momento de la charla y sin repetir. */
+export async function rivalQuestion(stageIndex, used, random = Math.random) {
+  await wait(1200 + random() * 1500)
+  return promptOptions(stageIndex, used, random, 1)[0] ?? null
+}
+
+/** Reacción corta a tu respuesta. */
+export async function rivalReaction(random = Math.random) {
+  await wait(1200 + random() * 1300)
+  return REACTIONS[Math.floor(random() * REACTIONS.length)]
+}
+
+// En la versión real, la denuncia llega a moderación y el bloqueo evita volver a cruzarse.
+export async function reportRival() {
+  await wait(500)
+  return { ok: true }
+}
+
+export async function blockRival() {
+  await wait(300)
+  return { ok: true }
 }
