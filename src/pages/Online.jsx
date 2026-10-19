@@ -1,5 +1,6 @@
 import { useEffect, useReducer, useState } from 'react'
 import Avatar from '../components/Avatar.jsx'
+import GuidedTalk from '../components/GuidedTalk.jsx'
 import CountryShape from '../components/CountryShape.jsx'
 import Title from '../components/Title.jsx'
 import { countryName } from '../data/residence.js'
@@ -47,9 +48,13 @@ export default function Online() {
         me={profile}
         rival={screen.rival}
         onRematch={() => setScreen({ ...screen, key: Date.now() })}
+        onTalk={() => setScreen({ name: 'talk', rival: screen.rival })}
         onExit={toLobby}
       />
     )
+  }
+  if (screen.name === 'talk') {
+    return <GuidedTalk me={profile} rival={screen.rival} onExit={toLobby} />
   }
   return <Lobby me={profile} onPick={(code) => setScreen({ name: 'searching', code })} />
 }
@@ -186,7 +191,7 @@ function Found({ me, rival, onStart, onAnother, onCancel }) {
   )
 }
 
-function Duel({ me, rival, onRematch, onExit }) {
+function Duel({ me, rival, onRematch, onTalk, onExit }) {
   const [duel, dispatch] = useReducer(duelReducer, { target: rival.country, home: me.country }, buildDuel)
   const [left, setLeft] = useState(ANSWER_SECONDS)
   const round = duel.rounds[duel.index]
@@ -223,7 +228,8 @@ function Duel({ me, rival, onRematch, onExit }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [duel.index, duel.finished])
 
-  if (duel.finished) return <Result duel={duel} me={me} rival={rival} onRematch={onRematch} onExit={onExit} />
+  if (duel.finished)
+    return <Result duel={duel} me={me} rival={rival} onRematch={onRematch} onTalk={onTalk} onExit={onExit} />
 
   const last = duel.index === duel.rounds.length - 1
   const theirStatus =
@@ -329,7 +335,8 @@ function Duel({ me, rival, onRematch, onExit }) {
   )
 }
 
-function Result({ duel, me, rival, onRematch, onExit }) {
+function Result({ duel, me, rival, onRematch, onTalk, onExit }) {
+  const [inviteOpen, setInviteOpen] = useState(true)
   const { me: myScore, them: theirScore } = score(duel)
   const result = outcome(duel)
   const title = result === 'win' ? '¡Ganaste!' : result === 'lose' ? `Ganó ${rival.name}` : '¡Empate!'
@@ -350,6 +357,27 @@ function Result({ duel, me, rival, onRematch, onExit }) {
         </p>
         <p className="muted">{line}</p>
       </section>
+
+      {/* Después del duelo, la posibilidad de conocerse: solo si las dos personas aceptan */}
+      {inviteOpen && (
+        <section className="talk-invite">
+          <Avatar profile={rival} size="md" />
+          <div>
+            <p className="talk-invite__title">¿Querés seguir la charla con {rival.name}?</p>
+            <p className="muted">
+              Una charla guiada, con preguntas para conocerse un poco más. Se abre solo si las dos personas aceptan.
+            </p>
+            <div className="actions">
+              <button type="button" className="btn btn--primary" onClick={onTalk}>
+                Sí, quiero charlar
+              </button>
+              <button type="button" className="btn btn--text" onClick={() => setInviteOpen(false)}>
+                No, gracias
+              </button>
+            </div>
+          </div>
+        </section>
+      )}
 
       <ol className="duel-review">
         {duel.rounds.map((r, i) => (

@@ -3833,3 +3833,307 @@ h3 {
 .online-search .title {
   font-size: clamp(1.8rem, 4.5vw, 2.6rem);
 }
+
+/* ═════════════ Charla guiada (después del duelo) ═════════════ */
+.talk-invite {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+  padding: 18px 20px;
+  background: var(--yellow-soft);
+  border: var(--border);
+  border-radius: var(--radius);
+}
+
+.talk-invite p {
+  margin: 0 0 8px;
+}
+
+.talk-invite__title {
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.talk-invite .avatar--md {
+  width: 52px;
+  height: 52px;
+}
+
+.talk-head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  padding-bottom: 12px;
+  border-bottom: 1.5px dashed var(--ink);
+}
+
+.talk-head > div:nth-child(2) {
+  display: grid;
+}
+
+.talk-head > div > span {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+.talk-head__actions {
+  display: flex;
+  gap: 4px;
+}
+
+.talk-head__actions .btn--text {
+  font-size: 0.82rem;
+  padding: 6px 8px;
+}
+
+.talk-safety {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  text-align: center;
+}
+
+.talk-waiting,
+.talk-done {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  padding: 28px 0 8px;
+  text-align: center;
+}
+
+.talk-waiting .title,
+.talk-done .title {
+  font-size: clamp(1.8rem, 4.5vw, 2.6rem);
+}
+
+.talk-waiting .muted,
+.talk-done .muted {
+  margin: 0;
+  max-width: 440px;
+}
+
+/* Conversación */
+.talk-log {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.talk-msg {
+  max-width: 82%;
+  padding: 10px 14px;
+  border-radius: 16px;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+  animation: talk-in 0.3s ease-out;
+}
+
+.talk-msg--them {
+  justify-self: start;
+  background: var(--card);
+  border: 1.5px solid var(--ink);
+  border-bottom-left-radius: 4px;
+}
+
+.talk-msg--me {
+  justify-self: end;
+  background: var(--ink);
+  color: var(--paper);
+  border-bottom-right-radius: 4px;
+}
+
+/* Las preguntas se leen como preguntas del juego */
+.talk-msg--question {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  line-height: 1.2;
+}
+
+.talk-msg__label {
+  display: block;
+  margin-bottom: 4px;
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.talk-msg--reaction {
+  font-size: 0.92rem;
+  font-style: italic;
+}
+
+.talk-msg--me.talk-msg--reaction {
+  background: var(--yellow);
+  color: var(--ink);
+}
+
+.talk-msg--system {
+  justify-self: center;
+  max-width: none;
+  padding: 2px 0;
+  background: none;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.talk-typing {
+  display: flex;
+  gap: 4px;
+  padding: 12px 16px;
+}
+
+.talk-typing span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ink);
+  animation: talk-dot 1s ease-in-out infinite;
+}
+
+.talk-typing span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.talk-typing span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes talk-dot {
+  0%,
+  100% {
+    opacity: 0.25;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes talk-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+/* Lo que podés hacer en cada turno */
+.talk-compose {
+  display: grid;
+  gap: 10px;
+  padding: 16px;
+  background: var(--card);
+  border: var(--border);
+  border-radius: var(--radius);
+}
+
+.talk-compose__title {
+  margin: 0;
+  font-weight: 700;
+  font-size: 0.92rem;
+}
+
+.talk-prompts {
+  display: grid;
+  gap: 8px;
+}
+
+.talk-prompt {
+  padding: 12px 16px;
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: 14px;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  line-height: 1.25;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.talk-prompt:hover,
+.talk-prompt:focus-visible {
+  background: var(--yellow-soft);
+}
+
+.talk-reactions {
+  display: grid;
+  gap: 8px;
+}
+
+/* Ecos: frases para devolverle algo a la otra persona */
+.talk-reaction {
+  padding: 10px 16px;
+  background: var(--paper);
+  border: 1.5px solid var(--ink);
+  border-radius: 14px;
+  font-size: 0.92rem;
+  font-style: italic;
+  line-height: 1.4;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.talk-skip {
+  justify-self: start;
+  font-size: 0.85rem;
+}
+
+.talk-reaction:hover,
+.talk-reaction:focus-visible {
+  background: var(--yellow);
+}
+
+.talk-compose textarea[aria-invalid='true'] {
+  border-color: var(--danger);
+}
+
+.talk-compose__foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.talk-report {
+  display: grid;
+  gap: 8px;
+  padding: 16px;
+  border: 2px solid var(--danger);
+  border-radius: var(--radius);
+  background: var(--card);
+}
+
+.talk-report__option {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 0.92rem;
+}
+
+@media (max-width: 760px) {
+  .talk-msg {
+    max-width: 90%;
+  }
+
+  .talk-head {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .talk-head__actions {
+    grid-column: 1 / -1;
+    justify-content: flex-end;
+  }
+}
