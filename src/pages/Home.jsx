@@ -27,7 +27,7 @@ export default function Home() {
           </h1>
           <p className="hero__lead">
             De lo que pensabas antes de irte, a lo que sentís en tu nuevo lugar y cómo te reinventaste. Un espacio
-            seguro para conocerte más y entender por qué estás donde estás.
+            seguro para conocerte más y entender <b>por qué estás donde estás.</b>
           </p>
 
           {profile ? (
