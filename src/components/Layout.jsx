@@ -5,6 +5,7 @@ import { useJourney } from '../state/useJourney.js'
 import Avatar from './Avatar.jsx'
 import Wallpaper from './illustrations/Wallpaper.jsx'
 import PlaneWindow from './PlaneWindow.jsx'
+import SkyBanner, { MOTTO } from './SkyBanner.jsx'
 import Wordmark from './Wordmark.jsx'
 
 const LINKS = [
@@ -15,9 +16,7 @@ const LINKS = [
 
 // Íconos de línea para el menú inferior del celular
 const TAB_ICONS = {
-  '/individual': (
-    <path d="M5 19l1-4L16.5 4.5a2.1 2.1 0 0 1 3 3L9 18zM14.5 6.5l3 3M4 21h16" />
-  ),
+  '/individual': <path d="M5 19l1-4L16.5 4.5a2.1 2.1 0 0 1 3 3L9 18zM14.5 6.5l3 3M4 21h16" />,
   '/grupal': (
     <>
       <circle cx="8.5" cy="8" r="3.2" />
@@ -50,28 +49,33 @@ export default function Layout() {
     <SceneContext.Provider value={setScene}>
       <div className={`app ${isHome ? 'app--home' : ''}`}>
         <Wallpaper />
+        {/* Logo y menú arriba; en las secciones, el lema cruza la franja de cielo */}
         <header className="topbar">
-          <NavLink to="/" className="brand" aria-label="Emigrados, volver al inicio">
-            <Wordmark />
-          </NavLink>
-          {/* En el inicio la frase va como subtítulo del logo */}
-          {!isHome && (
-            <p className="topbar__tagline">El juego de preguntas creado para hablar de todo el proceso que implica emigrar.</p>
-          )}
-          <nav className="topbar__nav" aria-label="Secciones">
-            {LINKS.map((l) => (
-              <NavLink key={l.to} to={l.to} className={({ isActive }) => `navlink ${isActive ? 'navlink--active' : ''}`}>
-                {l.label}
-              </NavLink>
-            ))}
-            <NavLink
-              to="/perfil"
-              className={({ isActive }) => `navlink navlink--profile ${isActive ? 'navlink--active' : ''}`}
-            >
-              {profile ? <Avatar profile={profile} size="nav" /> : null}
-              {profile ? 'Mi perfil' : 'Crear perfil'}
+          <div className="topbar__row">
+            <NavLink to="/" className="brand" aria-label="Emigrados, volver al inicio">
+              <Wordmark />
             </NavLink>
-          </nav>
+            <nav className="topbar__nav" aria-label="Secciones">
+              {LINKS.map((l) => (
+                <NavLink
+                  key={l.to}
+                  to={l.to}
+                  className={({ isActive }) => `navlink ${isActive ? 'navlink--active' : ''}`}
+                >
+                  {l.label}
+                </NavLink>
+              ))}
+              <NavLink
+                to="/perfil"
+                className={({ isActive }) => `navlink navlink--profile ${isActive ? 'navlink--active' : ''}`}
+              >
+                {profile ? <Avatar profile={profile} size="nav" /> : null}
+                {profile ? 'Mi perfil' : 'Crear perfil'}
+              </NavLink>
+            </nav>
+          </div>
+          {/* En el inicio la avioneta no va acá: es la protagonista de la pantalla */}
+          {!isHome && <SkyBanner>{MOTTO}</SkyBanner>}
         </header>
         <div className={isHome ? 'shell shell--home' : 'shell'}>
           {/* En el inicio la ventanilla forma parte del hero */}
