@@ -32,6 +32,7 @@ Otros comandos: `npm run build` (versión de producción), `npm test` (tests con
 - **208 preguntas** en 8 etapas del proceso migratorio: *Antes de partir, La despedida, Los primeros días, Idioma y costumbres, Vínculos, Identidad, Reinventarse, Hogar y futuro*.
 - Cada pregunta está asociada a uno de **52 países** (4 preguntas por país). Al responderla, el país queda "visitado" en el mapa.
 - El modo individual prioriza las preguntas que todavía no respondiste; con "Repetir una anterior" (o al terminar todas) vuelven preguntas ya respondidas para comparar.
+- **Sin perfil solo se juega el modo Grupal**, que no guarda nada. Individual, el mapa y el diario piden crear el perfil primero (`components/ProfileGate.jsx`).
 - El perfil (nombre, edad, descripción, foto y código de pasajero) y las respuestas se guardan en el navegador (`localStorage`). La foto se recorta y se reduce a 320 px antes de guardarse.
 - Una ventanilla de avión acompaña cada sección con una escena animada: despegue (inicio y crear perfil), sobre las nubes (preguntas) y atardecer (mapa y perfil).
 

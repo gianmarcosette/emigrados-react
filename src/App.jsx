@@ -6,15 +6,31 @@ import Individual from './pages/Individual.jsx'
 import Mapa from './pages/Mapa.jsx'
 import NotFound from './pages/NotFound.jsx'
 import Perfil from './pages/Perfil.jsx'
+import ProfileGate from './components/ProfileGate.jsx'
 
 export default function App() {
   return (
     <Routes>
       <Route element={<Layout />}>
         <Route index element={<Home />} />
-        <Route path="individual" element={<Individual />} />
+        {/* Individual y el mapa guardan a tu nombre: piden perfil. Grupal se juega sin perfil. */}
+        <Route
+          path="individual"
+          element={
+            <ProfileGate>
+              <Individual />
+            </ProfileGate>
+          }
+        />
         <Route path="grupal" element={<Grupal />} />
-        <Route path="mapa" element={<Mapa />} />
+        <Route
+          path="mapa"
+          element={
+            <ProfileGate>
+              <Mapa />
+            </ProfileGate>
+          }
+        />
         {/* El diario ahora vive dentro del perfil; se mantiene la dirección vieja. */}
         <Route path="diario" element={<Navigate to="/perfil#diario" replace />} />
         <Route path="perfil" element={<Perfil />} />

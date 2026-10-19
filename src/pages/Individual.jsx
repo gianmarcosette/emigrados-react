@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import CountryStamp from '../components/CountryStamp.jsx'
-import ProfileForm from '../components/ProfileForm.jsx'
 import ProgressBar from '../components/ProgressBar.jsx'
 import QuestionCard from '../components/QuestionCard.jsx'
 import Title from '../components/Title.jsx'
@@ -15,53 +14,11 @@ import { useWindowScene } from '../state/scene.js'
 
 const MAX_LENGTH = 1500
 
-const SKIP_PROFILE_KEY = 'emigrados:sin-perfil'
-
-function readSkip() {
-  try {
-    return localStorage.getItem(SKIP_PROFILE_KEY) === '1'
-  } catch {
-    return false
-  }
-}
-
 // Se remonta cuando cambian los parámetros (?q= o ?pais=) para arrancar con esa pregunta.
+// El perfil lo pide ProfileGate (ver App.jsx) antes de llegar acá.
 export default function Individual() {
   const [params] = useSearchParams()
-  const { profile, dispatch } = useJourney()
-  const [skipped, setSkipped] = useState(readSkip)
-  const onboarding = !profile && !skipped
-  useWindowScene(onboarding ? 'takeoff' : 'clouds')
-
-  if (onboarding) {
-    return (
-      <div className="page page--narrow">
-        <header className="page__header">
-          <p className="kicker">Antes de despegar</p>
-          <Title>Creá tu perfil de viaje</Title>
-          <p className="muted">
-            Así tus respuestas, tu mapa y tu diario quedan a tu nombre. Lleva menos de un minuto.
-          </p>
-        </header>
-        <section className="panel">
-          <ProfileForm
-            initial={null}
-            submitLabel="Crear perfil y empezar"
-            onSave={(next) => dispatch({ type: 'saveProfile', profile: next })}
-            onCancel={() => {
-              try {
-                localStorage.setItem(SKIP_PROFILE_KEY, '1')
-              } catch {
-                // Sin almacenamiento: se omite solo por esta visita.
-              }
-              setSkipped(true)
-            }}
-          />
-        </section>
-      </div>
-    )
-  }
-
+  useWindowScene('clouds')
   return <IndividualGame key={params.toString()} params={params} />
 }
 
@@ -166,7 +123,9 @@ function IndividualGame({ params }) {
           </select>
         </label>
         <span className="toolbar__count">
-          {finished ? '¡Diste la vuelta al mundo!' : `${plural(pendingInPool, 'pregunta pendiente', 'preguntas pendientes')}`}
+          {finished
+            ? '¡Diste la vuelta al mundo!'
+            : `${plural(pendingInPool, 'pregunta pendiente', 'preguntas pendientes')}`}
         </span>
       </div>
 
@@ -200,7 +159,9 @@ function IndividualGame({ params }) {
             value={draft}
             maxLength={MAX_LENGTH}
             rows={6}
-            placeholder={previous.length ? '¿Qué responderías hoy? ¿Cambió algo?' : 'Escribí lo que sientas, sin apuro…'}
+            placeholder={
+              previous.length ? '¿Qué responderías hoy? ¿Cambió algo?' : 'Escribí lo que sientas, sin apuro…'
+            }
             onChange={(e) => setDraft(e.target.value)}
           />
           <div className="answer__footer">

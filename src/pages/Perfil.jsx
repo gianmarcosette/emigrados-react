@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Avatar from '../components/Avatar.jsx'
 import Diary from '../components/Diary.jsx'
+import { GroupInvite } from '../components/ProfileGate.jsx'
 import ProfileForm from '../components/ProfileForm.jsx'
 import Title from '../components/Title.jsx'
 import { COUNTRIES } from '../data/countries.js'
@@ -51,8 +52,7 @@ export default function Perfil() {
         <p className="privacy-note">
           Por ahora tu perfil y tus respuestas se guardan solo en este dispositivo. Nadie más puede verlos.
         </p>
-        {/* Quien juega sin perfil igual puede releer sus respuestas */}
-        {!profile && answeredCount > 0 && <Diary />}
+        {!complete && <GroupInvite />}
       </div>
     )
   }
@@ -95,7 +95,8 @@ export default function Perfil() {
       </section>
 
       <p className="privacy-note">
-        Tu perfil se guarda solo en este dispositivo. {plural(answeredCount, 'respuesta guardada', 'respuestas guardadas')}.{' '}
+        Tu perfil se guarda solo en este dispositivo.{' '}
+        {plural(answeredCount, 'respuesta guardada', 'respuestas guardadas')}.{' '}
         <button type="button" className="btn--link" onClick={remove}>
           Borrar perfil
         </button>
