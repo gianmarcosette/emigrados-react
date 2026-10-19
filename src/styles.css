@@ -3966,10 +3966,8 @@ h3 {
 }
 
 .talk-msg--reaction {
-  padding: 4px 12px;
-  font-size: 0.85rem;
-  font-weight: 700;
-  border-radius: 999px;
+  font-size: 0.92rem;
+  font-style: italic;
 }
 
 .talk-msg--me.talk-msg--reaction {
@@ -4070,20 +4068,27 @@ h3 {
 }
 
 .talk-reactions {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
   gap: 8px;
-  align-items: center;
 }
 
+/* Ecos: frases para devolverle algo a la otra persona */
 .talk-reaction {
-  padding: 6px 14px;
+  padding: 10px 16px;
   background: var(--paper);
   border: 1.5px solid var(--ink);
-  border-radius: 999px;
-  font-size: 0.85rem;
-  font-weight: 700;
+  border-radius: 14px;
+  font-size: 0.92rem;
+  font-style: italic;
+  line-height: 1.4;
+  text-align: left;
   cursor: pointer;
+  transition: background 0.15s;
+}
+
+.talk-skip {
+  justify-self: start;
+  font-size: 0.85rem;
 }
 
 .talk-reaction:hover,

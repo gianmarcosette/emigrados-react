@@ -9,14 +9,13 @@
 //   - requestTalk(rival): pedirle a la otra persona seguir la charla (acepta o no)
 //   - rivalAnswer(prompt): su respuesta a la pregunta que le hiciste
 //   - rivalQuestion(stageIndex, used): la pregunta que te hace
-//   - rivalReaction(): su reacción a tu respuesta
+//   - rivalReaction(stageIndex, prompt, country): su eco a tu respuesta
 //   - reportRival(rival, reason) / blockRival(rival): denunciar o bloquear
 // Para hacerlo online de verdad se reemplaza este archivo por uno con la misma forma
 // que hable con un servidor (por ejemplo, Supabase Realtime o Firebase). Las pantallas
 // y las reglas del duelo (duel.js) no cambian.
-import { REACTIONS } from '../data/talk.js'
 import { TRIVIA } from '../data/trivia.js'
-import { promptOptions } from './talk.js'
+import { echoOptions, promptOptions } from './talk.js'
 
 // Nombres de pila de personas simuladas por país donde viven
 const PEOPLE = {
@@ -115,10 +114,11 @@ export async function rivalQuestion(stageIndex, used, random = Math.random) {
   return promptOptions(stageIndex, used, random, 1)[0] ?? null
 }
 
-/** Reacción corta a tu respuesta. */
-export async function rivalReaction(random = Math.random) {
-  await wait(1200 + random() * 1300)
-  return REACTIONS[Math.floor(random() * REACTIONS.length)]
+/** Eco a tu respuesta: casi siempre el propio de la pregunta que te hizo, a veces uno del momento. */
+export async function rivalReaction(stageIndex, prompt, countryLabel, random = Math.random) {
+  await wait(1500 + random() * 1500)
+  const options = echoOptions(stageIndex, prompt, countryLabel, random)
+  return random() < 0.6 ? options[0] : options[1 + Math.floor(random() * (options.length - 1))]
 }
 
 // En la versión real, la denuncia llega a moderación y el bloqueo evita volver a cruzarse.

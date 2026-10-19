@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { countryName } from '../data/residence.js'
-import { REACTIONS, TALK_STAGES } from '../data/talk.js'
+import { TALK_STAGES } from '../data/talk.js'
 import {
   blockRival,
   reportRival,
@@ -9,7 +9,7 @@ import {
   rivalQuestion,
   rivalReaction,
 } from '../online/mockServer.js'
-import { ANSWER_MAX, checkAnswer, fillPrompt, promptOptions } from '../online/talk.js'
+import { ANSWER_MAX, checkAnswer, echoOptions, fillPrompt, promptOptions } from '../online/talk.js'
 import Avatar from './Avatar.jsx'
 import Title from './Title.jsx'
 
@@ -29,6 +29,7 @@ export default function GuidedTalk({ me, rival, onExit }) {
   const [log, setLog] = useState([])
   const [used, setUsed] = useState([])
   const [options, setOptions] = useState([])
+  const [echoes, setEchoes] = useState([]) // ecos para devolverle a la otra persona
   const [current, setCurrent] = useState(null) // pregunta en curso (objeto de la charla)
   const [draft, setDraft] = useState('')
   const [error, setError] = useState('')
@@ -58,6 +59,7 @@ export default function GuidedTalk({ me, rival, onExit }) {
       rivalAnswer(current).then(
         done((text) => {
           say('them', 'answer', text)
+          setEchoes(echoOptions(stage, current, theirCountry))
           setPhase('react')
         }),
       )
@@ -73,7 +75,7 @@ export default function GuidedTalk({ me, rival, onExit }) {
       )
     }
     if (phase === 'theirReaction') {
-      rivalReaction().then(
+      rivalReaction(stage, current, myCountry).then(
         done((text) => {
           say('them', 'reaction', text)
           const next = stage + 1
@@ -227,17 +229,17 @@ export default function GuidedTalk({ me, rival, onExit }) {
 
           {phase === 'react' && (
             <section className="talk-compose">
-              <p className="talk-compose__title">¿Querés responderle algo?</p>
+              <p className="talk-compose__title">Devolvele algo de lo que te contó</p>
               <div className="talk-reactions">
-                {REACTIONS.map((r) => (
+                {echoes.map((r) => (
                   <button key={r} type="button" className="talk-reaction" onClick={() => react(r)}>
                     {r}
                   </button>
                 ))}
-                <button type="button" className="btn btn--text" onClick={() => react(null)}>
-                  Seguir
-                </button>
               </div>
+              <button type="button" className="btn btn--text talk-skip" onClick={() => react(null)}>
+                Seguir sin responder
+              </button>
             </section>
           )}
 

@@ -1,5 +1,5 @@
 // Reglas de la charla guiada (sin React ni red, para testear).
-import { TALK_STAGES } from '../data/talk.js'
+import { STAGE_ECHOES, TALK_STAGES } from '../data/talk.js'
 import { shuffle } from './duel.js'
 
 export const ANSWER_MAX = 280
@@ -7,7 +7,23 @@ export const OPTIONS_PER_TURN = 3
 
 /** La pregunta con el país de quien responde. */
 export function fillPrompt(prompt, countryLabel) {
-  return prompt.text.replaceAll('{pais}', countryLabel)
+  return fillCountry(prompt.text, countryLabel)
+}
+
+export function fillCountry(text, countryLabel) {
+  return text.replaceAll('{pais}', countryLabel)
+}
+
+/**
+ * Ecos para responder a lo que la otra persona contó: primero el propio de la pregunta,
+ * después algunos del momento de la charla. {pais} es el país de quien respondió.
+ */
+export function echoOptions(stageIndex, prompt, countryLabel, random = Math.random, count = OPTIONS_PER_TURN) {
+  const stage = TALK_STAGES[stageIndex]
+  if (!stage) return []
+  const own = prompt?.echo ? [prompt.echo] : []
+  const general = shuffle(STAGE_ECHOES[stage.key] ?? [], random)
+  return [...own, ...general].slice(0, count).map((text) => fillCountry(text, countryLabel))
 }
 
 /** Preguntas para elegir en un momento de la charla, sin repetir las ya usadas. */
