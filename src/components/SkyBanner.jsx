@@ -1,9 +1,13 @@
-// Franja de cielo del encabezado: una avioneta cruza remolcando una bandera con el lema.
-// Entra por la izquierda, se detiene en el centro para que se pueda leer y sigue de largo.
-export default function SkyBanner({ children }) {
+export const MOTTO = 'El juego de preguntas creado para hablar de todo el proceso que implica emigrar.'
+
+// Una avioneta remolca una bandera con el lema.
+// - En el encabezado cruza, se detiene en el centro para que se pueda leer y sigue de largo.
+// - En el inicio (hero) es la protagonista: entra en grande, dejando una estela, y se queda.
+export default function SkyBanner({ children, hero = false }) {
   return (
-    <div className="sky">
+    <div className={`sky ${hero ? 'sky--hero' : ''}`}>
       <p className="sky__flight">
+        {hero && <span className="sky__trail" aria-hidden="true" />}
         <span className="sky__banner">{children}</span>
         <span className="sky__rope" aria-hidden="true" />
         <svg className="sky__plane" viewBox="0 0 64 32" aria-hidden="true">

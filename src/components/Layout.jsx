@@ -5,7 +5,7 @@ import { useJourney } from '../state/useJourney.js'
 import Avatar from './Avatar.jsx'
 import Wallpaper from './illustrations/Wallpaper.jsx'
 import PlaneWindow from './PlaneWindow.jsx'
-import SkyBanner from './SkyBanner.jsx'
+import SkyBanner, { MOTTO } from './SkyBanner.jsx'
 import Wordmark from './Wordmark.jsx'
 
 const LINKS = [
@@ -49,7 +49,7 @@ export default function Layout() {
     <SceneContext.Provider value={setScene}>
       <div className={`app ${isHome ? 'app--home' : ''}`}>
         <Wallpaper />
-        {/* El mismo encabezado en todas las pantallas: logo y menú arriba, el lema en la franja de cielo */}
+        {/* Logo y menú arriba; en las secciones, el lema cruza la franja de cielo */}
         <header className="topbar">
           <div className="topbar__row">
             <NavLink to="/" className="brand" aria-label="Emigrados, volver al inicio">
@@ -74,7 +74,8 @@ export default function Layout() {
               </NavLink>
             </nav>
           </div>
-          <SkyBanner>El juego de preguntas creado para hablar de todo el proceso que implica emigrar.</SkyBanner>
+          {/* En el inicio la avioneta no va acá: es la protagonista de la pantalla */}
+          {!isHome && <SkyBanner>{MOTTO}</SkyBanner>}
         </header>
         <div className={isHome ? 'shell shell--home' : 'shell'}>
           {/* En el inicio la ventanilla forma parte del hero */}

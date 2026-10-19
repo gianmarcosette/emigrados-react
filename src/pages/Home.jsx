@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import Avatar from '../components/Avatar.jsx'
 import PlaneWindow from '../components/PlaneWindow.jsx'
+import SkyBanner, { MOTTO } from '../components/SkyBanner.jsx'
 import WindowRow from '../components/illustrations/WindowRow.jsx'
 import ProgressBar from '../components/ProgressBar.jsx'
 import Wordmark from '../components/Wordmark.jsx'
@@ -13,32 +14,34 @@ export default function Home() {
 
   return (
     <div className="home">
+      {/* Lo primero que se ve: el lema del juego, remolcado por una avioneta */}
+      <SkyBanner hero>{MOTTO}</SkyBanner>
+
       <section className="hero">
         <div className="hero__window">
           <PlaneWindow scene={profile ? 'clouds' : 'takeoff'} />
         </div>
         <div className="hero__text">
-        <h1 className="hero__title">
-          <Wordmark />
-        </h1>
-        <p className="hero__tagline">El juego de preguntas creado para hablar de todo el proceso que implica emigrar.</p>
-        <p className="hero__lead">
-          De lo que pensabas antes de irte, a lo que sentís en tu nuevo lugar y cómo te reinventaste. Un espacio seguro
-          para conocerte más y entender por qué estás donde estás.
-        </p>
+          <h1 className="hero__title">
+            <Wordmark />
+          </h1>
+          <p className="hero__lead">
+            De lo que pensabas antes de irte, a lo que sentís en tu nuevo lugar y cómo te reinventaste. Un espacio
+            seguro para conocerte más y entender por qué estás donde estás.
+          </p>
 
-        {profile ? (
-          <Link to="/perfil" className="hero__profile">
-            <Avatar profile={profile} size="md" />
-            <span>
-              ¡Buen viaje, {profile.name.split(' ')[0]}!<small>Ver mi perfil</small>
-            </span>
-          </Link>
-        ) : (
-          <Link to="/perfil" className="btn btn--hero">
-            Creá tu perfil
-          </Link>
-        )}
+          {profile ? (
+            <Link to="/perfil" className="hero__profile">
+              <Avatar profile={profile} size="md" />
+              <span>
+                ¡Buen viaje, {profile.name.split(' ')[0]}!<small>Ver mi perfil</small>
+              </span>
+            </Link>
+          ) : (
+            <Link to="/perfil" className="btn btn--hero">
+              Creá tu perfil
+            </Link>
+          )}
         </div>
       </section>
 

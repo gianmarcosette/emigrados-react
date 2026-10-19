@@ -3269,3 +3269,94 @@ h3 {
     margin-bottom: 10px;
   }
 }
+
+/* ═════════════ Inicio: la avioneta protagonista ═════════════ */
+.sky--hero {
+  height: clamp(150px, 17vw, 200px);
+  margin: 0 0 4px;
+  border-top: none;
+}
+
+/* Entra planeando desde la izquierda y se queda flotando en el centro */
+.sky--hero .sky__flight {
+  animation:
+    sky-arrive 3.6s cubic-bezier(0.12, 0.6, 0.25, 1) 0.3s both,
+    sky-float 3.2s ease-in-out 3.9s infinite alternate;
+}
+
+.sky--hero .sky__banner {
+  width: clamp(250px, 50vw, 600px);
+  padding: 12px 26px 12px 36px;
+  background: var(--ink);
+  color: var(--paper);
+  font-size: clamp(0.95rem, 1.8vw, 1.4rem);
+  font-weight: 600;
+  line-height: 1.3;
+  white-space: normal;
+  text-align: center;
+  text-wrap: balance;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 16px 50%);
+  animation-duration: 1.8s;
+}
+
+.sky--hero .sky__rope {
+  width: clamp(26px, 4vw, 54px);
+  border-top-color: var(--ink);
+}
+
+.sky--hero .sky__plane {
+  width: clamp(72px, 10vw, 130px);
+  height: auto;
+  stroke: var(--ink);
+  stroke-width: 1.3;
+}
+
+/* Estela punteada que la avioneta va dejando */
+.sky__trail {
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  width: 100vw;
+  border-top: 2px dashed rgba(22, 22, 22, 0.3);
+}
+
+@keyframes sky-arrive {
+  from {
+    left: 0;
+    transform: translate(-100%, -10%);
+  }
+  to {
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+@keyframes sky-float {
+  from {
+    translate: 0 -4px;
+  }
+  to {
+    translate: 0 4px;
+  }
+}
+
+@media (max-width: 760px) {
+  .sky--hero {
+    height: 150px;
+  }
+
+  .sky--hero .sky__banner {
+    width: 262px;
+    padding: 10px 14px 10px 24px;
+    font-size: 0.86rem;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 12px 50%);
+  }
+
+  .sky--hero .sky__rope {
+    width: 16px;
+  }
+
+  .sky--hero .sky__plane {
+    width: 66px;
+  }
+}
