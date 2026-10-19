@@ -11,6 +11,7 @@ import Wordmark from './Wordmark.jsx'
 const LINKS = [
   { to: '/individual', label: 'Individual' },
   { to: '/grupal', label: 'Grupal' },
+  { to: '/online', label: 'Online' },
   { to: '/mapa', label: 'Mi mapa', short: 'Mapa' },
 ]
 
@@ -22,6 +23,12 @@ const TAB_ICONS = {
       <circle cx="8.5" cy="8" r="3.2" />
       <circle cx="16.5" cy="9" r="2.6" />
       <path d="M3 19c.6-3.6 2.8-5.5 5.5-5.5s4.9 1.9 5.5 5.5M14.5 14c2.8-.4 5.4 1.2 6 4.5" />
+    </>
+  ),
+  '/online': (
+    <>
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M3.5 12h17M12 3.5c-3 3-3 14 0 17M12 3.5c3 3 3 14 0 17" />
     </>
   ),
   '/mapa': (

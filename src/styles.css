@@ -1369,6 +1369,7 @@ a.mode:hover {
 }
 
 .field input[aria-invalid='true'],
+.field select[aria-invalid='true'],
 .field textarea[aria-invalid='true'] {
   border-color: var(--danger);
 }
@@ -2682,7 +2683,7 @@ h3 {
     bottom: 0;
     z-index: 20;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     padding: 6px 8px calc(6px + env(safe-area-inset-bottom));
     background: var(--card);
     border-top: var(--border);
@@ -3373,4 +3374,462 @@ h3 {
 .group-invite a {
   color: var(--ink);
   font-weight: 700;
+}
+
+/* ═════════════ Modo online (versión de prueba) ═════════════ */
+.mode--online {
+  border-style: solid;
+  opacity: 1;
+}
+
+.online-trial {
+  margin: 10px auto 0;
+  display: table;
+  padding: 4px 12px;
+  border: 1.5px dashed var(--ink);
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
+.online-note,
+.online-loading {
+  text-align: center;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+/* Países con gente conectada */
+.online-countries {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 12px;
+}
+
+.online-country {
+  width: 100%;
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  padding: 16px 12px 14px;
+  background: var(--card);
+  border: var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: transform 0.15s, background 0.15s;
+}
+
+.online-country:hover,
+.online-country:focus-visible {
+  background: var(--yellow-soft);
+  transform: translateY(-2px);
+}
+
+.online-country .country-shape {
+  width: 64px;
+  height: 64px;
+}
+
+.online-country strong {
+  font-size: 1rem;
+}
+
+.online-country span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+}
+
+.online-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--yellow);
+  box-shadow: 0 0 0 1.5px var(--ink);
+  animation: online-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes online-pulse {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+/* Búsqueda: radar con la silueta del país */
+.online-search {
+  display: grid;
+  justify-items: center;
+  gap: 20px;
+  padding: 24px 0;
+  text-align: center;
+}
+
+.radar {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  display: grid;
+  place-items: center;
+}
+
+.radar > span {
+  position: absolute;
+  inset: 0;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  opacity: 0;
+  animation: radar 2.4s ease-out infinite;
+}
+
+.radar > span:nth-child(2) {
+  animation-delay: 0.8s;
+}
+
+.radar > span:nth-child(3) {
+  animation-delay: 1.6s;
+}
+
+.radar .country-shape {
+  width: 90px;
+  height: 90px;
+}
+
+@keyframes radar {
+  from {
+    transform: scale(0.35);
+    opacity: 0.9;
+  }
+  to {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+/* Vos vs rival */
+.versus {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+}
+
+.versus__vs {
+  font-family: var(--font-display);
+  font-size: 2.4rem;
+  font-style: italic;
+}
+
+.player-card {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  padding: 20px 12px;
+  background: var(--card);
+  border: var(--border);
+  border-radius: var(--radius);
+  text-align: center;
+}
+
+.player-card .avatar--lg {
+  width: 88px;
+  height: 88px;
+  font-size: 1.8rem;
+  box-shadow: none;
+  margin-bottom: 6px;
+}
+
+.player-card__label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.player-card strong {
+  font-size: 1.15rem;
+}
+
+.player-card > span:last-of-type {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+.player-card__sim {
+  margin-top: 4px;
+  font-size: 0.72rem;
+  font-style: normal;
+  font-weight: 700;
+  border: 1.5px dashed var(--ink);
+  border-radius: 999px;
+  padding: 2px 10px;
+}
+
+.online-rules {
+  text-align: center;
+  margin: 0;
+}
+
+/* Duelo */
+.scoreboard {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: 999px;
+}
+
+.scoreboard__player {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  min-width: 0;
+}
+
+.scoreboard__player--rival {
+  justify-content: flex-end;
+}
+
+.scoreboard .avatar--nav {
+  box-shadow: 0 0 0 1.5px var(--paper);
+}
+
+.scoreboard__score {
+  font-size: 1.5rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.scoreboard__score span {
+  opacity: 0.5;
+}
+
+.duel-card {
+  background: var(--card);
+  border: var(--border);
+  border-radius: var(--radius);
+  padding: 18px 20px 22px;
+  display: grid;
+  gap: 14px;
+}
+
+.duel-card__head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.duel-card__time {
+  font-variant-numeric: tabular-nums;
+}
+
+.duel-timer {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.duel-timer span {
+  display: block;
+  height: 100%;
+  background: var(--ink);
+  transform-origin: left center;
+  transition: transform 0.2s linear;
+}
+
+.duel-card__question {
+  margin: 4px 0;
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+}
+
+.duel-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.duel-option {
+  padding: 14px 16px;
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: 14px;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.15s, opacity 0.2s;
+}
+
+.duel-option:hover:not(:disabled) {
+  background: var(--yellow-soft);
+}
+
+.duel-option:disabled {
+  cursor: default;
+  color: var(--ink);
+}
+
+.duel-option.is-right {
+  background: var(--yellow);
+}
+
+.duel-option.is-wrong {
+  background: var(--card);
+  text-decoration: line-through;
+}
+
+.duel-option.is-dim {
+  opacity: 0.4;
+}
+
+.duel-feedback {
+  margin: 0;
+  text-align: center;
+  font-weight: 700;
+}
+
+.rival-turn {
+  border: 1.5px dashed var(--ink);
+  border-radius: var(--radius);
+  padding: 12px 18px;
+  font-size: 0.92rem;
+}
+
+.rival-turn p {
+  margin: 0;
+}
+
+.rival-turn__status {
+  margin-top: 6px !important;
+  font-weight: 700;
+}
+
+.rival-turn__status.is-thinking {
+  animation: online-pulse 1.6s ease-in-out infinite;
+}
+
+/* Resultado */
+.duel-result {
+  text-align: center;
+  display: grid;
+  gap: 6px;
+}
+
+.duel-result .kicker,
+.duel-result .muted {
+  margin: 0;
+}
+
+.duel-result__score {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 9vw, 4.5rem);
+  line-height: 1;
+}
+
+.duel-result__score span {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 700;
+  vertical-align: middle;
+}
+
+.duel-review {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.duel-review li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--card);
+  border: 1.5px solid var(--line);
+  border-radius: 14px;
+}
+
+.duel-review p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.duel-review p + p {
+  margin-top: 4px;
+}
+
+.duel-review em {
+  font-style: normal;
+  font-weight: 700;
+}
+
+.duel-review__n {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.mark {
+  width: 14px;
+  height: 14px;
+  vertical-align: -2px;
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.mark--ok {
+  background: var(--yellow);
+  border-radius: 50%;
+}
+
+.mark--no {
+  opacity: 0.55;
+}
+
+@media (max-width: 760px) {
+  .duel-options {
+    grid-template-columns: 1fr;
+  }
+
+  .versus {
+    grid-template-columns: 1fr;
+  }
+
+  .scoreboard {
+    font-size: 0.85rem;
+    padding: 8px 12px;
+  }
+
+  .tab {
+    font-size: 0.62rem;
+  }
+}
+
+.duel-result .title,
+.online-search .title {
+  font-size: clamp(2.4rem, 6vw, 3.4rem);
+}
+
+.online-search .title {
+  font-size: clamp(1.8rem, 4.5vw, 2.6rem);
 }

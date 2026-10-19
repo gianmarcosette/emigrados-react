@@ -17,13 +17,15 @@ function memoryStorage() {
 
 describe('validateProfile', () => {
   it('acepta un perfil completo', () => {
-    expect(validateProfile({ name: 'Gian', age: '28', bio: '' })).toEqual({})
+    expect(validateProfile({ name: 'Gian', age: '28', bio: '', country: 'ES' })).toEqual({})
   })
 
-  it('pide nombre y edad', () => {
+  it('pide nombre, edad y país donde vive', () => {
     const errors = validateProfile({ name: '  ', age: '', bio: '' })
     expect(errors.name).toBeDefined()
     expect(errors.age).toBeDefined()
+    expect(errors.country).toBeDefined()
+    expect(validateProfile({ name: 'A', age: 30, country: 'XX' }).country).toBeDefined()
   })
 
   it('rechaza menores de 16 y edades no enteras', () => {
@@ -39,11 +41,12 @@ describe('validateProfile', () => {
 
 describe('buildProfile', () => {
   it('limpia los datos y conserva la fecha de creación al editar', () => {
-    const first = buildProfile({ name: ' Ana ', age: '30', bio: ' hola ', photo: null }, null, 't1')
+    const first = buildProfile({ name: ' Ana ', age: '30', bio: ' hola ', country: 'UY', photo: null }, null, 't1')
     expect(first).toEqual({
       name: 'Ana',
       age: 30,
       bio: 'hola',
+      country: 'UY',
       photo: null,
       code: expect.stringMatching(CODE_PATTERN),
       createdAt: 't1',
@@ -80,6 +83,14 @@ describe('perfil en el estado del juego', () => {
     const { profile } = loadJourney(storage)
     expect(profile.name).toBe('Gian')
     expect(isProfileComplete(profile)).toBe(false)
+  })
+
+  it('los perfiles sin país quedan incompletos hasta elegirlo', () => {
+    const old = normalizeProfile({ name: 'Ana', age: 30, code: 'K7M4QX' })
+    expect(old.country).toBeNull()
+    expect(isProfileComplete(old)).toBe(false)
+    expect(isProfileComplete({ ...old, country: 'ES' })).toBe(true)
+    expect(normalizeProfile({ name: 'Ana', age: 30, country: 'ES' }).country).toBe('ES')
   })
 
   it('descarta fotos que no son imágenes', () => {

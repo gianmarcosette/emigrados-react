@@ -1,4 +1,5 @@
-// Perfil del modo individual: validación y normalización (sin React, para testear).
+// Perfil del jugador: validación y normalización (sin React, para testear).
+import { isCountryCode } from '../data/residence.js'
 
 export const MIN_AGE = 16
 export const MAX_AGE = 120
@@ -21,7 +22,7 @@ function cryptoRandom() {
 }
 
 /** Devuelve { campo: mensaje } con los errores; vacío si el perfil es válido. */
-export function validateProfile({ name, age, bio }) {
+export function validateProfile({ name, age, bio, country }) {
   const errors = {}
   const cleanName = (name ?? '').trim()
   if (!cleanName) errors.name = 'Contanos cómo te llamás.'
@@ -31,6 +32,9 @@ export function validateProfile({ name, age, bio }) {
   if (age === '' || age === null || age === undefined || !Number.isInteger(n)) errors.age = 'Ingresá tu edad en años.'
   else if (n < MIN_AGE) errors.age = `Emigrados es para personas de ${MIN_AGE} años o más.`
   else if (n > MAX_AGE) errors.age = 'Revisá la edad ingresada.'
+
+  // El país donde vivís conecta a las personas en el modo online
+  if (!isCountryCode(country)) errors.country = 'Elegí el país donde vivís hoy.'
 
   if ((bio ?? '').length > BIO_MAX) errors.bio = `Usá hasta ${BIO_MAX} caracteres.`
   return errors
@@ -42,6 +46,7 @@ export function buildProfile(form, previous, now = new Date().toISOString()) {
     name: form.name.trim(),
     age: Number(form.age),
     bio: (form.bio ?? '').trim(),
+    country: isCountryCode(form.country) ? form.country : null,
     photo: form.photo ?? null,
     code: previous?.code ?? generatePassengerCode(),
     createdAt: previous?.createdAt ?? now,
@@ -56,6 +61,8 @@ export function normalizeProfile(data, legacyName) {
       name: data.name,
       age: Number.isInteger(data.age) ? data.age : null,
       bio: typeof data.bio === 'string' ? data.bio : '',
+      // Los perfiles anteriores no tenían país: se pide al completar el perfil
+      country: isCountryCode(data.country) ? data.country : null,
       photo: typeof data.photo === 'string' && data.photo.startsWith('data:image/') ? data.photo : null,
       // Los perfiles creados antes de que existiera el código reciben uno nuevo
       code: typeof data.code === 'string' && CODE_PATTERN.test(data.code) ? data.code : generatePassengerCode(),
@@ -68,6 +75,7 @@ export function normalizeProfile(data, legacyName) {
       name: legacyName.trim(),
       age: null,
       bio: '',
+      country: null,
       photo: null,
       code: generatePassengerCode(),
       createdAt: null,

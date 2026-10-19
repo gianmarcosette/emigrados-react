@@ -6,6 +6,7 @@ import { GroupInvite } from '../components/ProfileGate.jsx'
 import ProfileForm from '../components/ProfileForm.jsx'
 import Title from '../components/Title.jsx'
 import { COUNTRIES } from '../data/countries.js'
+import { countryName } from '../data/residence.js'
 import { plural } from '../lib/format.js'
 import { isProfileComplete } from '../state/profile.js'
 import { useWindowScene } from '../state/scene.js'
@@ -65,7 +66,8 @@ export default function Perfil() {
         <Avatar profile={profile} size="lg" />
         <h1 className="profile-card__name">{profile.name}</h1>
         <p className="profile-card__meta">
-          {profile.age} años{since && ` · Viajando desde ${since}`}
+          {profile.age} años · Vive en {countryName(profile.country)}
+          {since && ` · Viajando desde ${since}`}
         </p>
         <p className="passenger-code">
           <span>Código de pasajero</span>
