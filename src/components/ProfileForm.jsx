@@ -1,4 +1,5 @@
 import { useId, useRef, useState } from 'react'
+import { RESIDENCE_OPTIONS } from '../data/residence.js'
 import { photoToDataUrl } from '../lib/image.js'
 import { BIO_MAX, MAX_AGE, MIN_AGE, NAME_MAX, buildProfile, validateProfile } from '../state/profile.js'
 import Avatar from './Avatar.jsx'
@@ -10,6 +11,7 @@ export default function ProfileForm({ initial, onSave, onCancel, submitLabel = '
     name: initial?.name ?? '',
     age: initial?.age ?? '',
     bio: initial?.bio ?? '',
+    country: initial?.country ?? '',
     photo: initial?.photo ?? null,
   })
   const [errors, setErrors] = useState({})
@@ -57,7 +59,9 @@ export default function ProfileForm({ initial, onSave, onCancel, submitLabel = '
           aria-label={form.photo ? 'Cambiar foto de perfil' : 'Subir foto de perfil'}
         >
           <Avatar profile={{ name: form.name, photo: form.photo }} size="lg" />
-          <span className="photo-picker__label">{loadingPhoto ? 'Cargando…' : form.photo ? 'Cambiar foto' : 'Subir foto'}</span>
+          <span className="photo-picker__label">
+            {loadingPhoto ? 'Cargando…' : form.photo ? 'Cambiar foto' : 'Subir foto'}
+          </span>
         </button>
         <input ref={fileInput} type="file" accept="image/*" className="sr-only" onChange={handlePhoto} tabIndex={-1} />
         {form.photo && (
@@ -101,6 +105,25 @@ export default function ProfileForm({ initial, onSave, onCancel, submitLabel = '
         </div>
 
         <div className="field">
+          <label htmlFor={`${id}-country`}>País donde vivís</label>
+          <select
+            id={`${id}-country`}
+            value={form.country}
+            autoComplete="country"
+            aria-invalid={Boolean(errors.country)}
+            onChange={(e) => update('country', e.target.value)}
+          >
+            <option value="">Elegí un país…</option>
+            {RESIDENCE_OPTIONS.map((c) => (
+              <option key={c.code} value={c.code}>
+                {c.name}
+              </option>
+            ))}
+          </select>
+          {errors.country && <p className="field__error">{errors.country}</p>}
+        </div>
+
+        <div className="field">
           <label htmlFor={`${id}-bio`}>
             Sobre vos <span className="muted">(opcional)</span>
           </label>
@@ -109,7 +132,7 @@ export default function ProfileForm({ initial, onSave, onCancel, submitLabel = '
             rows={3}
             value={form.bio}
             maxLength={BIO_MAX}
-            placeholder="De dónde venís, dónde vivís hoy, qué te trajo hasta acá…"
+            placeholder="De dónde venís, qué te trajo hasta acá…"
             aria-invalid={Boolean(errors.bio)}
             onChange={(e) => update('bio', e.target.value)}
           />

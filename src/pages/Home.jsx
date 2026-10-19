@@ -70,11 +70,15 @@ export default function Home() {
           <span className="mode__cta">Armar la ronda →</span>
         </Link>
 
-        <div className="mode mode--online" aria-disabled="true">
-          <span className="mode__badge">Próximamente</span>
+        <Link to="/online" className="mode mode--online">
+          <span className="mode__badge">Versión de prueba</span>
           <h2>Online</h2>
-          <p>Escribí una pregunta y alguien, en algún lugar del mundo, la responderá. Llega en la próxima etapa.</p>
-        </div>
+          <p>
+            Elegí un país y te conectamos con alguien que vive ahí: un duelo de cultura general para ver quién sabe más
+            del país del otro.
+          </p>
+          <span className="mode__cta">{profile ? 'Buscar rival →' : 'Crear perfil y jugar →'}</span>
+        </Link>
       </section>
 
       {started && (

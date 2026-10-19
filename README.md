@@ -21,11 +21,12 @@ Otros comandos: `npm run build` (versión de producción), `npm test` (tests con
 
 | Ruta          | Pantalla   | Qué hace |
 |---------------|------------|----------|
-| `/`           | Inicio     | Elegís modo: Individual, Grupal (y Online, próximamente). Ventanilla con el despegue y fila de pasajeros animados. |
+| `/`           | Inicio     | Elegís modo: Individual, Grupal u Online (versión de prueba). Ventanilla con el despegue y fila de pasajeros animados. |
 | `/individual` | Individual | Cada pregunta es una tarjeta de embarque (vuelo, etapa, puerta, asiento y talón con pasajero, sello, silueta del país y código de barras). La respuesta se escribe a mano, se guarda con fecha y marca su país en el mapa. Si la pregunta se repite, ves lo que respondiste antes. |
 | `/grupal`     | Grupal     | Cargás jugadores y etapas; las preguntas rotan por turnos. **No se guarda nada.** |
+| `/online`     | Online     | **Versión de prueba.** Elegís sobre qué país querés saber, te conecta con alguien que vive ahí y juegan un duelo de 5 preguntas de cultura general: vos sobre su país, esa persona sobre el tuyo. Por ahora las personas conectadas son simuladas (`src/online/mockServer.js`). |
 | `/mapa`       | Mi mapa    | Mapa del mundo con los países visitados, la ruta del viaje y el detalle de las respuestas por país. |
-| `/perfil`     | Mi perfil  | Nombre, edad, descripción, foto y código de pasajero (localizador de 6 caracteres). Incluye el **diario de viaje**: un cuaderno que se abre y se cierra, donde las respuestas aparecen escritas a mano con su fecha, la pregunta subrayada y la firma. `/diario` redirige acá. |
+| `/perfil`     | Mi perfil  | Nombre, edad, país donde vivís, descripción, foto y código de pasajero (localizador de 6 caracteres). Incluye el **diario de viaje**: un cuaderno que se abre y se cierra, donde las respuestas aparecen escritas a mano con su fecha, la pregunta subrayada y la firma. `/diario` redirige acá. |
 
 ## Mecánica
 
@@ -50,8 +51,9 @@ src/
 ├── main.jsx                # BrowserRouter + JourneyProvider
 ├── components/             # Layout, QuestionCard (tarjeta de embarque), PlaneWindow, Diary (cuaderno), WorldMap, ProfileForm…
 │   └── illustrations/      # Viñetas de pasajeros, fondo de pantalla y fila de ventanillas
-├── pages/                  # Home, Individual, Grupal, Mapa, Perfil, NotFound
-├── data/                   # questions.js (208 preguntas), countries.js (52 países)
+├── pages/                  # Home, Individual, Grupal, Online, Mapa, Perfil, NotFound
+├── online/                 # duel.js (reglas del duelo) y mockServer.js (servidor simulado)
+├── data/                   # questions.js (208 preguntas), countries.js (52 países), trivia.js (cultura general), residence.js (países donde vivir)
 ├── state/                  # journey.js (reducer + persistencia), profile.js, scene.js, JourneyContext.jsx
 ├── lib/                    # Fechas, fotos de perfil y siluetas de países
 └── __tests__/              # Tests del banco de preguntas y del estado
@@ -69,7 +71,7 @@ Tecnologías: React 19, React Router 7, Vite, d3-geo + world-atlas (mapa), Vites
 
 ## Plan hacia el Momento 3 (100%)
 
-1. **Modo Online:** "escribí tu pregunta y alguien, en algún lugar del mundo, la responderá" (requiere backend, p. ej. Firebase/Supabase) y perfiles con usuario.
+1. **Modo Online real:** reemplazar `src/online/mockServer.js` por un servidor (p. ej. Supabase Realtime o Firebase) con cuentas de usuario, presencia ("quién está conectado") y duelos en tiempo real. Las pantallas y las reglas del duelo ya están listas.
 2. **Identidad visual En Palabras:** ilustraciones/fotos por país para el fondo de cada tarjeta, sonidos suaves.
 3. **Logros y estadísticas:** continentes completos, etapas completas, "aniversarios" de respuestas.
 4. **Testeo con usuarios migrantes** para ajustar el tono de las preguntas y sumar nuevas.
