@@ -54,10 +54,10 @@ export default function Home() {
             Preguntas al azar. Tus respuestas se guardan con fecha y cada una marca un país en el mapa: respondé las{' '}
             {totalQuestions} y das la vuelta al mundo.
           </p>
-          {started ? (
+          {started && profile ? (
             <ProgressBar value={answeredCount} max={totalQuestions} label="Tu vuelta al mundo" />
           ) : (
-            <span className="mode__cta">Empezar el viaje →</span>
+            <span className="mode__cta">{profile ? 'Empezar el viaje →' : 'Crear perfil y empezar →'}</span>
           )}
         </Link>
 
@@ -65,7 +65,7 @@ export default function Home() {
           <h2>Grupal</h2>
           <p>
             Para charlar entre amigos. Las preguntas van rotando entre los jugadores y nada queda guardado: lo que se
-            dice en la mesa, queda en la mesa.
+            dice en la mesa, queda en la mesa. No hace falta perfil.
           </p>
           <span className="mode__cta">Armar la ronda →</span>
         </Link>
