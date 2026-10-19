@@ -1968,12 +1968,11 @@ h3 {
 .topbar__tagline {
   display: none;
   margin: 0;
-  font-family: var(--font-display);
-  font-style: italic;
-  /* Protagonista del encabezado: más grande y en tinta plena */
-  font-size: clamp(1.15rem, 2vw, 1.9rem);
-  line-height: 1.12;
-  letter-spacing: -0.005em;
+  /* Protagonista del encabezado: sin serif, como el resto del juego, y en tinta plena */
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: clamp(0.85rem, 1.3vw, 1.3rem);
+  line-height: 1.35;
   color: var(--ink);
   text-align: center;
   text-wrap: balance;
