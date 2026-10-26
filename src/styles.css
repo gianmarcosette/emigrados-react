@@ -4796,3 +4796,27 @@ h3 {
   align-items: center;
   gap: 10px;
 }
+
+.avatar-preview__title {
+  margin: 28px 0 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.8rem;
+  text-align: center;
+}
+
+.avatar-preview__row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 18px;
+}
+
+.avatar-preview__row figure {
+  margin: 0;
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}

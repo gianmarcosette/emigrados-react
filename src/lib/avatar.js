@@ -71,6 +71,9 @@ export const AVATAR_OPTIONS = {
     { id: 'mar', label: 'Mar' },
     { id: 'atardecer', label: 'Atardecer' },
     { id: 'noche', label: 'Noche' },
+    { id: 'montanas', label: 'Montañas' },
+    { id: 'ciudad', label: 'Ciudad' },
+    { id: 'ala', label: 'El ala del avión' },
   ],
 }
 

@@ -7,6 +7,7 @@ import { DEFAULT_AVATAR, colorOf, normalizeAvatar } from '../lib/avatar.js'
 
 const INK = '#161616'
 const PAPER = '#fbf9f5'
+const SAND = '#e9e2d3'
 const STROKE = { stroke: INK, strokeWidth: 2.4, strokeLinecap: 'round', strokeLinejoin: 'round' }
 
 export default function PassengerAvatar({ avatar, size = 120, label = 'Avatar', className = '' }) {
@@ -99,6 +100,34 @@ function Scene({ scene }) {
         <g strokeWidth="1.8">
           <path d="M0 44 H120" />
           <path d="M10 54 q4 -3 8 0 M86 52 q4 -3 8 0 M30 64 q4 -3 8 0 M98 66 q4 -3 8 0" />
+        </g>
+      )}
+      {scene === 'montanas' && (
+        <g strokeWidth="1.8">
+          <path d="M-4 66 L16 38 L28 52 L42 30 L56 50 L72 28 L88 48 L102 34 L124 62 V120 H-4 Z" fill={SAND} />
+          <path d="M10 46 L16 38 L21 45 M37 37 L42 30 L47 37 M98 39 L102 34 L107 40" fill={PAPER} />
+        </g>
+      )}
+      {scene === 'ciudad' && (
+        <g strokeWidth="1.8">
+          <path d="M-2 74 V48 H12 V40 H26 V58 H36 V74 Z" fill={SAND} />
+          <path d="M84 74 V54 H94 V36 H108 V50 H122 V74 Z" fill={SAND} />
+          <path
+            d="M4 54 h4 M4 62 h4 M17 47 h4 M17 55 h4 M17 63 h4 M99 43 h4 M99 51 h4 M99 59 h4 M89 61 h3 M112 57 h4 M112 65 h4"
+            strokeWidth="2.2"
+          />
+          <circle cx="62" cy="18" r="7" fill="#ffe066" />
+        </g>
+      )}
+      {scene === 'ala' && (
+        <g strokeWidth="1.8">
+          {/* La vista desde el asiento de la ventanilla: el ala, con la punta levantada, y nubes abajo */}
+          <path d="M2 50 c5 -4 10 -4 14 0" />
+          <path d="M-8 84 L24 60 L33 61 L-8 104 Z" fill={SAND} strokeWidth="2.2" />
+          <path d="M23 61 L25 40 L31 41 L33 61 Z" fill="#ffe066" strokeWidth="2.2" />
+          <path d="M0 92 L26 70" strokeWidth="1.4" />
+          <path d="M86 28 c0 -5 7 -6 9 -3 c2 -6 11 -5 11 1 c5 0 5 6 1 6 h-19 c-3 0 -3 -3 -2 -4 Z" fill={PAPER} />
+          <path d="M94 64 c0 -4 6 -5 8 -2 c2 -5 10 -4 10 1 c4 0 4 5 1 5 h-17 c-2 0 -3 -3 -2 -4 Z" fill={PAPER} />
         </g>
       )}
       {scene === 'atardecer' && (

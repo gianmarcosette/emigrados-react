@@ -1,4 +1,5 @@
 import PassengerAvatar from '../components/PassengerAvatar.jsx'
+import { AVATAR_OPTIONS } from '../lib/avatar.js'
 
 // Página de prueba (solo en desarrollo): 8 combinaciones de avatares en varios tamaños.
 const PRESETS = [
@@ -98,6 +99,8 @@ const PRESETS = [
   },
 ]
 
+const BASE = { skin: 'p3', hair: 'largo', expression: 'sonrisa', shirt: 'arena', scene: 'nubes' }
+
 export default function AvatarPreview() {
   return (
     <div className="page page--wide">
@@ -117,6 +120,30 @@ export default function AvatarPreview() {
           </li>
         ))}
       </ul>
+
+      <h2 className="avatar-preview__title">Color de pelo</h2>
+      <div className="avatar-preview__row">
+        {AVATAR_OPTIONS.hairColor.map((c) => (
+          <figure key={c.id}>
+            <PassengerAvatar avatar={{ ...BASE, hairColor: c.id }} size={96} label={c.label} />
+            <figcaption>{c.label}</figcaption>
+          </figure>
+        ))}
+      </div>
+
+      <h2 className="avatar-preview__title">Fondos de la ventanilla</h2>
+      <div className="avatar-preview__row">
+        {AVATAR_OPTIONS.scene.map((sc) => (
+          <figure key={sc.id}>
+            <PassengerAvatar
+              avatar={{ ...BASE, hair: 'corto', hairColor: 'negro', scene: sc.id }}
+              size={96}
+              label={sc.label}
+            />
+            <figcaption>{sc.label}</figcaption>
+          </figure>
+        ))}
+      </div>
     </div>
   )
 }
