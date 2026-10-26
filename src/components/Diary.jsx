@@ -162,7 +162,7 @@ export default function Diary() {
         .filter(Boolean)
         .join(
           ' y ',
-        )}, tu mapa y tus borradores. No se puede deshacer: si querés conservarlas, descargá el diario antes.`,
+        )}, tu maleta y tus borradores. No se puede deshacer: si querés conservarlas, descargá el diario antes.`,
       confirmLabel: 'Borrar todo',
       danger: true,
     })

@@ -22,20 +22,20 @@ Otros comandos: `npm run build` (versión de producción), `npm test` (tests con
 | Ruta          | Pantalla   | Qué hace |
 |---------------|------------|----------|
 | `/`           | Inicio     | Elegís modo: Individual, Grupal u Online (versión de prueba). La primera vez se abre el **primer vuelo**: tres pantallas sobre qué es el juego, cómo funciona cada modo y para qué se pide el país; se puede volver a ver desde el pie de cada pantalla. Ventanilla con el despegue y fila de pasajeros animados. |
-| `/individual` | Individual | Cada pregunta es una tarjeta de embarque (vuelo, etapa, puerta, asiento y talón con pasajero, sello, silueta del país y código de barras). La respuesta se escribe a mano, se guarda con fecha y marca su país en el mapa. Lo que estás escribiendo se guarda solo como borrador y se retoma al volver. Si la pregunta se repite, ves lo que respondiste antes. |
-| `/grupal`     | Grupal     | Cargás jugadores y etapas; las preguntas rotan por turnos. **No se guarda nada.** |
+| `/individual` | Individual | Cada pregunta es una tarjeta de embarque (vuelo, etapa, puerta, asiento y talón con pasajero, sello, silueta del país y código de barras). La respuesta se escribe a mano, se guarda con fecha y pega la pegatina de su país en la maleta. Lo que estás escribiendo se guarda solo como borrador y se retoma al volver. Si la pregunta se repite, ves lo que respondiste antes. |
+| `/grupal`     | Grupal     | Cargás jugadores y etapas; cada pregunta la contesta toda la mesa, de a uno, y quien la abre va rotando. Letra grande y reloj opcional. **No se guarda nada.** |
 | `/online`     | Online     | **Versión de prueba.** Elegís sobre qué país querés saber, te conecta con alguien que vive ahí y juegan un duelo de 5 preguntas de cultura general (12 por país, cada una con un dato curioso): vos sobre su país, esa persona sobre el tuyo. Se puede jugar "sin apuro", sin límite de tiempo. Al terminar, si los dos aceptan, sigue una **charla guiada** en tres momentos (abrir, ir más hondo, cerrar): cada intercambio parte de una pregunta, con reacciones cortas, filtro de datos de contacto y botones para bloquear y denunciar. Al terminar, la charla se puede guardar en el diario. Por ahora las personas conectadas son simuladas (`src/online/mockServer.js`). |
-| `/mapa`       | Mi mapa    | Explica que cada pregunta es una escala del viaje y muestra una referencia (marcador, punto y ruta). Mapa del mundo con los países visitados, la ruta del viaje y el detalle de las respuestas por país. |
+| `/maleta`     | Mi maleta  | Maleta de cuero con una pegatina por cada país al que se respondió (cuatro formas, con la silueta real del país). Con las 4 preguntas de un país, la pegatina pasa al degradé de atardecer. Tocar una pegatina abre las respuestas de ese país; "Por pegar" lista los países que faltan. La dirección vieja `/mapa` lleva acá. |
 | `/perfil`     | Mi perfil  | Nombre, edad, país donde vivís, descripción, foto y código de pasajero (localizador de 6 caracteres). Incluye el **diario de viaje**: un cuaderno que se abre y se cierra, donde las respuestas aparecen escritas a mano con su fecha, la pregunta subrayada y la firma. `/diario` redirige acá. |
 
 ## Mecánica
 
 - **208 preguntas** en 8 etapas del proceso migratorio: *Antes de partir, La despedida, Los primeros días, Idioma y costumbres, Vínculos, Identidad, Reinventarse, Hogar y futuro*.
-- Cada pregunta está asociada a uno de **52 países** (4 preguntas por país). Al responderla, el país queda "visitado" en el mapa.
+- Cada pregunta está asociada a uno de **52 países** (4 preguntas por país). Al responderla por primera vez en un país, su pegatina se pega en la maleta.
 - El modo individual prioriza las preguntas que todavía no respondiste; con "Repetir una anterior" (o al terminar todas) vuelven preguntas ya respondidas para comparar.
-- **Sin perfil solo se juega el modo Grupal**, que no guarda nada. Individual, el mapa y el diario piden crear el perfil primero (`components/ProfileGate.jsx`).
+- **Sin perfil solo se juega el modo Grupal**, que no guarda nada. Individual, la maleta y el diario piden crear el perfil primero (`components/ProfileGate.jsx`).
 - El perfil (nombre, edad, descripción, foto y código de pasajero) y las respuestas se guardan en el navegador (`localStorage`). La foto se recorta y se reduce a 320 px antes de guardarse.
-- Una ventanilla de avión acompaña cada sección con una escena animada: despegue (inicio y crear perfil), sobre las nubes (preguntas) y atardecer (mapa y perfil).
+- Una ventanilla de avión acompaña cada sección con una escena animada: despegue (inicio y crear perfil), sobre las nubes (preguntas) y atardecer (maleta y perfil).
 
 ## Diseño
 
@@ -51,7 +51,7 @@ src/
 ├── main.jsx                # BrowserRouter + JourneyProvider
 ├── components/             # Layout, QuestionCard (tarjeta de embarque), PlaneWindow, Diary (cuaderno), WorldMap, ProfileForm…
 │   └── illustrations/      # Viñetas de pasajeros, fondo de pantalla y fila de ventanillas
-├── pages/                  # Home, Individual, Grupal, Online, Mapa, Perfil, NotFound
+├── pages/                  # Home, Individual, Grupal, Online, Maleta, Perfil, NotFound
 ├── online/                 # duel.js (reglas del duelo), talk.js (charla guiada) y mockServer.js (servidor simulado)
 ├── data/                   # questions.js (208 preguntas), countries.js (52 países), trivia.js (cultura general), talk.js (preguntas de la charla), residence.js (países donde vivir)
 ├── state/                  # journey.js (reducer + persistencia), profile.js, scene.js, JourneyContext.jsx
@@ -59,14 +59,14 @@ src/
 └── __tests__/              # Tests del banco de preguntas y del estado
 ```
 
-Tecnologías: React 19, React Router 7, Vite, d3-geo + world-atlas (mapa), Vitest.
+Tecnologías: React 19, React Router 7, Vite, Vitest. Las siluetas de los países se calculan una vez con d3-geo + world-atlas (`npm run shapes`) y se guardan en `src/data/countryShapes.json`: el juego no descarga el mapa del mundo.
 
 ## Consigna del Momento 2 (avance 50%)
 
 | Requisito | Dónde se cumple |
 |-----------|-----------------|
 | Estructura React con navegación entre al menos 2 pantallas usando React Router | `src/App.jsx`: 5 pantallas + 404 y redirección de `/diario`, navegación en `Layout.jsx` |
-| Al menos una interacción: evento conectado a un cambio de estado | Textarea controlada + "Guardar respuesta" (`useReducer`), alta de jugadores y turnos en Grupal, filtros, mapa clickeable |
+| Al menos una interacción: evento conectado a un cambio de estado | Textarea controlada + "Guardar respuesta" (`useReducer`), alta de jugadores y turnos en Grupal, filtros, pegatinas de la maleta |
 | Evidencia de iteración con un agente de IA | Historial de commits y [`docs/PROMPTS.md`](docs/PROMPTS.md) |
 
 ## Plan hacia el Momento 3 (100%)

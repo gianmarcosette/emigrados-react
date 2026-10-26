@@ -24,7 +24,7 @@ const TITLES = {
   '/individual': 'Individual · Emigrados',
   '/grupal': 'Grupal · Emigrados',
   '/online': 'Online · Emigrados',
-  '/mapa': 'Mi mapa · Emigrados',
+  '/maleta': 'Mi maleta · Emigrados',
   '/perfil': 'Mi perfil · Emigrados',
 }
 
@@ -32,7 +32,7 @@ const LINKS = [
   { to: '/individual', label: 'Individual' },
   { to: '/grupal', label: 'Grupal' },
   { to: '/online', label: 'Online' },
-  { to: '/mapa', label: 'Mi mapa', short: 'Mapa' },
+  { to: '/maleta', label: 'Mi maleta', short: 'Maleta' },
 ]
 
 export default function Layout() {

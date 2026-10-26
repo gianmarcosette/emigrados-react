@@ -3,7 +3,7 @@
 import SHAPES from '../data/countryShapes.json'
 import { COUNTRIES } from '../data/countries.js'
 
-export { SHAPE_SIZE } from './shapeGeometry.js'
+export { SHAPE_SIZE } from './shapeSize.js'
 
 export function countryShape(id) {
   return SHAPES[id] ?? null

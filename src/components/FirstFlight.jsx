@@ -13,7 +13,7 @@ const MODES = [
     to: '/individual',
     name: 'Individual',
     tag: 'Con perfil',
-    text: `Preguntas para vos. Lo que escribís queda en tu diario, con fecha, y cada respuesta marca un país en tu mapa: respondé las ${QUESTIONS.length} y das la vuelta al mundo.`,
+    text: `Preguntas para vos. Lo que escribís queda en tu diario, con fecha, y cada país al que respondés le pega una pegatina a tu maleta: respondé las ${QUESTIONS.length} y das la vuelta al mundo.`,
   },
   {
     to: '/grupal',
@@ -103,8 +103,8 @@ export default function FirstFlight({ open, hasProfile, onClose }) {
               ))}
             </ul>
             <p className="first-flight__note">
-              ¿Por qué cada pregunta tiene un país? Es la escala de tu viaje: no habla de ese país, marca tu recorrido
-              por el mapa.
+              ¿Por qué cada pregunta tiene un país? Es la escala de tu viaje: no habla de ese país, suma su pegatina a
+              tu maleta.
             </p>
           </>
         )}

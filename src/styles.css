@@ -11,6 +11,9 @@
   --yellow: #ffd700;
   --yellow-soft: #fff3b3;
   --orange: #f37c1e;
+  /* Cuero de la maleta de pegatinas */
+  --leather: #c98d55;
+  --leather-dark: #8a5a32;
   --sunset: linear-gradient(135deg, #ffd301 0%, #f9a910 55%, #f37c1e 100%);
   --coral: #161616;
   --paper: #f3efe8;
@@ -99,7 +102,6 @@ textarea {
   flex-direction: column;
 }
 
-
 .topbar__row {
   display: flex;
   align-items: center;
@@ -129,7 +131,6 @@ textarea {
   letter-spacing: 0.12em;
 }
 
-
 .topbar__nav {
   display: flex;
   gap: 4px;
@@ -148,7 +149,6 @@ textarea {
 .navlink:hover {
   background: rgba(31, 92, 85, 0.1);
 }
-
 
 .navlink--active {
   background: var(--teal);
@@ -566,7 +566,6 @@ a.mode:hover {
   opacity: 0.75;
 }
 
-
 .mode__cta {
   font-weight: 700;
   color: var(--teal);
@@ -749,7 +748,6 @@ a.mode:hover {
   vertical-align: middle;
 }
 
-
 .stamp--sm .stamp__name {
   font-size: 0.75rem;
 }
@@ -858,7 +856,6 @@ a.mode:hover {
   transition: width 0.6s ease;
 }
 
-
 /* ───────────── Guardado ───────────── */
 .saved {
   background: var(--card);
@@ -915,115 +912,6 @@ a.mode:hover {
   }
 }
 
-/* ───────────── Mapa ───────────── */
-.worldmap {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-.worldmap__sea {
-  fill: #e4f0f1;
-}
-
-.worldmap__graticule {
-  fill: none;
-  stroke: #c9dfe1;
-  stroke-width: 0.5;
-}
-
-.worldmap__land {
-  fill: #d9d2c0;
-  stroke: var(--card);
-  stroke-width: 0.5;
-  transition: fill 0.4s;
-}
-
-.worldmap__land--visited {
-  fill: #7fb8a9;
-}
-
-.worldmap__land--selected {
-  fill: var(--teal);
-}
-
-.worldmap__route {
-  fill: none;
-  stroke: var(--coral);
-  stroke-width: 1.6;
-  stroke-dasharray: 5 5;
-  opacity: 0.8;
-}
-
-.destination {
-  fill: var(--card);
-  stroke: var(--teal);
-  stroke-width: 2;
-  cursor: pointer;
-  paint-order: stroke;
-}
-
-.destination:hover,
-.destination--selected {
-  fill: var(--yellow);
-}
-
-
-
-.pin--clickable {
-  cursor: pointer;
-}
-
-.pin__body {
-  fill: var(--coral);
-  stroke: var(--card);
-  stroke-width: 1.5;
-}
-
-.pin__hole {
-  fill: var(--card);
-}
-
-.pin__shape {
-  transform-box: fill-box;
-  transform-origin: 50% 100%;
-  transition: transform 0.2s;
-}
-
-.worldmap--compact .pin__shape {
-  transform: scale(1.25);
-}
-
-.pin--clickable:hover .pin__shape,
-.pin--selected .pin__shape {
-  transform: scale(1.4);
-}
-
-.pin--selected .pin__body {
-  fill: var(--teal);
-}
-
-.pin--new .pin__shape {
-  animation: drop 0.7s cubic-bezier(0.3, 1.6, 0.5, 1) both;
-}
-
-
-@keyframes drop {
-  from {
-    transform: translateY(-80px);
-    opacity: 0;
-  }
-}
-
-.pin:focus,
-.destination:focus {
-  outline: none;
-}
-
-.pin:focus-visible .pin__shape {
-  transform: scale(1.4);
-}
-
 .stats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -1049,40 +937,6 @@ a.mode:hover {
 .stat span {
   font-size: 0.85rem;
   color: var(--ink-soft);
-}
-
-.map-layout {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
-  align-items: start;
-}
-
-.map-layout:has(.country-panel) {
-  grid-template-columns: minmax(0, 1fr) 340px;
-}
-
-.map-card {
-  position: relative;
-  background: var(--card);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 12px;
-  overflow: hidden;
-}
-
-.map-empty {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  background: rgba(255, 253, 248, 0.6);
-  font-weight: 600;
-  text-align: center;
-  padding: 16px;
 }
 
 .country-panel {
@@ -1242,10 +1096,6 @@ a.mode:hover {
 }
 
 /* ───────────── Diario ───────────── */
-
-
-
-
 
 /* ───────────── Perfil ───────────── */
 .kicker {
@@ -1560,10 +1410,6 @@ a.mode:hover {
     margin-top: 0;
   }
 
-  .map-layout:has(.country-panel) {
-    grid-template-columns: 1fr;
-  }
-
   .stats {
     gap: 8px;
   }
@@ -1625,7 +1471,7 @@ h3 {
 .saved,
 .profile-card,
 .stat,
-.map-card,
+.maleta-card,
 .country-panel,
 .turn {
   border: var(--border);
@@ -1797,51 +1643,6 @@ h3 {
   font-family: var(--font-hand);
   font-size: 1.5rem;
   line-height: 1.2;
-}
-
-/* Mapa en línea */
-.worldmap__sea {
-  fill: var(--glass);
-}
-
-.worldmap__graticule {
-  stroke: #e9e3d8;
-}
-
-.worldmap__land {
-  fill: #ebe5d9;
-  stroke: var(--ink);
-  stroke-width: 0.5;
-}
-
-.worldmap__land--visited {
-  fill: var(--yellow);
-}
-
-.worldmap__land--selected {
-  fill: var(--ink);
-}
-
-.worldmap__route {
-  stroke: var(--ink);
-  stroke-width: 1.4;
-  opacity: 0.7;
-}
-
-.destination {
-  fill: var(--card);
-  stroke: var(--ink);
-  stroke-width: 1.6;
-}
-
-.pin__body {
-  fill: var(--ink);
-  stroke: var(--card);
-}
-
-.pin--selected .pin__body {
-  fill: var(--yellow);
-  stroke: var(--ink);
 }
 
 /* Fondo de ilustraciones */
@@ -2470,7 +2271,6 @@ h3 {
   margin: 10px 0 0;
 }
 
-
 /* Código de pasajero (localizador) */
 .passenger-code {
   display: inline-flex;
@@ -2594,83 +2394,7 @@ h3 {
   }
 }
 
-/* ═════════════ Mapa interactivo ═════════════ */
-.worldmap-zoom {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 960 / 470;
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-.worldmap--interactive {
-  width: 100%;
-  height: 100%;
-  touch-action: none;
-  cursor: grab;
-}
-
-.worldmap--interactive:active {
-  cursor: grabbing;
-}
-
-.worldmap--interactive .worldmap__sea,
-.worldmap--interactive .worldmap__graticule,
-.worldmap--interactive .worldmap__land,
-.worldmap--interactive .worldmap__route {
-  vector-effect: non-scaling-stroke;
-}
-
 /* Marcadores y puntos con tamaño fijo al hacer zoom */
-.worldmap--interactive .pin,
-.worldmap--interactive .destination {
-  transform: scale(calc(1 / var(--k, 1)));
-}
-
-.destination__hit {
-  fill: transparent;
-  stroke: none;
-}
-
-.destination {
-  cursor: pointer;
-}
-
-.worldmap-zoom__controls {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.worldmap-zoom__controls button {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: var(--border);
-  background: var(--card);
-  font-size: 1.4rem;
-  font-weight: 600;
-  line-height: 1;
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-}
-
-.worldmap-zoom__controls button:hover {
-  background: var(--ink);
-  color: var(--paper);
-}
-
-.worldmap-zoom__reset svg {
-  width: 20px;
-  height: 20px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.8;
-}
 
 /* ═════════════ Celular ═════════════ */
 .tabbar {
@@ -2754,45 +2478,6 @@ h3 {
 }
 
 /* Indicación para el celular: aparece un momento y se va */
-.worldmap-zoom__hint {
-  display: none;
-}
-
-@media (pointer: coarse) {
-  .worldmap-zoom__hint {
-    display: block;
-    position: absolute;
-    left: 50%;
-    top: 12px;
-    margin: 0;
-    padding: 6px 14px;
-    border-radius: 999px;
-    background: var(--ink);
-    color: var(--paper);
-    font-size: 0.78rem;
-    font-weight: 700;
-    white-space: nowrap;
-    pointer-events: none;
-    transform: translateX(-50%);
-    animation: hint-fade 4.5s ease 0.6s both;
-  }
-}
-
-@keyframes hint-fade {
-  0% {
-    opacity: 0;
-    transform: translate(-50%, 6px);
-  }
-  12%,
-  80% {
-    opacity: 1;
-    transform: translate(-50%, 0);
-  }
-  100% {
-    opacity: 0;
-    transform: translate(-50%, 0);
-  }
-}
 
 /* Diario: buscar y opciones plegables (solo en el celular) */
 .notebook__tools-toggle {
@@ -2800,33 +2485,8 @@ h3 {
 }
 
 @media (max-width: 760px) {
-  /* Mapa: ocupa casi toda la pantalla para poder recorrerlo con los dedos */
-  .page--map .page__header .muted {
-    display: none;
-  }
 
-  .page--map {
-    gap: 12px;
-  }
-
-  .page--map .page__header .title {
-    margin: 0;
-  }
-
-  .map-card {
-    padding: 0;
-    margin: 0 -6px;
-  }
-
-  .worldmap-zoom {
-    aspect-ratio: auto;
-    height: min(66vh, 620px);
-    height: min(66svh, 620px);
-  }
-
-  .page--map .stats {
-    order: 2;
-  }
+  
 
   /* Detalle del país: hoja que sube desde abajo, sobre la barra de navegación */
   .country-panel {
@@ -4570,65 +4230,6 @@ h3 {
   }
 }
 
-/* ═════════════ Mapa: explicación y referencia ═════════════ */
-.map-intro {
-  margin: 4px auto 0;
-  max-width: 560px;
-  font-weight: 600;
-}
-
-.map-legend {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 8px 22px;
-  margin: 0;
-  padding: 12px 8px 4px;
-  list-style: none;
-  font-size: 0.85rem;
-  font-weight: 600;
-}
-
-.map-legend li {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.map-legend__mark {
-  width: 18px;
-  height: 22px;
-  overflow: visible;
-}
-
-.map-legend__mark--wide {
-  width: 30px;
-  height: 10px;
-}
-
-.map-legend__dot {
-  fill: var(--card);
-  stroke: var(--ink);
-  stroke-width: 1.6;
-}
-
-/* En el celular: la explicación queda, la indicación de tocar la reemplaza la referencia */
-@media (max-width: 760px) {
-  .page--map .page__header .map-intro {
-    display: block;
-    font-size: 0.92rem;
-  }
-
-  .page--map .page__header .map-hint {
-    display: none;
-  }
-
-  .map-legend {
-    padding: 10px 8px 2px;
-    font-size: 0.8rem;
-  }
-}
-
 .field__why {
   margin: 0;
   font-size: 0.8rem;
@@ -5361,4 +4962,360 @@ h3 {
 .topbar .sky:not(.sky--hero),
 .tabbar {
   zoom: var(--chrome-zoom, 1);
+}
+
+/* ───────────── Mi maleta ───────────── */
+
+.page--maleta .page__header {
+  text-align: center;
+}
+
+.maleta-intro {
+  max-width: 62ch;
+  margin: 8px auto 0;
+  font-weight: 600;
+}
+
+.maleta-hint {
+  margin: 6px auto 0;
+}
+
+.maleta-layout {
+  display: grid;
+  gap: 18px;
+  align-items: start;
+}
+
+@media (min-width: 1000px) {
+  .maleta-layout:has(.country-panel) {
+    grid-template-columns: minmax(0, 1fr) 340px;
+  }
+}
+
+.maleta-card {
+  position: relative;
+  padding: clamp(12px, 3vw, 28px);
+  background: var(--card);
+  border: var(--border);
+  border-radius: var(--radius);
+}
+
+.maleta-empty {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 12px;
+  padding: 16px;
+  text-align: center;
+}
+
+.maleta-empty p {
+  max-width: 30ch;
+  margin: 0;
+  padding: 12px 16px;
+  background: var(--card);
+  border: 1.5px dashed var(--ink);
+  border-radius: 12px;
+}
+
+/* La maleta dibujada */
+.suitcase {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 760px;
+  margin: 0 auto;
+  overflow: visible;
+}
+
+.suitcase__handle-out {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 12;
+  stroke-linecap: round;
+}
+
+.suitcase__handle-in {
+  fill: none;
+  stroke: var(--leather);
+  stroke-width: 6;
+  stroke-linecap: round;
+}
+
+.suitcase__body {
+  fill: var(--leather);
+  stroke: var(--ink);
+  stroke-width: 3;
+}
+
+.suitcase__seam {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1.5;
+  stroke-dasharray: 5 5;
+  opacity: 0.5;
+}
+
+.suitcase__corner {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 7;
+  stroke-linecap: round;
+}
+
+/* Las correas pasan por encima, pero no tapan los toques a las pegatinas */
+.suitcase__strap-group {
+  pointer-events: none;
+}
+
+.suitcase__strap {
+  fill: var(--leather-dark);
+  stroke: var(--ink);
+  stroke-width: 2.5;
+}
+
+.suitcase__buckle {
+  fill: #e9e2d3;
+  stroke: var(--ink);
+  stroke-width: 2.5;
+}
+
+.suitcase__foot {
+  fill: var(--ink);
+}
+
+.suitcase__sticker {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.2s ease;
+}
+
+.suitcase--interactive .suitcase__sticker {
+  cursor: pointer;
+}
+
+.suitcase--interactive .suitcase__sticker:hover,
+.suitcase__sticker.is-selected {
+  transform: scale(1.12);
+}
+
+.suitcase__sticker.is-selected .sticker {
+  filter: drop-shadow(0 0 0 var(--ink)) drop-shadow(0 3px 0 rgb(22 22 22 / 0.35));
+}
+
+.suitcase__sticker:focus {
+  outline: none;
+}
+
+.suitcase__sticker:focus-visible .sticker > :first-child {
+  stroke-width: 5;
+}
+
+/* La pegatina recién pegada cae sobre la maleta */
+.suitcase__sticker.is-fresh {
+  animation: sticker-stick 0.7s cubic-bezier(0.3, 1.5, 0.5, 1) 0.25s both;
+}
+
+@keyframes sticker-stick {
+  from {
+    opacity: 0;
+    transform: scale(1.9) rotate(-18deg);
+  }
+  60% {
+    opacity: 1;
+  }
+}
+
+/* Pegatinas */
+.sticker {
+  filter: drop-shadow(0 1.5px 0 rgb(22 22 22 / 0.25));
+}
+
+.sticker__yellow,
+.sticker__paper,
+.sticker__soft,
+.sticker__ink {
+  stroke: var(--ink);
+  stroke-width: 2.5;
+}
+
+.sticker__yellow {
+  fill: var(--yellow);
+}
+
+.sticker__paper {
+  fill: var(--card);
+}
+
+.sticker__soft {
+  fill: var(--yellow-soft);
+}
+
+.sticker__ink {
+  fill: var(--ink);
+}
+
+.sticker__dots {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1;
+  stroke-dasharray: 2 3;
+}
+
+.sticker__band {
+  fill: var(--ink);
+}
+
+.sticker__shape {
+  fill: none;
+  stroke: var(--ink);
+  stroke-linejoin: round;
+}
+
+.sticker--dark .sticker__shape--light {
+  stroke: var(--yellow);
+}
+
+.sticker__caps,
+.sticker__brand {
+  font-family: var(--font-body);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  fill: var(--ink);
+}
+
+.sticker--dark .sticker__caps--light {
+  fill: var(--yellow);
+}
+
+.sticker__brand {
+  font-size: 6.5px;
+  letter-spacing: 0.2em;
+  fill: var(--yellow);
+}
+
+.sticker__brand--ink {
+  font-size: 5.5px;
+  fill: var(--ink);
+}
+
+.sticker__serif {
+  font-family: var(--font-display);
+  fill: var(--ink);
+}
+
+.sticker__serif--italic {
+  font-style: italic;
+}
+
+/* Países por pegar */
+.to-stick {
+  margin-top: 18px;
+  padding: 14px 18px;
+  background: var(--card);
+  border: var(--border);
+  border-radius: var(--radius);
+}
+
+.to-stick summary {
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.to-stick__count {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.8em;
+  margin-left: 6px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--yellow);
+  font-size: 0.8rem;
+}
+
+.to-stick > .muted {
+  margin: 10px 0 12px;
+}
+
+.to-stick__list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(118px, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.to-stick__item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 44px;
+  padding: 6px 10px;
+  border: 1.5px dashed var(--line);
+  border-radius: 12px;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+
+.to-stick__item:hover,
+.to-stick__item.is-selected {
+  border-color: var(--ink);
+  background: var(--yellow-soft);
+}
+
+.to-stick__shape {
+  flex: none;
+  width: 28px;
+  height: 28px;
+}
+
+.to-stick__shape path {
+  stroke-dasharray: 3 3;
+}
+
+/* Después de guardar una respuesta */
+.suitcase--saved {
+  max-width: 440px;
+  margin: 4px auto 0;
+}
+
+.saved__detail {
+  margin: -4px 0 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .suitcase__sticker,
+  .suitcase__sticker.is-fresh {
+    animation: none;
+    transition: none;
+  }
+}
+
+/* En el inicio: la maleta chiquita dentro de la tarjeta de Individual (decorativa) */
+.suitcase--mini {
+  max-width: 220px;
+  margin: 4px 0 2px;
+}
+
+/* En el celular la maleta es chica: el aviso de maleta vacía va abajo, no encima */
+@media (max-width: 760px) {
+  .maleta-empty {
+    position: static;
+    padding: 14px 0 0;
+  }
+}
+
+.suitcase__top {
+  pointer-events: none;
 }

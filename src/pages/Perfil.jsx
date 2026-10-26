@@ -41,7 +41,7 @@ export default function Perfil() {
     const ok = await confirm({
       title: '¿Borrar tu perfil?',
       message:
-        'Se borran tu nombre, tu foto y tu código de pasajero. Tus respuestas, tu mapa y tu diario se mantienen en este dispositivo.',
+        'Se borran tu nombre, tu foto y tu código de pasajero. Tus respuestas, tu maleta y tu diario se mantienen en este dispositivo.',
       confirmLabel: 'Borrar perfil',
       danger: true,
     })
