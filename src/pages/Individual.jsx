@@ -7,7 +7,8 @@ import Title from '../components/Title.jsx'
 import WorldMap from '../components/WorldMap.jsx'
 import { COUNTRY_BY_ID } from '../data/countries.js'
 import { CATEGORIES, QUESTIONS, QUESTION_BY_ID } from '../data/questions.js'
-import { formatDate, plural } from '../lib/format.js'
+import { formatDate, formatLongDate, plural } from '../lib/format.js'
+import { clearDraft, getDraft, latestDraft, saveDraft } from '../state/drafts.js'
 import { useJourney } from '../state/useJourney.js'
 import { pickQuestion } from '../state/journey.js'
 import { useWindowScene } from '../state/scene.js'
@@ -25,6 +26,11 @@ export default function Individual() {
 function firstQuestion(params, answers) {
   const byId = QUESTION_BY_ID[Number(params.get('q'))]
   if (byId) return byId
+  // Si quedó algo a medio escribir, se retoma esa pregunta
+  if (!params.get('pais')) {
+    const pending = latestDraft()
+    if (pending && QUESTION_BY_ID[pending.questionId]) return QUESTION_BY_ID[pending.questionId]
+  }
   const countryId = params.get('pais')
   if (countryId) {
     const inCountry = QUESTIONS.filter((q) => q.countryId === countryId)
@@ -38,7 +44,9 @@ function IndividualGame({ params }) {
   const { answers, dispatch, answeredCount, totalQuestions, pins, routeCountries, profile } = useJourney()
   const [category, setCategory] = useState('all')
   const [question, setQuestion] = useState(() => firstQuestion(params, answers))
-  const [draft, setDraft] = useState('')
+  // Lo escrito se guarda solo, en cada tecla, hasta que se guarda la respuesta
+  const [resumed, setResumed] = useState(() => getDraft(question.id))
+  const [draft, setDraft] = useState(() => resumed?.text ?? '')
   const [saved, setSaved] = useState(false)
   const [showHistory, setShowHistory] = useState(true)
 
@@ -48,10 +56,22 @@ function IndividualGame({ params }) {
   const pendingInPool = pool.filter((q) => !answers[q.id]?.length).length
   const finished = answeredCount === totalQuestions
 
+  function updateDraft(text) {
+    setDraft(text)
+    saveDraft(question.id, text)
+  }
+
+  function startOver() {
+    updateDraft('')
+    setResumed(null)
+  }
+
   function goTo(next) {
     if (!next) return
+    const pending = getDraft(next.id)
     setQuestion(next)
-    setDraft('')
+    setResumed(pending)
+    setDraft(pending?.text ?? '')
     setSaved(false)
     setShowHistory(true)
   }
@@ -71,6 +91,8 @@ function IndividualGame({ params }) {
     const text = draft.trim()
     if (!text) return
     dispatch({ type: 'saveAnswer', questionId: question.id, text })
+    clearDraft(question.id)
+    setResumed(null)
     setSaved(true)
   }
 
@@ -150,6 +172,14 @@ function IndividualGame({ params }) {
         )}
 
         <form className="answer" onSubmit={handleSubmit}>
+          {resumed && (
+            <p className="answer__resumed">
+              Retomaste lo que estabas escribiendo el {formatLongDate(resumed.date)}.{' '}
+              <button type="button" className="btn--link" onClick={startOver}>
+                Empezar de cero
+              </button>
+            </p>
+          )}
           <label htmlFor="answer" className="sr-only">
             Tu respuesta
           </label>
@@ -162,11 +192,12 @@ function IndividualGame({ params }) {
             placeholder={
               previous.length ? '¿Qué responderías hoy? ¿Cambió algo?' : 'Escribí lo que sientas, sin apuro…'
             }
-            onChange={(e) => setDraft(e.target.value)}
+            onChange={(e) => updateDraft(e.target.value)}
           />
           <div className="answer__footer">
             <span className="muted">
               {draft.length}/{MAX_LENGTH}
+              {draft.trim() && <span className="answer__autosave"> · Borrador guardado</span>}
             </span>
             <div className="actions">
               {answeredCount - (previous.length ? 1 : 0) > 0 && (

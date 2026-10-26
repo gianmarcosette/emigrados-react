@@ -4,6 +4,7 @@ import { COUNTRY_BY_ID } from '../data/countries.js'
 import { CATEGORIES, CATEGORY_BY_KEY, QUESTION_BY_ID } from '../data/questions.js'
 import { buildDiaryIndex } from '../lib/diaryIndex.js'
 import { formatDate, formatLongDate, formatShortDate, plural } from '../lib/format.js'
+import { clearAllDrafts } from '../state/drafts.js'
 import { useJourney } from '../state/useJourney.js'
 
 // En el celular va una anotación por hoja para que el cuaderno no quede largo.
@@ -130,6 +131,7 @@ export default function Diary() {
   function reset() {
     if (window.confirm('¿Seguro que querés borrar todas tus respuestas? Esta acción no se puede deshacer.')) {
       dispatch({ type: 'reset' })
+      clearAllDrafts()
     }
   }
 
