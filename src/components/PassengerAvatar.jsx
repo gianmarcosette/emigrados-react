@@ -231,6 +231,8 @@ function Cap() {
 /* ───────── Cara ───────── */
 
 function Face({ expression }) {
+  // Pensativo mira de reojo hacia arriba, como quien busca un recuerdo
+  const look = expression === 'pensativo' ? { dx: 1.2, dy: -0.8 } : { dx: 0, dy: 0 }
   return (
     <g>
       {expression === 'sereno' ? (
@@ -240,20 +242,20 @@ function Face({ expression }) {
         </>
       ) : (
         <>
-          <circle cx="53.5" cy="58" r="1.9" fill={INK} stroke="none" />
-          <circle cx="66.5" cy="58" r="1.9" fill={INK} stroke="none" />
+          <circle cx={53.5 + look.dx} cy={58 + look.dy} r="1.9" fill={INK} stroke="none" />
+          <circle cx={66.5 + look.dx} cy={58 + look.dy} r="1.9" fill={INK} stroke="none" />
         </>
       )}
       {expression === 'pensativo' && (
         <>
-          <path d="M49.5 52 l7 -1.5" strokeWidth="2" />
-          <path d="M63.5 50.5 l7 1.5" strokeWidth="2" />
+          <path d="M50 52.5 h6.5" strokeWidth="2" />
+          <path d="M63.5 51.5 q3.5 -3 7 -0.5" strokeWidth="2" />
         </>
       )}
       <path d="M60 60.5 q-2.4 4.5 0.4 5.5" strokeWidth="2" />
-      {expression === 'sonrisa' && <path d="M53.5 70 q6.5 5.5 13 0" />}
+      {expression === 'sonrisa' && <path d="M52 68.5 Q60 78.5 68 68.5 Z" fill={PAPER} strokeLinejoin="round" />}
       {expression === 'sereno' && <path d="M55.5 70.5 q4.5 2.4 9 0" />}
-      {expression === 'pensativo' && <path d="M55.5 71 h9" />}
+      {expression === 'pensativo' && <path d="M55.5 71.5 q4.5 0.8 9 -2" />}
     </g>
   )
 }
