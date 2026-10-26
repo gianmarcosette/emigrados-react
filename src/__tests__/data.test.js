@@ -40,4 +40,11 @@ describe('siluetas de los países', () => {
       expect(d, country.name).toMatch(/^M/)
     }
   })
+
+  it('las siluetas guardadas están al día con el mapa (si falla: npm run shapes)', async () => {
+    const { shapeFromFeature } = await import('../lib/shapeGeometry.js')
+    const { default: saved } = await import('../data/countryShapes.json')
+    const features = new Map(feature(world, world.objects.countries).features.map((f) => [f.id, f]))
+    for (const [id, d] of Object.entries(saved)) expect(d, id).toBe(shapeFromFeature(features.get(id)))
+  })
 })

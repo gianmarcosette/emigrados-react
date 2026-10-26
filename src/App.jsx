@@ -1,14 +1,18 @@
+import { lazy } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import Layout from './components/Layout.jsx'
-import Grupal from './pages/Grupal.jsx'
 import Home from './pages/Home.jsx'
-import Individual from './pages/Individual.jsx'
-import Mapa from './pages/Mapa.jsx'
-import Online from './pages/Online.jsx'
 import NotFound from './pages/NotFound.jsx'
-import Perfil from './pages/Perfil.jsx'
-import AvatarPreview from './pages/AvatarPreview.jsx'
 import ProfileGate from './components/ProfileGate.jsx'
+
+// Cada modo se descarga recién cuando se abre: el inicio carga rápido aunque la
+// conexión sea lenta o con datos prepagos. El mapa del mundo viene solo con el mapa.
+const Individual = lazy(() => import('./pages/Individual.jsx'))
+const Grupal = lazy(() => import('./pages/Grupal.jsx'))
+const Online = lazy(() => import('./pages/Online.jsx'))
+const Mapa = lazy(() => import('./pages/Mapa.jsx'))
+const Perfil = lazy(() => import('./pages/Perfil.jsx'))
+const AvatarPreview = lazy(() => import('./pages/AvatarPreview.jsx'))
 
 export default function App() {
   return (

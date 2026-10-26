@@ -1,5 +1,5 @@
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { SceneContext } from '../state/scene.js'
 import { useJourney } from '../state/useJourney.js'
 import {
@@ -66,10 +66,10 @@ export default function Layout() {
         <ConfirmProvider>
           <div className={`app ${isHome ? 'app--home' : ''}`}>
             {/* Para teclado y lectores de pantalla: ir directo al contenido sin pasar por el menú */}
-        <a href="#contenido" className="skip-link">
-          Saltar al contenido
-        </a>
-        <Wallpaper />
+            <a href="#contenido" className="skip-link">
+              Saltar al contenido
+            </a>
+            <Wallpaper />
             {/* Logo y menú arriba; en las secciones, el lema cruza la franja de cielo */}
             <header className="topbar">
               <div className="topbar__row">
@@ -106,7 +106,15 @@ export default function Layout() {
                 </aside>
               )}
               <main className="main" id="contenido" tabIndex={-1}>
-                <Outlet />
+                <Suspense
+                  fallback={
+                    <p className="page-loading" role="status">
+                      Cargando…
+                    </p>
+                  }
+                >
+                  <Outlet />
+                </Suspense>
               </main>
             </div>
             {/* Menú inferior, solo en el celular */}

@@ -5003,3 +5003,225 @@ h3 {
   height: 56px;
   margin-bottom: 4px;
 }
+
+/* Mientras se descarga una sección (conexiones lentas) */
+.page-loading {
+  margin: 48px auto;
+  text-align: center;
+  color: var(--ink-soft);
+  animation: page-loading-in 0.2s ease-out 0.3s both;
+}
+
+@keyframes page-loading-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* ───────────── Grupal: un solo teléfono en la mesa ───────────── */
+
+.grupal__size[aria-pressed='true'] {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.grupal__size span[aria-hidden] {
+  font-family: var(--font-display);
+  font-size: 1.15em;
+  margin-right: 2px;
+}
+
+.grupal__note {
+  margin: -4px 0 4px;
+  font-size: 0.9rem;
+}
+
+/* Pantalla intermedia: la pregunta queda tapada hasta que el teléfono cambia de mano */
+.handoff {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+  background: var(--card);
+  border: var(--border);
+  border-radius: 20px;
+  padding: clamp(28px, 7vw, 56px) 20px;
+  scroll-margin-top: 12px;
+  animation: slide-in 0.3s ease-out;
+}
+
+.handoff__avatar {
+  width: 72px;
+  height: 72px;
+  font-size: 2rem;
+  background: var(--yellow);
+  color: var(--ink);
+  border: var(--border);
+}
+
+.handoff__eyebrow {
+  margin: 8px 0 0;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.handoff__name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2.8rem, 12vw, 4.5rem);
+  line-height: 1;
+  overflow-wrap: anywhere;
+  outline: none;
+}
+
+.handoff__hint {
+  margin: 0 0 12px;
+  color: var(--ink-soft);
+  max-width: 32ch;
+}
+
+.handoff__go {
+  max-width: 360px;
+  min-height: 56px;
+  font-size: 1.05rem;
+}
+
+/* Letra grande: el teléfono se lee apoyado en la mesa */
+.grupal--big .ticket .ticket__question {
+  font-size: clamp(2.3rem, 9vw, 3rem);
+  line-height: 1.12;
+}
+
+.grupal--big .group-hint {
+  font-size: 1.15rem;
+}
+
+.grupal--big .turn {
+  font-size: 1.3rem;
+}
+
+.grupal--big .actions .btn {
+  min-height: 52px;
+  font-size: 1.05rem;
+}
+
+/* Reloj para hablar */
+.talk-timer {
+  display: flex;
+  align-items: center;
+  gap: 12px 16px;
+  flex-wrap: wrap;
+  padding: 12px 14px;
+  border: 1.5px dashed var(--ink);
+  border-radius: 14px;
+}
+
+.talk-timer__clock {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 92px;
+}
+
+.talk-timer__time {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.grupal--big .talk-timer__time {
+  font-size: 2.8rem;
+}
+
+.talk-timer__bar {
+  display: block;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.talk-timer__bar span {
+  display: block;
+  height: 100%;
+  background: var(--ink);
+  transform-origin: left;
+  transition: transform 0.25s linear;
+}
+
+.talk-timer__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.talk-timer__msg {
+  flex: 1 1 200px;
+  margin: 0;
+  font-weight: 600;
+}
+
+.talk-timer.is-done {
+  background: var(--yellow-soft);
+  border-style: solid;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .handoff {
+    animation: none;
+  }
+
+  .talk-timer__bar span {
+    transition: none;
+  }
+}
+
+/* En el celular el botón de letra queda solo como "Aa" (el nombre lo sigue leyendo el lector de pantalla) */
+@media (max-width: 640px) {
+  .grupal__size-text {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .grupal__size span[aria-hidden] {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .grupal .toolbar {
+    gap: 4px 10px;
+    flex-wrap: nowrap;
+  }
+
+  .grupal .toolbar__count {
+    font-size: 0.8rem;
+  }
+
+  .handoff {
+    gap: 6px;
+    padding: 20px 16px;
+  }
+
+  .handoff__avatar {
+    width: 52px;
+    height: 52px;
+    font-size: 1.5rem;
+  }
+
+  .handoff__hint {
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+  }
+}

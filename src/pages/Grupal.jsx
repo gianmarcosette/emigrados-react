@@ -1,12 +1,24 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import QuestionCard from '../components/QuestionCard.jsx'
+import TalkTimer from '../components/TalkTimer.jsx'
 import Title from '../components/Title.jsx'
 import { CATEGORIES, QUESTIONS } from '../data/questions.js'
 import { shuffle } from '../state/journey.js'
 import { useWindowScene } from '../state/scene.js'
 import { useConfirm } from '../state/confirm.js'
+import { TIMER_OPTIONS } from '../lib/timer.js'
 
 const MAX_PLAYERS = 12
+const BIG_TEXT_KEY = 'emigrados:grupal-letra-grande'
+
+// Letra grande por defecto: el teléfono queda en la mesa y se lee de más lejos.
+function readBigText() {
+  try {
+    return localStorage.getItem(BIG_TEXT_KEY) !== 'no'
+  } catch {
+    return true
+  }
+}
 
 // Modo grupal: nada se guarda. Solo vive en el estado de este componente.
 export default function Grupal() {
@@ -17,7 +29,33 @@ export default function Grupal() {
   const [deck, setDeck] = useState(null)
   const [index, setIndex] = useState(0)
   const [turn, setTurn] = useState(0)
+  // Pantalla de "Pasale el teléfono a…": tapa la pregunta hasta que llega a la mano correcta
+  const [handoff, setHandoff] = useState(false)
+  const [timerSeconds, setTimerSeconds] = useState(0)
+  const [bigText, setBigText] = useState(readBigText)
+  const handoffRef = useRef(null)
   const confirm = useConfirm()
+  // Al pasar el teléfono, el lector de pantalla anuncia a quién le toca
+  useEffect(() => {
+    if (!handoff) return
+    // La tarjeta queda arriba de todo, con el botón a la vista aunque la pantalla sea chica
+    const card = handoffRef.current?.closest('.handoff')
+    card?.scrollIntoView({ block: 'start' })
+    handoffRef.current?.focus({ preventScroll: true })
+  }, [handoff, turn])
+  // Con una sola persona no hace falta pasar el teléfono
+  const passing = players.length >= 2
+
+  function toggleBigText() {
+    setBigText((on) => {
+      try {
+        localStorage.setItem(BIG_TEXT_KEY, on ? 'no' : 'si')
+      } catch {
+        // Sin almacenamiento igual funciona, solo no se recuerda
+      }
+      return !on
+    })
+  }
 
   function addPlayer(e) {
     e.preventDefault()
@@ -39,6 +77,7 @@ export default function Grupal() {
     setDeck(shuffle(QUESTIONS.filter((q) => categories.includes(q.category))))
     setIndex(0)
     setTurn(0)
+    setHandoff(passing)
   }
 
   async function endGame() {
@@ -59,25 +98,65 @@ export default function Grupal() {
     } else {
       setIndex((i) => i + 1)
     }
-    if (passTurn) setTurn((t) => t + 1)
+    if (passTurn) {
+      setTurn((t) => t + 1)
+      setHandoff(passing)
+    }
+    // La pregunta nueva arranca desde arriba
+    window.scrollTo({ top: 0 })
   }
 
   if (deck) {
     const question = deck[index]
     const current = players.length ? players[turn % players.length] : null
     const round = players.length ? Math.floor(turn / players.length) + 1 : null
-    return (
-      <div className="page">
-        <div className="toolbar">
-          <span className="pill">Grupal</span>
-          <span className="toolbar__count">
-            Pregunta {turn + 1}
-            {round ? ` · Ronda ${round}` : ''}
-          </span>
-          <button type="button" className="btn btn--text" onClick={endGame}>
-            Terminar partida
-          </button>
+    const toolbar = (
+      <div className="toolbar">
+        <span className="pill">Grupal</span>
+        <span className="toolbar__count">
+          Pregunta {turn + 1}
+          {round ? ` · Ronda ${round}` : ''}
+        </span>
+        <button
+          type="button"
+          className="btn btn--text grupal__size"
+          aria-pressed={bigText}
+          title="Letra grande"
+          onClick={toggleBigText}
+        >
+          <span aria-hidden="true">Aa</span>
+          <span className="grupal__size-text">Letra grande</span>
+        </button>
+        <button type="button" className="btn btn--text" onClick={endGame}>
+          Terminar partida
+        </button>
+      </div>
+    )
+
+    if (handoff && current) {
+      return (
+        <div className={`page grupal ${bigText ? 'grupal--big' : ''}`}>
+          {toolbar}
+          <section className="handoff" aria-labelledby="handoff-title">
+            <span className="avatar handoff__avatar" aria-hidden="true">
+              {current[0].toUpperCase()}
+            </span>
+            <p className="handoff__eyebrow">Pasale el teléfono a</p>
+            <h1 id="handoff-title" className="handoff__name" tabIndex={-1} ref={handoffRef}>
+              {current}
+            </h1>
+            <p className="handoff__hint">La pregunta está tapada para que nadie la vea antes de tiempo.</p>
+            <button type="button" className="btn btn--primary btn--block handoff__go" onClick={() => setHandoff(false)}>
+              Soy {current}, ver mi pregunta
+            </button>
+          </section>
         </div>
+      )
+    }
+
+    return (
+      <div className={`page grupal ${bigText ? 'grupal--big' : ''}`}>
+        {toolbar}
 
         {current && (
           <div className="turn" aria-live="polite">
@@ -87,9 +166,7 @@ export default function Grupal() {
             <span>
               Le toca a <strong>{current}</strong>
             </span>
-            <span className="turn__queue">
-              Después: {players[(turn + 1) % players.length]}
-            </span>
+            <span className="turn__queue">Después: {players[(turn + 1) % players.length]}</span>
           </div>
         )}
 
@@ -101,6 +178,8 @@ export default function Grupal() {
           <p className="group-hint">
             Respondé en voz alta. Después, cualquiera puede sumar su experiencia: ¿a alguien más le pasó algo parecido?
           </p>
+          {/* key: el reloj vuelve a cero con cada pregunta */}
+          {timerSeconds > 0 && <TalkTimer key={`${turn}-${index}`} seconds={timerSeconds} />}
           <div className="actions actions--end">
             {/* Cada botón dice qué pasa: otra pregunta para quien juega, o pasarle el turno a alguien */}
             <button type="button" className="btn btn--ghost" onClick={() => advance({ passTurn: false })}>
@@ -111,7 +190,9 @@ export default function Grupal() {
             </button>
           </div>
         </QuestionCard>
-        <p className="muted center">En el modo grupal no se guarda nada. Lo que se dice en la mesa, queda en la mesa.</p>
+        <p className="muted center">
+          En el modo grupal no se guarda nada. Lo que se dice en la mesa, queda en la mesa.
+        </p>
       </div>
     )
   }
@@ -137,7 +218,11 @@ export default function Grupal() {
             placeholder="Nombre de un jugador"
             onChange={(e) => setNewPlayer(e.target.value)}
           />
-          <button type="submit" className="btn btn--ghost" disabled={!newPlayer.trim() || players.length >= MAX_PLAYERS}>
+          <button
+            type="submit"
+            className="btn btn--ghost"
+            disabled={!newPlayer.trim() || players.length >= MAX_PLAYERS}
+          >
             Sumar
           </button>
         </form>
@@ -150,7 +235,12 @@ export default function Grupal() {
                   {p[0].toUpperCase()}
                 </span>
                 {p}
-                <button type="button" className="player__remove" aria-label={`Quitar a ${p}`} onClick={() => removePlayer(i)}>
+                <button
+                  type="button"
+                  className="player__remove"
+                  aria-label={`Quitar a ${p}`}
+                  onClick={() => removePlayer(i)}
+                >
                   ×
                 </button>
               </li>
@@ -176,13 +266,36 @@ export default function Grupal() {
           })}
         </div>
 
+        <h2 className="panel__subtitle" id="timer-title">
+          ¿Tiempo para hablar?
+        </h2>
+        <p className="muted grupal__note">
+          Un reloj opcional para que todos tengan su momento. Arranca cuando lo tocan.
+        </p>
+        <div className="chips" role="group" aria-labelledby="timer-title">
+          {TIMER_OPTIONS.map((o) => (
+            <button
+              key={o.seconds}
+              type="button"
+              className={`chip chip--toggle ${timerSeconds === o.seconds ? 'chip--on' : ''}`}
+              aria-pressed={timerSeconds === o.seconds}
+              onClick={() => setTimerSeconds(o.seconds)}
+            >
+              {o.label}
+            </button>
+          ))}
+        </div>
+
         {!categories.length && (
           <p className="field__error" role="status">
             Elegí al menos una etapa para empezar.
           </p>
         )}
         <button type="button" className="btn btn--primary btn--block" disabled={!categories.length} onClick={start}>
-          {players.length ? `Empezar con ${players.length} jugador${players.length === 1 ? '' : 'es'}` : 'Empezar sin nombres'} »
+          {players.length
+            ? `Empezar con ${players.length} jugador${players.length === 1 ? '' : 'es'}`
+            : 'Empezar sin nombres'}{' '}
+          »
         </button>
       </section>
     </div>
