@@ -10,7 +10,7 @@ const PAPER = '#fbf9f5'
 const SAND = '#e9e2d3'
 const STROKE = { stroke: INK, strokeWidth: 2.4, strokeLinecap: 'round', strokeLinejoin: 'round' }
 
-export default function PassengerAvatar({ avatar, size = 120, label = 'Avatar', className = '' }) {
+export default function PassengerAvatar({ avatar, size = 120, label = 'Avatar', decorative = false, className = '' }) {
   const a = normalizeAvatar(avatar) ?? DEFAULT_AVATAR
   const id = useId().replace(/:/g, '')
   const skin = colorOf('skin', a.skin)
@@ -21,10 +21,11 @@ export default function PassengerAvatar({ avatar, size = 120, label = 'Avatar', 
   return (
     <svg
       viewBox="0 0 120 120"
-      width={size}
-      height={size}
-      role="img"
-      aria-label={label}
+      width={size ?? undefined}
+      height={size ?? undefined}
+      role={decorative ? undefined : 'img'}
+      aria-label={decorative ? undefined : label}
+      aria-hidden={decorative || undefined}
       className={`passenger-avatar ${className}`}
     >
       <defs>
