@@ -202,7 +202,7 @@ function IndividualGame({ params }) {
             <div className="actions">
               {answeredCount - (previous.length ? 1 : 0) > 0 && (
                 <button type="button" className="btn btn--text" onClick={() => nextQuestion({ revisit: true })}>
-                  Repetir una anterior
+                  Volver a una que ya respondí
                 </button>
               )}
               <button type="button" className="btn btn--ghost" onClick={() => nextQuestion()}>

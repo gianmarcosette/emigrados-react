@@ -12,6 +12,7 @@ import {
 } from '../online/mockServer.js'
 import { ANSWER_MAX, checkAnswer, echoOptions, fillPrompt, promptOptions } from '../online/talk.js'
 import { useJourney } from '../state/useJourney.js'
+import { useConfirm } from '../state/confirm.js'
 import Avatar from './Avatar.jsx'
 import Title from './Title.jsx'
 
@@ -38,6 +39,7 @@ export default function GuidedTalk({ me, rival, onExit }) {
   const [reporting, setReporting] = useState(false)
   const [savedToDiary, setSavedToDiary] = useState(false)
   const { dispatch } = useJourney()
+  const confirm = useConfirm()
   const endRef = useRef(null)
   const theirCountry = countryName(rival.country)
   const myCountry = countryName(me.country)
@@ -140,7 +142,13 @@ export default function GuidedTalk({ me, rival, onExit }) {
   }
 
   async function block() {
-    if (!window.confirm(`¿Bloquear a ${rival.name}? La charla se cierra y no van a volver a cruzarse.`)) return
+    const ok = await confirm({
+      title: `¿Bloquear a ${rival.name}?`,
+      message: 'La charla se cierra y no van a volver a cruzarse en el modo online.',
+      confirmLabel: 'Bloquear',
+      danger: true,
+    })
+    if (!ok) return
     await blockRival(rival)
     setPhase('blocked')
   }

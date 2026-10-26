@@ -4,6 +4,7 @@ import Title from '../components/Title.jsx'
 import { CATEGORIES, QUESTIONS } from '../data/questions.js'
 import { shuffle } from '../state/journey.js'
 import { useWindowScene } from '../state/scene.js'
+import { useConfirm } from '../state/confirm.js'
 
 const MAX_PLAYERS = 12
 
@@ -16,6 +17,7 @@ export default function Grupal() {
   const [deck, setDeck] = useState(null)
   const [index, setIndex] = useState(0)
   const [turn, setTurn] = useState(0)
+  const confirm = useConfirm()
 
   function addPlayer(e) {
     e.preventDefault()
@@ -37,6 +39,16 @@ export default function Grupal() {
     setDeck(shuffle(QUESTIONS.filter((q) => categories.includes(q.category))))
     setIndex(0)
     setTurn(0)
+  }
+
+  async function endGame() {
+    const ok = await confirm({
+      title: '¿Terminar la partida?',
+      message: 'Vuelven a la pantalla para armar la ronda. Como en todo el modo grupal, no se guarda nada.',
+      confirmLabel: 'Terminar',
+      cancelLabel: 'Seguir jugando',
+    })
+    if (ok) setDeck(null)
   }
 
   function advance({ passTurn }) {
@@ -62,7 +74,7 @@ export default function Grupal() {
             Pregunta {turn + 1}
             {round ? ` · Ronda ${round}` : ''}
           </span>
-          <button type="button" className="btn btn--text" onClick={() => setDeck(null)}>
+          <button type="button" className="btn btn--text" onClick={endGame}>
             Terminar partida
           </button>
         </div>
@@ -90,11 +102,12 @@ export default function Grupal() {
             Respondé en voz alta. Después, cualquiera puede sumar su experiencia: ¿a alguien más le pasó algo parecido?
           </p>
           <div className="actions actions--end">
+            {/* Cada botón dice qué pasa: otra pregunta para quien juega, o pasarle el turno a alguien */}
             <button type="button" className="btn btn--ghost" onClick={() => advance({ passTurn: false })}>
-              Cambiar pregunta
+              {current ? `Otra pregunta para ${current}` : 'Otra pregunta'}
             </button>
             <button type="button" className="btn btn--primary" onClick={() => advance({ passTurn: true })}>
-              Siguiente »
+              {current ? `Turno de ${players[(turn + 1) % players.length]} »` : 'Siguiente pregunta »'}
             </button>
           </div>
         </QuestionCard>
@@ -163,6 +176,11 @@ export default function Grupal() {
           })}
         </div>
 
+        {!categories.length && (
+          <p className="field__error" role="status">
+            Elegí al menos una etapa para empezar.
+          </p>
+        )}
         <button type="button" className="btn btn--primary btn--block" disabled={!categories.length} onClick={start}>
           {players.length ? `Empezar con ${players.length} jugador${players.length === 1 ? '' : 'es'}` : 'Empezar sin nombres'} »
         </button>

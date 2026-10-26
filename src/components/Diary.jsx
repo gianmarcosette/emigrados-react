@@ -5,6 +5,7 @@ import { CATEGORIES, CATEGORY_BY_KEY, QUESTION_BY_ID } from '../data/questions.j
 import { buildDiaryIndex } from '../lib/diaryIndex.js'
 import { formatDate, formatLongDate, formatShortDate, plural } from '../lib/format.js'
 import { clearAllDrafts } from '../state/drafts.js'
+import { useConfirm } from '../state/confirm.js'
 import { useJourney } from '../state/useJourney.js'
 import { countryName } from '../data/residence.js'
 
@@ -31,6 +32,7 @@ function useIsMobile() {
 export default function Diary() {
   const { answers, answeredCount, talks = [], dispatch, profile } = useJourney()
   const entryCount = answeredCount + talks.length
+  const confirm = useConfirm()
   const [category, setCategory] = useState('all')
   const [search, setSearch] = useState('')
   const [page, setPage] = useState(null) // null: el cuaderno abre en la última página escrita
@@ -150,8 +152,21 @@ export default function Diary() {
     URL.revokeObjectURL(url)
   }
 
-  function reset() {
-    if (window.confirm('¿Seguro que querés borrar todas tus respuestas y charlas? Esta acción no se puede deshacer.')) {
+  async function reset() {
+    const ok = await confirm({
+      title: '¿Borrar todo tu diario?',
+      message: `Se borran ${[
+        answeredCount && plural(answeredCount, 'respuesta', 'respuestas'),
+        talks.length && plural(talks.length, 'charla', 'charlas'),
+      ]
+        .filter(Boolean)
+        .join(
+          ' y ',
+        )}, tu mapa y tus borradores. No se puede deshacer: si querés conservarlas, descargá el diario antes.`,
+      confirmLabel: 'Borrar todo',
+      danger: true,
+    })
+    if (ok) {
       dispatch({ type: 'reset' })
       clearAllDrafts()
     }
@@ -354,6 +369,7 @@ export default function Diary() {
           <span>
             {current + 1} / {pages}
           </span>
+          <span className="notebook__swipe">También podés deslizar la hoja con el dedo</span>
           <button
             type="button"
             className="btn btn--text"
