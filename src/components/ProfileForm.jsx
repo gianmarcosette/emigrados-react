@@ -2,7 +2,9 @@ import { useId, useRef, useState } from 'react'
 import { RESIDENCE_OPTIONS } from '../data/residence.js'
 import { photoToDataUrl } from '../lib/image.js'
 import { BIO_MAX, MAX_AGE, MIN_AGE, NAME_MAX, buildProfile, validateProfile } from '../state/profile.js'
+import { randomAvatar } from '../lib/avatar.js'
 import Avatar from './Avatar.jsx'
+import AvatarEditor from './AvatarEditor.jsx'
 
 export default function ProfileForm({ initial, onSave, onCancel, submitLabel = 'Guardar perfil' }) {
   const id = useId()
@@ -13,6 +15,8 @@ export default function ProfileForm({ initial, onSave, onCancel, submitLabel = '
     bio: initial?.bio ?? '',
     country: initial?.country ?? '',
     photo: initial?.photo ?? null,
+    // Quien todavía no tiene avatar arranca con uno armado al azar, nunca con un círculo vacío
+    avatar: initial?.avatar ?? randomAvatar(),
   })
   const [errors, setErrors] = useState({})
   const [submitted, setSubmitted] = useState(false)
@@ -51,26 +55,42 @@ export default function ProfileForm({ initial, onSave, onCancel, submitLabel = '
 
   return (
     <form className="profile-form" onSubmit={handleSubmit} noValidate>
-      <div className="profile-form__photo">
-        <button
-          type="button"
-          className="photo-picker"
-          onClick={() => fileInput.current?.click()}
-          aria-label={form.photo ? 'Cambiar foto de perfil' : 'Subir foto de perfil'}
-        >
-          <Avatar profile={{ name: form.name, photo: form.photo }} size="lg" />
-          <span className="photo-picker__label">
-            {loadingPhoto ? 'Cargando…' : form.photo ? 'Cambiar foto' : 'Subir foto'}
-          </span>
-        </button>
+      {/* Tu pasajero: lo principal es el avatar dibujado; la foto queda como opción */}
+      <section className="profile-form__avatar" aria-labelledby={`${id}-avatar-title`}>
+        <h2 id={`${id}-avatar-title`} className="profile-form__section-title">
+          Tu pasajero
+        </h2>
+        {form.photo ? (
+          <div className="profile-form__photo">
+            <Avatar profile={{ name: form.name, photo: form.photo }} size="lg" />
+            <p className="muted">Estás usando una foto. Si la quitás, se muestra tu avatar dibujado.</p>
+            <div className="actions actions--center">
+              <button type="button" className="btn btn--ghost" onClick={() => fileInput.current?.click()}>
+                Cambiar foto
+              </button>
+              <button type="button" className="btn btn--text" onClick={() => update('photo', null)}>
+                Usar mi avatar
+              </button>
+            </div>
+          </div>
+        ) : (
+          <AvatarEditor value={form.avatar} onChange={(next) => update('avatar', next)} />
+        )}
         <input ref={fileInput} type="file" accept="image/*" className="sr-only" onChange={handlePhoto} tabIndex={-1} />
-        {form.photo && (
-          <button type="button" className="btn btn--text" onClick={() => update('photo', null)}>
-            Quitar foto
-          </button>
+        {!form.photo && (
+          <p className="profile-form__photo-alt">
+            <button
+              type="button"
+              className="btn--link"
+              onClick={() => fileInput.current?.click()}
+              disabled={loadingPhoto}
+            >
+              {loadingPhoto ? 'Cargando foto…' : 'O usar una foto en lugar del avatar'}
+            </button>
+          </p>
         )}
         {photoError && <p className="field__error">{photoError}</p>}
-      </div>
+      </section>
 
       <div className="profile-form__fields">
         <div className="field">

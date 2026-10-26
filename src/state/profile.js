@@ -1,7 +1,8 @@
 // Perfil del jugador: validación y normalización (sin React, para testear).
 import { isCountryCode } from '../data/residence.js'
+import { normalizeAvatar } from '../lib/avatar.js'
 
-export const MIN_AGE = 16
+export const MIN_AGE = 18
 export const MAX_AGE = 120
 export const NAME_MAX = 40
 export const BIO_MAX = 200
@@ -48,6 +49,8 @@ export function buildProfile(form, previous, now = new Date().toISOString()) {
     bio: (form.bio ?? '').trim(),
     country: isCountryCode(form.country) ? form.country : null,
     photo: form.photo ?? null,
+    // Tu pasajero dibujado; si hay foto, se muestra la foto
+    avatar: normalizeAvatar(form.avatar),
     code: previous?.code ?? generatePassengerCode(),
     createdAt: previous?.createdAt ?? now,
     updatedAt: now,
@@ -64,6 +67,7 @@ export function normalizeProfile(data, legacyName) {
       // Los perfiles anteriores no tenían país: se pide al completar el perfil
       country: isCountryCode(data.country) ? data.country : null,
       photo: typeof data.photo === 'string' && data.photo.startsWith('data:image/') ? data.photo : null,
+      avatar: normalizeAvatar(data.avatar),
       // Los perfiles creados antes de que existiera el código reciben uno nuevo
       code: typeof data.code === 'string' && CODE_PATTERN.test(data.code) ? data.code : generatePassengerCode(),
       createdAt: typeof data.createdAt === 'string' ? data.createdAt : null,

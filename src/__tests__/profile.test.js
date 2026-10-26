@@ -28,8 +28,9 @@ describe('validateProfile', () => {
     expect(validateProfile({ name: 'A', age: 30, country: 'XX' }).country).toBeDefined()
   })
 
-  it('rechaza menores de 16 y edades no enteras', () => {
-    expect(validateProfile({ name: 'A', age: '15' }).age).toMatch(/16/)
+  it('rechaza menores de 18 y edades no enteras', () => {
+    expect(validateProfile({ name: 'A', age: '17' }).age).toMatch(/18/)
+    expect(validateProfile({ name: 'A', age: '18', country: 'ES' })).toEqual({})
     expect(validateProfile({ name: 'A', age: '20.5' }).age).toBeDefined()
     expect(validateProfile({ name: 'A', age: '200' }).age).toBeDefined()
   })
@@ -48,6 +49,7 @@ describe('buildProfile', () => {
       bio: 'hola',
       country: 'UY',
       photo: null,
+      avatar: null,
       code: expect.stringMatching(CODE_PATTERN),
       createdAt: 't1',
       updatedAt: 't1',
@@ -91,6 +93,18 @@ describe('perfil en el estado del juego', () => {
     expect(isProfileComplete(old)).toBe(false)
     expect(isProfileComplete({ ...old, country: 'ES' })).toBe(true)
     expect(normalizeProfile({ name: 'Ana', age: 30, country: 'ES' }).country).toBe('ES')
+  })
+
+  it('guarda el avatar y descarta piezas desconocidas', () => {
+    const profile = buildProfile(
+      { name: 'Ana', age: 30, country: 'ES', avatar: { hair: 'rulos', item: 'nave' } },
+      null,
+      't',
+    )
+    expect(profile.avatar.hair).toBe('rulos')
+    expect(profile.avatar.item).toBe('ninguno')
+    expect(normalizeProfile({ name: 'Ana', age: 30, avatar: { hair: 'largo' } }).avatar.hair).toBe('largo')
+    expect(normalizeProfile({ name: 'Ana', age: 30 }).avatar).toBeNull()
   })
 
   it('descarta fotos que no son imágenes', () => {

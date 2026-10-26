@@ -1,11 +1,12 @@
 import { COUNTRY_BY_ID } from '../data/countries.js'
 import { CATEGORIES, CATEGORY_BY_KEY } from '../data/questions.js'
+import Avatar from './Avatar.jsx'
 import CountryStamp from './CountryStamp.jsx'
 import Title from './Title.jsx'
 
 // La pregunta se presenta como una tarjeta de embarque: cada pregunta es un vuelo
 // con destino a un país. El talón lleva el pasajero, el sello y un código de barras.
-export default function QuestionCard({ question, eyebrow, passenger, passengerCode, children }) {
+export default function QuestionCard({ question, eyebrow, passenger, passengerCode, passengerProfile, children }) {
   const country = COUNTRY_BY_ID[question.countryId]
   const category = CATEGORY_BY_KEY[question.category]
   const flight = `EM ${String(question.id).padStart(3, '0')}`
@@ -43,6 +44,8 @@ export default function QuestionCard({ question, eyebrow, passenger, passengerCo
 
       <aside className="ticket__stub">
         <div className="ticket__passenger">
+          {/* Tu pasajero dibujado (o tu foto) en el talón */}
+          {(passengerProfile?.avatar || passengerProfile?.photo) && <Avatar profile={passengerProfile} size="md" />}
           <span>Pasajero</span>
           <strong>{passenger || 'Invitado'}</strong>
           {passengerCode && <em className="ticket__code">{passengerCode}</em>}

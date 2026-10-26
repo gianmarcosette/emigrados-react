@@ -2,7 +2,7 @@
 
 **Emigrados** es un juego de preguntas creado para la activación de la marca **En Palabras**. Su objetivo es hablar de todo el proceso que implica emigrar: lo que pensábamos antes de irnos, lo que sentimos en el nuevo lugar y cómo nos reinventamos. Un espacio seguro, en medio de la rutina, para conocernos más y entender por qué estamos donde estamos.
 
-- **Público:** mayores de 16 años que hayan vivido al menos 6 meses fuera de su país.
+- **Público:** mayores de 18 años (pensado para personas de 18 a 55) que hayan vivido al menos 6 meses fuera de su país.
 - **Objetivo del juego:** responder las **208 preguntas** y así "dar la vuelta al mundo".
 - **Referentes:** Trivial, Preguntados, P.A.P.A.
 

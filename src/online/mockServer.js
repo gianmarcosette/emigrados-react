@@ -15,6 +15,7 @@
 // que hable con un servidor (por ejemplo, Supabase Realtime o Firebase). Las pantallas
 // y las reglas del duelo (duel.js) no cambian.
 import { TRIVIA } from '../data/trivia.js'
+import { randomAvatar } from '../lib/avatar.js'
 import { echoOptions, promptOptions } from './talk.js'
 
 // Nombres de pila de personas simuladas por país donde viven
@@ -80,6 +81,8 @@ export async function findOpponent(code, me, random = Math.random) {
     name,
     age: 20 + Math.floor(random() * 35),
     country: code,
+    // Cada persona simulada trae su propio pasajero dibujado
+    avatar: randomAvatar(random),
     simulated: true,
   }
 }

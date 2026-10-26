@@ -1,12 +1,16 @@
 import { initials } from '../state/profile.js'
+import PassengerAvatar from './PassengerAvatar.jsx'
 
-// Foto de perfil o, si no hay, las iniciales (o una silueta) sobre un círculo.
+// Foto de perfil, avatar dibujado (tu pasajero) o, si no hay ninguno, las iniciales.
 export default function Avatar({ profile, size = 'md' }) {
-  const label = profile?.name ? `Foto de ${profile.name}` : 'Perfil'
+  const label = profile?.name ? `${profile.photo ? 'Foto' : 'Avatar'} de ${profile.name}` : 'Perfil'
   const letters = initials(profile?.name).toUpperCase()
+  const drawn = !profile?.photo && profile?.avatar
   return (
-    <span className={`avatar avatar--me avatar--${size}`} role="img" aria-label={label}>
-      {profile?.photo ? (
+    <span className={`avatar avatar--me avatar--${size} ${drawn ? 'avatar--drawn' : ''}`} role="img" aria-label={label}>
+      {drawn ? (
+        <PassengerAvatar avatar={profile.avatar} size={null} label="" decorative />
+      ) : profile?.photo ? (
         <img src={profile.photo} alt="" />
       ) : letters ? (
         letters
