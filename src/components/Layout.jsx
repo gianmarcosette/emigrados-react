@@ -15,6 +15,7 @@ import { TAB_ICONS } from './icons.jsx'
 import Wallpaper from './illustrations/Wallpaper.jsx'
 import PlaneWindow from './PlaneWindow.jsx'
 import SkyBanner, { MOTTO } from './SkyBanner.jsx'
+import TextSize from './TextSize.jsx'
 import Wordmark from './Wordmark.jsx'
 
 // Título de la pestaña del navegador en cada pantalla (lo leen también los lectores de pantalla)
@@ -94,6 +95,7 @@ export default function Layout() {
                     {profile ? 'Mi perfil' : 'Crear perfil'}
                   </NavLink>
                 </nav>
+                <TextSize />
               </div>
               {/* En el inicio la avioneta no va acá: es la protagonista de la pantalla */}
               {!isHome && <SkyBanner>{MOTTO}</SkyBanner>}

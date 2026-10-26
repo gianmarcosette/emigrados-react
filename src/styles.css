@@ -399,7 +399,9 @@ textarea:focus {
 }
 
 .hero__title {
-  font-size: clamp(2.6rem, 8vw, 5rem);
+  /* Es el logotipo: crece con la letra elegida pero nunca más ancho que la pantalla
+     ("EMIGRADOS" con su espaciado mide unas 8 veces el tamaño de la letra) */
+  font-size: min(clamp(2.6rem, 8vw, 5rem), calc((100vw - 40px) / 8));
   font-weight: 400;
   color: var(--teal-dark);
   margin: 0;
@@ -2704,8 +2706,8 @@ h3 {
   }
 
   .tab svg {
-    width: 26px;
-    height: 26px;
+    width: 1.625rem;
+    height: 1.625rem;
     fill: none;
     stroke: currentColor;
     stroke-width: 1.8;
@@ -3091,8 +3093,8 @@ h3 {
 
 /* ═════════════ Encabezado: cielo nocturno con la bandera del lema ═════════════ */
 .topbar {
-  --row: 64px;
-  --lane: 52px;
+  --row: 4rem;
+  --lane: 3.25rem;
   position: relative;
   z-index: 5;
   margin-bottom: 18px;
@@ -3242,13 +3244,13 @@ h3 {
 
 @media (max-width: 760px) {
   .topbar {
-    --row: 52px;
-    --lane: 62px;
+    --row: 3.25rem;
+    --lane: 3.875rem;
   }
 
   /* En el celular la bandera lleva la frase en dos renglones */
   .sky__banner {
-    width: 284px;
+    width: 17.75rem;
     padding: 5px 12px 5px 20px;
     font-size: 0.7rem;
     line-height: 1.25;
@@ -5202,4 +5204,155 @@ h3 {
 
 .speaker--passed .speaker__name {
   text-decoration: line-through;
+}
+
+/* ───────────── Tamaño de letra ───────────── */
+
+.text-size-btn {
+  flex: none;
+  display: grid;
+  place-items: center;
+  min-width: 2.75rem;
+  height: 2.5rem;
+  padding: 0 0.6rem;
+  border: 1.5px solid currentColor;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--paper);
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.text-size-btn:hover {
+  background: rgb(255 255 255 / 0.1);
+}
+
+/* En el celular el logo queda centrado y el botón a la derecha */
+@media (max-width: 760px) {
+  .topbar__row {
+    position: relative;
+  }
+
+  .text-size-btn {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 2.25rem;
+    min-width: 2.5rem;
+    font-size: 1.1rem;
+  }
+}
+
+.text-size {
+  width: min(440px, calc(100vw - 32px));
+  max-height: calc(100dvh - 32px);
+  padding: 0;
+  border: var(--border);
+  border-radius: 20px;
+  background: var(--card);
+  color: var(--ink);
+}
+
+.text-size::backdrop {
+  background: rgb(22 22 22 / 0.55);
+}
+
+.text-size__box {
+  display: grid;
+  gap: 14px;
+  padding: 22px 20px 20px;
+}
+
+.text-size__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.8rem;
+  line-height: 1.1;
+}
+
+.text-size__note {
+  margin: -6px 0 0;
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+}
+
+.text-size__options {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.text-size__option {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  align-content: end;
+  gap: 6px;
+  min-height: 92px;
+  padding: 10px 2px 8px;
+  border: 1.5px solid var(--line);
+  border-radius: 14px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.text-size__option input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.text-size__option:has(input:focus-visible) {
+  outline: 3px solid var(--ink);
+  outline-offset: 2px;
+}
+
+.text-size__option.is-selected {
+  border: var(--border);
+  background: var(--yellow);
+}
+
+.text-size__sample {
+  font-family: var(--font-display);
+  line-height: 1;
+}
+
+.text-size__label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.text-size__preview {
+  margin: 0;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: var(--yellow-soft);
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  line-height: 1.2;
+}
+
+@media (min-width: 761px) {
+  .topbar__row {
+    justify-content: flex-start;
+  }
+
+  .topbar__nav {
+    margin-left: auto;
+  }
+}
+
+/* Menús con tope de tamaño (ver chromeZoom en lib/textSize.js) */
+.topbar__row,
+.topbar .sky:not(.sky--hero),
+.tabbar {
+  zoom: var(--chrome-zoom, 1);
 }
