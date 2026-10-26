@@ -28,8 +28,9 @@ describe('validateProfile', () => {
     expect(validateProfile({ name: 'A', age: 30, country: 'XX' }).country).toBeDefined()
   })
 
-  it('rechaza menores de 16 y edades no enteras', () => {
-    expect(validateProfile({ name: 'A', age: '15' }).age).toMatch(/16/)
+  it('rechaza menores de 18 y edades no enteras', () => {
+    expect(validateProfile({ name: 'A', age: '17' }).age).toMatch(/18/)
+    expect(validateProfile({ name: 'A', age: '18', country: 'ES' })).toEqual({})
     expect(validateProfile({ name: 'A', age: '20.5' }).age).toBeDefined()
     expect(validateProfile({ name: 'A', age: '200' }).age).toBeDefined()
   })

@@ -1,7 +1,7 @@
 // Perfil del jugador: validación y normalización (sin React, para testear).
 import { isCountryCode } from '../data/residence.js'
 
-export const MIN_AGE = 16
+export const MIN_AGE = 18
 export const MAX_AGE = 120
 export const NAME_MAX = 40
 export const BIO_MAX = 200

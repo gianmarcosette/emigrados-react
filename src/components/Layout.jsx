@@ -137,7 +137,7 @@ export default function Layout() {
                 ¿Cómo funciona? Ver el primer vuelo
               </button>
               <span>
-                Una activación de <strong>En Palabras</strong> · Para mayores de 16 años que emigraron de su país
+                Una activación de <strong>En Palabras</strong> · Para mayores de 18 años que emigraron de su país
               </span>
             </footer>
             <FirstFlight open={flightOpen} hasProfile={Boolean(profile)} onClose={closeFlight} />

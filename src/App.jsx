@@ -7,6 +7,7 @@ import Mapa from './pages/Mapa.jsx'
 import Online from './pages/Online.jsx'
 import NotFound from './pages/NotFound.jsx'
 import Perfil from './pages/Perfil.jsx'
+import AvatarPreview from './pages/AvatarPreview.jsx'
 import ProfileGate from './components/ProfileGate.jsx'
 
 export default function App() {
@@ -43,6 +44,8 @@ export default function App() {
         {/* El diario ahora vive dentro del perfil; se mantiene la dirección vieja. */}
         <Route path="diario" element={<Navigate to="/perfil#diario" replace />} />
         <Route path="perfil" element={<Perfil />} />
+        {/* Página de prueba de avatares, solo mientras se desarrolla */}
+        {import.meta.env.DEV && <Route path="prueba-avatares" element={<AvatarPreview />} />}
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
