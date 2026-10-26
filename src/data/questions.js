@@ -242,8 +242,8 @@ const RAW = {
 }
 
 // Las preguntas se reparten entre los países con un salto coprimo con la cantidad
-// de países (5 y 52), así cada país recibe preguntas de etapas distintas y el
-// mapa se va llenando por todo el mundo.
+// de países (5 y 52), así cada país recibe preguntas de etapas distintas y
+// la maleta se va llenando de pegatinas de todo el mundo.
 const STEP = 5
 
 export const QUESTIONS = CATEGORIES.flatMap((cat) => RAW[cat.key].map((text) => ({ text, category: cat.key }))).map(

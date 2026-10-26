@@ -6,11 +6,11 @@ import NotFound from './pages/NotFound.jsx'
 import ProfileGate from './components/ProfileGate.jsx'
 
 // Cada modo se descarga recién cuando se abre: el inicio carga rápido aunque la
-// conexión sea lenta o con datos prepagos. El mapa del mundo viene solo con el mapa.
+// conexión sea lenta o con datos prepagos.
 const Individual = lazy(() => import('./pages/Individual.jsx'))
 const Grupal = lazy(() => import('./pages/Grupal.jsx'))
 const Online = lazy(() => import('./pages/Online.jsx'))
-const Mapa = lazy(() => import('./pages/Mapa.jsx'))
+const Maleta = lazy(() => import('./pages/Maleta.jsx'))
 const Perfil = lazy(() => import('./pages/Perfil.jsx'))
 const AvatarPreview = lazy(() => import('./pages/AvatarPreview.jsx'))
 
@@ -19,7 +19,7 @@ export default function App() {
     <Routes>
       <Route element={<Layout />}>
         <Route index element={<Home />} />
-        {/* Individual, el mapa y online piden perfil. Grupal se juega sin perfil. */}
+        {/* Individual, la maleta y online piden perfil. Grupal se juega sin perfil. */}
         <Route
           path="individual"
           element={
@@ -38,13 +38,15 @@ export default function App() {
           }
         />
         <Route
-          path="mapa"
+          path="maleta"
           element={
             <ProfileGate>
-              <Mapa />
+              <Maleta />
             </ProfileGate>
           }
         />
+        {/* El mapa se reemplazó por la maleta; se mantiene la dirección vieja. */}
+        <Route path="mapa" element={<Navigate to="/maleta" replace />} />
         {/* El diario ahora vive dentro del perfil; se mantiene la dirección vieja. */}
         <Route path="diario" element={<Navigate to="/perfil#diario" replace />} />
         <Route path="perfil" element={<Perfil />} />

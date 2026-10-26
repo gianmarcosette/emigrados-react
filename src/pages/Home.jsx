@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { Suspense, lazy, useContext, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import Avatar from '../components/Avatar.jsx'
 import PlaneWindow from '../components/PlaneWindow.jsx'
@@ -7,11 +7,20 @@ import WindowRow from '../components/illustrations/WindowRow.jsx'
 import ProgressBar from '../components/ProgressBar.jsx'
 import Wordmark from '../components/Wordmark.jsx'
 import { COUNTRIES } from '../data/countries.js'
+import { QUESTIONS } from '../data/questions.js'
+import { buildStickers } from '../lib/suitcase.js'
 import { FirstFlightContext } from '../state/firstFlight.js'
 import { useJourney } from '../state/useJourney.js'
 
+// La maleta trae las siluetas de los países: se descarga aparte, recién cuando hay pegatinas
+const Suitcase = lazy(() => import('../components/Suitcase.jsx'))
+
 export default function Home() {
-  const { profile, answeredCount, totalQuestions, pins } = useJourney()
+  const { profile, answers, route, answeredCount, totalQuestions, pins } = useJourney()
+  const stickers = useMemo(
+    () => buildStickers({ questions: QUESTIONS, countries: COUNTRIES, answers, route }),
+    [answers, route],
+  )
   const started = answeredCount > 0
   const openFirstFlight = useContext(FirstFlightContext)
 
@@ -54,11 +63,16 @@ export default function Home() {
         <Link to="/individual" className="mode mode--individual">
           <h2>Individual</h2>
           <p>
-            Preguntas al azar. Tus respuestas se guardan con fecha y cada una marca un país en el mapa: respondé las{' '}
-            {totalQuestions} y das la vuelta al mundo.
+            Preguntas al azar. Tus respuestas se guardan con fecha y cada país suma una pegatina a tu maleta: respondé
+            las {totalQuestions} y das la vuelta al mundo.
           </p>
           {started && profile ? (
-            <ProgressBar value={answeredCount} max={totalQuestions} label="Tu vuelta al mundo" />
+            <>
+              <Suspense fallback={null}>
+                <Suitcase className="suitcase--mini" stickers={stickers} label="" />
+              </Suspense>
+              <ProgressBar value={answeredCount} max={totalQuestions} label="Tu vuelta al mundo" />
+            </>
           ) : (
             <span className="mode__cta">{profile ? 'Empezar el viaje →' : 'Crear perfil y empezar →'}</span>
           )}
@@ -86,8 +100,8 @@ export default function Home() {
 
       {started && (
         <section className="home__stats">
-          <Link to="/mapa" className="statlink">
-            Visitaste <strong>{pins.length}</strong> de {COUNTRIES.length} países · Ver mi mapa →
+          <Link to="/maleta" className="statlink">
+            <strong>{pins.length}</strong> de {COUNTRIES.length} pegatinas en tu maleta · Ver mi maleta →
           </Link>
           <Link to="/perfil#diario" className="statlink">
             Releer mi diario →

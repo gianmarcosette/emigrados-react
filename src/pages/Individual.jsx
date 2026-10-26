@@ -1,13 +1,14 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import CountryStamp from '../components/CountryStamp.jsx'
 import ProgressBar from '../components/ProgressBar.jsx'
 import QuestionCard from '../components/QuestionCard.jsx'
 import Title from '../components/Title.jsx'
-import WorldMap from '../components/WorldMap.jsx'
-import { COUNTRY_BY_ID } from '../data/countries.js'
+import Suitcase from '../components/Suitcase.jsx'
+import { COUNTRIES, COUNTRY_BY_ID } from '../data/countries.js'
 import { CATEGORIES, QUESTIONS, QUESTION_BY_ID } from '../data/questions.js'
 import { formatDate, formatLongDate, plural } from '../lib/format.js'
+import { buildStickers, stickerEvent } from '../lib/suitcase.js'
 import { clearDraft, getDraft, latestDraft, saveDraft } from '../state/drafts.js'
 import { useJourney } from '../state/useJourney.js'
 import { pickQuestion } from '../state/journey.js'
@@ -41,7 +42,7 @@ function firstQuestion(params, answers) {
 }
 
 function IndividualGame({ params }) {
-  const { answers, dispatch, answeredCount, totalQuestions, pins, routeCountries, profile } = useJourney()
+  const { answers, route, dispatch, answeredCount, totalQuestions, profile } = useJourney()
   const [category, setCategory] = useState('all')
   const [question, setQuestion] = useState(() => firstQuestion(params, answers))
   // Lo escrito se guarda solo, en cada tecla, hasta que se guarda la respuesta
@@ -97,35 +98,16 @@ function IndividualGame({ params }) {
   }
 
   if (saved) {
-    const firstTime = previous.length <= 1
     return (
-      <div className="page page--narrow">
-        <section className="saved">
-          <svg className="saved__check" viewBox="0 0 56 56" aria-hidden="true">
-            <circle cx="28" cy="28" r="28" />
-            <path d="M17 29l7 7 15-16" />
-          </svg>
-          <Title>Tu respuesta se ha guardado con éxito.</Title>
-          <p className="saved__where">
-            {firstTime ? 'Nueva escala en tu vuelta al mundo:' : 'Volviste a pasar por:'}{' '}
-            <CountryStamp country={country} size="sm" />
-          </p>
-          <WorldMap pins={pins} route={routeCountries.slice(-8)} highlightId={country.id} compact />
-          <ProgressBar value={answeredCount} max={totalQuestions} label="Preguntas respondidas" />
-          <p className="muted">
-            En el mapa encontrarás todas tus respuestas y las preguntas que faltan por responder para dar la vuelta al
-            mundo.
-          </p>
-          <div className="actions">
-            <Link to="/mapa" className="btn btn--ghost">
-              Ver mi mapa
-            </Link>
-            <button type="button" className="btn btn--primary" onClick={() => nextQuestion()}>
-              Siguiente pregunta »
-            </button>
-          </div>
-        </section>
-      </div>
+      <SavedScreen
+        question={question}
+        country={country}
+        answers={answers}
+        route={route}
+        answeredCount={answeredCount}
+        totalQuestions={totalQuestions}
+        onNext={() => nextQuestion()}
+      />
     )
   }
 
@@ -222,6 +204,67 @@ function IndividualGame({ params }) {
       </QuestionCard>
 
       <ProgressBar value={answeredCount} max={totalQuestions} label="Tu vuelta al mundo" />
+    </div>
+  )
+}
+
+// Después de guardar: la pegatina del país se pega en la maleta (o avanza, o se completa).
+function SavedScreen({ question, country, answers, route, answeredCount, totalQuestions, onNext }) {
+  const stickers = useMemo(
+    () => buildStickers({ questions: QUESTIONS, countries: COUNTRIES, answers, route }),
+    [answers, route],
+  )
+  const sticker = stickers.find((s) => s.countryId === country.id)
+  const total = sticker?.total ?? 0
+  const answeredNow = sticker?.answered ?? 0
+  const repeated = (answers[question.id]?.length ?? 0) > 1
+  const event = repeated ? 'revisit' : stickerEvent({ answeredBefore: answeredNow - 1, total })
+  const left = total - answeredNow
+  const leftText = `Te ${left === 1 ? 'queda' : 'quedan'} ${plural(left, 'pregunta', 'preguntas')} de ${country.name} para completarla.`
+
+  const headline = {
+    new: 'Nueva pegatina en tu maleta:',
+    progress: 'Una escala más en',
+    complete: '¡Completaste',
+    revisit: 'Volviste a pasar por',
+  }[event]
+  const detail = {
+    new: left ? leftText : '',
+    progress: leftText,
+    complete: 'Respondiste todas sus preguntas: su pegatina pasó al color del atardecer.',
+    revisit: 'Tu nueva respuesta quedó junto a la anterior en el diario.',
+  }[event]
+
+  return (
+    <div className="page page--narrow">
+      <section className="saved">
+        <svg className="saved__check" viewBox="0 0 56 56" aria-hidden="true">
+          <circle cx="28" cy="28" r="28" />
+          <path d="M17 29l7 7 15-16" />
+        </svg>
+        <Title>Tu respuesta se ha guardado con éxito.</Title>
+        <p className="saved__where" role="status">
+          {headline} <CountryStamp country={country} size="sm" />
+          {event === 'complete' && '!'}
+        </p>
+        {detail && <p className="muted saved__detail">{detail}</p>}
+        <Suitcase
+          className="suitcase--saved"
+          stickers={stickers}
+          freshId={event === 'new' || event === 'complete' ? country.id : null}
+          selectedId={country.id}
+          label={`Tu maleta, con ${plural(stickers.length, 'pegatina', 'pegatinas')}`}
+        />
+        <ProgressBar value={answeredCount} max={totalQuestions} label="Preguntas respondidas" />
+        <div className="actions">
+          <Link to="/maleta" className="btn btn--ghost">
+            Ver mi maleta
+          </Link>
+          <button type="button" className="btn btn--primary" onClick={onNext}>
+            Siguiente pregunta »
+          </button>
+        </div>
+      </section>
     </div>
   )
 }

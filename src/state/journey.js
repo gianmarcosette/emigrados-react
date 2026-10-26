@@ -10,7 +10,7 @@ export const initialJourney = {
   profile: null,
   // { [questionId]: [{ text, date }] } — cada pregunta guarda todas sus respuestas
   answers: {},
-  // Orden en que se respondió cada pregunta por primera vez (traza la ruta en el mapa)
+  // Orden en que se respondió cada pregunta por primera vez (ordena las pegatinas de la maleta)
   route: [],
   // Charlas guiadas del modo online que se guardaron en el diario:
   // [{ id, date, rival: { name, country }, messages: [{ from: 'me' | 'them', kind, text }] }]

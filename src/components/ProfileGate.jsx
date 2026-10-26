@@ -5,7 +5,7 @@ import { useJourney } from '../state/useJourney.js'
 import ProfileForm from './ProfileForm.jsx'
 import Title from './Title.jsx'
 
-// Lo que se guarda (respuestas, mapa, diario) necesita un perfil. Sin perfil solo se juega en grupo.
+// Lo que se guarda (respuestas, maleta, diario) necesita un perfil. Sin perfil solo se juega en grupo.
 export default function ProfileGate({ children }) {
   const { profile } = useJourney()
   if (isProfileComplete(profile)) return children
@@ -22,7 +22,7 @@ function ProfileOnboarding({ profile }) {
         <p className="kicker">Antes de despegar</p>
         <Title>{profile ? 'Completá tu perfil de viaje' : 'Creá tu perfil de viaje'}</Title>
         <p className="muted">
-          Tus respuestas, tu mapa y tu diario quedan guardados a tu nombre. Lleva menos de un minuto.
+          Tus respuestas, tu maleta y tu diario quedan guardados a tu nombre. Lleva menos de un minuto.
         </p>
       </header>
       <section className="panel">

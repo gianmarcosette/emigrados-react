@@ -2,10 +2,10 @@
 // Se queda con la parte principal del territorio (sin islas lejanas ni territorios
 // de ultramar) y la centra en una caja de 100 × 100.
 // Lo usa scripts/country-shapes.mjs para generar src/data/countryShapes.json: así el
-// juego no necesita descargar el mapa entero para dibujar los sellos.
+// juego no necesita descargar el mapa del mundo para dibujar sellos y pegatinas.
 import { geoArea, geoCentroid, geoDistance, geoMercator, geoPath } from 'd3-geo'
+import { SHAPE_SIZE } from './shapeSize.js'
 
-export const SHAPE_SIZE = 100
 const PAD = 6
 
 function mainland(geometry) {
