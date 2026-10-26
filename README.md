@@ -15,7 +15,7 @@ npm install
 npm run dev      # abre http://localhost:5173
 ```
 
-Otros comandos: `npm run build` (versión de producción), `npm test` (tests con Vitest), `npm run lint` (oxlint).
+Otros comandos: `npm run build` (versión de producción), `npm test` (tests con Vitest), `npm run lint` (oxlint), `npm run shapes` (vuelve a calcular las siluetas de los países después de sumar uno).
 
 ## Pantallas (React Router)
 

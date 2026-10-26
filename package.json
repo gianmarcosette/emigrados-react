@@ -8,9 +8,11 @@
     "build": "vite build",
     "lint": "oxlint",
     "test": "vitest run",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "shapes": "node scripts/country-shapes.mjs"
   },
   "dependencies": {
+    "@fontsource-variable/montserrat": "^5.3.0",
     "@fontsource/caveat": "^5.3.0",
     "@fontsource/instrument-serif": "^5.3.0",
     "@fontsource/montserrat": "^5.3.0",
