@@ -6,14 +6,22 @@ import Title from './Title.jsx'
 
 // La pregunta se presenta como una tarjeta de embarque: cada pregunta es un vuelo
 // con destino a un país. El talón lleva el pasajero, el sello y un código de barras.
-export default function QuestionCard({ question, eyebrow, passenger, passengerCode, passengerProfile, children }) {
+export default function QuestionCard({
+  question,
+  eyebrow,
+  passenger,
+  passengerCode,
+  passengerProfile,
+  className = '',
+  children,
+}) {
   const country = COUNTRY_BY_ID[question.countryId]
   const category = CATEGORY_BY_KEY[question.category]
   const flight = `EM ${String(question.id).padStart(3, '0')}`
   const gate = CATEGORIES.findIndex((c) => c.key === question.category) + 1
 
   return (
-    <article className="ticket">
+    <article className={`ticket ${className}`}>
       <div className="ticket__main">
         <header className="ticket__head">
           <span>Tarjeta de embarque</span>

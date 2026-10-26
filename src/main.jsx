@@ -5,11 +5,7 @@ import App from './App.jsx'
 import { JourneyProvider } from './state/JourneyContext.jsx'
 import { applyTextSize, readTextSize } from './lib/textSize.js'
 // Solo el alfabeto latino: alcanza para español, portugués, inglés, francés e italiano.
-// Montserrat normal viene en un solo archivo variable (ver fonts.css).
-import '@fontsource/caveat/latin-500.css'
-import '@fontsource/caveat/latin-700.css'
-import '@fontsource/instrument-serif/latin-400.css'
-import '@fontsource/instrument-serif/latin-400-italic.css'
+// Montserrat normal y Archivo (títulos y preguntas) se registran en fonts.css.
 import '@fontsource/montserrat/latin-500-italic.css'
 import '@fontsource/montserrat/latin-600-italic.css'
 import './fonts.css'
