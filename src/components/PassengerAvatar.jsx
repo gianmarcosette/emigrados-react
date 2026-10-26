@@ -8,6 +8,7 @@ import { DEFAULT_AVATAR, colorOf, normalizeAvatar } from '../lib/avatar.js'
 const INK = '#161616'
 const PAPER = '#fbf9f5'
 const SAND = '#e9e2d3'
+const YELLOW = '#ffd700'
 const STROKE = { stroke: INK, strokeWidth: 2.4, strokeLinecap: 'round', strokeLinejoin: 'round' }
 
 export default function PassengerAvatar({ avatar, size = 120, label = 'Avatar', decorative = false, className = '' }) {
@@ -76,7 +77,7 @@ function Scene({ scene }) {
       <g>
         {/* Gris cálido muy oscuro (no negro), para que el pelo y la gorra se distingan */}
         <rect x="0" y="0" width="120" height="120" fill="#46423d" stroke="none" />
-        <path d="M86 20 a9 9 0 1 0 8 13 a7 7 0 1 1 -8 -13 Z" fill="#ffe066" stroke="none" />
+        <path d="M86 20 a9 9 0 1 0 8 13 a7 7 0 1 1 -8 -13 Z" fill={YELLOW} stroke="none" />
         {[
           [22, 26],
           [36, 14],
@@ -117,7 +118,7 @@ function Scene({ scene }) {
             d="M4 54 h4 M4 62 h4 M17 47 h4 M17 55 h4 M17 63 h4 M99 43 h4 M99 51 h4 M99 59 h4 M89 61 h3 M112 57 h4 M112 65 h4"
             strokeWidth="2.2"
           />
-          <circle cx="62" cy="18" r="7" fill="#ffe066" />
+          <circle cx="62" cy="18" r="7" fill={YELLOW} />
         </g>
       )}
       {scene === 'ala' && (
@@ -125,7 +126,7 @@ function Scene({ scene }) {
           {/* La vista desde el asiento de la ventanilla: el ala, con la punta levantada, y nubes abajo */}
           <path d="M2 50 c5 -4 10 -4 14 0" />
           <path d="M-8 84 L24 60 L33 61 L-8 104 Z" fill={SAND} strokeWidth="2.2" />
-          <path d="M23 61 L25 40 L31 41 L33 61 Z" fill="#ffe066" strokeWidth="2.2" />
+          <path d="M23 61 L25 40 L31 41 L33 61 Z" fill={YELLOW} strokeWidth="2.2" />
           <path d="M0 92 L26 70" strokeWidth="1.4" />
           <path d="M86 28 c0 -5 7 -6 9 -3 c2 -6 11 -5 11 1 c5 0 5 6 1 6 h-19 c-3 0 -3 -3 -2 -4 Z" fill={PAPER} />
           <path d="M94 64 c0 -4 6 -5 8 -2 c2 -5 10 -4 10 1 c4 0 4 5 1 5 h-17 c-2 0 -3 -3 -2 -4 Z" fill={PAPER} />
@@ -133,7 +134,7 @@ function Scene({ scene }) {
       )}
       {scene === 'atardecer' && (
         <g strokeWidth="1.8">
-          <path d="M84 44 a14 14 0 0 1 28 0 Z" fill="#ffe066" />
+          <path d="M84 44 a14 14 0 0 1 28 0 Z" fill={YELLOW} />
           <path d="M98 22 v-6 M84 28 l-4 -4 M112 28 l4 -4" />
           <path d="M0 44 H120" />
         </g>
@@ -211,7 +212,7 @@ function ScarfFront({ color }) {
 function WoolHat() {
   return (
     <g>
-      <path d="M40 48 C40 31 80 31 80 48 Z" fill="#ffe066" />
+      <path d="M40 48 C40 31 80 31 80 48 Z" fill={YELLOW} />
       <path d="M38.5 46 H81.5 V53 H38.5 Z" fill={PAPER} />
       <circle cx="60" cy="28.5" r="4.5" fill={PAPER} />
     </g>
@@ -221,7 +222,7 @@ function WoolHat() {
 function Cap() {
   return (
     <g>
-      <path d="M41.5 49 C41.5 34 78.5 34 78.5 49 Z" fill="#ffe066" />
+      <path d="M41.5 49 C41.5 34 78.5 34 78.5 49 Z" fill={YELLOW} />
       <path d="M44 49 C56 46 72 46 90 51 C82 55 60 53 44 52 Z" fill={INK} />
       <path d="M60 35 V44" strokeWidth="1.8" />
     </g>

@@ -60,7 +60,7 @@ export const AVATAR_OPTIONS = {
   ],
   shirt: [
     { id: 'papel', label: 'Crudo', color: '#fbf9f5' },
-    { id: 'amarillo', label: 'Amarillo', color: '#ffe066' },
+    { id: 'amarillo', label: 'Amarillo', color: '#ffd700' },
     { id: 'tinta', label: 'Negro', color: '#161616' },
     { id: 'arena', label: 'Arena', color: '#ddd0b6' },
     { id: 'salvia', label: 'Salvia', color: '#bcc7ab' },
