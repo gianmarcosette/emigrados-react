@@ -8,6 +8,7 @@ import { TRIVIA, hasTrivia } from '../data/trivia.js'
 import { ANSWER_SECONDS, ROUNDS, buildDuel, duelReducer, isCorrect, outcome, roundDone, score } from '../online/duel.js'
 import { findOpponent, getOnlineCountries, opponentAnswer } from '../online/mockServer.js'
 import { useWindowScene } from '../state/scene.js'
+import { useConfirm } from '../state/confirm.js'
 import { useJourney } from '../state/useJourney.js'
 
 // Modo online (versión de prueba): elegís un país, te conectamos con alguien que vive ahí
@@ -231,6 +232,7 @@ function Found({ me, rival, onStart, onAnother, onCancel }) {
 function Duel({ me, rival, relaxed = false, onRematch, onTalk, onExit }) {
   const [duel, dispatch] = useReducer(duelReducer, { target: rival.country, home: me.country }, buildDuel)
   const [left, setLeft] = useState(ANSWER_SECONDS)
+  const confirm = useConfirm()
   const round = duel.rounds[duel.index]
   const answered = round.myChoice !== undefined
   const { me: myScore, them: theirScore } = score(duel)
@@ -371,7 +373,16 @@ function Duel({ me, rival, relaxed = false, onRematch, onTalk, onExit }) {
         <button
           type="button"
           className="btn btn--text"
-          onClick={() => window.confirm('¿Abandonar el duelo?') && onExit()}
+          onClick={async () => {
+            const ok = await confirm({
+              title: '¿Abandonar el duelo?',
+              message: `El duelo con ${rival.name} termina acá y no se guarda el resultado.`,
+              confirmLabel: 'Abandonar',
+              cancelLabel: 'Seguir jugando',
+              danger: true,
+            })
+            if (ok) onExit()
+          }}
         >
           Abandonar
         </button>

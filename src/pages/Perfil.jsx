@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Avatar from '../components/Avatar.jsx'
 import Diary from '../components/Diary.jsx'
@@ -10,6 +10,7 @@ import { countryName } from '../data/residence.js'
 import { plural } from '../lib/format.js'
 import { isProfileComplete } from '../state/profile.js'
 import { useWindowScene } from '../state/scene.js'
+import { useConfirm } from '../state/confirm.js'
 import { useJourney } from '../state/useJourney.js'
 
 const memberSince = new Intl.DateTimeFormat('es-AR', { month: 'long', year: 'numeric' })
@@ -18,16 +19,33 @@ export default function Perfil() {
   const { profile, dispatch, answeredCount, totalQuestions, pins } = useJourney()
   const complete = isProfileComplete(profile)
   const [editing, setEditing] = useState(!complete)
+  const confirm = useConfirm()
+  const [justSaved, setJustSaved] = useState(false)
+
+  useEffect(() => {
+    if (!justSaved) return undefined
+    const timer = setTimeout(() => setJustSaved(false), 4000)
+    return () => clearTimeout(timer)
+  }, [justSaved])
   // Antes de tener perfil el avión recién despega; con perfil y diario, atardecer.
   useWindowScene(complete ? 'sunset' : 'takeoff')
 
   function save(next) {
     dispatch({ type: 'saveProfile', profile: next })
     setEditing(false)
+    // Que se note que se guardó: un aviso que desaparece solo
+    setJustSaved(true)
   }
 
-  function remove() {
-    if (window.confirm('¿Borrar tu perfil? Tus respuestas y tu mapa se mantienen.')) {
+  async function remove() {
+    const ok = await confirm({
+      title: '¿Borrar tu perfil?',
+      message:
+        'Se borran tu nombre, tu foto y tu código de pasajero. Tus respuestas, tu mapa y tu diario se mantienen en este dispositivo.',
+      confirmLabel: 'Borrar perfil',
+      danger: true,
+    })
+    if (ok) {
       dispatch({ type: 'deleteProfile' })
       setEditing(true)
     }
@@ -64,6 +82,11 @@ export default function Perfil() {
     <div className="page">
       <section className="profile-card">
         <Avatar profile={profile} size="lg" />
+        {justSaved && (
+          <p className="saved-toast" role="status">
+            Perfil guardado
+          </p>
+        )}
         <h1 className="profile-card__name">{profile.name}</h1>
         <p className="profile-card__meta">
           {profile.age} años · Vive en {countryName(profile.country)}
