@@ -115,11 +115,11 @@ export default function Grupal() {
             type="button"
             className="btn btn--text grupal__size"
             aria-pressed={bigText}
-            title="Letra grande"
+            title="Letra grande para la mesa"
             onClick={toggleBigText}
           >
-            <span aria-hidden="true">Aa</span>
-            <span className="grupal__size-text">Letra grande</span>
+            <span aria-hidden="true">A+</span>
+            <span className="grupal__size-text">Letra para la mesa</span>
           </button>
           <button type="button" className="btn btn--text" onClick={endGame}>
             Terminar partida
