@@ -1,3 +1,4 @@
+import { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import Avatar from '../components/Avatar.jsx'
 import PlaneWindow from '../components/PlaneWindow.jsx'
@@ -6,11 +7,13 @@ import WindowRow from '../components/illustrations/WindowRow.jsx'
 import ProgressBar from '../components/ProgressBar.jsx'
 import Wordmark from '../components/Wordmark.jsx'
 import { COUNTRIES } from '../data/countries.js'
+import { FirstFlightContext } from '../state/firstFlight.js'
 import { useJourney } from '../state/useJourney.js'
 
 export default function Home() {
   const { profile, answeredCount, totalQuestions, pins } = useJourney()
   const started = answeredCount > 0
+  const openFirstFlight = useContext(FirstFlightContext)
 
   return (
     <div className="home">
@@ -106,6 +109,9 @@ export default function Home() {
             ver cómo cambiaste.
           </li>
         </ol>
+        <button type="button" className="btn btn--ghost" onClick={openFirstFlight}>
+          Ver el primer vuelo
+        </button>
       </section>
     </div>
   )

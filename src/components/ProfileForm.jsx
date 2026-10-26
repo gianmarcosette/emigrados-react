@@ -111,6 +111,7 @@ export default function ProfileForm({ initial, onSave, onCancel, submitLabel = '
             value={form.country}
             autoComplete="country"
             aria-invalid={Boolean(errors.country)}
+            aria-describedby={`${id}-country-why`}
             onChange={(e) => update('country', e.target.value)}
           >
             <option value="">Elegí un país…</option>
@@ -120,6 +121,10 @@ export default function ProfileForm({ initial, onSave, onCancel, submitLabel = '
               </option>
             ))}
           </select>
+          {/* Para qué se usa el dato, justo donde se pide */}
+          <p id={`${id}-country-why`} className="field__why">
+            Solo sirve para conectarte con personas de otros países en el modo Online. Se guarda en este dispositivo.
+          </p>
           {errors.country && <p className="field__error">{errors.country}</p>}
         </div>
 
