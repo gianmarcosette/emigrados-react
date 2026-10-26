@@ -35,7 +35,7 @@ export default function Online() {
       <Found
         me={profile}
         rival={screen.rival}
-        onStart={() => setScreen({ name: 'duel', rival: screen.rival, key: Date.now() })}
+        onStart={(relaxed) => setScreen({ name: 'duel', rival: screen.rival, relaxed, key: Date.now() })}
         onAnother={() => setScreen({ name: 'searching', code: screen.code })}
         onCancel={toLobby}
       />
@@ -47,6 +47,7 @@ export default function Online() {
         key={screen.key}
         me={profile}
         rival={screen.rival}
+        relaxed={screen.relaxed}
         onRematch={() => setScreen({ ...screen, key: Date.now() })}
         onTalk={() => setScreen({ name: 'talk', rival: screen.rival })}
         onExit={toLobby}
@@ -57,6 +58,26 @@ export default function Online() {
     return <GuidedTalk me={profile} rival={screen.rival} onExit={toLobby} />
   }
   return <Lobby me={profile} onPick={(code) => setScreen({ name: 'searching', code })} />
+}
+
+// "Sin apuro": jugar sin límite de tiempo. Se recuerda en este dispositivo.
+const RELAXED_KEY = 'emigrados:sin-apuro'
+
+function readRelaxed() {
+  try {
+    return localStorage.getItem(RELAXED_KEY) === '1'
+  } catch {
+    return false
+  }
+}
+
+function writeRelaxed(value) {
+  try {
+    if (value) localStorage.setItem(RELAXED_KEY, '1')
+    else localStorage.removeItem(RELAXED_KEY)
+  } catch {
+    // Sin almacenamiento: la preferencia vale solo para esta visita.
+  }
 }
 
 function TrialNote() {
@@ -161,6 +182,13 @@ function PlayerCard({ player, label, simulated = false }) {
 }
 
 function Found({ me, rival, onStart, onAnother, onCancel }) {
+  const [relaxed, setRelaxed] = useState(readRelaxed)
+
+  function toggleRelaxed(value) {
+    setRelaxed(value)
+    writeRelaxed(value)
+  }
+
   return (
     <div className="page page--narrow">
       <header className="page__header">
@@ -174,10 +202,19 @@ function Found({ me, rival, onStart, onAnother, onCancel }) {
       </section>
       <p className="online-rules">
         Vos respondés sobre <strong>{countryName(rival.country)}</strong>. {rival.name} responde sobre{' '}
-        <strong>{countryName(me.country)}</strong>. Son {ROUNDS} preguntas, con {ANSWER_SECONDS} segundos cada una.
+        <strong>{countryName(me.country)}</strong>. Son {ROUNDS} preguntas
+        {relaxed ? ', sin límite de tiempo.' : `, con ${ANSWER_SECONDS} segundos cada una.`}
       </p>
+      <label className="relaxed-toggle">
+        <input type="checkbox" checked={relaxed} onChange={(e) => toggleRelaxed(e.target.checked)} />
+        <span className="relaxed-toggle__switch" aria-hidden="true" />
+        <span>
+          <strong>Sin apuro</strong>
+          Jugar sin límite de tiempo, para leer con calma.
+        </span>
+      </label>
       <div className="actions actions--center">
-        <button type="button" className="btn btn--primary" onClick={onStart}>
+        <button type="button" className="btn btn--primary" onClick={() => onStart(relaxed)}>
           Empezar el duelo
         </button>
         <button type="button" className="btn btn--ghost" onClick={onAnother}>
@@ -191,16 +228,16 @@ function Found({ me, rival, onStart, onAnother, onCancel }) {
   )
 }
 
-function Duel({ me, rival, onRematch, onTalk, onExit }) {
+function Duel({ me, rival, relaxed = false, onRematch, onTalk, onExit }) {
   const [duel, dispatch] = useReducer(duelReducer, { target: rival.country, home: me.country }, buildDuel)
   const [left, setLeft] = useState(ANSWER_SECONDS)
   const round = duel.rounds[duel.index]
   const answered = round.myChoice !== undefined
   const { me: myScore, them: theirScore } = score(duel)
 
-  // Cuenta regresiva: si se termina el tiempo, la respuesta queda en blanco
+  // Cuenta regresiva: si se termina el tiempo, la respuesta queda en blanco (salvo "sin apuro")
   useEffect(() => {
-    if (duel.finished) return undefined
+    if (duel.finished || relaxed) return undefined
     const start = Date.now()
     setLeft(ANSWER_SECONDS)
     const timer = setInterval(() => {
@@ -212,7 +249,7 @@ function Duel({ me, rival, onRematch, onTalk, onExit }) {
       }
     }, 200)
     return () => clearInterval(timer)
-  }, [duel.index, duel.finished])
+  }, [duel.index, duel.finished, relaxed])
 
   // Mientras tanto, tu rival responde sobre tu país
   useEffect(() => {
@@ -260,11 +297,13 @@ function Duel({ me, rival, onRematch, onTalk, onExit }) {
           <span>
             Pregunta {duel.index + 1} de {duel.rounds.length} · Sobre {countryName(rival.country)}
           </span>
-          <span className="duel-card__time">{answered ? '' : `${Math.ceil(left)} s`}</span>
+          <span className="duel-card__time">{relaxed ? 'Sin apuro' : answered ? '' : `${Math.ceil(left)} s`}</span>
         </header>
-        <div className="duel-timer" aria-hidden="true">
-          <span style={{ transform: `scaleX(${answered ? 0 : left / ANSWER_SECONDS})` }} />
-        </div>
+        {!relaxed && (
+          <div className="duel-timer" aria-hidden="true">
+            <span style={{ transform: `scaleX(${answered ? 0 : left / ANSWER_SECONDS})` }} />
+          </div>
+        )}
 
         <Title className="duel-card__question">{round.mine.text}</Title>
 
@@ -298,6 +337,13 @@ function Duel({ me, rival, onRematch, onTalk, onExit }) {
               : round.myChoice === null
                 ? `Se terminó el tiempo. Era: ${round.mine.options[round.mine.answer]}.`
                 : `No era esa. Era: ${round.mine.options[round.mine.answer]}.`}
+          </p>
+        )}
+        {/* Más que ganar, conocer el país del otro */}
+        {answered && round.mine.fact && (
+          <p className="duel-fact">
+            <span>Dato curioso</span>
+            {round.mine.fact}
           </p>
         )}
       </section>

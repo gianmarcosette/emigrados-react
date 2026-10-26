@@ -19,12 +19,17 @@ describe('preguntas de cultura general', () => {
       expect(mapId).toMatch(/^\d{3}$/)
       expect(countryShape(mapId), `silueta de ${code}`).toBeTruthy()
       expect(questions.length).toBeGreaterThanOrEqual(ROUNDS)
+      // Suficientes para que dos duelos seguidos no repitan preguntas
+      expect(questions.length).toBeGreaterThanOrEqual(ROUNDS * 2)
       for (const q of questions) {
         expect(q.options).toHaveLength(4)
         expect(new Set(q.options).size).toBe(4)
+        expect(q.fact?.length, `dato curioso: ${q.text}`).toBeGreaterThan(20)
       }
+      expect(new Set(questions.map((q) => q.text)).size).toBe(questions.length)
     }
     expect(GENERAL.length).toBeGreaterThanOrEqual(ROUNDS)
+    for (const q of GENERAL) expect(q.fact?.length).toBeGreaterThan(20)
   })
 })
 
@@ -51,6 +56,7 @@ describe('duelo', () => {
       // La opción marcada como correcta es la correcta original
       const original = TRIVIA.ES.questions.find((q) => q.text === r.mine.text)
       expect(r.mine.options[r.mine.answer]).toBe(original.options[0])
+      expect(r.mine.fact).toBe(original.fact)
     }
     expect(new Set(duel.rounds.map((r) => r.mine.text)).size).toBe(ROUNDS)
   })

@@ -12,6 +12,9 @@ export const initialJourney = {
   answers: {},
   // Orden en que se respondió cada pregunta por primera vez (traza la ruta en el mapa)
   route: [],
+  // Charlas guiadas del modo online que se guardaron en el diario:
+  // [{ id, date, rival: { name, country }, messages: [{ from: 'me' | 'them', kind, text }] }]
+  talks: [],
 }
 
 export function journeyReducer(state, action) {
@@ -29,6 +32,11 @@ export function journeyReducer(state, action) {
         route: state.route.includes(questionId) ? state.route : [...state.route, questionId],
       }
     }
+    case 'saveTalk': {
+      const talk = normalizeTalk(action.talk)
+      if (!talk || state.talks.some((t) => t.id === talk.id)) return state
+      return { ...state, talks: [...state.talks, talk] }
+    }
     case 'import':
       return normalize(action.data)
     case 'reset':
@@ -42,8 +50,27 @@ function normalize(data) {
   if (!data || typeof data !== 'object') return initialJourney
   const answers = data.answers && typeof data.answers === 'object' ? data.answers : {}
   const route = Array.isArray(data.route) ? data.route : Object.keys(answers).map(Number)
+  const talks = Array.isArray(data.talks) ? data.talks.map(normalizeTalk).filter(Boolean) : []
   // Versiones anteriores guardaban solo `name`: se migra a un perfil incompleto.
-  return { profile: normalizeProfile(data.profile, data.name), answers, route }
+  return { profile: normalizeProfile(data.profile, data.name), answers, route, talks }
+}
+
+const TALK_FROM = ['me', 'them']
+const TALK_KINDS = ['question', 'answer', 'reaction']
+
+function normalizeTalk(talk) {
+  if (!talk || typeof talk !== 'object' || typeof talk.date !== 'string') return null
+  if (typeof talk.rival?.name !== 'string') return null
+  const messages = (Array.isArray(talk.messages) ? talk.messages : []).filter(
+    (m) => TALK_FROM.includes(m?.from) && TALK_KINDS.includes(m?.kind) && typeof m.text === 'string',
+  )
+  if (!messages.length) return null
+  return {
+    id: String(talk.id ?? talk.date),
+    date: talk.date,
+    rival: { name: talk.rival.name, country: typeof talk.rival.country === 'string' ? talk.rival.country : null },
+    messages: messages.map(({ from, kind, text }) => ({ from, kind, text })),
+  }
 }
 
 export function loadJourney(storage = globalThis.localStorage) {
