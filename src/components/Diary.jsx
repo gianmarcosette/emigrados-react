@@ -4,7 +4,9 @@ import { COUNTRY_BY_ID } from '../data/countries.js'
 import { CATEGORIES, CATEGORY_BY_KEY, QUESTION_BY_ID } from '../data/questions.js'
 import { buildDiaryIndex } from '../lib/diaryIndex.js'
 import { formatDate, formatLongDate, formatShortDate, plural } from '../lib/format.js'
+import { clearAllDrafts } from '../state/drafts.js'
 import { useJourney } from '../state/useJourney.js'
+import { countryName } from '../data/residence.js'
 
 // En el celular va una anotación por hoja para que el cuaderno no quede largo.
 const MOBILE = '(max-width: 760px)'
@@ -24,9 +26,11 @@ function useIsMobile() {
 }
 
 // Diario: un cuaderno que se abre y en el que las respuestas aparecen escritas a mano,
-// cada una con su fecha, la pregunta subrayada y la firma. Vive en "Mi perfil" (#diario).
+// cada una con su fecha, la pregunta subrayada y la firma. También guarda las charlas
+// del modo online que quisiste conservar. Vive en "Mi perfil" (#diario).
 export default function Diary() {
-  const { answers, answeredCount, dispatch, profile } = useJourney()
+  const { answers, answeredCount, talks = [], dispatch, profile } = useJourney()
+  const entryCount = answeredCount + talks.length
   const [category, setCategory] = useState('all')
   const [search, setSearch] = useState('')
   const [page, setPage] = useState(null) // null: el cuaderno abre en la última página escrita
@@ -53,10 +57,10 @@ export default function Diary() {
     return () => observer.disconnect()
   }, [open])
 
-  // Cada respuesta es una anotación del diario, en orden cronológico.
+  // Cada respuesta (y cada charla guardada) es una anotación del diario, en orden cronológico.
   const notes = useMemo(() => {
     const term = search.trim().toLowerCase()
-    return Object.entries(answers)
+    const answerNotes = Object.entries(answers)
       .flatMap(([id, list]) => (QUESTION_BY_ID[id] ? list.map((a) => ({ question: QUESTION_BY_ID[id], ...a })) : []))
       .filter(({ question }) => category === 'all' || question.category === category)
       .filter(
@@ -66,8 +70,21 @@ export default function Diary() {
           text.toLowerCase().includes(term) ||
           COUNTRY_BY_ID[question.countryId].name.toLowerCase().includes(term),
       )
-      .sort((a, b) => a.date.localeCompare(b.date))
-  }, [answers, category, search])
+    // Las charlas no pertenecen a una etapa: solo aparecen con "Todas"
+    const talkNotes =
+      category === 'all'
+        ? talks
+            .map((talk) => ({ talk, date: talk.date }))
+            .filter(
+              ({ talk }) =>
+                !term ||
+                talk.rival.name.toLowerCase().includes(term) ||
+                countryName(talk.rival.country).toLowerCase().includes(term) ||
+                talk.messages.some((m) => m.text.toLowerCase().includes(term)),
+            )
+        : []
+    return [...answerNotes, ...talkNotes].sort((a, b) => a.date.localeCompare(b.date))
+  }, [answers, talks, category, search])
 
   const pages = Math.max(1, Math.ceil(notes.length / perPage))
   const current = Math.min(page ?? pages - 1, pages - 1)
@@ -113,7 +130,13 @@ export default function Diary() {
 
   function exportDiary() {
     const lines = [`EMIGRADOS · Diario${profile ? ` de ${profile.name}` : ''}`, '']
-    for (const { question, text, date } of notes) {
+    for (const { question, text, date, talk } of notes) {
+      if (talk) {
+        lines.push(formatDate(date), `Charla con ${talk.rival.name} (vive en ${countryName(talk.rival.country)})`)
+        for (const m of talk.messages) lines.push(`${m.from === 'me' ? signature : talk.rival.name}: ${m.text}`)
+        lines.push('')
+        continue
+      }
       const country = COUNTRY_BY_ID[question.countryId]
       lines.push(formatDate(date), `${country.name} — ${CATEGORY_BY_KEY[question.category].label}`, question.text)
       lines.push(text, `— ${signature}`, '')
@@ -128,8 +151,9 @@ export default function Diary() {
   }
 
   function reset() {
-    if (window.confirm('¿Seguro que querés borrar todas tus respuestas? Esta acción no se puede deshacer.')) {
+    if (window.confirm('¿Seguro que querés borrar todas tus respuestas y charlas? Esta acción no se puede deshacer.')) {
       dispatch({ type: 'reset' })
+      clearAllDrafts()
     }
   }
 
@@ -164,12 +188,17 @@ export default function Diary() {
           <h2 className="notebook__title">Diario de viaje</h2>
           {profile && <p className="notebook__owner">de {profile.name}</p>}
           <p className="notebook__count">
-            {answeredCount
-              ? plural(answeredCount, 'pregunta respondida', 'preguntas respondidas')
+            {entryCount
+              ? [
+                  answeredCount && plural(answeredCount, 'pregunta respondida', 'preguntas respondidas'),
+                  talks.length && plural(talks.length, 'charla', 'charlas'),
+                ]
+                  .filter(Boolean)
+                  .join(' · ')
               : 'Todavía sin anotaciones'}
           </p>
 
-          {(answeredCount > 0 || hasIndex) && (
+          {(entryCount > 0 || hasIndex) && (
             <div className="notebook__buttons">
               {hasIndex && (
                 <button
@@ -184,7 +213,7 @@ export default function Diary() {
                   {indexOpen ? 'Volver a la hoja' : 'Índice'}
                 </button>
               )}
-              {answeredCount > 0 && (
+              {entryCount > 0 && (
                 <button
                   type="button"
                   className="notebook__tools-toggle"
@@ -201,7 +230,7 @@ export default function Diary() {
             </div>
           )}
 
-          {answeredCount > 0 && (
+          {entryCount > 0 && (
             <div className={`notebook__tools ${toolsOpen ? 'is-expanded' : ''}`}>
               <label>
                 <span className="sr-only">Buscar</span>
@@ -244,7 +273,7 @@ export default function Diary() {
           onTouchStart={pages > 1 ? onTouchStart : undefined}
           onTouchEnd={pages > 1 ? onTouchEnd : undefined}
         >
-          {!answeredCount && (
+          {!entryCount && (
             <div className="notebook__empty">
               <p>Tu primera respuesta va a quedar escrita en esta hoja.</p>
               <Link to="/individual" className="btn btn--primary">
@@ -252,7 +281,7 @@ export default function Diary() {
               </Link>
             </div>
           )}
-          {answeredCount > 0 && !notes.length && (
+          {entryCount > 0 && !notes.length && (
             <p className="notebook__empty">No hay anotaciones que coincidan con la búsqueda.</p>
           )}
           {indexOpen && (
@@ -262,17 +291,20 @@ export default function Diary() {
                 <section key={month}>
                   <h4 className="notebook__index-month">{month}</h4>
                   <ol>
-                    {entries.map(({ question, date, page: entryPage }) => (
-                      <li key={`${question.id}-${date}`}>
+                    {entries.map(({ question, talk, date, page: entryPage }) => (
+                      <li key={talk ? talk.id : `${question.id}-${date}`}>
                         <button
                           type="button"
                           className={entryPage - 1 === current ? 'is-current' : undefined}
                           onClick={() => turnTo(entryPage - 1)}
                         >
                           <em className="notebook__index-where">
-                            {formatShortDate(date)} · {COUNTRY_BY_ID[question.countryId].name}
+                            {formatShortDate(date)} ·{' '}
+                            {talk ? countryName(talk.rival.country) : COUNTRY_BY_ID[question.countryId].name}
                           </em>
-                          <span className="notebook__index-text">{question.text}</span>
+                          <span className="notebook__index-text">
+                            {talk ? `Charla con ${talk.rival.name}` : question.text}
+                          </span>
                           <span className="notebook__index-dots" aria-hidden="true" />
                           <span className="notebook__index-page">{entryPage}</span>
                         </button>
@@ -284,23 +316,32 @@ export default function Diary() {
             </nav>
           )}
           {!indexOpen &&
-            visible.map(({ question, text, date }, i) => (
-              <article
-                key={`${question.id}-${date}`}
-                className="note"
-                style={{ '--d': `${(turned ? 0.35 : 1.3) + i * 1.1}s` }}
-              >
-                <p className="note__date">
-                  {formatLongDate(date)} · {COUNTRY_BY_ID[question.countryId].name}
-                </p>
-                <h3 className="note__question">{question.text}</h3>
-                <p className="note__answer">{text}</p>
-                <p className="note__signature">— {signature}</p>
-                <Link to={`/individual?q=${question.id}`} className="note__again">
-                  volver a responder
-                </Link>
-              </article>
-            ))}
+            visible.map(({ question, text, date, talk }, i) =>
+              talk ? (
+                <TalkNote
+                  key={talk.id}
+                  talk={talk}
+                  signature={signature}
+                  delay={`${(turned ? 0.35 : 1.3) + i * 1.1}s`}
+                />
+              ) : (
+                <article
+                  key={`${question.id}-${date}`}
+                  className="note"
+                  style={{ '--d': `${(turned ? 0.35 : 1.3) + i * 1.1}s` }}
+                >
+                  <p className="note__date">
+                    {formatLongDate(date)} · {COUNTRY_BY_ID[question.countryId].name}
+                  </p>
+                  <h3 className="note__question">{question.text}</h3>
+                  <p className="note__answer">{text}</p>
+                  <p className="note__signature">— {signature}</p>
+                  <Link to={`/individual?q=${question.id}`} className="note__again">
+                    volver a responder
+                  </Link>
+                </article>
+              ),
+            )}
           {notes.length > 0 && !indexOpen && <span className="notebook__folio">{current + 1}</span>}
         </div>
       </div>
@@ -324,5 +365,29 @@ export default function Diary() {
         </nav>
       )}
     </section>
+  )
+}
+
+// Una charla del modo online guardada en el diario: cada pregunta subrayada, la respuesta
+// y el eco, con quién dijo cada cosa.
+function TalkNote({ talk, signature, delay }) {
+  const who = (m) => (m.from === 'me' ? signature : talk.rival.name)
+  return (
+    <article className="note note--talk" style={{ '--d': delay }}>
+      <p className="note__date">
+        {formatLongDate(talk.date)} · Charla con {talk.rival.name}, que vive en {countryName(talk.rival.country)}
+      </p>
+      {talk.messages.map((m, i) =>
+        m.kind === 'question' ? (
+          <h3 key={i} className="note__question">
+            {m.text}
+          </h3>
+        ) : (
+          <p key={i} className={m.kind === 'reaction' ? 'note__echo' : 'note__answer'}>
+            {m.text} <span className="note__who">— {who(m)}</span>
+          </p>
+        ),
+      )}
+    </article>
   )
 }

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { countryName } from '../data/residence.js'
 import { TALK_STAGES } from '../data/talk.js'
 import {
@@ -10,6 +11,7 @@ import {
   rivalReaction,
 } from '../online/mockServer.js'
 import { ANSWER_MAX, checkAnswer, echoOptions, fillPrompt, promptOptions } from '../online/talk.js'
+import { useJourney } from '../state/useJourney.js'
 import Avatar from './Avatar.jsx'
 import Title from './Title.jsx'
 
@@ -34,6 +36,8 @@ export default function GuidedTalk({ me, rival, onExit }) {
   const [draft, setDraft] = useState('')
   const [error, setError] = useState('')
   const [reporting, setReporting] = useState(false)
+  const [savedToDiary, setSavedToDiary] = useState(false)
+  const { dispatch } = useJourney()
   const endRef = useRef(null)
   const theirCountry = countryName(rival.country)
   const myCountry = countryName(me.country)
@@ -118,6 +122,21 @@ export default function GuidedTalk({ me, rival, onExit }) {
     setDraft('')
     setError('')
     setPhase('theirReaction')
+  }
+
+  // La charla queda en el diario, solo en este dispositivo
+  function saveToDiary() {
+    const date = new Date().toISOString()
+    dispatch({
+      type: 'saveTalk',
+      talk: {
+        id: `charla-${date}`,
+        date,
+        rival: { name: rival.name, country: rival.country },
+        messages: log.filter((m) => m.from !== 'system'),
+      },
+    })
+    setSavedToDiary(true)
   }
 
   async function block() {
@@ -282,6 +301,18 @@ export default function GuidedTalk({ me, rival, onExit }) {
               <p className="muted">
                 Gracias por compartir. En la versión real, si los dos quieren, la charla va a poder seguir.
               </p>
+              {savedToDiary ? (
+                <p className="talk-saved" role="status">
+                  Guardada en tu diario. <Link to="/perfil#diario">Ver mi diario</Link>
+                </p>
+              ) : (
+                <div className="talk-keep">
+                  <button type="button" className="btn btn--ghost" onClick={saveToDiary}>
+                    Guardar la charla en mi diario
+                  </button>
+                  <span>Solo vos la vas a ver, en este dispositivo.</span>
+                </div>
+              )}
               <button type="button" className="btn btn--primary" onClick={onExit}>
                 Jugar otro duelo
               </button>

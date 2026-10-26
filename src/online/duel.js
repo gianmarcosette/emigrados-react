@@ -20,7 +20,12 @@ function prepare(question, random) {
     question.options.map((_, i) => i),
     random,
   )
-  return { text: question.text, options: order.map((i) => question.options[i]), answer: order.indexOf(0) }
+  return {
+    text: question.text,
+    options: order.map((i) => question.options[i]),
+    answer: order.indexOf(0),
+    fact: question.fact,
+  }
 }
 
 /**
