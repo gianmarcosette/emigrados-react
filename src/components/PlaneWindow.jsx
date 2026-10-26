@@ -1,7 +1,9 @@
+import { useId } from 'react'
 import './PlaneWindow.css'
 
 // Ventanilla de avión vista desde adentro, con escenas animadas en dibujo de línea
-// (SVG + CSS, en tinta negra sobre crema, con el amarillo como único acento).
+// (SVG + CSS, en tinta negra sobre crema, con el amarillo como acento y el
+// degradé de atardecer solo en la escena del atardecer).
 // Cada sección del juego elige qué se ve del otro lado del vidrio.
 const SCENES = {
   takeoff: Takeoff,
@@ -175,6 +177,11 @@ const RAYS = Array.from({ length: 9 }, (_, i) => {
 })
 
 function Sunset() {
+  // El cielo toma el degradé de la paleta (amarillo a naranja) bajando hacia el horizonte,
+  // y el mar lo refleja suave. Arriba queda claro para que la línea se siga viendo.
+  const id = useId()
+  const sky = `${id}-sky`
+  const sea = `${id}-sea`
   const glints = [
     [212, 336, 30],
     [202, 356, 50],
@@ -186,7 +193,21 @@ function Sunset() {
   ]
   return (
     <svg className="pw-scene pw-bob" viewBox="0 0 400 560" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-      <rect width="400" height="560" className="pw-sky" />
+      <defs>
+        <linearGradient id={sky} x1="0" y1="0" x2="0" y2="318" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stopColor="#fdfcfa" />
+          <stop offset="0.5" stopColor="#fff0b0" />
+          <stop offset="0.85" stopColor="#fdd36a" />
+          <stop offset="1" stopColor="#f9a910" />
+        </linearGradient>
+        <linearGradient id={sea} x1="0" y1="318" x2="0" y2="560" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stopColor="#fcc34f" />
+          <stop offset="0.5" stopColor="#fff0b0" />
+          <stop offset="1" stopColor="#fdfcfa" />
+        </linearGradient>
+      </defs>
+      <rect width="400" height="318" fill={`url(#${sky})`} />
+      <rect y="318" width="400" height="242" fill={`url(#${sea})`} />
       <g className="pw-rays" {...LINE} strokeWidth="2.2">
         {RAYS.map((d) => (
           <path key={d} d={d} />

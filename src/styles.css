@@ -1,12 +1,17 @@
 /* ───────────── Tokens ───────────── */
 :root {
   /* Estilo minimalista: tinta negra sobre crema, con el amarillo como único acento.
+     Amarillo "Axon" y degradé de atardecer de la paleta de En Palabras; el degradé
+     se reserva para los momentos de viaje (bandera del inicio, progreso, atardecer).
+     Sobre amarillo o naranja el texto va siempre en tinta: el blanco no se lee.
      Los nombres de las variables se conservan para no tocar cada regla. */
   --teal: #161616;
   --teal-dark: #000;
   --teal-soft: #ece7dd;
-  --yellow: #ffe066;
-  --yellow-soft: #fff5c9;
+  --yellow: #ffd700;
+  --yellow-soft: #fff3b3;
+  --orange: #f37c1e;
+  --sunset: linear-gradient(135deg, #ffd301 0%, #f9a910 55%, #f37c1e 100%);
   --coral: #161616;
   --paper: #f3efe8;
   --card: #fbf9f5;
@@ -1731,7 +1736,8 @@ h3 {
 }
 
 .progress__fill {
-  background: var(--ink);
+  background: var(--sunset);
+  box-shadow: inset 0 0 0 1.5px var(--ink);
 }
 
 .history {
@@ -3290,8 +3296,8 @@ h3 {
 .sky--hero .sky__banner {
   width: clamp(250px, 50vw, 600px);
   padding: 12px 26px 12px 36px;
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--sunset);
+  color: var(--ink);
   font-size: clamp(0.95rem, 1.8vw, 1.4rem);
   font-weight: 600;
   line-height: 1.3;
