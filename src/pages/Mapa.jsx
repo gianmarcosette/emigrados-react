@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import CountryStamp from '../components/CountryStamp.jsx'
 import Title from '../components/Title.jsx'
-import WorldMap from '../components/WorldMap.jsx'
+import WorldMap, { MapLegend } from '../components/WorldMap.jsx'
 import { COUNTRIES, COUNTRY_BY_ID } from '../data/countries.js'
 import { QUESTIONS } from '../data/questions.js'
 import { formatDate, plural } from '../lib/format.js'
@@ -20,8 +20,13 @@ export default function Mapa() {
     <div className="page page--wide page--map">
       <header className="page__header">
         <Title>Tu vuelta al mundo</Title>
-        <p className="muted">
-          Cada pregunta respondida marca un país. Tocá un marcador para releer lo que escribiste ahí, o un punto para ver qué destinos te faltan.
+        {/* Por qué cada pregunta tiene un país: es una escala del viaje, no un tema */}
+        <p className="map-intro">
+          Cada pregunta del juego es una escala de tu viaje por un país. Respondé las {totalQuestions} y das la vuelta
+          al mundo.
+        </p>
+        <p className="muted map-hint">
+          Tocá un marcador para releer lo que escribiste ahí, o un punto para ver qué te falta.
         </p>
       </header>
 
@@ -51,6 +56,7 @@ export default function Mapa() {
             interactive
             focus={routeCountries[routeCountries.length - 1]}
           />
+          <MapLegend showRoute={routeCountries.length > 1} />
           {!answeredCount && (
             <div className="map-empty">
               <p>Tu mapa todavía está en blanco.</p>

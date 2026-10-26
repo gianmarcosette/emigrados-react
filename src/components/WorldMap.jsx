@@ -93,12 +93,10 @@ export default function WorldMap({
       const y0 = (HEIGHT - h) / 2
       // Alejándose al máximo se ve el mundo entero, aunque el recuadro sea angosto
       minZoomRef.current = Math.min(1, w / WIDTH, h / HEIGHT)
-      behavior
-        .scaleExtent([minZoomRef.current, MAX_ZOOM])
-        .extent([
-          [x0, y0],
-          [x0 + w, y0 + h],
-        ])
+      behavior.scaleExtent([minZoomRef.current, MAX_ZOOM]).extent([
+        [x0, y0],
+        [x0 + w, y0 + h],
+      ])
       svg.call(behavior)
       if (placed) return
       placed = true
@@ -233,4 +231,35 @@ export default function WorldMap({
 
 function dedupeConsecutive(countries) {
   return countries.filter((c, i) => i === 0 || c.id !== countries[i - 1].id)
+}
+
+/**
+ * Referencia del mapa: cada marca dibujada igual que en el mapa, con lo que significa.
+ */
+export function MapLegend({ showRoute = true }) {
+  return (
+    <ul className="map-legend" aria-label="Referencias del mapa">
+      <li>
+        <svg viewBox="-12 -28 24 30" aria-hidden="true" className="map-legend__mark">
+          <path d={PIN_PATH} className="pin__body" />
+          <circle cy={-15} r={3.6} className="pin__hole" />
+        </svg>
+        Ya respondiste ahí
+      </li>
+      <li>
+        <svg viewBox="-8 -8 16 16" aria-hidden="true" className="map-legend__mark">
+          <circle r="4.5" className="destination__dot map-legend__dot" />
+        </svg>
+        Te falta visitar
+      </li>
+      {showRoute && (
+        <li>
+          <svg viewBox="0 0 30 10" aria-hidden="true" className="map-legend__mark map-legend__mark--wide">
+            <path d="M1 5h28" className="worldmap__route" />
+          </svg>
+          Tu ruta
+        </li>
+      )}
+    </ul>
+  )
 }
