@@ -7,12 +7,13 @@ import Title from '../components/Title.jsx'
 import Suitcase from '../components/Suitcase.jsx'
 import { COUNTRIES, COUNTRY_BY_ID } from '../data/countries.js'
 import { CATEGORIES, QUESTIONS, QUESTION_BY_ID } from '../data/questions.js'
-import { formatDate, formatLongDate, plural } from '../lib/format.js'
+import { formatDate, formatLongDate, formatTime, plural } from '../lib/format.js'
 import { buildStickers, stickerEvent } from '../lib/suitcase.js'
 import { clearDraft, getDraft, latestDraft, saveDraft } from '../state/drafts.js'
 import { useJourney } from '../state/useJourney.js'
 import { pickQuestion } from '../state/journey.js'
 import { useWindowScene } from '../state/scene.js'
+import { useNightMode } from '../state/nightMode.js'
 
 const MAX_LENGTH = 1500
 
@@ -50,6 +51,9 @@ function IndividualGame({ params }) {
   const [draft, setDraft] = useState(() => resumed?.text ?? '')
   const [saved, setSaved] = useState(false)
   const [showHistory, setShowHistory] = useState(true)
+  const [night, toggleNight] = useNightMode()
+  // La hora que se ve arriba del espacio para escribir, como en una nota nueva
+  const [startedAt] = useState(() => new Date())
 
   const previous = answers[question.id] ?? []
   const country = COUNTRY_BY_ID[question.countryId]
@@ -138,6 +142,7 @@ function IndividualGame({ params }) {
         passenger={profile?.name}
         passengerCode={profile?.code}
         passengerProfile={profile}
+        className={night ? 'ticket--night' : ''}
       >
         {previous.length > 0 && (
           <div className="history">
@@ -167,24 +172,38 @@ function IndividualGame({ params }) {
               </button>
             </p>
           )}
-          <label htmlFor="answer" className="sr-only">
-            Tu respuesta
-          </label>
+          <div className="answer__head">
+            <label htmlFor="answer" className="answer__when">
+              <span className="sr-only">Tu respuesta · </span>Hoy · {formatTime(startedAt)}
+            </label>
+            <button
+              type="button"
+              className="answer__night"
+              aria-pressed={night}
+              title={night ? 'Pasar a modo día' : 'Pasar a modo noche'}
+              onClick={toggleNight}
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z" />
+              </svg>
+              <span className="sr-only">Modo noche</span>
+            </button>
+          </div>
           <textarea
             id="answer"
             className="answer__input"
             value={draft}
             maxLength={MAX_LENGTH}
-            rows={6}
+            rows={5}
             placeholder={
               previous.length ? '¿Qué responderías hoy? ¿Cambió algo?' : 'Escribí lo que sientas, sin apuro…'
             }
             onChange={(e) => updateDraft(e.target.value)}
           />
           <div className="answer__footer">
-            <span className="muted">
-              {draft.length}/{MAX_LENGTH}
-              {draft.trim() && <span className="answer__autosave"> · Borrador guardado</span>}
+            <span className="answer__meta">
+              {draft.length} / {MAX_LENGTH}
+              {draft.trim() && <span className="answer__autosave"> · Guardado</span>}
             </span>
             <div className="actions">
               {answeredCount - (previous.length ? 1 : 0) > 0 && (

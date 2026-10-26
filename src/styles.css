@@ -26,9 +26,8 @@
   --radius: 18px;
   --shadow: none;
   --border: 2px solid var(--ink);
-  --font-display: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+  --font-display: 'Archivo', 'Arial Narrow', 'Helvetica Neue', Arial, sans-serif;
   --font-body: 'Montserrat', 'Gotham', 'Helvetica Neue', Arial, sans-serif;
-  --font-hand: 'Caveat', 'Segoe Print', 'Bradley Hand', cursive;
   color-scheme: light;
 }
 
@@ -1329,32 +1328,6 @@ a.mode:hover {
   cursor: pointer;
 }
 
-/* Diario dentro del perfil */
-.diary-section {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  margin-top: 28px;
-  padding-top: 32px;
-  border-top: 2px dashed var(--line);
-  scroll-margin-top: 16px;
-}
-
-.diary-section h2 {
-  font-size: clamp(1.5rem, 4vw, 2rem);
-  color: var(--teal-dark);
-  margin: 0 0 4px;
-}
-
-.diary-section header p {
-  margin: 0;
-}
-
-.diary-section--empty {
-  align-items: center;
-  text-align: center;
-}
-
 /* ───────────── Responsive ───────────── */
 @media (max-width: 760px) {
   .hero {
@@ -1590,31 +1563,12 @@ h3 {
   background: var(--yellow-soft);
 }
 
-/* Letra a mano: todo lo que escribe quien juega */
-.answer__input {
-  font-family: var(--font-hand);
-  font-size: 1.6rem;
-  line-height: 36px;
-  padding: 2px 16px;
-  background-image: repeating-linear-gradient(
-    to bottom,
-    transparent 0,
-    transparent 35px,
-    var(--line) 35px,
-    var(--line) 36px
-  );
-}
-
-.answer__input::placeholder {
-  font-family: var(--font-hand);
-}
-
+/* Lo que escribe quien juega: letra simple y grande, como en una app de notas */
 .history__list p,
 .country-panel__a {
-  font-family: var(--font-hand);
-  font-size: 1.5rem;
+  font-size: 1.02rem;
   font-style: normal;
-  line-height: 1.2;
+  line-height: 1.55;
 }
 
 .country-panel__q {
@@ -1624,7 +1578,6 @@ h3 {
   line-height: 1.1;
 }
 
-.diary-section h2,
 .panel h1,
 .saved h1,
 .profile-card__name {
@@ -1640,9 +1593,8 @@ h3 {
 }
 
 .profile-card__bio {
-  font-family: var(--font-hand);
-  font-size: 1.5rem;
-  line-height: 1.2;
+  font-size: 1.02rem;
+  line-height: 1.55;
 }
 
 /* Fondo de ilustraciones */
@@ -1751,10 +1703,6 @@ h3 {
   margin-left: auto;
   margin-right: auto;
   max-width: 640px;
-}
-
-.diary-section > header:has(.title:not(.title--left)) {
-  text-align: center;
 }
 
 @media (max-width: 760px) {
@@ -1946,320 +1894,13 @@ h3 {
   }
 }
 
-/* ═════════════ Diario: cuaderno ═════════════ */
-.notebook {
-  --rule: 36px;
-  position: relative;
-  display: grid;
-  grid-template-columns: minmax(0, 0.8fr) 30px minmax(0, 1.2fr);
-  grid-template-areas: 'left spine right';
-  perspective: 2200px;
-  margin-top: 8px;
-}
-
-.notebook__page {
-  position: relative;
-  min-height: 560px;
-  background-color: var(--card);
-  background-image: repeating-linear-gradient(
-    to bottom,
-    transparent 0,
-    transparent calc(var(--rule) - 1px),
-    var(--line) calc(var(--rule) - 1px),
-    var(--line) var(--rule)
-  );
-  border: var(--border);
-  padding: var(--rule) 28px var(--rule);
-}
-
-.notebook__page--left {
-  grid-area: left;
-  border-radius: 10px 2px 2px 10px;
-  border-right: none;
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-
-.notebook__page--right {
-  grid-area: right;
-  border-radius: 2px 10px 10px 2px;
-  border-left: none;
-  padding-left: 64px;
-  /* Margen del cuaderno */
-  background-image:
-    linear-gradient(to right, transparent 44px, rgba(22, 22, 22, 0.35) 44px, rgba(22, 22, 22, 0.35) 45.5px, transparent 45.5px),
-    repeating-linear-gradient(
-      to bottom,
-      transparent 0,
-      transparent calc(var(--rule) - 1px),
-      var(--line) calc(var(--rule) - 1px),
-      var(--line) var(--rule)
-    );
-  transform-origin: left center;
-}
-
-.notebook.is-open .notebook__page--right {
-  animation: nb-turn 0.55s ease-out both;
-}
-
 /* Lomo con anillos */
-.notebook__spine {
-  grid-area: spine;
-  border-top: var(--border);
-  border-bottom: var(--border);
-  background:
-    radial-gradient(circle at 50% 50%, transparent 5px, var(--ink) 5px, var(--ink) 7.5px, transparent 7.5px) 0 12px / 100% 34px,
-    linear-gradient(90deg, #e6e0d4, var(--card) 45%, var(--card) 55%, #e6e0d4);
-}
 
 /* Tapa */
-.notebook__cover {
-  grid-area: right;
-  z-index: 3;
-  position: relative;
-  border-radius: 4px 12px 12px 4px;
-  background: var(--ink);
-  color: var(--paper);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  transform-origin: left center;
-  backface-visibility: hidden;
-  pointer-events: none;
-}
-
-.notebook.is-open .notebook__cover {
-  animation: nb-open 1.3s cubic-bezier(0.6, 0, 0.3, 1) 0.25s forwards;
-}
-
-.notebook__cover-title {
-  font-family: var(--font-display);
-  font-size: clamp(2.2rem, 4vw, 3rem);
-}
-
-.notebook__cover-name {
-  font-family: var(--font-hand);
-  font-size: 1.6rem;
-  color: var(--yellow);
-}
-
-.notebook__band {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 18%;
-  width: 10px;
-  background: #3a3a3a;
-}
-
-/* Página izquierda: datos del cuaderno */
-.notebook__title {
-  font-size: clamp(2rem, 3.6vw, 2.6rem);
-  line-height: var(--rule);
-  margin: 0;
-}
-
-.notebook__owner,
-.notebook__count {
-  margin: 0;
-  font-family: var(--font-hand);
-  font-size: 1.5rem;
-  line-height: var(--rule);
-}
-
-.notebook__count {
-  color: var(--ink-soft);
-}
-
-.notebook__tools {
-  display: grid;
-  gap: 14px;
-  margin-top: var(--rule);
-}
-
-.notebook__actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 14px;
-  margin-top: 6px;
-}
 
 /* Anotaciones escritas a mano */
-.note {
-  margin-bottom: var(--rule);
-}
-
-.note > * {
-  margin: 0;
-  /* Aire a la derecha: la letra a mano se inclina y el recorte la cortaba */
-  padding-right: 10px;
-  font-family: var(--font-hand);
-  line-height: var(--rule);
-}
-
-.notebook.is-open .note > * {
-  animation: nb-write 0.9s steps(18, end) both;
-  animation-delay: var(--d);
-}
-
-.note__date {
-  font-size: 1.25rem;
-  color: var(--ink-soft);
-}
-
-.note__question {
-  font-weight: 700;
-  font-size: 1.6rem;
-  text-decoration: underline;
-  text-decoration-thickness: 2px;
-  text-underline-offset: 5px;
-  animation-delay: calc(var(--d) + 0.35s) !important;
-}
-
-.note__answer {
-  font-size: 1.5rem;
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-  animation-duration: 1.4s !important;
-  animation-delay: calc(var(--d) + 0.8s) !important;
-}
-
-.note__signature {
-  text-align: right;
-  font-size: 1.45rem;
-  animation-delay: calc(var(--d) + 1.6s) !important;
-}
-
-.note__again {
-  display: block;
-  text-align: right;
-  font-family: var(--font-body) !important;
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  color: var(--ink-soft);
-}
-
-.notebook.is-open .note__again {
-  animation: nb-fade 0.4s ease-out both !important;
-  animation-delay: calc(var(--d) + 2s) !important;
-}
-
-@keyframes nb-fade {
-  from {
-    opacity: 0;
-  }
-}
-
-.notebook__empty {
-  font-family: var(--font-hand);
-  font-size: 1.5rem;
-  line-height: var(--rule);
-  display: grid;
-  justify-items: start;
-  gap: var(--rule);
-  margin: 0;
-}
-
-.notebook__folio {
-  position: absolute;
-  bottom: 10px;
-  right: 18px;
-  font-family: var(--font-hand);
-  font-size: 1.2rem;
-  color: var(--ink-soft);
-}
-
-.notebook__nav {
-  white-space: nowrap;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 18px;
-  margin-top: 14px;
-  font-weight: 600;
-}
-
-@keyframes nb-open {
-  0% {
-    transform: rotateY(0);
-  }
-  100% {
-    transform: rotateY(-180deg);
-    visibility: hidden;
-  }
-}
-
-@keyframes nb-turn {
-  from {
-    transform: rotateY(-70deg);
-    opacity: 0.3;
-  }
-}
 
 /* La tinta aparece de izquierda a derecha, como al escribir */
-@keyframes nb-write {
-  from {
-    clip-path: inset(0 100% 0 0);
-  }
-  to {
-    clip-path: inset(0 0 0 0);
-  }
-}
-
-@media (max-width: 760px) {
-  .notebook {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-areas: 'left' 'right';
-  }
-
-  .notebook__spine {
-    display: none;
-  }
-
-  .notebook__page {
-    min-height: 0;
-    padding: var(--rule) 18px;
-  }
-
-  .notebook__page--left {
-    border: var(--border);
-    border-bottom: 1.5px dashed var(--ink);
-    border-radius: 10px 10px 0 0;
-  }
-
-  .notebook__page--right {
-    border: var(--border);
-    border-top: none;
-    border-radius: 0 0 10px 10px;
-    padding-left: 52px;
-    min-height: 420px;
-    background-image:
-      linear-gradient(to right, transparent 36px, rgba(22, 22, 22, 0.35) 36px, rgba(22, 22, 22, 0.35) 37.5px, transparent 37.5px),
-      repeating-linear-gradient(
-        to bottom,
-        transparent 0,
-        transparent calc(var(--rule) - 1px),
-        var(--line) calc(var(--rule) - 1px),
-        var(--line) var(--rule)
-      );
-  }
-
-  .notebook__cover {
-    grid-area: 1 / 1 / 3 / 2;
-    border-radius: 12px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .notebook__cover {
-    display: none;
-  }
-}
 
 /* Inicio: la frase como subtítulo del logo, en negrita */
 .hero__tagline {
@@ -2315,83 +1956,6 @@ h3 {
   font-size: 0.98rem;
   font-style: italic;
   line-height: 1.5;
-}
-
-/* Cerrar y volver a abrir el cuaderno */
-.notebook__close {
-  position: absolute;
-  top: 14px;
-  right: 16px;
-  background: none;
-  border: 1.5px solid var(--ink);
-  border-radius: 999px;
-  padding: 4px 14px;
-  font-size: 0.8rem;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.notebook__close:hover:not(:disabled) {
-  background: var(--ink);
-  color: var(--paper);
-}
-
-.notebook.is-closed .notebook__cover {
-  animation: nb-close 1s cubic-bezier(0.6, 0, 0.3, 1) forwards;
-  pointer-events: auto;
-  cursor: pointer;
-}
-
-.notebook__cover-hint {
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  opacity: 0;
-  transition: opacity 0.3s 0.9s;
-}
-
-.notebook.is-closed .notebook__cover-hint {
-  opacity: 0.7;
-}
-
-.notebook__cover:focus-visible {
-  outline: 3px solid var(--yellow);
-  outline-offset: 4px;
-}
-
-@keyframes nb-close {
-  from {
-    transform: rotateY(-180deg);
-    visibility: visible;
-  }
-  to {
-    transform: rotateY(0);
-  }
-}
-
-/* Cerrado en escritorio: queda solo la libreta, centrada */
-@media (min-width: 761px) {
-  .notebook {
-    transition: transform 0.5s ease;
-  }
-
-  .notebook__page--left,
-  .notebook__spine {
-    transition: opacity 0.3s ease;
-  }
-
-  .notebook.is-closed {
-    /* La tapa ocupa la columna derecha: este corrimiento la deja en el centro */
-    transform: translateX(calc(-20% - 9px));
-    transition-delay: 0.75s;
-  }
-
-  .notebook.is-closed .notebook__page--left,
-  .notebook.is-closed .notebook__spine {
-    opacity: 0;
-    transition-delay: 0.7s;
-  }
 }
 
 /* Marcadores y puntos con tamaño fijo al hacer zoom */
@@ -2477,16 +2041,7 @@ h3 {
   }
 }
 
-/* Indicación para el celular: aparece un momento y se va */
-
-/* Diario: buscar y opciones plegables (solo en el celular) */
-.notebook__tools-toggle {
-  display: none;
-}
-
 @media (max-width: 760px) {
-
-  
 
   /* Detalle del país: hoja que sube desde abajo, sobre la barra de navegación */
   .country-panel {
@@ -2513,74 +2068,9 @@ h3 {
     background: var(--line);
   }
 
-  /* Diario más corto */
-  .notebook {
-    --rule: 30px;
-  }
-
-  .notebook__page--left {
-    padding-top: 18px;
-    padding-bottom: 14px;
-  }
-
-  .notebook__title {
-    font-size: 1.9rem;
-    padding-right: 80px;
-  }
-
-  .notebook__owner,
-  .notebook__count {
-    font-size: 1.3rem;
-  }
-
-  .notebook__tools-toggle {
-    display: block;
-    align-self: flex-start;
-    margin-top: 10px;
-    padding: 6px 14px;
-    border: 1.5px solid var(--ink);
-    border-radius: 999px;
-    background: var(--card);
-    font-size: 0.82rem;
-    font-weight: 700;
-    cursor: pointer;
-  }
-
-  .notebook__tools-toggle[aria-expanded='true'] {
-    background: var(--yellow);
-  }
-
-  .notebook__tools {
-    display: none;
-    margin-top: 14px;
-  }
-
-  .notebook__tools.is-expanded {
-    display: grid;
-  }
-
-  .notebook__page--right {
-    min-height: 0;
-    padding-top: 18px;
-    padding-bottom: 30px;
-  }
-
-  .note {
-    margin-bottom: 18px;
-  }
-
-  .notebook__nav {
-    margin-top: 10px;
-  }
+  
 
   /* Cerrado: queda solo la tapa, sin el largo de las hojas */
-  .notebook.is-closed .notebook__page--right {
-    display: none;
-  }
-
-  .notebook.is-closed .notebook__cover {
-    min-height: 260px;
-  }
 
   /* Individual: la tarjeta aparece antes */
   .toolbar .pill {
@@ -2620,141 +2110,14 @@ h3 {
   }
 }
 
-/* ═════════════ Diario: índice ═════════════ */
-.notebook__buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 10px;
-}
-
-.notebook__index-toggle {
-  align-self: flex-start;
-  padding: 6px 14px;
-  border: 1.5px solid var(--ink);
-  border-radius: 999px;
-  background: var(--card);
-  font-size: 0.82rem;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.notebook__index-toggle[aria-expanded='true'] {
-  background: var(--yellow);
-}
-
-.notebook__buttons .notebook__tools-toggle {
-  margin-top: 0;
-}
-
 /* Hoja del índice: entradas a mano con línea de puntos hasta el número de hoja */
-.notebook__index {
-  max-height: 520px;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  padding-right: 6px;
-  font-family: var(--font-hand);
-}
-
-.notebook__index-title {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: 1.7rem;
-  line-height: var(--rule);
-}
-
-.notebook__index-month {
-  margin: 0;
-  font-size: 1.15rem;
-  line-height: var(--rule);
-  text-decoration: underline;
-  text-underline-offset: 4px;
-}
-
-.notebook__index ol {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.notebook__index button {
-  display: flex;
-  align-items: baseline;
-  gap: 6px;
-  width: 100%;
-  padding: 0;
-  border: 0;
-  background: none;
-  font: inherit;
-  font-size: 1.15rem;
-  line-height: var(--rule);
-  text-align: left;
-  color: var(--ink);
-  cursor: pointer;
-}
-
-.notebook__index-text {
-  flex: 0 1 auto;
-  min-width: 0;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.notebook__index-where {
-  flex: none;
-  font-style: normal;
-  color: var(--ink-soft);
-}
 
 /* Línea de puntos en el espacio libre antes del número */
-.notebook__index-dots {
-  flex: 1 0 18px;
-  align-self: stretch;
-  background: radial-gradient(circle, var(--ink-soft) 1px, transparent 1.5px) left 68% / 7px 7px repeat-x;
-}
-
-.notebook__index-page {
-  flex: none;
-  min-width: 1.6em;
-  text-align: right;
-}
-
-.notebook__index button:hover .notebook__index-text,
-.notebook__index button:focus-visible .notebook__index-text {
-  text-decoration: underline;
-}
-
-.notebook__index button.is-current {
-  background: var(--yellow-soft);
-}
 
 @media (max-width: 760px) {
-  .notebook__index {
-    max-height: 60vh;
-    max-height: 60svh;
-  }
 
   /* En el celular: fecha y país arriba, la pregunta abajo con más lugar */
-  .notebook__index button {
-    flex-wrap: wrap;
-    column-gap: 6px;
-    row-gap: 0;
-    font-size: 1.1rem;
-  }
 
-  .notebook__index-where {
-    flex-basis: 100%;
-    font-size: 0.95rem;
-  }
-
-  .notebook__index-text {
-    flex: 1 1 0;
-  }
-
-  .notebook__index-dots {
-    flex: 0 0 26px;
-  }
 }
 
 /* ═════════════ Encabezado: cielo nocturno con la bandera del lema ═════════════ */
@@ -3191,7 +2554,6 @@ h3 {
 .versus__vs {
   font-family: var(--font-display);
   font-size: 2.4rem;
-  font-style: italic;
 }
 
 .player-card {
@@ -3930,22 +3292,6 @@ h3 {
 }
 
 /* Charla guardada en el diario */
-.note__who {
-  white-space: nowrap;
-  opacity: 0.65;
-}
-
-.note--talk .note__echo {
-  font-size: 1.25rem;
-  font-style: italic;
-  opacity: 0.85;
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-}
-
-.note--talk .note__who {
-  font-size: 0.9em;
-}
 
 /* ═════════════ Primer vuelo (bienvenida) ═════════════ */
 .first-flight {
@@ -4340,29 +3686,6 @@ h3 {
 }
 
 /* Pista para pasar las hojas del diario deslizando (solo en pantallas táctiles) */
-.notebook__swipe {
-  display: none;
-}
-
-@media (pointer: coarse) {
-  .notebook__nav {
-    display: grid;
-    grid-template-columns: repeat(3, auto);
-    justify-content: center;
-    column-gap: 12px;
-    row-gap: 2px;
-  }
-
-  .notebook__swipe {
-    display: block;
-    grid-row: 2;
-    grid-column: 1 / -1;
-    text-align: center;
-    font-size: 0.78rem;
-    font-weight: 500;
-    color: var(--ink-soft);
-  }
-}
 
 /* Aviso de guardado */
 .saved-toast {
@@ -5206,9 +4529,6 @@ h3 {
   fill: var(--ink);
 }
 
-.sticker__serif--italic {
-  font-style: italic;
-}
 
 /* Países por pegar */
 .to-stick {
@@ -5318,4 +4638,536 @@ h3 {
 
 .suitcase__top {
   pointer-events: none;
+}
+
+/* ───────────── Diario de viaje (estilo notas) ───────────── */
+
+.journal {
+  margin-top: 28px;
+  padding: clamp(16px, 4vw, 28px);
+  background: var(--paper);
+  color: var(--ink);
+  border: var(--border);
+  border-radius: 24px;
+  scroll-margin-top: 12px;
+}
+
+.journal__bar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+}
+
+.journal__bar--entry {
+  justify-content: space-between;
+}
+
+.journal__icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.journal__icon:hover,
+.journal__icon[aria-pressed='true'] {
+  background: var(--line);
+}
+
+.journal__back {
+  min-height: 44px;
+  padding: 0 4px;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.journal__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 6vw, 2.6rem);
+  line-height: 1;
+}
+
+.journal__count {
+  margin: 8px 0 16px;
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+}
+
+.journal__filters {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+}
+
+.journal__search {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.journal__search svg {
+  position: absolute;
+  left: 12px;
+  color: var(--ink-soft);
+  pointer-events: none;
+}
+
+.journal__search input,
+.journal__stage select {
+  width: 100%;
+  min-height: 44px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--line);
+  color: var(--ink);
+  font: inherit;
+  font-size: 1rem;
+}
+
+.journal__search input {
+  padding: 10px 12px 10px 38px;
+}
+
+.journal__search input::placeholder {
+  color: var(--ink-soft);
+}
+
+.journal__stage select {
+  padding: 0 12px;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.journal__search input:focus-visible,
+.journal__stage select:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+.journal__month {
+  margin-top: 20px;
+}
+
+.journal__month-title {
+  margin: 0 4px 8px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.journal__month-title::first-letter {
+  text-transform: uppercase;
+}
+
+.journal__rows {
+  margin: 0;
+  padding: 0 16px;
+  list-style: none;
+  background: var(--card);
+  border-radius: 16px;
+}
+
+.journal__rows li + li {
+  border-top: 1px solid var(--line);
+}
+
+.journal__row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 64px;
+  padding: 12px 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.journal__row:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+.journal__row-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.journal__row-title,
+.journal__row-preview {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.journal__row-title {
+  font-size: 1rem;
+  font-weight: 650;
+}
+
+.journal__row-preview {
+  margin-top: 3px;
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+}
+
+.journal__row-preview time {
+  margin-right: 4px;
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.journal__row-shape {
+  flex: none;
+  width: 30px;
+  height: 30px;
+  color: var(--ink-soft);
+}
+
+.journal__row-shape path,
+.journal-entry__shape path {
+  stroke: currentColor;
+}
+
+.journal__empty {
+  display: grid;
+  justify-items: start;
+  gap: 12px;
+  margin: 20px 4px 4px;
+  color: var(--ink-soft);
+}
+
+.journal__empty p {
+  margin: 0;
+}
+
+.journal__reset {
+  display: block;
+  margin: 22px auto 0;
+  color: var(--ink-soft);
+}
+
+/* Una entrada abierta */
+.journal-entry__date {
+  margin: 6px 0 2px;
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: 0.88rem;
+}
+
+.journal-entry__stage {
+  margin: 0 0 18px;
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.journal-entry__title {
+  margin: 0 0 14px;
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 5vw, 2.1rem);
+  line-height: 1.12;
+  outline: none;
+}
+
+.journal-entry__sub {
+  margin: -6px 0 16px;
+  color: var(--ink-soft);
+}
+
+.journal-entry__answer {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.65;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.journal mark {
+  padding: 0 2px;
+  border-radius: 3px;
+  background: var(--yellow-soft);
+  box-shadow: inset 0 -2px 0 var(--yellow);
+  color: inherit;
+}
+
+.journal-entry__earlier {
+  margin-top: 22px;
+  color: var(--ink-soft);
+}
+
+.journal-entry__earlier summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.journal-entry__earlier ol {
+  margin: 10px 0 0;
+  padding: 0 0 0 14px;
+  border-left: 2px solid var(--line);
+  list-style: none;
+}
+
+.journal-entry__earlier time {
+  font-size: 0.82rem;
+}
+
+.journal-entry__earlier p {
+  margin: 2px 0 12px;
+  color: var(--ink);
+  line-height: 1.55;
+  white-space: pre-wrap;
+}
+
+.journal-entry__stop {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 26px;
+  padding: 12px 14px;
+  border: 1.5px dashed var(--line);
+  border-radius: 14px;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.journal-entry__stop:hover {
+  border-color: var(--ink);
+}
+
+.journal-entry__stop b {
+  display: block;
+  font-size: 0.95rem;
+}
+
+.journal-entry__stop span span {
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+}
+
+.journal-entry__shape {
+  flex: none;
+  width: 40px;
+  height: 40px;
+}
+
+.journal-entry__again {
+  margin-top: 14px;
+}
+
+.journal-entry__talk {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.journal-entry__msg {
+  margin-bottom: 14px;
+}
+
+.journal-entry__msg p {
+  margin: 0;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.journal-entry__msg--question p {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  line-height: 1.2;
+}
+
+.journal-entry__msg--reaction p {
+  color: var(--ink-soft);
+}
+
+.journal-entry__who {
+  display: block;
+  color: var(--ink-soft);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.journal-entry__nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 26px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+  color: var(--ink-soft);
+  font-weight: 600;
+}
+
+/* ───────────── Escribir la respuesta (Individual) ───────────── */
+
+.answer__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.answer__when {
+  color: var(--ink-soft);
+  font-size: 0.88rem;
+}
+
+.answer__night {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.answer__night:hover,
+.answer__night[aria-pressed='true'] {
+  background: var(--line);
+}
+
+.answer__night svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linejoin: round;
+}
+
+/* Sin caja ni renglones: letra simple y grande, como una nota nueva */
+.answer .answer__input {
+  min-height: 9em;
+  padding: 2px 2px 2px 12px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  background-image: none;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1.15rem;
+  line-height: 1.65;
+  box-shadow: inset 3px 0 0 var(--line);
+}
+
+.answer .answer__input:focus,
+.answer .answer__input:focus-visible {
+  outline: none;
+  box-shadow: inset 3px 0 0 var(--yellow);
+}
+
+.answer .answer__input::placeholder {
+  color: var(--ink-soft);
+}
+
+.answer__footer {
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+}
+
+.answer__meta {
+  color: var(--ink-soft);
+  font-size: 0.82rem;
+}
+
+.answer__autosave {
+  font-style: normal;
+}
+
+/* ───────────── Modo noche (diario y escritura en Individual) ───────────── */
+/* Se redefinen los colores de la paleta adentro: botones, bordes y textos se invierten solos.
+   El amarillo de la pregunta y las pegatinas se quedan igual. */
+.journal.is-night,
+.ticket.ticket--night {
+  --ink: #f1ede6;
+  --teal: #f1ede6;
+  --ink-soft: #a8a197;
+  --paper: #141414;
+  --card: #1f1e1c;
+  --glass: #1f1e1c;
+  --line: #3a3835;
+  --teal-soft: #2a2927;
+  --yellow-soft: #3d3514;
+  --border: 2px solid #f1ede6;
+  background: var(--paper);
+  color: var(--ink);
+  color-scheme: dark;
+}
+
+.journal.is-night {
+  border-color: #141414;
+}
+
+.journal.is-night .journal__icon,
+.journal.is-night .journal__back {
+  color: var(--yellow);
+}
+
+.journal.is-night mark {
+  background: var(--yellow);
+  box-shadow: none;
+  color: #161616;
+}
+
+.ticket.ticket--night {
+  border-color: #141414;
+}
+
+.ticket--night .ticket__stub {
+  background: var(--card);
+}
+
+.ticket--night .ticket__barcode rect {
+  fill: currentColor;
+}
+
+.ticket--night .answer .answer__input {
+  caret-color: var(--yellow);
+}
+
+.ticket--night .answer__night {
+  color: var(--yellow);
+}
+
+.journal.is-night .btn--primary:hover:not(:disabled),
+.ticket--night .btn--primary:hover:not(:disabled) {
+  background: #fff;
+}
+
+@media (max-width: 560px) {
+  .journal__filters {
+    grid-template-columns: 1fr;
+  }
+}
+
+.ticket--night .stamp,
+.journal.is-night .stamp {
+  background: transparent;
 }

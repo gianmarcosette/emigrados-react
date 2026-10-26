@@ -6,6 +6,12 @@ export function formatDate(iso) {
   return Number.isNaN(d.getTime()) ? '' : `${dateFormatter.format(d)} · ${timeFormatter.format(d)}`
 }
 
+// "19:20"
+export function formatTime(date) {
+  const d = new Date(date)
+  return Number.isNaN(d.getTime()) ? '' : timeFormatter.format(d)
+}
+
 export function plural(n, one, many) {
   return `${n} ${n === 1 ? one : many}`
 }

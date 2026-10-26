@@ -37,7 +37,7 @@ export default function Sticker({ country, kind, complete = false, gradientId })
           y="8"
           textAnchor="middle"
           className="sticker__serif"
-          style={{ fontSize: Math.min(13, 100 / country.name.length) }}
+          style={{ fontSize: Math.min(11.5, 84 / country.name.length) }}
         >
           {country.name}
         </text>
@@ -73,8 +73,8 @@ export default function Sticker({ country, kind, complete = false, gradientId })
           x="12"
           y="-1"
           textAnchor="middle"
-          className="sticker__serif sticker__serif--italic"
-          style={{ fontSize: Math.min(14, 90 / country.name.length) }}
+          className="sticker__serif"
+          style={{ fontSize: Math.min(12, 76 / country.name.length) }}
         >
           {country.name}
         </text>

@@ -1,4 +1,4 @@
-/* Montserrat en un solo archivo "variable" que trae todos los grosores (400 a 800):
+/* Montserrat (texto) en un solo archivo "variable" que trae todos los grosores (400 a 800):
    pesa 38 KB en lugar de los ~94 KB de cinco archivos separados. Se registra con el
    nombre de siempre, así las cursivas (que siguen en archivos aparte) son de la misma
    familia. Solo el alfabeto latino: alcanza para español, portugués, inglés, francés e italiano. */
@@ -12,4 +12,16 @@
   unicode-range:
     U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F,
     U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Títulos, preguntas y números: Archivo gruesa (700) y un poco angosta (87%). Es una versión
+   recortada con ese único grosor y ancho (ver scripts/archivo-display.py): pesa 14 KB en lugar
+   de los 88 KB del archivo variable completo. Como es la única cara de la familia, todas las
+   reglas que usan --font-display la muestran igual, pidan el grosor que pidan. */
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src: url('./assets/fonts/archivo-display.woff2') format('woff2');
 }

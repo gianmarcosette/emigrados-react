@@ -107,7 +107,7 @@ export default function Maleta() {
                   aria-pressed={selectedId === c.id}
                   onClick={() => select(c.id)}
                 >
-                  <CountryShape country={c} className="to-stick__shape" />
+                  <CountryShape country={c} className="to-stick__shape" decorative />
                   <span>{c.name}</span>
                 </button>
               </li>
