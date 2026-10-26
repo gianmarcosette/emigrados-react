@@ -5036,61 +5036,6 @@ h3 {
   font-size: 0.9rem;
 }
 
-/* Pantalla intermedia: la pregunta queda tapada hasta que el teléfono cambia de mano */
-.handoff {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 10px;
-  background: var(--card);
-  border: var(--border);
-  border-radius: 20px;
-  padding: clamp(28px, 7vw, 56px) 20px;
-  scroll-margin-top: 12px;
-  animation: slide-in 0.3s ease-out;
-}
-
-.handoff__avatar {
-  width: 72px;
-  height: 72px;
-  font-size: 2rem;
-  background: var(--yellow);
-  color: var(--ink);
-  border: var(--border);
-}
-
-.handoff__eyebrow {
-  margin: 8px 0 0;
-  font-size: 0.85rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ink-soft);
-}
-
-.handoff__name {
-  margin: 0;
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-size: clamp(2.8rem, 12vw, 4.5rem);
-  line-height: 1;
-  overflow-wrap: anywhere;
-  outline: none;
-}
-
-.handoff__hint {
-  margin: 0 0 12px;
-  color: var(--ink-soft);
-  max-width: 32ch;
-}
-
-.handoff__go {
-  max-width: 360px;
-  min-height: 56px;
-  font-size: 1.05rem;
-}
-
 /* Letra grande: el teléfono se lee apoyado en la mesa */
 .grupal--big .ticket .ticket__question {
   font-size: clamp(2.3rem, 9vw, 3rem);
@@ -5101,8 +5046,8 @@ h3 {
   font-size: 1.15rem;
 }
 
-.grupal--big .turn {
-  font-size: 1.3rem;
+.grupal--big .speaker {
+  font-size: 1.1rem;
 }
 
 .grupal--big .actions .btn {
@@ -5174,10 +5119,6 @@ h3 {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .handoff {
-    animation: none;
-  }
-
   .talk-timer__bar span {
     transition: none;
   }
@@ -5208,20 +5149,57 @@ h3 {
   .grupal .toolbar__count {
     font-size: 0.8rem;
   }
+}
 
-  .handoff {
-    gap: 6px;
-    padding: 20px 16px;
-  }
+/* Orden de la mesa para la pregunta actual */
+.speakers {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
 
-  .handoff__avatar {
-    width: 52px;
-    height: 52px;
-    font-size: 1.5rem;
-  }
+.speaker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 14px 5px 5px;
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--ink-soft);
+  font-weight: 600;
+}
 
-  .handoff__hint {
-    margin-bottom: 8px;
-    font-size: 0.95rem;
-  }
+.speaker__mark {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--paper);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.speaker--current {
+  border: var(--border);
+  background: var(--yellow);
+  color: var(--ink);
+}
+
+.speaker--current .speaker__mark {
+  background: var(--ink);
+  color: var(--card);
+}
+
+.speaker--done .speaker__mark {
+  background: var(--ink);
+  color: var(--card);
+}
+
+.speaker--passed .speaker__name {
+  text-decoration: line-through;
 }

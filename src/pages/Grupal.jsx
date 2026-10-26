@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import QuestionCard from '../components/QuestionCard.jsx'
 import TalkTimer from '../components/TalkTimer.jsx'
 import Title from '../components/Title.jsx'
@@ -6,10 +6,13 @@ import { CATEGORIES, QUESTIONS } from '../data/questions.js'
 import { shuffle } from '../state/journey.js'
 import { useWindowScene } from '../state/scene.js'
 import { useConfirm } from '../state/confirm.js'
+import { isLastSpeaker, nextSpeaker, speakersStatus, speakingOrder, startRound } from '../lib/groupTurns.js'
 import { TIMER_OPTIONS } from '../lib/timer.js'
 
 const MAX_PLAYERS = 12
 const BIG_TEXT_KEY = 'emigrados:grupal-letra-grande'
+
+const STATUS_LABEL = { done: 'ya habló', passed: 'pasó', current: 'habla ahora', next: 'después' }
 
 // Letra grande por defecto: el teléfono queda en la mesa y se lee de más lejos.
 function readBigText() {
@@ -20,7 +23,8 @@ function readBigText() {
   }
 }
 
-// Modo grupal: nada se guarda. Solo vive en el estado de este componente.
+// Modo grupal: un solo teléfono en el medio de la mesa y nada se guarda.
+// Cada pregunta la contesta toda la mesa, de a uno; recién después se pasa a otra.
 export default function Grupal() {
   useWindowScene('clouds')
   const [players, setPlayers] = useState([])
@@ -28,23 +32,10 @@ export default function Grupal() {
   const [categories, setCategories] = useState(() => CATEGORIES.map((c) => c.key))
   const [deck, setDeck] = useState(null)
   const [index, setIndex] = useState(0)
-  const [turn, setTurn] = useState(0)
-  // Pantalla de "Pasale el teléfono a…": tapa la pregunta hasta que llega a la mano correcta
-  const [handoff, setHandoff] = useState(false)
+  const [round, setRound] = useState(startRound)
   const [timerSeconds, setTimerSeconds] = useState(0)
   const [bigText, setBigText] = useState(readBigText)
-  const handoffRef = useRef(null)
   const confirm = useConfirm()
-  // Al pasar el teléfono, el lector de pantalla anuncia a quién le toca
-  useEffect(() => {
-    if (!handoff) return
-    // La tarjeta queda arriba de todo, con el botón a la vista aunque la pantalla sea chica
-    const card = handoffRef.current?.closest('.handoff')
-    card?.scrollIntoView({ block: 'start' })
-    handoffRef.current?.focus({ preventScroll: true })
-  }, [handoff, turn])
-  // Con una sola persona no hace falta pasar el teléfono
-  const passing = players.length >= 2
 
   function toggleBigText() {
     setBigText((on) => {
@@ -76,8 +67,7 @@ export default function Grupal() {
   function start() {
     setDeck(shuffle(QUESTIONS.filter((q) => categories.includes(q.category))))
     setIndex(0)
-    setTurn(0)
-    setHandoff(passing)
+    setRound(startRound())
   }
 
   async function endGame() {
@@ -90,84 +80,70 @@ export default function Grupal() {
     if (ok) setDeck(null)
   }
 
-  function advance({ passTurn }) {
+  // Saca otra carta del mazo; si se terminó, se vuelve a mezclar para seguir charlando.
+  function drawCard() {
     if (index + 1 >= deck.length) {
-      // Se terminó el mazo: se vuelve a mezclar para seguir charlando.
       setDeck(shuffle(deck))
       setIndex(0)
     } else {
       setIndex((i) => i + 1)
     }
-    if (passTurn) {
-      setTurn((t) => t + 1)
-      setHandoff(passing)
-    }
-    // La pregunta nueva arranca desde arriba
     window.scrollTo({ top: 0 })
+  }
+
+  function finishSpeaker({ pass = false } = {}) {
+    const last = isLastSpeaker(round, players.length)
+    setRound((r) => nextSpeaker(r, players.length, { pass }))
+    if (last) drawCard()
   }
 
   if (deck) {
     const question = deck[index]
-    const current = players.length ? players[turn % players.length] : null
-    const round = players.length ? Math.floor(turn / players.length) + 1 : null
-    const toolbar = (
-      <div className="toolbar">
-        <span className="pill">Grupal</span>
-        <span className="toolbar__count">
-          Pregunta {turn + 1}
-          {round ? ` · Ronda ${round}` : ''}
-        </span>
-        <button
-          type="button"
-          className="btn btn--text grupal__size"
-          aria-pressed={bigText}
-          title="Letra grande"
-          onClick={toggleBigText}
-        >
-          <span aria-hidden="true">Aa</span>
-          <span className="grupal__size-text">Letra grande</span>
-        </button>
-        <button type="button" className="btn btn--text" onClick={endGame}>
-          Terminar partida
-        </button>
-      </div>
-    )
-
-    if (handoff && current) {
-      return (
-        <div className={`page grupal ${bigText ? 'grupal--big' : ''}`}>
-          {toolbar}
-          <section className="handoff" aria-labelledby="handoff-title">
-            <span className="avatar handoff__avatar" aria-hidden="true">
-              {current[0].toUpperCase()}
-            </span>
-            <p className="handoff__eyebrow">Pasale el teléfono a</p>
-            <h1 id="handoff-title" className="handoff__name" tabIndex={-1} ref={handoffRef}>
-              {current}
-            </h1>
-            <p className="handoff__hint">La pregunta está tapada para que nadie la vea antes de tiempo.</p>
-            <button type="button" className="btn btn--primary btn--block handoff__go" onClick={() => setHandoff(false)}>
-              Soy {current}, ver mi pregunta
-            </button>
-          </section>
-        </div>
-      )
-    }
+    const named = players.length > 0
+    const order = speakersStatus(round, players.length)
+    const current = named ? players[order[round.step].player] : null
+    const last = isLastSpeaker(round, players.length)
+    const following = named && !last ? players[order[round.step + 1].player] : null
+    const nextOpener = named ? players[speakingOrder(players.length, round.question + 1)[0]] : null
 
     return (
       <div className={`page grupal ${bigText ? 'grupal--big' : ''}`}>
-        {toolbar}
+        <div className="toolbar">
+          <span className="pill">Grupal</span>
+          <span className="toolbar__count">Pregunta {round.question + 1}</span>
+          <button
+            type="button"
+            className="btn btn--text grupal__size"
+            aria-pressed={bigText}
+            title="Letra grande"
+            onClick={toggleBigText}
+          >
+            <span aria-hidden="true">Aa</span>
+            <span className="grupal__size-text">Letra grande</span>
+          </button>
+          <button type="button" className="btn btn--text" onClick={endGame}>
+            Terminar partida
+          </button>
+        </div>
 
-        {current && (
-          <div className="turn" aria-live="polite">
-            <span className="avatar" aria-hidden="true">
-              {current[0].toUpperCase()}
-            </span>
-            <span>
-              Le toca a <strong>{current}</strong>
-            </span>
-            <span className="turn__queue">Después: {players[(turn + 1) % players.length]}</span>
-          </div>
+        {named && (
+          <>
+            {/* Quién ya habló y quién sigue, en el orden de esta pregunta */}
+            <ol className="speakers" aria-label="Orden para esta pregunta">
+              {order.map(({ player, status }) => (
+                <li key={player} className={`speaker speaker--${status}`}>
+                  <span className="speaker__mark" aria-hidden="true">
+                    {status === 'done' ? '✓' : status === 'passed' ? '–' : players[player][0].toUpperCase()}
+                  </span>
+                  <span className="speaker__name">{players[player]}</span>
+                  <span className="sr-only">, {STATUS_LABEL[status]}</span>
+                </li>
+              ))}
+            </ol>
+            <p className="sr-only" aria-live="polite">
+              Le toca a {current}
+            </p>
+          </>
         )}
 
         <QuestionCard
@@ -176,17 +152,32 @@ export default function Grupal() {
           passenger={current ?? 'Toda la mesa'}
         >
           <p className="group-hint">
-            Respondé en voz alta. Después, cualquiera puede sumar su experiencia: ¿a alguien más le pasó algo parecido?
+            {!named
+              ? 'Respondan todos, de a uno. Cuando la mesa haya hablado, pasen a la siguiente.'
+              : round.step === 0
+                ? `${current} abre la pregunta. Después responde cada uno, de a uno.`
+                : `Ahora ${current} cuenta lo suyo con la misma pregunta.`}
           </p>
-          {/* key: el reloj vuelve a cero con cada pregunta */}
-          {timerSeconds > 0 && <TalkTimer key={`${turn}-${index}`} seconds={timerSeconds} />}
+          {/* key: el reloj vuelve a cero con cada persona que habla */}
+          {timerSeconds > 0 && <TalkTimer key={`${round.question}-${round.step}`} seconds={timerSeconds} />}
           <div className="actions actions--end">
-            {/* Cada botón dice qué pasa: otra pregunta para quien juega, o pasarle el turno a alguien */}
-            <button type="button" className="btn btn--ghost" onClick={() => advance({ passTurn: false })}>
-              {current ? `Otra pregunta para ${current}` : 'Otra pregunta'}
-            </button>
-            <button type="button" className="btn btn--primary" onClick={() => advance({ passTurn: true })}>
-              {current ? `Turno de ${players[(turn + 1) % players.length]} »` : 'Siguiente pregunta »'}
+            {named && round.step === 0 && (
+              <button type="button" className="btn btn--text" onClick={drawCard}>
+                Cambiar pregunta
+              </button>
+            )}
+            {named && (
+              // Nadie está obligado a contestar
+              <button type="button" className="btn btn--ghost" onClick={() => finishSpeaker({ pass: true })}>
+                {current} prefiere pasar
+              </button>
+            )}
+            <button type="button" className="btn btn--primary" onClick={() => finishSpeaker()}>
+              {following
+                ? `Listo, sigue ${following} »`
+                : named && players.length > 1
+                  ? `Siguiente pregunta: abre ${nextOpener} »`
+                  : 'Siguiente pregunta »'}
             </button>
           </div>
         </QuestionCard>
@@ -202,8 +193,8 @@ export default function Grupal() {
       <section className="panel">
         <Title>Armá la ronda</Title>
         <p className="muted">
-          Sumá a quienes van a jugar para que las preguntas vayan rotando. Si preferís, también pueden jugar sin
-          nombres.
+          Sumá a quienes van a jugar: cada pregunta la contesta toda la mesa, de a uno, y quien la abre va rotando. Si
+          preferís, también pueden jugar sin nombres.
         </p>
 
         <form className="inline-form" onSubmit={addPlayer}>
