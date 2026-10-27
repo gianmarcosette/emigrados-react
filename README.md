@@ -35,12 +35,11 @@ Otros comandos: `npm run build` (versión de producción), `npm test` (tests con
 - El modo individual prioriza las preguntas que todavía no respondiste; con "Repetir una anterior" (o al terminar todas) vuelven preguntas ya respondidas para comparar.
 - **Sin perfil solo se juega el modo Grupal**, que no guarda nada. Individual, la maleta y el diario piden crear el perfil primero (`components/ProfileGate.jsx`).
 - El perfil (nombre, edad, descripción, foto y código de pasajero) y las respuestas se guardan en el navegador (`localStorage`). La foto se recorta y se reduce a 320 px antes de guardarse.
-- Una ventanilla de avión, en colores planos estilo afiche de viaje, acompaña cada sección con una escena animada: despegue (inicio y crear perfil), sobre las nubes (preguntas) y atardecer (maleta y perfil).
+- El fondo de todo el sitio es un cielo azul con nubes en trama de puntos, como impreso en una imprenta vieja (hecho con CSS, sin imágenes). El texto que va directo sobre el cielo es crema, con contraste AA.
 
 ## Diseño
 
 - Estilo minimalista: tinta negra sobre crema, con el amarillo como único acento.
-- Ilustraciones de línea propias en SVG: ventanillas con pasajeros (durmiendo, leyendo, tomando mate, saludando…) como fondo y en el inicio.
 - Tipografías: Archivo (títulos, preguntas y números, gruesa y un poco angosta; una versión recortada de 14 KB que se genera con `npm run fonts`) y Montserrat (textos y logo). Incluidas con Fontsource, funcionan sin internet.
 
 ## Estructura
@@ -49,8 +48,7 @@ Otros comandos: `npm run build` (versión de producción), `npm test` (tests con
 src/
 ├── App.jsx                 # Rutas
 ├── main.jsx                # BrowserRouter + JourneyProvider
-├── components/             # Layout, QuestionCard (tarjeta de embarque), PlaneWindow, Diary (estilo notas), Suitcase y Sticker (maleta), ProfileForm…
-│   └── illustrations/      # Viñetas de pasajeros, fondo de pantalla y fila de ventanillas
+├── components/             # Layout, QuestionCard (tarjeta de embarque), Diary (estilo notas), Suitcase y Sticker (maleta), ProfileForm…
 ├── pages/                  # Home, Individual, Grupal, Online, Maleta, Perfil, NotFound
 ├── online/                 # duel.js (reglas del duelo), talk.js (charla guiada) y mockServer.js (servidor simulado)
 ├── data/                   # questions.js (208 preguntas), countries.js (52 países), trivia.js (cultura general), talk.js (preguntas de la charla), residence.js (países donde vivir)

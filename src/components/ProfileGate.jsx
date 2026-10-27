@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
 import { isProfileComplete } from '../state/profile.js'
-import { useWindowScene } from '../state/scene.js'
 import { useJourney } from '../state/useJourney.js'
 import ProfileForm from './ProfileForm.jsx'
 import Title from './Title.jsx'
@@ -14,7 +13,6 @@ export default function ProfileGate({ children }) {
 
 function ProfileOnboarding({ profile }) {
   const { dispatch } = useJourney()
-  useWindowScene('takeoff')
 
   return (
     <div className="page page--narrow">

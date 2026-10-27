@@ -18,6 +18,12 @@
   --poster-coral: #e8664a;
   --sand: #e4d6bf;
   --night: #2f3a33;
+  /* Fondo de todo el sitio: cielo azul con nubes en trama de puntos */
+  --halftone-sky: #3d7299;
+  --halftone-ink: #efe6d2;
+  /* Texto que va directo sobre el cielo (no dentro de una tarjeta) */
+  --on-sky: #fbf9f5;
+  --on-sky-soft: #eef3f7;
   /* Cuero de la maleta de pegatinas */
   --leather: #c98d55;
   --leather-dark: #8a5a32;
@@ -52,7 +58,7 @@ body {
 body {
   font-family: var(--font-body);
   color: var(--ink);
-  background: var(--paper);
+  background: var(--halftone-sky);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
 }
@@ -388,11 +394,6 @@ textarea:focus {
   padding: 16px 0 40px;
 }
 
-.hero__window {
-  grid-column: 2;
-  grid-row: 1;
-}
-
 .hero__text {
   grid-column: 1;
   grid-row: 1;
@@ -459,7 +460,7 @@ textarea:focus {
   padding: 14px 28px;
 }
 
-/* Ventanilla al costado del contenido (escritorio) o arriba (celular) */
+/* Contenido de cada sección, centrado */
 .shell {
   flex: 1;
   width: 100%;
@@ -471,56 +472,6 @@ textarea:focus {
 
 .main {
   min-width: 0;
-}
-
-.shell__window {
-  width: min(520px, calc(100% - 32px));
-  margin: 4px auto 8px;
-}
-
-/* En pantallas angostas la ventanilla se vuelve una franja apaisada */
-@media (max-width: 1179px) {
-  .shell__window .plane-window {
-    flex-direction: row;
-    gap: 14px;
-  }
-
-  .shell__window .plane-window__frame {
-    aspect-ratio: auto;
-    height: 128px;
-    padding: 12px 16px;
-    border-radius: 40px;
-  }
-
-  .shell__window .plane-window__pane {
-    border-radius: 999px;
-  }
-
-  .shell__window .plane-window__shade {
-    height: 16%;
-    border-radius: 0;
-  }
-
-  /* En la franja apaisada la nube cercana solo mostraría su borde */
-  .shell__window .pw-pass {
-    display: none;
-  }
-}
-
-@media (min-width: 1180px) {
-  .shell:not(.shell--home) {
-    grid-template-columns: 260px minmax(0, 1fr);
-    gap: 8px;
-    padding-left: clamp(16px, 2vw, 32px);
-  }
-
-  .shell__window {
-    width: 100%;
-    margin: 16px 0 0;
-    position: sticky;
-    top: 24px;
-    align-self: start;
-  }
 }
 
 .modes {
@@ -1343,13 +1294,6 @@ a.mode:hover {
     padding-top: 4px;
   }
 
-  .hero__window {
-    grid-column: 1;
-    grid-row: 1;
-    width: min(220px, 62%);
-    justify-self: center;
-  }
-
   .hero__text {
     grid-column: 1;
     grid-row: 2;
@@ -1610,55 +1554,7 @@ h3 {
   isolation: isolate;
 }
 
-.wallpaper {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  color: var(--ink);
-  opacity: 0.055;
-  pointer-events: none;
-}
-
-.wallpaper .vg-paper,
-.wallpaper .vg-sky {
-  fill: none;
-}
-
 /* Fila de ventanillas del inicio: el costado de un avión que pasa */
-.window-row {
-  position: relative;
-  overflow: hidden;
-  margin: 8px 0 40px;
-  padding: 18px 0;
-  border-top: var(--border);
-  border-bottom: var(--border);
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-}
-
-.window-row__track {
-  display: flex;
-  gap: 28px;
-  width: max-content;
-  animation: window-row 60s linear infinite;
-}
-
-.window-row:hover .window-row__track {
-  animation-play-state: paused;
-}
-
-.window-row__item {
-  width: 92px;
-  flex-shrink: 0;
-}
-
-@keyframes window-row {
-  to {
-    transform: translateX(calc(-50% - 14px));
-  }
-}
 
 /* Silueta del país junto al sello */
 .stamp-group {
@@ -2037,15 +1933,7 @@ h3 {
   }
 
   /* Ventanilla más baja para que el contenido aparezca antes */
-  .shell__window .plane-window__frame {
-    height: 92px;
-    padding: 9px 12px;
-    border-radius: 30px;
-  }
 
-  .shell__window {
-    margin: 0 auto 4px;
-  }
 }
 
 @media (max-width: 760px) {
@@ -2075,8 +1963,6 @@ h3 {
     background: var(--line);
   }
 
-  
-
   /* Cerrado: queda solo la tapa, sin el largo de las hojas */
 
   /* Individual: la tarjeta aparece antes */
@@ -2101,9 +1987,7 @@ h3 {
   }
 
   /* Inicio: ventanilla más chica para que el título entre en la primera pantalla */
-  .hero__window {
-    width: min(170px, 48%);
-  }
+
 }
 
 @keyframes sheet-up {
@@ -2120,12 +2004,6 @@ h3 {
 /* Hoja del índice: entradas a mano con línea de puntos hasta el número de hoja */
 
 /* Línea de puntos en el espacio libre antes del número */
-
-@media (max-width: 760px) {
-
-  /* En el celular: fecha y país arriba, la pregunta abajo con más lugar */
-
-}
 
 /* ═════════════ Encabezado: cielo nocturno con la bandera del lema ═════════════ */
 .topbar {
@@ -4536,7 +4414,6 @@ h3 {
   fill: var(--ink);
 }
 
-
 /* Países por pegar */
 .to-stick {
   margin-top: 18px;
@@ -5183,101 +5060,14 @@ h3 {
 /* Detrás de la bandera y del inicio, un cielo azul con nubes en trama de puntos, como
    impreso en una imprenta vieja. Está hecho con CSS (un patrón de puntos recortado con
    forma de nubes de bordes suaves): no pesa nada. */
-.home-sky {
-  --halftone-sky: #3d7299;
-  --halftone-ink: #efe6d2;
-  position: relative;
-  z-index: 0;
-  isolation: isolate;
-  padding-bottom: 8px;
-}
-
-.home-sky::before,
-.home-sky::after {
-  content: '';
-  position: absolute;
-  z-index: -1;
-  top: -18px;
-  bottom: 0;
-  left: 50%;
-  width: 100vw;
-  margin-left: -50vw;
-}
-
-.home-sky::before {
-  background: var(--halftone-sky);
-}
-
-.home-sky::after {
-  background-image:
-    radial-gradient(circle, var(--halftone-ink) 1.15px, transparent 1.6px),
-    radial-gradient(circle, var(--halftone-ink) 1.15px, transparent 1.6px);
-  background-size: 4px 4px;
-  background-position:
-    0 0,
-    2px 2px;
-  -webkit-mask-image: radial-gradient(ellipse 22% 16% at 18% 30%, #000 40%, transparent 72%),radial-gradient(ellipse 18% 14% at 30% 22%, #000 35%, transparent 72%),radial-gradient(ellipse 26% 18% at 78% 26%, #000 42%, transparent 74%),radial-gradient(ellipse 20% 14% at 66% 40%, #000 35%, transparent 72%),radial-gradient(ellipse 30% 16% at 40% 82%, #000 42%, transparent 74%),radial-gradient(ellipse 24% 14% at 88% 76%, #000 40%, transparent 72%),radial-gradient(ellipse 60% 40% at 50% 50%, rgb(0 0 0 / 0.1), transparent 80%);
-  mask-image: radial-gradient(ellipse 22% 16% at 18% 30%, #000 40%, transparent 72%),radial-gradient(ellipse 18% 14% at 30% 22%, #000 35%, transparent 72%),radial-gradient(ellipse 26% 18% at 78% 26%, #000 42%, transparent 74%),radial-gradient(ellipse 20% 14% at 66% 40%, #000 35%, transparent 72%),radial-gradient(ellipse 30% 16% at 40% 82%, #000 42%, transparent 74%),radial-gradient(ellipse 24% 14% at 88% 76%, #000 40%, transparent 72%),radial-gradient(ellipse 60% 40% at 50% 50%, rgb(0 0 0 / 0.1), transparent 80%);
-}
-
-/* En el celular todo va en columna: las nubes quedan arriba, a los costados de la
-   ventanilla y abajo, y la zona del texto queda libre */
-@media (max-width: 760px) {
-  .home-sky::after {
-    -webkit-mask-image:
-      radial-gradient(ellipse 30% 10% at 12% 16%, #000 40%, transparent 72%),
-      radial-gradient(ellipse 30% 10% at 90% 20%, #000 40%, transparent 72%),
-      radial-gradient(ellipse 22% 8% at 6% 38%, #000 35%, transparent 72%),
-      radial-gradient(ellipse 22% 8% at 96% 40%, #000 35%, transparent 72%),
-      radial-gradient(ellipse 50% 6% at 50% 100%, #000 40%, transparent 74%);
-    mask-image:
-      radial-gradient(ellipse 30% 10% at 12% 16%, #000 40%, transparent 72%),
-      radial-gradient(ellipse 30% 10% at 90% 20%, #000 40%, transparent 72%),
-      radial-gradient(ellipse 22% 8% at 6% 38%, #000 35%, transparent 72%),
-      radial-gradient(ellipse 22% 8% at 96% 40%, #000 35%, transparent 72%),
-      radial-gradient(ellipse 50% 6% at 50% 100%, #000 40%, transparent 74%);
-  }
-}
 
 /* Sobre el cielo, el texto va en crema */
-.home-sky .hero__title,
-.home-sky .hero__lead {
-  color: var(--card);
-}
-
-.home-sky .hero__lead b {
-  color: var(--card);
-}
-
-.home-sky .hero__lead {
-  text-shadow: 0 1px 2px rgb(20 50 75 / 0.45);
-}
-
-.window-row {
-  margin-top: 28px;
-  background: var(--card);
-  border-radius: 24px;
-  border: var(--border);
-}
 
 /* En el inicio la ventanilla va sin el borde de color detrás del vidrio */
-.home-sky .plane-window__pane {
-  box-shadow: none;
-}
 
 /* La ventanilla quieta: la escena se ve, pero no se mueve */
-.plane-window--still *,
-.plane-window--still *::before,
-.plane-window--still *::after {
-  animation: none !important;
-}
-
 
 /* Sobre la franja de cielo los pasajeros entran y salen por el borde, sin desvanecerse */
-.window-row {
-  -webkit-mask-image: none;
-  mask-image: none;
-}
 
 /* Afiches de viaje de la maleta */
 .poster {
@@ -5293,4 +5083,179 @@ h3 {
   font-size: 4.2px;
   font-weight: 800;
   letter-spacing: 2.2px;
+}
+
+/* ───────────── Fondo: cielo en trama de puntos ───────────── */
+/* Un cielo azul con nubes en trama de puntos, como impreso en una imprenta vieja, quieto
+   detrás de todo. Hecho con CSS (un patrón de puntos recortado con forma de nubes de
+   bordes suaves): no pesa nada. Las nubes van hacia los bordes, para que el contenido
+   del centro se lea limpio. */
+.app::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle, var(--halftone-ink) 1.15px, transparent 1.6px),
+    radial-gradient(circle, var(--halftone-ink) 1.15px, transparent 1.6px);
+  background-size: 4px 4px;
+  background-position:
+    0 0,
+    2px 2px;
+  -webkit-mask-image:
+    radial-gradient(ellipse 22% 16% at 8% 18%, #000 40%, transparent 72%),
+    radial-gradient(ellipse 18% 12% at 22% 10%, #000 35%, transparent 72%),
+    radial-gradient(ellipse 24% 16% at 92% 22%, #000 42%, transparent 74%),
+    radial-gradient(ellipse 18% 14% at 96% 58%, #000 38%, transparent 72%),
+    radial-gradient(ellipse 20% 14% at 4% 66%, #000 38%, transparent 72%),
+    radial-gradient(ellipse 30% 14% at 30% 98%, #000 42%, transparent 74%),
+    radial-gradient(ellipse 26% 12% at 84% 96%, #000 40%, transparent 72%),
+    radial-gradient(ellipse 70% 50% at 50% 50%, rgb(0 0 0 / 0.08), transparent 80%);
+  mask-image:
+    radial-gradient(ellipse 22% 16% at 8% 18%, #000 40%, transparent 72%),
+    radial-gradient(ellipse 18% 12% at 22% 10%, #000 35%, transparent 72%),
+    radial-gradient(ellipse 24% 16% at 92% 22%, #000 42%, transparent 74%),
+    radial-gradient(ellipse 18% 14% at 96% 58%, #000 38%, transparent 72%),
+    radial-gradient(ellipse 20% 14% at 4% 66%, #000 38%, transparent 72%),
+    radial-gradient(ellipse 30% 14% at 30% 98%, #000 42%, transparent 74%),
+    radial-gradient(ellipse 26% 12% at 84% 96%, #000 40%, transparent 72%),
+    radial-gradient(ellipse 70% 50% at 50% 50%, rgb(0 0 0 / 0.08), transparent 80%);
+}
+
+@media (max-width: 760px) {
+  .app::before {
+    -webkit-mask-image:
+      radial-gradient(ellipse 34% 9% at 10% 12%, #000 40%, transparent 72%),
+      radial-gradient(ellipse 34% 9% at 92% 30%, #000 40%, transparent 72%),
+      radial-gradient(ellipse 30% 8% at 6% 56%, #000 35%, transparent 72%),
+      radial-gradient(ellipse 34% 9% at 94% 80%, #000 40%, transparent 72%),
+      radial-gradient(ellipse 50% 7% at 40% 100%, #000 40%, transparent 74%);
+    mask-image:
+      radial-gradient(ellipse 34% 9% at 10% 12%, #000 40%, transparent 72%),
+      radial-gradient(ellipse 34% 9% at 92% 30%, #000 40%, transparent 72%),
+      radial-gradient(ellipse 30% 8% at 6% 56%, #000 35%, transparent 72%),
+      radial-gradient(ellipse 34% 9% at 94% 80%, #000 40%, transparent 72%),
+      radial-gradient(ellipse 50% 7% at 40% 100%, #000 40%, transparent 74%);
+  }
+}
+
+/* Texto que va directo sobre el cielo (fuera de las tarjetas): crema, para leerse sobre
+   el azul con buen contraste. Lo que está dentro de tarjetas sigue en tinta. */
+.page__header,
+.page__header .title,
+.page > .title,
+.toolbar,
+.toolbar__count,
+.toolbar .btn--text,
+.toolbar .select > span,
+.group-invite,
+.group-invite a,
+.privacy-note,
+.privacy-note .btn--link,
+.maleta-intro,
+.page > .progress,
+.page > .progress .progress__head,
+.footer,
+.footer strong,
+.hero__title,
+.hero__lead,
+.hero__lead b {
+  color: var(--on-sky);
+}
+
+.page__header .muted,
+.page__header .kicker,
+.maleta-hint,
+.page > .muted,
+.page > p.muted,
+.page.center > .muted {
+  color: var(--on-sky-soft);
+}
+
+.online-trial {
+  color: var(--on-sky);
+  border-color: var(--on-sky);
+}
+
+.toolbar .btn--text:hover,
+.group-invite a:hover,
+.privacy-note .btn--link:hover {
+  color: var(--yellow);
+}
+
+.hero__lead {
+  text-shadow: 0 1px 2px rgb(20 50 75 / 0.45);
+}
+
+/* El foco del teclado sobre el cielo: amarillo, que se ve sobre el azul */
+.main :focus-visible {
+  outline-color: var(--yellow);
+}
+
+.ticket :focus-visible,
+.panel :focus-visible,
+.journal :focus-visible,
+.maleta-card :focus-visible,
+.mode:focus-visible,
+.country-panel :focus-visible,
+.to-stick :focus-visible {
+  outline-color: var(--ink);
+}
+
+/* Inicio sin ventanilla: el título y el texto van centrados, sobre el cielo */
+.hero {
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  padding: clamp(24px, 6vw, 72px) 0 clamp(32px, 6vw, 64px);
+  text-align: center;
+}
+
+.hero__text {
+  align-items: center;
+  max-width: 720px;
+}
+
+.hero__lead {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Al escribir: el contador arriba a la derecha y los botones en su propia fila,
+   con la acción principal al final (sin que se parta en dos renglones) */
+.answer__footer {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.answer__meta {
+  align-self: flex-end;
+}
+
+.answer__footer .actions {
+  justify-content: flex-end;
+}
+
+@media (max-width: 560px) {
+  .answer__footer .actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .answer__footer .actions .btn {
+    width: 100%;
+  }
+}
+
+/* Una sombra muy suave: el texto se lee nítido aunque pase una nube de puntos por detrás */
+.page__header,
+.page > .title,
+.page > .muted,
+.toolbar__count,
+.group-invite,
+.privacy-note,
+.maleta-intro,
+.footer > span,
+.page > .progress .progress__head {
+  text-shadow: 0 1px 2px rgb(20 50 75 / 0.5);
 }

@@ -1,9 +1,7 @@
 import { Suspense, lazy, useContext, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import Avatar from '../components/Avatar.jsx'
-import PlaneWindow from '../components/PlaneWindow.jsx'
 import SkyBanner, { MOTTO } from '../components/SkyBanner.jsx'
-import WindowRow from '../components/illustrations/WindowRow.jsx'
 import ProgressBar from '../components/ProgressBar.jsx'
 import Wordmark from '../components/Wordmark.jsx'
 import { COUNTRIES } from '../data/countries.js'
@@ -26,16 +24,11 @@ export default function Home() {
 
   return (
     <div className="home">
-      {/* Cielo en trama de puntos, como impreso: detrás de la bandera y del inicio */}
       <div className="home-sky">
         {/* Lo primero que se ve: el lema del juego, remolcado por una avioneta */}
         <SkyBanner hero>{MOTTO}</SkyBanner>
 
         <section className="hero">
-          <div className="hero__window">
-            {/* Quieta: en el inicio ya se mueven la avioneta y la fila de pasajeros */}
-            <PlaneWindow scene={profile ? 'clouds' : 'takeoff'} still />
-          </div>
           <div className="hero__text">
             <h1 className="hero__title">
               <Wordmark />
@@ -60,8 +53,6 @@ export default function Home() {
           </div>
         </section>
       </div>
-
-      <WindowRow />
 
       <section className="modes" aria-label="Elegí cómo jugar">
         <Link to="/individual" className="mode mode--individual">
