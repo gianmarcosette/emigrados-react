@@ -332,7 +332,15 @@
 }
 
 .pw-scene--clouds .pw-sea {
-  fill: var(--poster-coral);
+  fill: #f8d4c4;
+}
+
+.pw-scene--clouds .pw-carpet--back .pw-cloud {
+  fill: #fbe7dc;
+}
+
+.pw-scene--clouds .pw-carpet--front .pw-cloud {
+  fill: var(--card);
 }
 
 .pw-scene--clouds .pw-drift--mid .pw-cloud {

@@ -171,7 +171,17 @@ function Clouds() {
       <path d="M0 186 L400 116 M0 228 L400 160" className="pw-contrail" />
       <rect y="312" width="400" height="248" className="pw-sea" />
       <path d="M0 312 H400" {...LINE} strokeWidth="2.4" />
-      <Waves from={312} rows={7} gap={34} />
+      {/* Abajo no hay mar: es un colchón de nubes, en hileras que avanzan a distinta velocidad */}
+      <Loop className="pw-drift pw-drift--far pw-carpet pw-carpet--back">
+        {[30, 110, 190, 270, 350].map((x) => (
+          <Cloud key={x} x={x} y={350} s={0.95} />
+        ))}
+      </Loop>
+      <Loop className="pw-drift pw-drift--mid pw-carpet pw-carpet--front">
+        {[50, 150, 250, 350].map((x) => (
+          <Cloud key={x} x={x} y={500} s={1.4} />
+        ))}
+      </Loop>
       {/* Banco de nubes lejano, sobre el horizonte */}
       <Loop className="pw-drift pw-drift--far">
         <Cloud x={60} y={300} s={0.6} />
