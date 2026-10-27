@@ -1,9 +1,7 @@
 import { Suspense, lazy, useContext, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import Avatar from '../components/Avatar.jsx'
-import PlaneWindow from '../components/PlaneWindow.jsx'
 import SkyBanner, { MOTTO } from '../components/SkyBanner.jsx'
-import WindowRow from '../components/illustrations/WindowRow.jsx'
 import ProgressBar from '../components/ProgressBar.jsx'
 import Wordmark from '../components/Wordmark.jsx'
 import { COUNTRIES } from '../data/countries.js'
@@ -26,38 +24,35 @@ export default function Home() {
 
   return (
     <div className="home">
-      {/* Lo primero que se ve: el lema del juego, remolcado por una avioneta */}
-      <SkyBanner hero>{MOTTO}</SkyBanner>
+      <div className="home-sky">
+        {/* Lo primero que se ve: el lema del juego, remolcado por una avioneta */}
+        <SkyBanner hero>{MOTTO}</SkyBanner>
 
-      <section className="hero">
-        <div className="hero__window">
-          <PlaneWindow scene={profile ? 'clouds' : 'takeoff'} />
-        </div>
-        <div className="hero__text">
-          <h1 className="hero__title">
-            <Wordmark />
-          </h1>
-          <p className="hero__lead">
-            De lo que pensabas antes de irte, a lo que sentís en tu nuevo lugar y cómo te reinventaste. Un espacio
-            seguro para conocerte más y entender <b>por qué estás donde estás.</b>
-          </p>
+        <section className="hero">
+          <div className="hero__text">
+            <h1 className="hero__title">
+              <Wordmark />
+            </h1>
+            <p className="hero__lead">
+              De lo que pensabas antes de irte, a lo que sentís en tu nuevo lugar y cómo te reinventaste. Un espacio
+              seguro para conocerte más y entender <b>por qué estás donde estás.</b>
+            </p>
 
-          {profile ? (
-            <Link to="/perfil" className="hero__profile">
-              <Avatar profile={profile} size="md" />
-              <span>
-                ¡Buen viaje, {profile.name.split(' ')[0]}!<small>Ver mi perfil</small>
-              </span>
-            </Link>
-          ) : (
-            <Link to="/perfil" className="btn btn--hero">
-              Creá tu perfil
-            </Link>
-          )}
-        </div>
-      </section>
-
-      <WindowRow />
+            {profile ? (
+              <Link to="/perfil" className="hero__profile">
+                <Avatar profile={profile} size="md" />
+                <span>
+                  ¡Buen viaje, {profile.name.split(' ')[0]}!<small>Ver mi perfil</small>
+                </span>
+              </Link>
+            ) : (
+              <Link to="/perfil" className="btn btn--hero">
+                Creá tu perfil
+              </Link>
+            )}
+          </div>
+        </section>
+      </div>
 
       <section className="modes" aria-label="Elegí cómo jugar">
         <Link to="/individual" className="mode mode--individual">
@@ -81,8 +76,8 @@ export default function Home() {
         <Link to="/grupal" className="mode mode--grupal">
           <h2>Grupal</h2>
           <p>
-            Para charlar entre amigos. Las preguntas van rotando entre los jugadores y nada queda guardado: lo que se
-            dice en la mesa, queda en la mesa. No hace falta perfil.
+            Para charlar entre amigos. Cada pregunta la contesta toda la mesa, de a uno, y nada queda guardado: lo que
+            se dice en la mesa, queda en la mesa. No hace falta perfil.
           </p>
           <span className="mode__cta">Armar la ronda →</span>
         </Link>

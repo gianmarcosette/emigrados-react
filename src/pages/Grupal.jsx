@@ -4,7 +4,6 @@ import TalkTimer from '../components/TalkTimer.jsx'
 import Title from '../components/Title.jsx'
 import { CATEGORIES, QUESTIONS } from '../data/questions.js'
 import { shuffle } from '../state/journey.js'
-import { useWindowScene } from '../state/scene.js'
 import { useConfirm } from '../state/confirm.js'
 import { isLastSpeaker, nextSpeaker, speakersStatus, speakingOrder, startRound } from '../lib/groupTurns.js'
 import { TIMER_OPTIONS } from '../lib/timer.js'
@@ -26,7 +25,6 @@ function readBigText() {
 // Modo grupal: un solo teléfono en el medio de la mesa y nada se guarda.
 // Cada pregunta la contesta toda la mesa, de a uno; recién después se pasa a otra.
 export default function Grupal() {
-  useWindowScene('clouds')
   const [players, setPlayers] = useState([])
   const [newPlayer, setNewPlayer] = useState('')
   const [categories, setCategories] = useState(() => CATEGORIES.map((c) => c.key))

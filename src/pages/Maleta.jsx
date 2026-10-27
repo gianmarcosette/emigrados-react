@@ -8,11 +8,9 @@ import { COUNTRIES, COUNTRY_BY_ID } from '../data/countries.js'
 import { QUESTIONS } from '../data/questions.js'
 import { formatDate, plural } from '../lib/format.js'
 import { buildStickers } from '../lib/suitcase.js'
-import { useWindowScene } from '../state/scene.js'
 import { useJourney } from '../state/useJourney.js'
 
 export default function Maleta() {
-  useWindowScene('sunset')
   const { answers, route, answeredCount, totalQuestions } = useJourney()
   const [selectedId, setSelectedId] = useState(null)
   const panelRef = useRef(null)

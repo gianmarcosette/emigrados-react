@@ -9,7 +9,6 @@ import { COUNTRIES } from '../data/countries.js'
 import { countryName } from '../data/residence.js'
 import { plural } from '../lib/format.js'
 import { isProfileComplete } from '../state/profile.js'
-import { useWindowScene } from '../state/scene.js'
 import { useConfirm } from '../state/confirm.js'
 import { useJourney } from '../state/useJourney.js'
 
@@ -28,7 +27,6 @@ export default function Perfil() {
     return () => clearTimeout(timer)
   }, [justSaved])
   // Antes de tener perfil el avión recién despega; con perfil y diario, atardecer.
-  useWindowScene(complete ? 'sunset' : 'takeoff')
 
   function save(next) {
     dispatch({ type: 'saveProfile', profile: next })

@@ -25,7 +25,7 @@ Otros comandos: `npm run build` (versión de producción), `npm test` (tests con
 | `/individual` | Individual | Cada pregunta es una tarjeta de embarque (vuelo, etapa, puerta, asiento y talón con pasajero, sello, silueta del país y código de barras). La respuesta se escribe como en una app de notas (letra grande, la hora arriba, modo noche opcional), se guarda con fecha y pega la pegatina de su país en la maleta. Lo que estás escribiendo se guarda solo como borrador y se retoma al volver. Si la pregunta se repite, ves lo que respondiste antes. |
 | `/grupal`     | Grupal     | Cargás jugadores y etapas; cada pregunta la contesta toda la mesa, de a uno, y quien la abre va rotando. Letra grande y reloj opcional. **No se guarda nada.** |
 | `/online`     | Online     | **Versión de prueba.** Elegís sobre qué país querés saber, te conecta con alguien que vive ahí y juegan un duelo de 5 preguntas de cultura general (12 por país, cada una con un dato curioso): vos sobre su país, esa persona sobre el tuyo. Se puede jugar "sin apuro", sin límite de tiempo. Al terminar, si los dos aceptan, sigue una **charla guiada** en tres momentos (abrir, ir más hondo, cerrar): cada intercambio parte de una pregunta, con reacciones cortas, filtro de datos de contacto y botones para bloquear y denunciar. Al terminar, la charla se puede guardar en el diario. Por ahora las personas conectadas son simuladas (`src/online/mockServer.js`). |
-| `/maleta`     | Mi maleta  | Maleta de cuero con una pegatina por cada país al que se respondió (cuatro formas, con la silueta real del país). Con las 4 preguntas de un país, la pegatina pasa al degradé de atardecer. Tocar una pegatina abre las respuestas de ese país; "Por pegar" lista los países que faltan. La dirección vieja `/mapa` lleva acá. |
+| `/maleta`     | Mi maleta  | Maleta de cuero con una pegatina por cada país al que se respondió. Los países con afiche de viaje (`components/posters.jsx`: Argentina, Brasil, Italia, Francia, México, Japón, España y Marruecos, se suman por tandas) se pegan en blanco y negro y se imprimen a color al responder sus 4 preguntas; el resto usa una pegatina simple con la silueta del país, que pasa al degradé de atardecer al completarse. Tocar una pegatina abre las respuestas de ese país; "Por pegar" lista los países que faltan. La dirección vieja `/mapa` lleva acá. |
 | `/perfil`     | Mi perfil  | Nombre, edad, país donde vivís, descripción, foto y código de pasajero (localizador de 6 caracteres). Incluye el **diario de viaje**, al estilo de una app de notas: entradas por mes con buscador (resalta lo encontrado) y filtro por etapa; cada entrada se abre con la fecha, la pregunta y la respuesta en letra grande, lo respondido antes y la escala de la maleta. Tiene modo noche, que sigue al del teléfono o se elige a mano. `/diario` redirige acá. |
 
 ## Mecánica
@@ -35,12 +35,11 @@ Otros comandos: `npm run build` (versión de producción), `npm test` (tests con
 - El modo individual prioriza las preguntas que todavía no respondiste; con "Repetir una anterior" (o al terminar todas) vuelven preguntas ya respondidas para comparar.
 - **Sin perfil solo se juega el modo Grupal**, que no guarda nada. Individual, la maleta y el diario piden crear el perfil primero (`components/ProfileGate.jsx`).
 - El perfil (nombre, edad, descripción, foto y código de pasajero) y las respuestas se guardan en el navegador (`localStorage`). La foto se recorta y se reduce a 320 px antes de guardarse.
-- Una ventanilla de avión acompaña cada sección con una escena animada: despegue (inicio y crear perfil), sobre las nubes (preguntas) y atardecer (maleta y perfil).
+- El fondo de todo el sitio es un cielo azul con nubes en trama de puntos, como impreso en una imprenta vieja (hecho con CSS, sin imágenes). El texto que va directo sobre el cielo es crema, con contraste AA.
 
 ## Diseño
 
 - Estilo minimalista: tinta negra sobre crema, con el amarillo como único acento.
-- Ilustraciones de línea propias en SVG: ventanillas con pasajeros (durmiendo, leyendo, tomando mate, saludando…) como fondo y en el inicio.
 - Tipografías: Archivo (títulos, preguntas y números, gruesa y un poco angosta; una versión recortada de 14 KB que se genera con `npm run fonts`) y Montserrat (textos y logo). Incluidas con Fontsource, funcionan sin internet.
 
 ## Estructura
@@ -49,8 +48,7 @@ Otros comandos: `npm run build` (versión de producción), `npm test` (tests con
 src/
 ├── App.jsx                 # Rutas
 ├── main.jsx                # BrowserRouter + JourneyProvider
-├── components/             # Layout, QuestionCard (tarjeta de embarque), PlaneWindow, Diary (estilo notas), Suitcase y Sticker (maleta), ProfileForm…
-│   └── illustrations/      # Viñetas de pasajeros, fondo de pantalla y fila de ventanillas
+├── components/             # Layout, QuestionCard (tarjeta de embarque), Diary (estilo notas), Suitcase y Sticker (maleta), ProfileForm…
 ├── pages/                  # Home, Individual, Grupal, Online, Maleta, Perfil, NotFound
 ├── online/                 # duel.js (reglas del duelo), talk.js (charla guiada) y mockServer.js (servidor simulado)
 ├── data/                   # questions.js (208 preguntas), countries.js (52 países), trivia.js (cultura general), talk.js (preguntas de la charla), residence.js (países donde vivir)

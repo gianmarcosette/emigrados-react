@@ -7,7 +7,6 @@ import { countryName } from '../data/residence.js'
 import { TRIVIA, hasTrivia } from '../data/trivia.js'
 import { ANSWER_SECONDS, ROUNDS, buildDuel, duelReducer, isCorrect, outcome, roundDone, score } from '../online/duel.js'
 import { findOpponent, getOnlineCountries, opponentAnswer } from '../online/mockServer.js'
-import { useWindowScene } from '../state/scene.js'
 import { useConfirm } from '../state/confirm.js'
 import { useJourney } from '../state/useJourney.js'
 
@@ -15,7 +14,6 @@ import { useJourney } from '../state/useJourney.js'
 // y se desafían con preguntas de cultura general sobre el país del otro.
 // Las personas conectadas son simuladas (ver online/mockServer.js). El perfil lo pide ProfileGate.
 export default function Online() {
-  useWindowScene('clouds')
   const { profile } = useJourney()
   const [screen, setScreen] = useState({ name: 'lobby' })
 

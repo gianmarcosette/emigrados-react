@@ -12,7 +12,6 @@ import { buildStickers, stickerEvent } from '../lib/suitcase.js'
 import { clearDraft, getDraft, latestDraft, saveDraft } from '../state/drafts.js'
 import { useJourney } from '../state/useJourney.js'
 import { pickQuestion } from '../state/journey.js'
-import { useWindowScene } from '../state/scene.js'
 import { useNightMode } from '../state/nightMode.js'
 
 const MAX_LENGTH = 1500
@@ -21,7 +20,6 @@ const MAX_LENGTH = 1500
 // El perfil lo pide ProfileGate (ver App.jsx) antes de llegar acá.
 export default function Individual() {
   const [params] = useSearchParams()
-  useWindowScene('clouds')
   return <IndividualGame key={params.toString()} params={params} />
 }
 
