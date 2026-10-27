@@ -1,6 +1,7 @@
 import { useId } from 'react'
 import { COUNTRY_BY_ID } from '../data/countries.js'
 import { SUITCASE_H, SUITCASE_W } from '../lib/suitcase.js'
+import CountryPoster from './posters.jsx'
 import Sticker, { SunsetGradient } from './Sticker.jsx'
 
 const W = SUITCASE_W
@@ -29,6 +30,10 @@ export default function Suitcase({ stickers, selectedId, onSelect, freshId, labe
     >
       <defs>
         <SunsetGradient id={gradientId} />
+        {/* Afiche recién pegado: en blanco y negro hasta completar el país */}
+        <filter id={`${baseId}-mono`}>
+          <feColorMatrix type="saturate" values="0" />
+        </filter>
       </defs>
       {/* manija */}
       <path className="suitcase__handle-out" d={`M${W / 2 - 50} 52 V30 q0 -14 14 -14 h72 q14 0 14 14 V52`} />
@@ -68,7 +73,13 @@ export default function Suitcase({ stickers, selectedId, onSelect, freshId, labe
                 },
               })}
             >
-              <Sticker country={country} kind={s.kind} complete={s.complete} gradientId={gradientId} />
+              <CountryPoster
+                countryId={s.countryId}
+                uid={`${baseId}-p-${s.countryId}`}
+                complete={s.complete}
+                monoId={`${baseId}-mono`}
+                fallback={<Sticker country={country} kind={s.kind} complete={s.complete} gradientId={gradientId} />}
+              />
             </g>
           </g>
         )

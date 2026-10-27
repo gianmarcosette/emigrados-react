@@ -81,8 +81,8 @@ export default function Home() {
         <Link to="/grupal" className="mode mode--grupal">
           <h2>Grupal</h2>
           <p>
-            Para charlar entre amigos. Las preguntas van rotando entre los jugadores y nada queda guardado: lo que se
-            dice en la mesa, queda en la mesa. No hace falta perfil.
+            Para charlar entre amigos. Cada pregunta la contesta toda la mesa, de a uno, y nada queda guardado: lo que
+            se dice en la mesa, queda en la mesa. No hace falta perfil.
           </p>
           <span className="mode__cta">Armar la ronda →</span>
         </Link>

@@ -1,9 +1,8 @@
-import { useId } from 'react'
 import './PlaneWindow.css'
 
-// Ventanilla de avión vista desde adentro, con escenas animadas en dibujo de línea
-// (SVG + CSS, en tinta negra sobre crema, con el amarillo como acento y el
-// degradé de atardecer solo en la escena del atardecer).
+// Ventanilla de avión vista desde adentro, con escenas animadas en colores planos,
+// como los afiches de viaje: cielo, nubes y mar en bloques de color y el ala clara
+// cruzando. Detrás del vidrio asoma un borde de color, como luz que se filtra.
 // Cada sección del juego elige qué se ve del otro lado del vidrio.
 const SCENES = {
   takeoff: Takeoff,
@@ -14,7 +13,7 @@ const SCENES = {
 export default function PlaneWindow({ scene = 'clouds' }) {
   const Scene = SCENES[scene] ?? SCENES.clouds
   return (
-    <figure className="plane-window" aria-hidden="true">
+    <figure className={`plane-window plane-window--${SCENES[scene] ? scene : 'clouds'}`} aria-hidden="true">
       <div className="plane-window__frame">
         <div className="plane-window__pane">
           {/* key: al cambiar de sección la escena nueva entra con un fundido */}
@@ -53,7 +52,7 @@ function Loop({ className, children }) {
 }
 
 // Olas: líneas cortas que se desplazan.
-function Waves({ from = 320, rows = 6, gap = 34, className = 'pw-drift pw-drift--sea' }) {
+function Waves({ from = 320, rows = 6, gap = 34, className = 'pw-drift pw-drift--sea pw-waves' }) {
   return (
     <Loop className={className}>
       {Array.from({ length: rows }, (_, r) =>
@@ -85,9 +84,16 @@ function Fade() {
 /* ───────── Escena 1: despegue ───────── */
 function Takeoff() {
   return (
-    <svg className="pw-scene" viewBox="0 0 400 560" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <svg
+      className="pw-scene pw-scene--takeoff"
+      viewBox="0 0 400 560"
+      preserveAspectRatio="xMidYMid slice"
+      aria-hidden="true"
+    >
       <g className="pw-tilt">
         <rect x="-200" y="-200" width="800" height="1100" className="pw-sky" />
+        <path d="M-200 120 L600 40" className="pw-contrail" />
+        <rect x="-200" y="292" width="800" height="600" className="pw-sea" />
         <Loop className="pw-drift pw-drift--slow">
           <Cloud x={90} y={130} s={0.7} />
           <Cloud x={300} y={80} s={0.5} />
@@ -103,8 +109,19 @@ function Takeoff() {
           {...LINE}
           strokeWidth="2.4"
         />
-        <path d="M-200 380 C-60 372 20 388 80 404 C140 420 150 456 120 500 C100 540 140 600 160 700" {...LINE} strokeWidth="1.8" strokeDasharray="4 7" />
-        {[[-10, 430], [20, 452], [-30, 474], [10, 504], [42, 476]].map(([x, y]) => (
+        <path
+          d="M-200 380 C-60 372 20 388 80 404 C140 420 150 456 120 500 C100 540 140 600 160 700"
+          {...LINE}
+          strokeWidth="1.8"
+          strokeDasharray="4 7"
+        />
+        {[
+          [-10, 430],
+          [20, 452],
+          [-30, 474],
+          [10, 504],
+          [42, 476],
+        ].map(([x, y]) => (
           <rect key={`${x}${y}`} x={x} y={y} width="16" height="12" rx="2" {...LINE} strokeWidth="2" />
         ))}
 
@@ -141,8 +158,18 @@ function Takeoff() {
 /* ───────── Escena 2: sobre las nubes ───────── */
 function Clouds() {
   return (
-    <svg className="pw-scene pw-bob" viewBox="0 0 400 560" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <svg
+      className="pw-scene pw-scene--clouds pw-bob"
+      viewBox="0 0 400 560"
+      preserveAspectRatio="xMidYMid slice"
+      aria-hidden="true"
+    >
       <rect width="400" height="560" className="pw-sky" />
+      {/* Franjas de cielo: un poco de azul arriba y una banda de luz amarilla */}
+      <path d="M0 0 H400 V70 L0 130 Z" className="pw-band-sky" />
+      <path d="M0 200 L400 130 V200 L0 270 Z" className="pw-band-light" />
+      <path d="M0 186 L400 116 M0 228 L400 160" className="pw-contrail" />
+      <rect y="312" width="400" height="248" className="pw-sea" />
       <path d="M0 312 H400" {...LINE} strokeWidth="2.4" />
       <Waves from={312} rows={7} gap={34} />
       {/* Banco de nubes lejano, sobre el horizonte */}
@@ -177,11 +204,6 @@ const RAYS = Array.from({ length: 9 }, (_, i) => {
 })
 
 function Sunset() {
-  // El cielo toma el degradé de la paleta (amarillo a naranja) bajando hacia el horizonte,
-  // y el mar lo refleja suave. Arriba queda claro para que la línea se siga viendo.
-  const id = useId()
-  const sky = `${id}-sky`
-  const sea = `${id}-sea`
   const glints = [
     [212, 336, 30],
     [202, 356, 50],
@@ -192,22 +214,19 @@ function Sunset() {
     [208, 482, 44],
   ]
   return (
-    <svg className="pw-scene pw-bob" viewBox="0 0 400 560" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-      <defs>
-        <linearGradient id={sky} x1="0" y1="0" x2="0" y2="318" gradientUnits="userSpaceOnUse">
-          <stop offset="0" stopColor="#fdfcfa" />
-          <stop offset="0.5" stopColor="#fff0b0" />
-          <stop offset="0.85" stopColor="#fdd36a" />
-          <stop offset="1" stopColor="#f9a910" />
-        </linearGradient>
-        <linearGradient id={sea} x1="0" y1="318" x2="0" y2="560" gradientUnits="userSpaceOnUse">
-          <stop offset="0" stopColor="#fcc34f" />
-          <stop offset="0.5" stopColor="#fff0b0" />
-          <stop offset="1" stopColor="#fdfcfa" />
-        </linearGradient>
-      </defs>
-      <rect width="400" height="318" fill={`url(#${sky})`} />
-      <rect y="318" width="400" height="242" fill={`url(#${sea})`} />
+    <svg
+      className="pw-scene pw-scene--sunset pw-bob"
+      viewBox="0 0 400 560"
+      preserveAspectRatio="xMidYMid slice"
+      aria-hidden="true"
+    >
+      <rect width="400" height="318" className="pw-sky" />
+      <rect y="318" width="400" height="242" className="pw-sea" />
+      {/* Nubes oscuras del atardecer, en bloques */}
+      <Loop className="pw-drift pw-drift--slow">
+        <path d="M40 110 q60 -40 140 -12 q60 -30 160 8 l-80 22 q-100 -12 -220 -18 z" className="pw-dusk" />
+        <path d="M-10 250 q70 -18 150 -2 l-30 12 q-60 -6 -120 -10 z" className="pw-dusk" />
+      </Loop>
       <g className="pw-rays" {...LINE} strokeWidth="2.2">
         {RAYS.map((d) => (
           <path key={d} d={d} />
@@ -215,9 +234,9 @@ function Sunset() {
       </g>
       <path d="M180 318 A44 44 0 0 1 268 318 Z" className="pw-sun" {...LINE} strokeWidth="2.6" />
       <Loop className="pw-drift pw-drift--slow">
-        <path d="M30 190 H140 M60 202 H170 M250 150 H350 M270 162 H380" {...LINE} strokeWidth="2" />
+        <path d="M30 190 H140 M60 202 H170 M250 150 H350 M270 162 H380" className="pw-contrail" />
       </Loop>
-      <path d="M0 318 H400" {...LINE} strokeWidth="2.6" />
+      <path d="M0 318 H400" className="pw-horizon" />
       {glints.map(([x, y, w], i) => (
         <path
           key={y}

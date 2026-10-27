@@ -11,6 +11,13 @@
   --yellow: #ffd700;
   --yellow-soft: #fff3b3;
   --orange: #f37c1e;
+  /* Colores planos de las ventanillas y los afiches (estilo afiche de viaje) */
+  --sky: #3a6fd6;
+  --sky-deep: #2f5fc4;
+  --mint: #a9cdb8;
+  --poster-coral: #e8664a;
+  --sand: #e4d6bf;
+  --night: #2f3a33;
   /* Cuero de la maleta de pegatinas */
   --leather: #c98d55;
   --leather-dark: #8a5a32;
@@ -5170,4 +5177,101 @@ h3 {
 .ticket--night .stamp,
 .journal.is-night .stamp {
   background: transparent;
+}
+
+/* ───────────── Inicio: el costado del avión ───────────── */
+/* El bloque principal es el fuselaje: un panel color arena con bloques de color en las
+   esquinas, como en las ilustraciones de ventanillas. Debajo, la fila de pasajeros
+   viaja sobre una franja de cielo. */
+.hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  margin-top: 8px;
+  padding: clamp(24px, 4vw, 44px) clamp(20px, 4vw, 48px);
+  background: var(--sand);
+  border: var(--border);
+  border-radius: 36px;
+}
+
+.hero::before,
+.hero::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+}
+
+/* Bloque coral arriba a la derecha y verde agua abajo a la izquierda */
+.hero::before {
+  top: -2px;
+  right: -2px;
+  width: min(34%, 300px);
+  height: 46%;
+  background: var(--poster-coral);
+  border-bottom-left-radius: 36px;
+}
+
+.hero::after {
+  bottom: -2px;
+  left: -2px;
+  width: min(40%, 380px);
+  height: 22%;
+  background: var(--mint);
+  border-top-right-radius: 36px;
+}
+
+.hero__profile {
+  background: var(--card);
+}
+
+.window-row {
+  margin-top: 28px;
+  background: var(--sky);
+  border-radius: 24px;
+  border: var(--border);
+}
+
+@media (max-width: 760px) {
+  .hero {
+    border-radius: 28px;
+  }
+
+  .hero::before {
+    width: 46%;
+    height: 30%;
+  }
+
+  .hero::after {
+    width: 60%;
+    height: 12%;
+  }
+}
+
+/* Dentro del panel el logotipo tiene menos lugar: un poco más chico para no tocar la ventanilla */
+@media (min-width: 761px) {
+  .hero .hero__title {
+    font-size: min(clamp(2.6rem, 5.8vw, 4.3rem), calc((100vw - 40px) / 8));
+  }
+}
+
+/* Sobre la franja de cielo los pasajeros entran y salen por el borde, sin desvanecerse */
+.window-row {
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
+/* Afiches de viaje de la maleta */
+.poster {
+  filter: drop-shadow(0 2px 0 rgb(22 22 22 / 0.25));
+}
+
+.poster__title {
+  font-family: var(--font-display);
+}
+
+.poster__sub {
+  font-family: var(--font-body);
+  font-size: 4.2px;
+  font-weight: 800;
+  letter-spacing: 2.2px;
 }

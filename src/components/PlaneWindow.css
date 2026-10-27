@@ -248,3 +248,125 @@
   }
 }
 
+
+/* ───────── Colores planos (estilo afiche de viaje) ───────── */
+
+/* Borde de color que asoma detrás del vidrio, como luz que se filtra */
+.plane-window__pane {
+  box-shadow: -5px 4px 0 3px var(--pw-leak, var(--yellow));
+}
+
+.plane-window--takeoff {
+  --pw-leak: var(--mint);
+}
+
+.plane-window--sunset,
+.plane-window--clouds {
+  --pw-leak: var(--yellow);
+}
+
+/* Lo que va en línea (horizonte, olas, pista) se dibuja claro sobre el color */
+.pw-scene {
+  color: var(--card);
+}
+
+.pw-cloud {
+  stroke: none;
+}
+
+.pw-waves {
+  color: var(--card);
+  opacity: 0.85;
+}
+
+.pw-contrail {
+  fill: none;
+  stroke: var(--card);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  opacity: 0.8;
+}
+
+/* El ala: clara, con contorno de tinta */
+.pw-wing {
+  color: var(--ink);
+}
+
+.pw-wing .pw-paper {
+  fill: var(--card);
+}
+
+/* Despegue: cielo azul, mar más profundo y la costa en verde agua */
+.pw-scene--takeoff .pw-sky {
+  fill: var(--sky);
+}
+
+.pw-scene--takeoff .pw-sea {
+  fill: var(--sky-deep);
+}
+
+.pw-scene--takeoff .pw-paper {
+  fill: var(--mint);
+  stroke: none;
+}
+
+.pw-scene--takeoff .pw-ground .pw-paper {
+  fill: #93bfa6;
+}
+
+.pw-scene--takeoff .pw-cloud {
+  fill: var(--card);
+}
+
+/* Sobre las nubes: arena con franjas de azul y de luz; abajo, un mar de nubes coral */
+.pw-scene--clouds .pw-sky {
+  fill: var(--sand);
+}
+
+.pw-band-sky {
+  fill: var(--sky);
+}
+
+.pw-band-light {
+  fill: var(--yellow);
+}
+
+.pw-scene--clouds .pw-sea {
+  fill: var(--poster-coral);
+}
+
+.pw-scene--clouds .pw-drift--mid .pw-cloud {
+  fill: #f6b9a6;
+}
+
+.pw-scene--clouds .pw-drift--slow {
+  color: var(--ink);
+}
+
+/* Atardecer: cielo coral, nubes oscuras, sol amarillo y reflejos en el mar */
+.pw-scene--sunset .pw-sky {
+  fill: var(--poster-coral);
+}
+
+.pw-scene--sunset .pw-sea {
+  fill: #d9573c;
+}
+
+.pw-dusk {
+  fill: var(--night);
+}
+
+.pw-scene--sunset .pw-sun {
+  stroke: none;
+}
+
+.pw-scene--sunset .pw-rays,
+.pw-scene--sunset .pw-glint {
+  color: var(--yellow);
+}
+
+.pw-horizon {
+  fill: none;
+  stroke: var(--yellow);
+  stroke-width: 2.4;
+}
