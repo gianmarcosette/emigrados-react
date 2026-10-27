@@ -5179,49 +5179,38 @@ h3 {
   background: transparent;
 }
 
-/* ───────────── Inicio: el costado del avión ───────────── */
-/* El bloque principal es el fuselaje: un panel color arena con bloques de color en las
-   esquinas, como en las ilustraciones de ventanillas. Debajo, la fila de pasajeros
-   viaja sobre una franja de cielo. */
-.hero {
+/* ───────────── Inicio: sol y colina detrás de la ventanilla ───────────── */
+/* Sin recuadro: el crema de siempre y, detrás de la ventanilla, un sol amarillo y una
+   colina verde agua, en bloques planos como los afiches de viaje. Debajo, la fila de
+   pasajeros viaja sobre una franja de cielo. */
+.hero__window {
   position: relative;
   isolation: isolate;
-  overflow: hidden;
-  margin-top: 8px;
-  padding: clamp(24px, 4vw, 44px) clamp(20px, 4vw, 48px);
-  background: var(--sand);
-  border: var(--border);
-  border-radius: 36px;
 }
 
-.hero::before,
-.hero::after {
+.hero__window::before,
+.hero__window::after {
   content: '';
   position: absolute;
   z-index: -1;
 }
 
-/* Bloque coral arriba a la derecha y verde agua abajo a la izquierda */
-.hero::before {
-  top: -2px;
-  right: -2px;
-  width: min(34%, 300px);
-  height: 46%;
-  background: var(--poster-coral);
-  border-bottom-left-radius: 36px;
+.hero__window::before {
+  left: -9%;
+  top: -8%;
+  width: 118%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--yellow);
 }
 
-.hero::after {
-  bottom: -2px;
-  left: -2px;
-  width: min(40%, 380px);
-  height: 22%;
+.hero__window::after {
+  left: -24%;
+  right: -24%;
+  bottom: -6%;
+  height: 34%;
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
   background: var(--mint);
-  border-top-right-radius: 36px;
-}
-
-.hero__profile {
-  background: var(--card);
 }
 
 .window-row {
@@ -5232,25 +5221,9 @@ h3 {
 }
 
 @media (max-width: 760px) {
-  .hero {
-    border-radius: 28px;
-  }
-
-  .hero::before {
-    width: 46%;
-    height: 30%;
-  }
-
-  .hero::after {
-    width: 60%;
-    height: 12%;
-  }
-}
-
-/* Dentro del panel el logotipo tiene menos lugar: un poco más chico para no tocar la ventanilla */
-@media (min-width: 761px) {
-  .hero .hero__title {
-    font-size: min(clamp(2.6rem, 5.8vw, 4.3rem), calc((100vw - 40px) / 8));
+  .hero__window::after {
+    left: -14%;
+    right: -14%;
   }
 }
 
