@@ -10,10 +10,14 @@ const SCENES = {
   sunset: Sunset,
 }
 
-export default function PlaneWindow({ scene = 'clouds' }) {
+// Con `still` la escena queda quieta (sin animaciones).
+export default function PlaneWindow({ scene = 'clouds', still = false }) {
   const Scene = SCENES[scene] ?? SCENES.clouds
   return (
-    <figure className={`plane-window plane-window--${SCENES[scene] ? scene : 'clouds'}`} aria-hidden="true">
+    <figure
+      className={`plane-window plane-window--${SCENES[scene] ? scene : 'clouds'} ${still ? 'plane-window--still' : ''}`}
+      aria-hidden="true"
+    >
       <div className="plane-window__frame">
         <div className="plane-window__pane">
           {/* key: al cambiar de sección la escena nueva entra con un fundido */}

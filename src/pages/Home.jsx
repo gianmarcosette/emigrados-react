@@ -26,36 +26,40 @@ export default function Home() {
 
   return (
     <div className="home">
-      {/* Lo primero que se ve: el lema del juego, remolcado por una avioneta */}
-      <SkyBanner hero>{MOTTO}</SkyBanner>
+      {/* Cielo en trama de puntos, como impreso: detrás de la bandera y del inicio */}
+      <div className="home-sky">
+        {/* Lo primero que se ve: el lema del juego, remolcado por una avioneta */}
+        <SkyBanner hero>{MOTTO}</SkyBanner>
 
-      <section className="hero">
-        <div className="hero__window">
-          <PlaneWindow scene={profile ? 'clouds' : 'takeoff'} />
-        </div>
-        <div className="hero__text">
-          <h1 className="hero__title">
-            <Wordmark />
-          </h1>
-          <p className="hero__lead">
-            De lo que pensabas antes de irte, a lo que sentís en tu nuevo lugar y cómo te reinventaste. Un espacio
-            seguro para conocerte más y entender <b>por qué estás donde estás.</b>
-          </p>
+        <section className="hero">
+          <div className="hero__window">
+            {/* Quieta: en el inicio ya se mueven la avioneta y la fila de pasajeros */}
+            <PlaneWindow scene={profile ? 'clouds' : 'takeoff'} still />
+          </div>
+          <div className="hero__text">
+            <h1 className="hero__title">
+              <Wordmark />
+            </h1>
+            <p className="hero__lead">
+              De lo que pensabas antes de irte, a lo que sentís en tu nuevo lugar y cómo te reinventaste. Un espacio
+              seguro para conocerte más y entender <b>por qué estás donde estás.</b>
+            </p>
 
-          {profile ? (
-            <Link to="/perfil" className="hero__profile">
-              <Avatar profile={profile} size="md" />
-              <span>
-                ¡Buen viaje, {profile.name.split(' ')[0]}!<small>Ver mi perfil</small>
-              </span>
-            </Link>
-          ) : (
-            <Link to="/perfil" className="btn btn--hero">
-              Creá tu perfil
-            </Link>
-          )}
-        </div>
-      </section>
+            {profile ? (
+              <Link to="/perfil" className="hero__profile">
+                <Avatar profile={profile} size="md" />
+                <span>
+                  ¡Buen viaje, {profile.name.split(' ')[0]}!<small>Ver mi perfil</small>
+                </span>
+              </Link>
+            ) : (
+              <Link to="/perfil" className="btn btn--hero">
+                Creá tu perfil
+              </Link>
+            )}
+          </div>
+        </section>
+      </div>
 
       <WindowRow />
 
