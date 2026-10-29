@@ -25,7 +25,7 @@ const MODES = [
     to: '/online',
     name: 'Online',
     tag: 'Versión de prueba · Con perfil',
-    text: 'Elegí un país y desafiá a alguien que vive ahí con preguntas de cultura general. Si los dos quieren, siguen con una charla guiada.',
+    text: 'Elegí un país y desafiá a alguien que vive ahí con preguntas de cultura general, cada uno a su ritmo. Cuando terminan los dos, se abre una charla guiada.',
   },
 ]
 
@@ -121,7 +121,10 @@ export default function FirstFlight({ open, hasProfile, onClose }) {
             <ul className="first-flight__privacy">
               <li>Por ahora, todo se guarda solo en este dispositivo.</li>
               <li>Nadie más puede leer tu perfil, tus respuestas ni tu diario.</li>
-              <li>En el modo Online, la otra persona solo ve tu nombre, tu edad y el país donde vivís.</li>
+              <li>
+                En el modo Online, la otra persona ve tu nombre, tu edad y el país donde vivís. Dónde naciste, solo si
+                vos lo elegís.
+              </li>
               <li>Podés borrar tu perfil y todas tus respuestas cuando quieras, desde Mi perfil.</li>
             </ul>
           </>

@@ -86,10 +86,10 @@ export default function Home() {
           <span className="mode__badge">Versión de prueba</span>
           <h2>Online</h2>
           <p>
-            Elegí un país y te conectamos con alguien que vive ahí: un duelo de cultura general para ver quién sabe más
-            del país del otro.
+            Elegí un país y te conectamos con alguien que vive ahí: un duelo de cultura general sobre el país del otro,
+            cada uno a su ritmo. Cuando terminan los dos, se abre el chat.
           </p>
-          <span className="mode__cta">{profile ? 'Buscar rival →' : 'Crear perfil y jugar →'}</span>
+          <span className="mode__cta">{profile ? 'Ver mis duelos →' : 'Crear perfil y jugar →'}</span>
         </Link>
       </section>
 

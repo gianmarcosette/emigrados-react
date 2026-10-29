@@ -7,8 +7,9 @@ import ProfileForm from '../components/ProfileForm.jsx'
 import Title from '../components/Title.jsx'
 import { COUNTRIES } from '../data/countries.js'
 import { countryName } from '../data/residence.js'
-import { plural } from '../lib/format.js'
+import { listJoin, plural } from '../lib/format.js'
 import { clearAllDrafts } from '../state/drafts.js'
+import { clearOnline } from '../state/duels.js'
 import { isProfileComplete } from '../state/profile.js'
 import { useConfirm } from '../state/confirm.js'
 import { useJourney } from '../state/useJourney.js'
@@ -46,7 +47,7 @@ export default function Perfil() {
               talks.length && plural(talks.length, 'charla guardada', 'charlas guardadas'),
             ]
               .filter(Boolean)
-              .join(' y ')}, tu maleta y tus borradores`
+              .join(' y ')}, tu maleta, tus borradores y tus duelos`
           : ''
       }. No se puede deshacer.${answeredCount || talks.length ? ' Si querés conservar lo que escribiste, descargá el diario antes.' : ''}`,
       confirmLabel: 'Borrar perfil',
@@ -55,6 +56,7 @@ export default function Perfil() {
     if (ok) {
       dispatch({ type: 'deleteProfile' })
       clearAllDrafts()
+      clearOnline()
       setEditing(true)
     }
   }
@@ -97,9 +99,14 @@ export default function Perfil() {
         )}
         <h1 className="profile-card__name">{profile.name}</h1>
         <p className="profile-card__meta">
-          {profile.age} años · Vive en {countryName(profile.country)}
+          {profile.age} años
+          {profile.birthCountry && ` · Nació en ${countryName(profile.birthCountry)}`} · Vive en{' '}
+          {countryName(profile.country)}
           {since && ` · Viajando desde ${since}`}
         </p>
+        {profile.previousCountries?.length > 0 && (
+          <p className="profile-card__meta">Antes vivió en {listJoin(profile.previousCountries.map(countryName))}</p>
+        )}
         <p className="passenger-code">
           <span>Código de pasajero</span>
           <strong>{profile.code}</strong>
