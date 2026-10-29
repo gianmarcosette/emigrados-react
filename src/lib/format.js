@@ -54,7 +54,9 @@ export function listJoin(items) {
 // "03:12" en la zona horaria de otra persona (para que la distancia se note)
 export function formatTimeIn(timeZone, date = new Date()) {
   try {
-    return new Intl.DateTimeFormat('es-AR', { hour: '2-digit', minute: '2-digit', hourCycle: 'h23', timeZone }).format(date)
+    return new Intl.DateTimeFormat('es-AR', { hour: '2-digit', minute: '2-digit', hourCycle: 'h23', timeZone }).format(
+      date,
+    )
   } catch {
     return ''
   }
