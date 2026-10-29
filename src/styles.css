@@ -5464,3 +5464,91 @@ h3 {
 .demo-box p {
   margin: 0;
 }
+
+/* Texto sobre el cielo: un halo azul oscuro suave, para que se lea también cuando cae
+   sobre la trama de puntos de una nube. Las tarjetas y los botones llenos no lo llevan. */
+.main,
+.footer {
+  text-shadow:
+    0 1px 2px rgb(22 52 76 / 0.6),
+    0 0 10px rgb(22 52 76 / 0.5);
+}
+
+.main :is(.duel-review li, .confirm, .country-panel, .duel-card, .duel-fact, .duel-option, .duel-timer, .first-flight, .history, .howto, .journal, .maleta-card, .mode, .online-country, .panel, .player, .player-card, .profile-card, .saved, .saved-toast, .stat, .statlink, .talk-compose, .talk-invite, .talk-msg--me, .talk-msg--them, .talk-prompt, .talk-reaction, .talk-report, .talk-saved, .talk-timer, .text-size, .ticket, .to-stick, .hero__profile, .speaker, .chip--toggle, .avatar-editor, .btn--primary, .pill, input, select, textarea),
+.footer :is(.footer__help, .btn--primary),
+.sky__banner,
+.first-flight {
+  text-shadow: none;
+}
+
+/* Primer vuelo: el ciclo de una pregunta y los modos para elegir */
+.first-flight__promise {
+  font-weight: 700;
+}
+
+.first-flight__loop {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 12px;
+}
+
+.first-flight__loop li {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+}
+
+.first-flight__loop p {
+  margin: 0;
+}
+
+.first-flight__modes {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+
+.first-flight__modes li {
+  display: block;
+}
+
+.first-flight__mode-btn {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  padding: 12px 14px;
+  font: inherit;
+  text-align: left;
+  color: var(--ink);
+  background: var(--card);
+  border: 2px solid var(--ink);
+  border-radius: 16px;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    transform 0.15s;
+}
+
+.first-flight__mode-btn:hover,
+.first-flight__mode-btn:focus-visible {
+  background: var(--yellow-soft);
+  transform: translateY(-1px);
+}
+
+.first-flight__mode-btn:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 2px;
+}
+
+.first-flight__mode-text {
+  display: block;
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+}

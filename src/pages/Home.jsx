@@ -1,4 +1,4 @@
-import { Suspense, lazy, useContext, useMemo } from 'react'
+import { Suspense, lazy, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import Avatar from '../components/Avatar.jsx'
 import SkyBanner, { MOTTO } from '../components/SkyBanner.jsx'
@@ -7,7 +7,6 @@ import Wordmark from '../components/Wordmark.jsx'
 import { COUNTRIES } from '../data/countries.js'
 import { QUESTIONS } from '../data/questions.js'
 import { buildStickers } from '../lib/suitcase.js'
-import { FirstFlightContext } from '../state/firstFlight.js'
 import { useJourney } from '../state/useJourney.js'
 
 // La maleta trae las siluetas de los países: se descarga aparte, recién cuando hay pegatinas
@@ -20,7 +19,6 @@ export default function Home() {
     [answers, route],
   )
   const started = answeredCount > 0
-  const openFirstFlight = useContext(FirstFlightContext)
 
   return (
     <div className="home">
@@ -108,19 +106,16 @@ export default function Home() {
         <h2>¿Cómo se juega?</h2>
         <ol>
           <li>
-            <strong>Elegí un modo.</strong> Solo, para escribir y guardar lo que sentís; o en grupo, para conversar.
+            <strong>Te toca una pregunta</strong> sobre tu migración.
           </li>
           <li>
-            <strong>Respondé con sinceridad.</strong> No hay respuestas correctas, ni puntos, ni apuro.
+            <strong>Escribís lo que sentís.</strong> No hay respuestas correctas, ni puntos, ni apuro.
           </li>
           <li>
-            <strong>Mirá tu recorrido.</strong> Si una pregunta vuelve, vas a poder comparar lo que contestaste antes y
-            ver cómo cambiaste.
+            <strong>Sumás una pegatina a tu maleta.</strong> Si una pregunta vuelve, ves lo que contestaste antes y cómo
+            cambiaste.
           </li>
         </ol>
-        <button type="button" className="btn btn--ghost" onClick={openFirstFlight}>
-          Ver el primer vuelo
-        </button>
       </section>
     </div>
   )

@@ -138,7 +138,7 @@ export default function Layout() {
               Una activación de <strong>En Palabras</strong> · Para mayores de 18 años que emigraron de su país
             </span>
           </footer>
-          <FirstFlight open={flightOpen} hasProfile={Boolean(profile)} onClose={closeFlight} />
+          <FirstFlight open={flightOpen} onClose={closeFlight} />
         </div>
       </ConfirmProvider>
     </FirstFlightContext.Provider>
