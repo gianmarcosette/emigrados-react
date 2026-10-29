@@ -4,23 +4,23 @@ import { CATEGORY_BY_KEY } from '../data/questions.js'
 import { canvasToFile, clipAnswer, loadShareFonts, renderSticker, renderStory } from '../lib/shareCard.js'
 import { flightCode, seatFor } from '../lib/ticket.js'
 
-const POSITION_LABELS = { top: 'Arriba', middle: 'Al medio', bottom: 'Abajo' }
-const STYLE_LABELS = { shadow: 'Blanco con sombra', white: 'Blanco', black: 'Negro' }
+const STICKERS = [
+  { style: 'shadow', label: 'Blanco con sombra', hint: 'Para fotos oscuras o con colores' },
+  { style: 'black', label: 'Negro', hint: 'Para fotos claras' },
+]
 
-// Compartir una pregunta como historia (Instagram, TikTok, WhatsApp): la tarjeta de embarque
-// en líneas sobre una foto propia o sobre el cielo del juego.
+// Compartir una pregunta en historias (Instagram, TikTok, WhatsApp).
+// - Lo principal es la tarjeta sola, con fondo transparente: la persona la pega sobre la
+//   foto que quiera, como quiera (estilo Strava). La foto nunca pasa por el juego.
+// - Si no quiere usar una foto propia, hay una historia lista con la tarjeta centrada
+//   sobre el cielo del juego.
 // - La respuesta no se comparte nunca sin que la persona lo pida: el interruptor arranca
 //   apagado cada vez que se abre.
-// - La foto se usa solo en este dispositivo.
 // Se monta solo mientras está abierta (así todo vuelve a empezar la próxima vez).
 export default function ShareSheet({ question, answer, profile, onClose }) {
   const dialogRef = useRef(null)
-  const previewRef = useRef(null)
-  const fileInput = useRef(null)
-  const fileRef = useRef(null)
-  const [image, setImage] = useState(null)
-  const [position, setPosition] = useState('bottom')
-  const [style, setStyle] = useState('shadow')
+  const canvases = useRef({})
+  const files = useRef({})
   const [withAnswer, setWithAnswer] = useState(false)
   const [ready, setReady] = useState(false)
   const [message, setMessage] = useState('')
@@ -39,60 +39,52 @@ export default function ShareSheet({ question, answer, profile, onClose }) {
     dialogRef.current?.showModal()
   }, [])
 
-  // La vista previa es la imagen final; el archivo queda listo para compartir al toque
-  // (algunos celulares no dejan compartir si se tarda en armarlo después del toque)
+  // Las vistas previas son las imágenes finales; los archivos quedan listos de antemano
+  // (algunos celulares no dejan compartir si se tarda en armarlos después del toque)
   useEffect(() => {
     let active = true
     setReady(false)
     loadShareFonts().then(async () => {
-      if (!active || !previewRef.current) return
-      renderStory(previewRef.current, { data, image, position, style })
-      const file = await canvasToFile(previewRef.current, `${slug}.png`)
+      const c = canvases.current
+      if (!active || !c.story) return
+      for (const { style } of STICKERS) renderSticker(c[style], { data, style })
+      renderStory(c.story, { data })
+      const made = {
+        shadow: await canvasToFile(c.shadow, `${slug}-transparente-blanca.png`),
+        black: await canvasToFile(c.black, `${slug}-transparente-negra.png`),
+        story: await canvasToFile(c.story, `${slug}-historia.png`),
+      }
       if (active) {
-        fileRef.current = file
+        files.current = made
         setReady(true)
       }
     })
     return () => {
       active = false
     }
-    // data se arma en cada render; lo que cambia la imagen son estos valores
+    // data se arma en cada render; lo único que cambia las imágenes es la respuesta
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [image, position, style, withAnswer])
+  }, [withAnswer])
 
-  async function pickPhoto(e) {
-    const file = e.target.files?.[0]
-    e.target.value = ''
-    if (!file) return
-    try {
-      setImage(await loadImage(file))
-      setMessage('')
-    } catch {
-      setMessage('No pudimos abrir esa foto. Probá con otra.')
-    }
-  }
-
-  async function share() {
-    const file = fileRef.current
+  // En el celular abre el menú para compartir (desde ahí se guarda en Fotos o se sube a una
+  // historia); en la compu, descarga el archivo
+  async function send(kind) {
+    const file = files.current[kind]
     if (!file) return
     if (navigator.canShare?.({ files: [file] })) {
       try {
         await navigator.share({ files: [file] })
+        return
       } catch (err) {
-        if (err?.name !== 'AbortError') download(file)
+        if (err?.name === 'AbortError') return
       }
-    } else {
-      download(file)
-      setMessage('Listo: la imagen se descargó. Subila desde tu celular como historia.')
     }
-  }
-
-  async function downloadSticker() {
-    await loadShareFonts()
-    const canvas = document.createElement('canvas')
-    renderSticker(canvas, { data, style })
-    download(await canvasToFile(canvas, `${slug}-transparente.png`))
-    setMessage('Listo: se descargó la tarjeta sola, con fondo transparente, para pegarla sobre tus fotos.')
+    download(file)
+    setMessage(
+      kind === 'story'
+        ? 'Listo: la historia se descargó. Subila desde tu celular.'
+        : 'Listo: la tarjeta se descargó. Pegala sobre la foto que quieras.',
+    )
   }
 
   function close() {
@@ -118,99 +110,74 @@ export default function ShareSheet({ question, answer, profile, onClose }) {
       </header>
 
       <div className="share-sheet__body">
-        <figure className="share-sheet__preview">
-          <canvas ref={previewRef} role="img" aria-label={`Vista previa de la historia: ${question.text}`} />
-        </figure>
+        {answer && (
+          <label className="relaxed-toggle share-sheet__answer">
+            <input type="checkbox" checked={withAnswer} onChange={(e) => setWithAnswer(e.target.checked)} />
+            <span className="relaxed-toggle__switch" aria-hidden="true" />
+            <span>
+              <strong>Incluir mi respuesta</strong>
+              Solo si querés que se vea. Si es larga, va recortada.
+            </span>
+          </label>
+        )}
 
-        <div className="share-sheet__controls">
-          <div className="share-sheet__group">
-            <p className="share-sheet__label">Fondo</p>
-            <div className="share-sheet__row">
-              <button type="button" className="btn btn--ghost" onClick={() => fileInput.current?.click()}>
-                {image ? 'Cambiar foto' : 'Elegir una foto'}
-              </button>
-              {image && (
-                <button type="button" className="btn btn--text" onClick={() => setImage(null)}>
-                  Usar el cielo del juego
+        <section className="share-sheet__section" aria-labelledby="share-stickers">
+          <h3 id="share-stickers">Tarjeta para tus fotos</h3>
+          <p className="share-sheet__hint">
+            Con fondo transparente: guardala y pegala sobre la foto que quieras, donde quieras. Tu foto no pasa por el
+            juego.
+          </p>
+          <ul className="share-sheet__stickers">
+            {STICKERS.map(({ style, label, hint }) => (
+              <li key={style}>
+                <div className={`share-sheet__sticker share-sheet__sticker--${style}`}>
+                  <canvas
+                    ref={(el) => (canvases.current[style] = el)}
+                    role="img"
+                    aria-label={`Tarjeta en ${label.toLowerCase()}`}
+                  />
+                </div>
+                <p>
+                  <strong>{label}</strong>
+                  <span>{hint}</span>
+                </p>
+                <button type="button" className="btn btn--primary" disabled={!ready} onClick={() => send(style)}>
+                  Guardar
                 </button>
-              )}
-            </div>
-            <input
-              ref={fileInput}
-              type="file"
-              accept="image/*"
-              className="sr-only"
-              tabIndex={-1}
-              onChange={pickPhoto}
-            />
-            <p className="share-sheet__hint">
-              Una foto tuya que responda la pregunta: un lugar, una comida, alguien. Se usa solo en este dispositivo, no
-              se sube a ningún lado.
-            </p>
-          </div>
+              </li>
+            ))}
+          </ul>
+          <p className="share-sheet__hint">
+            En Instagram: abrí tu foto como historia y sumá la tarjeta como sticker. En iPhone, también podés tocarla en
+            Fotos, elegir Copiar y pegarla en la historia.
+          </p>
+        </section>
 
-          <Choice label="Dónde va la tarjeta" options={POSITION_LABELS} value={position} onChange={setPosition} />
-          <Choice label="Color de las líneas" options={STYLE_LABELS} value={style} onChange={setStyle} />
-
-          {answer && (
-            <label className="relaxed-toggle share-sheet__answer">
-              <input type="checkbox" checked={withAnswer} onChange={(e) => setWithAnswer(e.target.checked)} />
-              <span className="relaxed-toggle__switch" aria-hidden="true" />
-              <span>
-                <strong>Incluir mi respuesta</strong>
-                Solo si querés que se vea. Si es larga, va recortada.
-              </span>
-            </label>
-          )}
-
-          <div className="share-sheet__actions">
-            <button type="button" className="btn btn--primary" disabled={!ready} onClick={share}>
-              {ready ? 'Compartir' : 'Preparando la imagen…'}
-            </button>
-            <button type="button" className="btn btn--text" onClick={downloadSticker}>
-              Descargar la tarjeta sola (fondo transparente)
+        <section className="share-sheet__section share-sheet__ready" aria-labelledby="share-story">
+          <canvas
+            ref={(el) => (canvases.current.story = el)}
+            className="share-sheet__story"
+            role="img"
+            aria-label={`Historia lista: ${question.text}`}
+          />
+          <div>
+            <h3 id="share-story">O una historia lista</h3>
+            <p className="share-sheet__hint">La tarjeta centrada sobre el cielo de Emigrados, para subirla tal cual.</p>
+            <button type="button" className="btn btn--ghost" disabled={!ready} onClick={() => send('story')}>
+              Compartir la historia
             </button>
           </div>
-          {message && (
-            <p className="share-sheet__message" role="status">
-              {message}
-            </p>
-          )}
-        </div>
+        </section>
+
+        {message && (
+          <p className="share-sheet__message" role="status">
+            {message}
+          </p>
+        )}
       </div>
     </dialog>,
     document.body,
   )
-}
-
-function Choice({ label, options, value, onChange }) {
-  return (
-    <fieldset className="share-sheet__group">
-      <legend className="share-sheet__label">{label}</legend>
-      <div className="share-sheet__seg">
-        {Object.entries(options).map(([key, text]) => (
-          <button key={key} type="button" aria-pressed={value === key} onClick={() => onChange(key)}>
-            {text}
-          </button>
-        ))}
-      </div>
-    </fieldset>
-  )
-}
-
-// La foto del celular, ya girada como se ve en la galería
-async function loadImage(file) {
-  if (globalThis.createImageBitmap) {
-    try {
-      return await createImageBitmap(file, { imageOrientation: 'from-image' })
-    } catch {
-      // Algunos navegadores no aceptan esa opción: se prueba con una imagen común
-    }
-  }
-  const img = new Image()
-  img.src = URL.createObjectURL(file)
-  await img.decode()
-  return img
 }
 
 function download(file) {

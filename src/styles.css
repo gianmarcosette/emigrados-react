@@ -5553,9 +5553,9 @@ h3 {
   color: var(--ink-soft);
 }
 
-/* ═════════════ Compartir una pregunta como historia ═════════════ */
+/* ═════════════ Compartir una pregunta ═════════════ */
 .share-sheet {
-  width: min(880px, calc(100vw - 24px));
+  width: min(760px, calc(100vw - 24px));
   max-height: calc(100dvh - 24px);
   padding: 0;
   border: var(--border);
@@ -5590,53 +5590,24 @@ h3 {
 
 .share-sheet__body {
   display: grid;
-  grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
-  gap: 24px;
+  gap: 22px;
   padding: 20px;
 }
 
-.share-sheet__preview {
+.share-sheet__answer {
+  justify-content: flex-start;
   margin: 0;
 }
 
-.share-sheet__preview canvas {
-  display: block;
-  width: 100%;
-  height: auto;
-  aspect-ratio: 9 / 16;
-  border-radius: 14px;
-  border: 2px solid var(--ink);
-  background: #3d7299;
-}
-
-.share-sheet__controls {
+.share-sheet__section {
   display: grid;
-  align-content: start;
-  gap: 18px;
+  gap: 10px;
 }
 
-.share-sheet__group {
+.share-sheet__section h3 {
   margin: 0;
-  padding: 0;
-  border: 0;
-  display: grid;
-  gap: 8px;
-}
-
-.share-sheet__label {
-  margin: 0;
-  padding: 0;
-  font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-.share-sheet__row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
+  font-family: var(--font-display);
+  font-size: 1.3rem;
 }
 
 .share-sheet__hint,
@@ -5651,59 +5622,93 @@ h3 {
   color: var(--ink);
 }
 
-/* Opciones de a una, como un interruptor de varias posiciones */
-.share-sheet__seg {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.share-sheet__seg button {
-  font: inherit;
-  font-size: 0.88rem;
-  font-weight: 700;
-  padding: 8px 14px;
-  border: 2px solid var(--ink);
-  border-radius: 999px;
-  background: var(--card);
-  color: var(--ink);
-  cursor: pointer;
-}
-
-.share-sheet__seg button[aria-pressed='true'] {
-  background: var(--ink);
-  color: #fff;
-}
-
-.share-sheet__seg button:focus-visible {
-  outline: 3px solid var(--yellow);
-  outline-offset: 2px;
-}
-
-.share-sheet__answer {
-  justify-content: flex-start;
+/* Las dos tarjetas transparentes, cada una sobre un tablero que deja ver la transparencia */
+.share-sheet__stickers {
+  list-style: none;
   margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
 }
 
-.share-sheet__actions {
+.share-sheet__stickers li {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+  border: 2px solid var(--ink);
+  border-radius: 16px;
+}
+
+.share-sheet__sticker {
+  padding: 14px 10px;
+  border-radius: 10px;
+  background: repeating-conic-gradient(#56606b 0 25%, #47505a 0 50%) 0 0 / 18px 18px;
+}
+
+.share-sheet__sticker--black {
+  background: repeating-conic-gradient(#ece8e0 0 25%, #fbf9f5 0 50%) 0 0 / 18px 18px;
+}
+
+.share-sheet__sticker canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.share-sheet__stickers p {
+  margin: 0;
   display: grid;
-  gap: 6px;
+  gap: 2px;
+}
+
+.share-sheet__stickers p span {
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+}
+
+.share-sheet__stickers .btn {
+  width: 100%;
+  /* Los dos botones a la misma altura, aunque los textos ocupen distinto */
+  margin-top: auto;
+}
+
+/* La alternativa: la historia lista, con la tarjeta centrada sobre el cielo */
+.share-sheet__ready {
+  grid-template-columns: 96px minmax(0, 1fr);
+  align-items: center;
+  gap: 16px;
+  padding-top: 18px;
+  border-top: 2px dashed var(--line);
+}
+
+.share-sheet__ready > div {
+  display: grid;
+  gap: 8px;
   justify-items: start;
 }
 
-@media (max-width: 680px) {
+.share-sheet__story {
+  display: block;
+  width: 96px;
+  height: auto;
+  aspect-ratio: 9 / 16;
+  border: 2px solid var(--ink);
+  border-radius: 10px;
+  background: #3d7299;
+}
+
+@media (max-width: 560px) {
   .share-sheet__body {
-    grid-template-columns: 1fr;
-    gap: 18px;
     padding: 16px;
   }
 
-  .share-sheet__preview canvas {
-    width: min(100%, 220px);
-    margin: 0 auto;
+  .share-sheet__stickers {
+    gap: 10px;
   }
 
-  .share-sheet__actions .btn--primary {
-    width: 100%;
+  .share-sheet__stickers li {
+    padding: 10px;
   }
 }

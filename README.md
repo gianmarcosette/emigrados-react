@@ -39,11 +39,10 @@ Otros comandos: `npm run build` (versión de producción), `npm test` (tests con
 
 ## Compartir
 
-- **Compartir la pregunta** arma una imagen para historias (1080 × 1920): la tarjeta de embarque en líneas, estilo Strava, sobre una **foto propia** o sobre el cielo del juego. Lleva *Emigrados*, la pregunta, vuelo, etapa, asiento, el código de pasajero y "Tu turno: ¿Y vos qué responderías?".
-- Se elige dónde va la tarjeta (arriba, al medio, abajo) y el color de las líneas (blanco con sombra, blanco, negro). La tarjeta queda fuera de las zonas que tapan los botones de Instagram.
-- **La respuesta solo se comparte si la persona lo pide:** el interruptor "Incluir mi respuesta" arranca apagado cada vez; si es larga, va recortada.
-- En el celular abre el menú de compartir del teléfono (Instagram, TikTok, WhatsApp); en la compu, descarga la imagen. También se puede descargar **la tarjeta sola con fondo transparente** para pegarla sobre otras fotos.
-- Todo se dibuja en el dispositivo (`src/lib/shareCard.js`, `components/ShareSheet.jsx`): la foto no se sube a ningún lado y pierde los datos que traía, como la ubicación.
+- **Compartir la pregunta** (en Individual después de guardar y en cada pregunta de Grupal) ofrece la **tarjeta de embarque sola, con fondo transparente** (estilo Strava), en dos versiones: **blanco con sombra** (fotos oscuras o con colores) y **negro** (fotos claras). La persona la pega sobre la foto que quiera, donde quiera: su foto nunca pasa por el juego. Lleva *Emigrados*, la pregunta, vuelo, etapa, asiento, el código de pasajero y "Tu turno: ¿Y vos qué responderías?".
+- Si no quiere usar una foto propia, hay una **historia lista** (1080 × 1920) con la tarjeta centrada sobre el cielo del juego.
+- **La respuesta solo se comparte si la persona lo pide:** el interruptor "Incluir mi respuesta" arranca apagado cada vez; si es larga, va recortada. En Grupal no se ofrece.
+- En el celular abre el menú de compartir del teléfono (guardar en Fotos, Instagram, TikTok, WhatsApp); en la compu, descarga la imagen. Todo se dibuja en el dispositivo (`src/lib/shareCard.js`, `components/ShareSheet.jsx`).
 
 ## Diseño
 

@@ -1,7 +1,8 @@
-// Imagen para compartir en historias (Instagram, TikTok, WhatsApp): la tarjeta de embarque
-// en líneas, sin fondo propio, sobre una foto de la persona o sobre el cielo del juego.
-// Se dibuja en un <canvas> en el mismo celular: la foto nunca se sube a ningún lado y, al
-// volver a dibujarla, pierde los datos que traía (como la ubicación GPS).
+// Imágenes para compartir en historias (Instagram, TikTok, WhatsApp), dibujadas en un
+// <canvas> en el mismo dispositivo:
+// - la tarjeta de embarque sola, en líneas y con fondo transparente, para pegarla sobre
+//   cualquier foto propia (estilo Strava): es la principal;
+// - una historia lista, con la tarjeta centrada sobre el cielo del juego.
 //
 // Lo de arriba (medidas, cortes de línea) no usa el navegador y se puede testear; lo de
 // abajo dibuja en el canvas.
@@ -13,8 +14,6 @@ export const STORY_H = 1920
 const SAFE_TOP = 250
 const SAFE_BOTTOM = 330
 
-export const POSITIONS = ['top', 'middle', 'bottom']
-export const STYLES = ['shadow', 'white', 'black']
 // Lo que entra de la respuesta en la tarjeta: unas tres líneas
 export const ANSWER_MAX = 140
 
@@ -224,15 +223,7 @@ function drawCard(ctx, x, y, data, look, style) {
   ctx.restore()
 }
 
-// Foto que cubre toda la historia, recortada al centro
-function drawCover(ctx, image) {
-  const scale = Math.max(STORY_W / image.width, STORY_H / image.height)
-  const w = image.width * scale
-  const h = image.height * scale
-  ctx.drawImage(image, (STORY_W - w) / 2, (STORY_H - h) / 2, w, h)
-}
-
-// Sin foto: el cielo del juego con nubes en trama de puntos. Las nubes esquivan la franja
+// El cielo del juego con nubes en trama de puntos. Las nubes esquivan la franja
 // de la tarjeta, así la trama no se mezcla con el texto.
 const CLOUDS = [
   [0.06, 0.09, 0.38, 0.07],
@@ -271,17 +262,16 @@ function drawSky(ctx, band) {
 }
 
 /**
- * Historia completa (1080 × 1920) en `canvas`.
- * options: { data, image (opcional), position, style }
+ * Historia lista (1080 × 1920) en `canvas`: la tarjeta sobre el cielo del juego.
+ * options: { data, position, style }
  */
-export function renderStory(canvas, { data, image, position = 'bottom', style = 'shadow' }) {
+export function renderStory(canvas, { data, position = 'middle', style = 'shadow' }) {
   canvas.width = STORY_W
   canvas.height = STORY_H
   const ctx = canvas.getContext('2d')
   const look = layout(ctx, data)
   const top = cardTop(position, look.height)
-  if (image) drawCover(ctx, image)
-  else drawSky(ctx, { top, bottom: top + look.height })
+  drawSky(ctx, { top, bottom: top + look.height })
   drawCard(ctx, CARD.x, top, data, look, style)
 }
 
