@@ -42,8 +42,8 @@ export default function Maleta() {
         <Title>Mi maleta de viaje</Title>
         <p className="maleta-intro">
           Cada pregunta del juego es una escala de tu viaje por un país. La primera vez que respondés en un país, su
-          pegatina va a tu maleta; con sus {QUESTIONS.length / COUNTRIES.length} preguntas respondidas, se completa con
-          el color del atardecer.
+          pegatina va a tu maleta; cuando respondés sus {QUESTIONS.length / COUNTRIES.length} preguntas, la pegatina se
+          ilumina.
         </p>
         {stickers.length > 0 && (
           <p className="muted maleta-hint">Tocá una pegatina para releer lo que escribiste ahí.</p>

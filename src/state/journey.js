@@ -21,8 +21,9 @@ export function journeyReducer(state, action) {
   switch (action.type) {
     case 'saveProfile':
       return { ...state, profile: action.profile }
+    // Borrar el perfil borra todo lo personal: respuestas, maleta y charlas guardadas
     case 'deleteProfile':
-      return { ...state, profile: null }
+      return initialJourney
     case 'saveAnswer': {
       const { questionId, text, date = new Date().toISOString() } = action
       const previous = state.answers[questionId] ?? []

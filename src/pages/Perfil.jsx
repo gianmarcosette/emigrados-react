@@ -8,6 +8,7 @@ import Title from '../components/Title.jsx'
 import { COUNTRIES } from '../data/countries.js'
 import { countryName } from '../data/residence.js'
 import { plural } from '../lib/format.js'
+import { clearAllDrafts } from '../state/drafts.js'
 import { isProfileComplete } from '../state/profile.js'
 import { useConfirm } from '../state/confirm.js'
 import { useJourney } from '../state/useJourney.js'
@@ -15,7 +16,7 @@ import { useJourney } from '../state/useJourney.js'
 const memberSince = new Intl.DateTimeFormat('es-AR', { month: 'long', year: 'numeric' })
 
 export default function Perfil() {
-  const { profile, dispatch, answeredCount, totalQuestions, pins } = useJourney()
+  const { profile, dispatch, answeredCount, totalQuestions, pins, talks = [] } = useJourney()
   const complete = isProfileComplete(profile)
   const [editing, setEditing] = useState(!complete)
   const confirm = useConfirm()
@@ -26,7 +27,6 @@ export default function Perfil() {
     const timer = setTimeout(() => setJustSaved(false), 4000)
     return () => clearTimeout(timer)
   }, [justSaved])
-  // Antes de tener perfil el avión recién despega; con perfil y diario, atardecer.
 
   function save(next) {
     dispatch({ type: 'saveProfile', profile: next })
@@ -38,13 +38,23 @@ export default function Perfil() {
   async function remove() {
     const ok = await confirm({
       title: '¿Borrar tu perfil?',
-      message:
-        'Se borran tu nombre, tu foto y tu código de pasajero. Tus respuestas, tu maleta y tu diario se mantienen en este dispositivo.',
+      // Se dice exactamente qué se pierde, y cómo conservarlo antes
+      message: `Se borran tu nombre, tu foto, tu código de pasajero${
+        answeredCount || talks.length
+          ? ` y también ${[
+              answeredCount && plural(answeredCount, 'respuesta', 'respuestas'),
+              talks.length && plural(talks.length, 'charla guardada', 'charlas guardadas'),
+            ]
+              .filter(Boolean)
+              .join(' y ')}, tu maleta y tus borradores`
+          : ''
+      }. No se puede deshacer.${answeredCount || talks.length ? ' Si querés conservar lo que escribiste, descargá el diario antes.' : ''}`,
       confirmLabel: 'Borrar perfil',
       danger: true,
     })
     if (ok) {
       dispatch({ type: 'deleteProfile' })
+      clearAllDrafts()
       setEditing(true)
     }
   }
@@ -118,10 +128,10 @@ export default function Perfil() {
       </section>
 
       <p className="privacy-note">
-        Tu perfil se guarda solo en este dispositivo.{' '}
+        Tu perfil y tus respuestas se guardan solo en este dispositivo.{' '}
         {plural(answeredCount, 'respuesta guardada', 'respuestas guardadas')}.{' '}
         <button type="button" className="btn--link" onClick={remove}>
-          Borrar perfil
+          Borrar perfil y respuestas
         </button>
       </p>
 

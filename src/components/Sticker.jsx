@@ -2,7 +2,7 @@ import { countryShape } from '../lib/countryShapes.js'
 
 // Pegatina de un país para la maleta. Cuatro formas (círculo, etiqueta de equipaje,
 // escudo y óvalo) con la silueta real del país, en la paleta del juego. Completa (todas
-// las preguntas respondidas) pasa al degradé de atardecer.
+// las preguntas respondidas) se ilumina con el degradé de color.
 // Se dibuja centrada en 0,0; quien la usa la ubica con un transform.
 export default function Sticker({ country, kind, complete = false, gradientId }) {
   const d = countryShape(country.id)

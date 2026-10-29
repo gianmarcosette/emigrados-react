@@ -248,7 +248,7 @@ function SavedScreen({ question, country, answers, route, answeredCount, totalQu
   const detail = {
     new: left ? leftText : '',
     progress: leftText,
-    complete: 'Respondiste todas sus preguntas: su pegatina pasó al color del atardecer.',
+    complete: 'Respondiste todas sus preguntas: su pegatina se iluminó en tu maleta.',
     revisit: 'Tu nueva respuesta quedó junto a la anterior en el diario.',
   }[event]
 

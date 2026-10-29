@@ -11,7 +11,7 @@ import { TIMER_OPTIONS } from '../lib/timer.js'
 const MAX_PLAYERS = 12
 const BIG_TEXT_KEY = 'emigrados:grupal-letra-grande'
 
-const STATUS_LABEL = { done: 'ya habló', passed: 'pasó', current: 'habla ahora', next: 'después' }
+const STATUS_LABEL = { done: 'ya habló', current: 'habla ahora', next: 'después' }
 
 // Letra grande por defecto: el teléfono queda en la mesa y se lee de más lejos.
 function readBigText() {
@@ -89,9 +89,10 @@ export default function Grupal() {
     window.scrollTo({ top: 0 })
   }
 
-  function finishSpeaker({ pass = false } = {}) {
+  // Todos hablan: el juego no ofrece "pasar". Si alguien no quiere, la mesa decide y sigue.
+  function finishSpeaker() {
     const last = isLastSpeaker(round, players.length)
-    setRound((r) => nextSpeaker(r, players.length, { pass }))
+    setRound((r) => nextSpeaker(r, players.length))
     if (last) drawCard()
   }
 
@@ -131,7 +132,7 @@ export default function Grupal() {
               {order.map(({ player, status }) => (
                 <li key={player} className={`speaker speaker--${status}`}>
                   <span className="speaker__mark" aria-hidden="true">
-                    {status === 'done' ? '✓' : status === 'passed' ? '–' : players[player][0].toUpperCase()}
+                    {status === 'done' ? '✓' : players[player][0].toUpperCase()}
                   </span>
                   <span className="speaker__name">{players[player]}</span>
                   <span className="sr-only">, {STATUS_LABEL[status]}</span>
@@ -162,12 +163,6 @@ export default function Grupal() {
             {named && round.step === 0 && (
               <button type="button" className="btn btn--text" onClick={drawCard}>
                 Cambiar pregunta
-              </button>
-            )}
-            {named && (
-              // Nadie está obligado a contestar
-              <button type="button" className="btn btn--ghost" onClick={() => finishSpeaker({ pass: true })}>
-                {current} prefiere pasar
               </button>
             )}
             <button type="button" className="btn btn--primary" onClick={() => finishSpeaker()}>

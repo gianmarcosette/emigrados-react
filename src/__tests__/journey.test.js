@@ -85,3 +85,20 @@ describe('charlas guardadas en el diario', () => {
     expect(journeyReducer(s, { type: 'reset' }).talks).toEqual([])
   })
 })
+
+describe('borrar el perfil', () => {
+  it('borra también las respuestas, la ruta de la maleta y las charlas guardadas', () => {
+    let s = journeyReducer(initialJourney, { type: 'saveProfile', profile: { name: 'Ana' } })
+    s = journeyReducer(s, { type: 'saveAnswer', questionId: 1, text: 'algo personal' })
+    s = journeyReducer(s, {
+      type: 'saveTalk',
+      talk: {
+        id: 't',
+        date: '2026-01-01',
+        rival: { name: 'Luz' },
+        messages: [{ from: 'me', kind: 'answer', text: 'hola' }],
+      },
+    })
+    expect(journeyReducer(s, { type: 'deleteProfile' })).toEqual(initialJourney)
+  })
+})

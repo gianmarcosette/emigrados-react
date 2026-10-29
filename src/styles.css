@@ -4017,9 +4017,6 @@ h3 {
   color: var(--card);
 }
 
-.speaker--passed .speaker__name {
-  text-decoration: line-through;
-}
 
 /* ───────────── Tamaño de letra ───────────── */
 
@@ -5181,7 +5178,9 @@ h3 {
 .toolbar .btn--text:hover,
 .group-invite a:hover,
 .privacy-note .btn--link:hover {
-  color: var(--yellow);
+  color: var(--on-sky);
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
 .hero__lead {
@@ -5258,4 +5257,56 @@ h3 {
 .footer > span,
 .page > .progress .progress__head {
   text-shadow: 0 1px 2px rgb(20 50 75 / 0.5);
+}
+
+/* ───────────── Texto sobre el cielo, en general ───────────── */
+/* Dentro del contenido, todo lo que no está en una superficie (tarjeta, panel, tarjeta de
+   embarque, diario, botón principal…) va en crema, para leerse sobre el cielo. Así una
+   pantalla nueva no queda con texto oscuro sobre el azul. Los campos de formulario y los
+   dibujos mantienen sus colores. */
+.main *:not(.confirm, .confirm *, .country-panel, .country-panel *, .duel-card, .duel-card *, .duel-fact, .duel-fact *, .duel-option, .duel-option *, .duel-timer, .duel-timer *, .first-flight, .first-flight *, .history, .history *, .howto, .howto *, .journal, .journal *, .maleta-card, .maleta-card *, .mode, .mode *, .online-country, .online-country *, .panel, .panel *, .player, .player *, .player-card, .player-card *, .profile-card, .profile-card *, .saved, .saved *, .saved-toast, .saved-toast *, .stat, .stat *, .statlink, .statlink *, .talk-compose, .talk-compose *, .talk-invite, .talk-invite *, .talk-msg--me, .talk-msg--me *, .talk-msg--them, .talk-msg--them *, .talk-prompt, .talk-prompt *, .talk-reaction, .talk-reaction *, .talk-report, .talk-report *, .talk-saved, .talk-saved *, .duel-review li, .duel-review li *, .talk-timer, .talk-timer *, .text-size, .text-size *, .ticket, .ticket *, .to-stick, .to-stick *, .hero__profile, .hero__profile *, .speaker, .speaker *, .footer__help, .footer__help *, .chip--toggle, .chip--toggle *, .answer__input, .answer__input *, .avatar-editor, .avatar-editor *, .mark, .mark *, .online-dot, .online-dot *, .progress__track, .progress__track *, .relaxed-toggle__switch, .relaxed-toggle__switch *, .btn--primary, .btn--primary *, .pill, .pill *, input, select, textarea, option, svg, svg *) {
+  color: var(--on-sky);
+}
+
+/* Cada superficie vuelve a la tinta: su texto no hereda el crema de lo que está alrededor */
+.main :is(.duel-review li, .confirm, .country-panel, .duel-card, .duel-fact, .duel-option, .duel-timer, .first-flight, .history, .howto, .journal, .maleta-card, .mode, .online-country, .panel, .player, .player-card, .profile-card, .saved, .saved-toast, .stat, .statlink, .talk-compose, .talk-invite, .talk-msg--me, .talk-msg--them, .talk-prompt, .talk-reaction, .talk-report, .talk-saved, .talk-timer, .text-size, .ticket, .to-stick, .hero__profile, .speaker, .footer__help, .chip--toggle, .avatar-editor) {
+  color: var(--ink);
+}
+
+/* Los textos secundarios, un poco más suaves */
+.main :is(.muted, .kicker, .talk-safety):not(.confirm, .confirm *, .country-panel, .country-panel *, .duel-card, .duel-card *, .duel-fact, .duel-fact *, .duel-option, .duel-option *, .duel-timer, .duel-timer *, .first-flight, .first-flight *, .history, .history *, .howto, .howto *, .journal, .journal *, .maleta-card, .maleta-card *, .mode, .mode *, .online-country, .online-country *, .panel, .panel *, .player, .player *, .player-card, .player-card *, .profile-card, .profile-card *, .saved, .saved *, .saved-toast, .saved-toast *, .stat, .stat *, .statlink, .statlink *, .talk-compose, .talk-compose *, .talk-invite, .talk-invite *, .talk-msg--me, .talk-msg--me *, .talk-msg--them, .talk-msg--them *, .talk-prompt, .talk-prompt *, .talk-reaction, .talk-reaction *, .talk-report, .talk-report *, .talk-saved, .talk-saved *, .duel-review li, .duel-review li *, .talk-timer, .talk-timer *, .text-size, .text-size *, .ticket, .ticket *, .to-stick, .to-stick *, .hero__profile, .hero__profile *, .speaker, .speaker *, .footer__help, .footer__help *, .chip--toggle, .chip--toggle *, .answer__input, .answer__input *, .avatar-editor, .avatar-editor *, .mark, .mark *, .online-dot, .online-dot *, .progress__track, .progress__track *, .relaxed-toggle__switch, .relaxed-toggle__switch *, .btn--primary, .btn--primary *, .pill, .pill *) {
+  color: var(--on-sky-soft);
+}
+
+/* Botón secundario sobre el cielo: contorno y texto crema; al pasar, se rellena */
+.main .btn--ghost:not(.confirm, .confirm *, .country-panel, .country-panel *, .duel-card, .duel-card *, .duel-fact, .duel-fact *, .duel-option, .duel-option *, .duel-timer, .duel-timer *, .first-flight, .first-flight *, .history, .history *, .howto, .howto *, .journal, .journal *, .maleta-card, .maleta-card *, .mode, .mode *, .online-country, .online-country *, .panel, .panel *, .player, .player *, .player-card, .player-card *, .profile-card, .profile-card *, .saved, .saved *, .saved-toast, .saved-toast *, .stat, .stat *, .statlink, .statlink *, .talk-compose, .talk-compose *, .talk-invite, .talk-invite *, .talk-msg--me, .talk-msg--me *, .talk-msg--them, .talk-msg--them *, .talk-prompt, .talk-prompt *, .talk-reaction, .talk-reaction *, .talk-report, .talk-report *, .talk-saved, .talk-saved *, .duel-review li, .duel-review li *, .talk-timer, .talk-timer *, .text-size, .text-size *, .ticket, .ticket *, .to-stick, .to-stick *, .hero__profile, .hero__profile *, .speaker, .speaker *, .footer__help, .footer__help *, .chip--toggle, .chip--toggle *, .answer__input, .answer__input *, .avatar-editor, .avatar-editor *, .mark, .mark *, .online-dot, .online-dot *, .progress__track, .progress__track *, .relaxed-toggle__switch, .relaxed-toggle__switch *, .btn--primary, .btn--primary *, .pill, .pill *) {
+  border-color: var(--on-sky);
+  color: var(--on-sky);
+}
+
+.main .btn--ghost:not(.confirm, .confirm *, .country-panel, .country-panel *, .duel-card, .duel-card *, .duel-fact, .duel-fact *, .duel-option, .duel-option *, .duel-timer, .duel-timer *, .first-flight, .first-flight *, .history, .history *, .howto, .howto *, .journal, .journal *, .maleta-card, .maleta-card *, .mode, .mode *, .online-country, .online-country *, .panel, .panel *, .player, .player *, .player-card, .player-card *, .profile-card, .profile-card *, .saved, .saved *, .saved-toast, .saved-toast *, .stat, .stat *, .statlink, .statlink *, .talk-compose, .talk-compose *, .talk-invite, .talk-invite *, .talk-msg--me, .talk-msg--me *, .talk-msg--them, .talk-msg--them *, .talk-prompt, .talk-prompt *, .talk-reaction, .talk-reaction *, .talk-report, .talk-report *, .talk-saved, .talk-saved *, .duel-review li, .duel-review li *, .talk-timer, .talk-timer *, .text-size, .text-size *, .ticket, .ticket *, .to-stick, .to-stick *, .hero__profile, .hero__profile *, .speaker, .speaker *, .footer__help, .footer__help *, .chip--toggle, .chip--toggle *, .answer__input, .answer__input *, .avatar-editor, .avatar-editor *, .mark, .mark *, .online-dot, .online-dot *, .progress__track, .progress__track *, .relaxed-toggle__switch, .relaxed-toggle__switch *, .btn--primary, .btn--primary *, .pill, .pill *):hover:not(:disabled) {
+  background: var(--on-sky);
+  color: var(--ink);
+}
+
+/* Links y botones de texto sobre el cielo: al pasar se subrayan (el amarillo sobre el azul
+   no llega al contraste mínimo) */
+.main :is(.btn--text, .btn--link, a:not(.btn)):not(.confirm, .confirm *, .country-panel, .country-panel *, .duel-card, .duel-card *, .duel-fact, .duel-fact *, .duel-option, .duel-option *, .duel-timer, .duel-timer *, .first-flight, .first-flight *, .history, .history *, .howto, .howto *, .journal, .journal *, .maleta-card, .maleta-card *, .mode, .mode *, .online-country, .online-country *, .panel, .panel *, .player, .player *, .player-card, .player-card *, .profile-card, .profile-card *, .saved, .saved *, .saved-toast, .saved-toast *, .stat, .stat *, .statlink, .statlink *, .talk-compose, .talk-compose *, .talk-invite, .talk-invite *, .talk-msg--me, .talk-msg--me *, .talk-msg--them, .talk-msg--them *, .talk-prompt, .talk-prompt *, .talk-reaction, .talk-reaction *, .talk-report, .talk-report *, .talk-saved, .talk-saved *, .duel-review li, .duel-review li *, .talk-timer, .talk-timer *, .text-size, .text-size *, .ticket, .ticket *, .to-stick, .to-stick *, .hero__profile, .hero__profile *, .speaker, .speaker *, .footer__help, .footer__help *, .chip--toggle, .chip--toggle *, .answer__input, .answer__input *, .avatar-editor, .avatar-editor *, .mark, .mark *, .online-dot, .online-dot *, .progress__track, .progress__track *, .relaxed-toggle__switch, .relaxed-toggle__switch *, .btn--primary, .btn--primary *, .pill, .pill *):hover {
+  color: var(--on-sky);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.main .relaxed-toggle > span:last-child,
+.main .relaxed-toggle strong {
+  color: var(--on-sky);
+}
+
+.main .relaxed-toggle > span:last-child {
+  color: var(--on-sky-soft);
+}
+
+/* El chip elegido es tinta con texto claro, también en el modo grupal */
+.main .chip.chip--on {
+  color: var(--paper);
 }
