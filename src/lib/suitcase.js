@@ -1,5 +1,5 @@
 // La maleta de pegatinas: cada país al que se responde pega una pegatina; con todas
-// sus preguntas respondidas, la pegatina se completa (pasa al degradé de atardecer).
+// sus preguntas respondidas, la pegatina se completa y se ilumina.
 // Todo es determinístico: la misma pegatina cae siempre en el mismo lugar, con la
 // misma forma y la misma inclinación, así la maleta no cambia cada vez que se abre.
 

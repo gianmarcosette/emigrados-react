@@ -26,7 +26,6 @@ export default function Perfil() {
     const timer = setTimeout(() => setJustSaved(false), 4000)
     return () => clearTimeout(timer)
   }, [justSaved])
-  // Antes de tener perfil el avión recién despega; con perfil y diario, atardecer.
 
   function save(next) {
     dispatch({ type: 'saveProfile', profile: next })
