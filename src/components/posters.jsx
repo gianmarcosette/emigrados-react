@@ -958,6 +958,501 @@ function Belice({ uid }) {
   )
 }
 
+function ReinoUnido({ uid }) {
+  // El Big Ben y un autobús rojo de dos pisos
+  return (
+    <Frame uid={uid}>
+      <Bands colors={['#c8d8e2', '#dbe5ea', '#eef1ee']} />
+      <path d="M18 42 q6 -5 12 -1 q6 -5 12 1 h-24 z" fill={C.snow} />
+      <g stroke={C.ink} strokeWidth="0.8">
+        <rect x="56" y="48" width="16" height="58" fill={C.stone} />
+        <path d="M56 48 L64 30 L72 48 Z" fill={C.brown} />
+        <circle cx="64" cy="56" r="5" fill={C.cream} />
+      </g>
+      <path d="M64 56 V53 M64 56 H66.5" stroke={C.ink} strokeWidth="0.8" />
+      <path d="M60 66 v34 M64 66 v34 M68 66 v34" stroke={C.brown} strokeWidth="0.8" />
+      <rect x="7" y="104" width="86" height="21" fill="#8f9bab" />
+      <g stroke={C.ink} strokeWidth="0.8">
+        <rect x="14" y="78" width="38" height="28" rx="3" fill="#d6332a" />
+        <rect x="17" y="81" width="32" height="7" fill={C.cream} />
+        <rect x="17" y="93" width="32" height="6" fill={C.cream} />
+        <circle cx="22" cy="106" r="3.5" fill={C.ink} />
+        <circle cx="44" cy="106" r="3.5" fill={C.ink} />
+      </g>
+      <Title y={24} fill="#d6332a" size={11.5} stroke={C.cream} spacing={0.4}>
+        REINO UNIDO
+      </Title>
+      <rect x="7" y="112" width="86" height="13" fill={C.navy} />
+      <Sub y={120.5}>LONDRES</Sub>
+    </Frame>
+  )
+}
+
+function Portugal({ uid }) {
+  // Un tranvía amarillo de Lisboa subiendo una calle empinada
+  return (
+    <Frame uid={uid}>
+      <Bands colors={['#8fc3e8', '#b5d8ef', '#dcecf4']} />
+      <g stroke={C.ink} strokeWidth="0.6">
+        <rect x="7" y="40" width="24" height="70" fill={C.peach} />
+        <rect x="70" y="36" width="23" height="74" fill="#7fc4c0" />
+        <path d="M7 40 L19 32 L31 40 Z M70 36 L81 28 L93 36 Z" fill={C.coral} />
+      </g>
+      <path d="M12 52 h6 v8 h-6 z M22 52 h6 v8 h-6 z M75 48 h6 v8 h-6 z M84 48 h6 v8 h-6 z" fill={C.cream} />
+      <path d="M7 118 L93 92 V125 H7 Z" fill="#8f9bab" />
+      <path d="M7 118 L93 92" stroke={C.ink} strokeWidth="0.8" />
+      <g stroke={C.ink} strokeWidth="0.8" strokeLinejoin="round">
+        <path d="M28 108 L28 84 L68 72 L68 96 Z" fill={C.yellow} />
+        <path
+          d="M32 92 L32 85 L38 83.2 L38 90.2 Z M42 89 L42 82 L48 80.2 L48 87.2 Z M52 86 L52 79 L58 77.2 L58 84.2 Z"
+          fill={C.cream}
+        />
+        <path d="M28 98 L68 86" stroke={C.cream} />
+        <circle cx="36" cy="106" r="3" fill={C.ink} />
+        <circle cx="60" cy="99" r="3" fill={C.ink} />
+      </g>
+      <path d="M48 76 L52 62" stroke={C.ink} strokeWidth="0.8" />
+      <Title y={24} fill={C.navy} size={14} spacing={1}>
+        PORTUGAL
+      </Title>
+      <rect x="7" y="112" width="86" height="13" fill={C.navy} />
+      <Sub y={120.5}>LISBOA</Sub>
+    </Frame>
+  )
+}
+
+function PaisesBajos({ uid }) {
+  // Un molino entre campos de tulipanes
+  return (
+    <Frame uid={uid}>
+      <Bands colors={['#9cc6e8', '#bcd9ee', '#e5eef3']} />
+      <g stroke={C.ink} strokeWidth="0.8" strokeLinejoin="round">
+        <path d="M42 92 L44 58 H56 L58 92 Z" fill={C.brown} />
+        <path d="M43 58 L50 50 L57 58 Z" fill={C.ink} />
+        <rect x="47" y="80" width="6" height="12" fill={C.ink} />
+      </g>
+      <g stroke={C.ink} strokeWidth="0.8" fill={C.cream}>
+        <path d="M50 54 L30 34 L34 30 L52 52 Z" />
+        <path d="M50 54 L70 34 L66 30 L48 52 Z" />
+        <path d="M50 54 L30 74 L34 78 L52 56 Z" />
+        <path d="M50 54 L70 74 L66 78 L48 56 Z" />
+      </g>
+      <circle cx="50" cy="54" r="2.4" fill={C.ink} />
+      <rect x="7" y="92" width="86" height="33" fill={C.green} />
+      {[0, 1, 2].map((r) => (
+        <path
+          key={r}
+          d={`M7 ${98 + r * 7} H93`}
+          stroke={[C.coral, C.yellow, C.rose][r]}
+          strokeWidth="4"
+          strokeDasharray="3 2"
+        />
+      ))}
+      <Title y={24} fill={C.orange} size={10.5} stroke={C.cream} spacing={0.5}>
+        PAÍSES BAJOS
+      </Title>
+      <rect x="7" y="114" width="86" height="11" fill={C.navy} />
+      <Sub y={121.5}>ÁMSTERDAM</Sub>
+    </Frame>
+  )
+}
+
+function Belgica({ uid }) {
+  // Las fachadas escalonadas de la Grand-Place de Bruselas
+  const facades = [
+    { x: 9, w: 18, h: 52, fill: C.tan },
+    { x: 27, w: 16, h: 60, fill: C.stone },
+    { x: 43, w: 16, h: 66, fill: C.yellow },
+    { x: 59, w: 16, h: 58, fill: C.tan },
+    { x: 75, w: 16, h: 52, fill: C.stone },
+  ]
+  return (
+    <Frame uid={uid}>
+      <Bands colors={['#9cc6e8', '#bcd9ee', '#e5eef3']} />
+      {facades.map(({ x, w, h, fill }) => {
+        const top = 106 - h
+        const step = w / 4
+        return (
+          <g key={x}>
+            <path
+              d={`M${x} 106 V${top + 8} h${step / 2} v-4 h${step} v-4 h${step} v4 h${step} v4 h${step / 2} V106 Z`}
+              fill={fill}
+              stroke={C.ink}
+              strokeWidth="0.7"
+            />
+            <path
+              d={`M${x + 4} ${top + 16} h3 v6 h-3 z M${x + w - 7} ${top + 16} h3 v6 h-3 z M${x + 4} ${top + 28} h3 v6 h-3 z M${x + w - 7} ${top + 28} h3 v6 h-3 z`}
+              fill={C.navy}
+            />
+          </g>
+        )
+      })}
+      <rect x="7" y="106" width="86" height="19" fill="#8f9bab" />
+      <Title y={24} fill={C.navy} size={15} spacing={1}>
+        BÉLGICA
+      </Title>
+      <rect x="7" y="112" width="86" height="13" fill={C.navy} />
+      <Sub y={120.5}>BRUSELAS</Sub>
+    </Frame>
+  )
+}
+
+function Suiza({ uid }) {
+  // El Matterhorn nevado sobre un valle verde
+  return (
+    <Frame uid={uid}>
+      <Bands colors={['#7fb4e3', '#a9cdec', '#d4e5f2']} />
+      <path d="M14 96 L44 40 L48 36 L52 44 L60 52 L86 96 Z" fill="#7d8a9e" stroke={C.ink} strokeWidth="0.8" />
+      <path d="M38 52 L44 40 L48 36 L52 44 L56 48 L50 50 L46 56 L42 52 Z" fill={C.snow} />
+      <path d="M7 96 Q30 82 50 92 Q70 82 93 92 V125 H7 Z" fill={C.green} />
+      <g stroke={C.ink} strokeWidth="0.6">
+        <rect x="62" y="96" width="14" height="10" fill={C.tan} />
+        <path d="M60 96 L69 89 L78 96 Z" fill={C.coral} />
+      </g>
+      <Title y={24} fill="#d6332a" size={20} stroke={C.cream} spacing={2}>
+        SUIZA
+      </Title>
+      <rect x="7" y="112" width="86" height="13" fill={C.navy} />
+      <Sub y={120.5}>MATTERHORN</Sub>
+    </Frame>
+  )
+}
+
+function Austria({ uid }) {
+  // La noria del Prater, en Viena
+  const spokes = Array.from({ length: 10 }, (_, i) => {
+    const a = (i / 10) * Math.PI * 2
+    return [50 + Math.cos(a) * 24, 64 + Math.sin(a) * 24]
+  })
+  return (
+    <Frame uid={uid}>
+      <Bands colors={['#f6b48f', '#f9cc9c', '#fbe2b3']} />
+      <circle cx="50" cy="64" r="24" fill="none" stroke={C.coral} strokeWidth="2" />
+      {spokes.map(([x, y]) => (
+        <g key={`${x}`}>
+          <path d={`M50 64 L${x} ${y}`} stroke={C.coral} strokeWidth="0.8" />
+          <rect x={x - 3} y={y - 2} width="6" height="5" rx="1" fill="#d6332a" stroke={C.ink} strokeWidth="0.5" />
+        </g>
+      ))}
+      <path d="M50 64 L38 104 M50 64 L62 104" stroke={C.ink} strokeWidth="1.6" />
+      <circle cx="50" cy="64" r="2.4" fill={C.ink} />
+      <rect x="7" y="104" width="86" height="21" fill={C.green} />
+      <Title y={24} fill="#d6332a" size={15} stroke={C.cream} spacing={1}>
+        AUSTRIA
+      </Title>
+      <rect x="7" y="112" width="86" height="13" fill={C.navy} />
+      <Sub y={120.5}>VIENA</Sub>
+    </Frame>
+  )
+}
+
+function Noruega({ uid }) {
+  // La aurora boreal sobre un fiordo
+  return (
+    <Frame uid={uid}>
+      <Bands colors={['#0f1d3d', '#1a2c55', '#24396b']} />
+      <path d="M7 50 Q30 30 50 46 T93 36" fill="none" stroke="#5ef0a6" strokeWidth="6" opacity="0.7" />
+      <path d="M7 62 Q34 44 56 58 T93 50" fill="none" stroke="#7ad8e6" strokeWidth="4" opacity="0.6" />
+      {[
+        [16, 30],
+        [72, 22],
+        [84, 60],
+        [30, 70],
+      ].map(([x, y]) => (
+        <circle key={`${x}${y}`} cx={x} cy={y} r="0.9" fill={C.snow} />
+      ))}
+      <path d="M7 98 L22 72 L36 84 L46 66 L62 98 Z" fill="#33415e" />
+      <path d="M50 98 L66 70 L80 80 L93 74 V98 Z" fill="#2a3650" />
+      <rect x="7" y="98" width="86" height="27" fill="#1d2a48" />
+      <g fill={C.coral} stroke={C.ink} strokeWidth="0.5">
+        <rect x="24" y="92" width="8" height="6" />
+        <path d="M23 92 L28 88 L33 92 Z" />
+      </g>
+      <rect x="27" y="94" width="2" height="2" fill={C.yellow} />
+      <Title y={24} fill="#5ef0a6" size={15} spacing={1.5}>
+        NORUEGA
+      </Title>
+      <Sub y={120}>AURORA BOREAL</Sub>
+    </Frame>
+  )
+}
+
+function Suecia({ uid }) {
+  // Las casitas de madera roja junto a un lago
+  return (
+    <Frame uid={uid}>
+      <Bands colors={['#a8d4ec', '#c6e2f0', '#e2eff3']} />
+      {[18, 48, 76].map((x, i) => (
+        <path key={x} d={`M${x} 90 L${x + 6} 60 L${x + 12} 90 Z`} fill={i === 1 ? C.deepGreen : C.green} />
+      ))}
+      <g stroke={C.ink} strokeWidth="0.8">
+        <rect x="30" y="74" width="26" height="18" fill="#a8322b" />
+        <path d="M28 74 L43 62 L58 74 Z" fill={C.ink} />
+        <rect x="40" y="82" width="6" height="10" fill={C.cream} />
+        <rect x="33" y="78" width="5" height="5" fill={C.cream} />
+        <rect x="48" y="78" width="5" height="5" fill={C.cream} />
+      </g>
+      <rect x="7" y="92" width="86" height="33" fill={C.sky} />
+      <path d="M30 94 h26 v8 h-26 z" fill="#a8322b" opacity="0.45" />
+      <path d="M14 104 h12 M62 110 h18" stroke={C.cream} strokeWidth="1" />
+      <Title y={24} fill={C.navy} size={17} spacing={1.5}>
+        SUECIA
+      </Title>
+      <rect x="7" y="112" width="86" height="13" fill={C.navy} />
+      <Sub y={120.5} fill={C.yellow}>
+        ESTOCOLMO
+      </Sub>
+    </Frame>
+  )
+}
+
+function Dinamarca({ uid }) {
+  // Las casas de colores del canal de Nyhavn, en Copenhague
+  const houses = [C.yellow, C.coral, '#7fc4c0', C.peach, '#a8322b', C.yellow]
+  return (
+    <Frame uid={uid}>
+      <Bands colors={['#a8d4ec', '#c6e2f0', '#e2eff3']} />
+      {houses.map((fill, i) => {
+        const x = 7 + i * 14.33
+        const top = 46 + (i % 3) * 5
+        return (
+          <g key={i}>
+            <path
+              d={`M${x} 92 V${top + 6} L${x + 7.2} ${top} L${x + 14.3} ${top + 6} V92 Z`}
+              fill={fill}
+              stroke={C.ink}
+              strokeWidth="0.6"
+            />
+            <path
+              d={`M${x + 3} ${top + 12} h3 v4 h-3 z M${x + 8.5} ${top + 12} h3 v4 h-3 z M${x + 3} ${top + 22} h3 v4 h-3 z M${x + 8.5} ${top + 22} h3 v4 h-3 z`}
+              fill={C.cream}
+            />
+          </g>
+        )
+      })}
+      <rect x="7" y="92" width="86" height="33" fill={C.navy} />
+      <g stroke={C.ink} strokeWidth="0.6">
+        <path d="M30 100 H58 L54 106 H34 Z" fill={C.cream} />
+        <path d="M44 100 V84" stroke={C.ink} strokeWidth="1" />
+      </g>
+      <path d="M12 110 h12 M64 104 h16" stroke={C.cream} strokeWidth="1" />
+      <Title y={24} fill="#a8322b" size={13} stroke={C.cream} spacing={1}>
+        DINAMARCA
+      </Title>
+      <Sub y={120}>COPENHAGUE</Sub>
+    </Frame>
+  )
+}
+
+function Finlandia({ uid }) {
+  // Un bosque de pinos nevado bajo el sol de medianoche
+  return (
+    <Frame uid={uid}>
+      <Bands colors={['#f3a6b8', '#f7c4b8', '#fbe0c4']} />
+      <circle cx="50" cy="64" r="12" fill={C.yellow} />
+      <path d="M7 86 Q50 76 93 86 V125 H7 Z" fill={C.snow} />
+      {[
+        [14, 70, 1],
+        [26, 60, 1.2],
+        [70, 62, 1.1],
+        [84, 72, 1],
+        [42, 80, 0.8],
+      ].map(([x, y, k]) => (
+        <g key={x}>
+          <path d={`M${x} ${y} L${x - 7 * k} ${y + 16 * k} H${x + 7 * k} Z`} fill={C.deepGreen} />
+          <path d={`M${x} ${y + 8 * k} L${x - 9 * k} ${y + 26 * k} H${x + 9 * k} Z`} fill={C.deepGreen} />
+          <path d={`M${x} ${y} L${x - 3 * k} ${y + 7 * k} H${x + 3 * k} Z`} fill={C.snow} />
+        </g>
+      ))}
+      <Title y={24} fill={C.navy} size={14} spacing={1}>
+        FINLANDIA
+      </Title>
+      <rect x="7" y="112" width="86" height="13" fill={C.navy} />
+      <Sub y={120.5}>LAPONIA</Sub>
+    </Frame>
+  )
+}
+
+function Islandia({ uid }) {
+  // Un géiser en erupción entre la tierra volcánica
+  return (
+    <Frame uid={uid}>
+      <Bands colors={['#a8c6d8', '#c4d8e2', '#e0e9ec']} />
+      <path d="M7 84 L22 70 L36 78 L52 66 L70 76 L93 68 V96 H7 Z" fill="#6f7c86" />
+      <g fill={C.snow}>
+        <path d="M44 96 Q42 70 46 46 Q50 36 54 46 Q58 70 56 96 Z" />
+        <circle cx="46" cy="44" r="7" />
+        <circle cx="54" cy="40" r="8" />
+        <circle cx="50" cy="32" r="7" />
+        <circle cx="41" cy="54" r="5" />
+        <circle cx="59" cy="52" r="5" />
+      </g>
+      <path d="M7 96 Q50 88 93 96 V125 H7 Z" fill="#4c5a52" />
+      <ellipse cx="50" cy="98" rx="12" ry="3" fill="#7ad8e6" />
+      <Title y={24} fill={C.navy} size={15} spacing={1.5}>
+        ISLANDIA
+      </Title>
+      <rect x="7" y="112" width="86" height="13" fill={C.navy} />
+      <Sub y={120.5}>GEYSIR</Sub>
+    </Frame>
+  )
+}
+
+function Polonia({ uid }) {
+  // Las casas del casco antiguo de Varsovia
+  const houses = ['#e8b04a', C.coral, '#7fb06a', C.peach, '#d58a4c']
+  return (
+    <Frame uid={uid}>
+      <Bands colors={['#9cc6e8', '#bcd9ee', '#e5eef3']} />
+      {houses.map((fill, i) => {
+        const x = 7 + i * 17.2
+        const top = 44 + (i % 2) * 8
+        return (
+          <g key={i}>
+            <rect x={x} y={top} width="17.2" height={104 - top} fill={fill} stroke={C.ink} strokeWidth="0.6" />
+            <path
+              d={`M${x} ${top} L${x + 8.6} ${top - 8} L${x + 17.2} ${top} Z`}
+              fill="#a8322b"
+              stroke={C.ink}
+              strokeWidth="0.6"
+            />
+            {[0, 1, 2].map((r) => (
+              <path
+                key={r}
+                d={`M${x + 3} ${top + 8 + r * 14} h4 v7 h-4 z M${x + 10} ${top + 8 + r * 14} h4 v7 h-4 z`}
+                fill={C.cream}
+              />
+            ))}
+          </g>
+        )
+      })}
+      <rect x="7" y="104" width="86" height="21" fill="#8f9bab" />
+      <Title y={24} fill="#d6332a" size={15} stroke={C.cream} spacing={1}>
+        POLONIA
+      </Title>
+      <rect x="7" y="112" width="86" height="13" fill={C.navy} />
+      <Sub y={120.5}>VARSOVIA</Sub>
+    </Frame>
+  )
+}
+
+function RepublicaCheca({ uid }) {
+  // Las torres de la iglesia de Týn sobre los techos de Praga
+  return (
+    <Frame uid={uid}>
+      <Bands colors={['#f6b48f', '#f9cc9c', '#fbe2b3']} />
+      <g fill={C.ink}>
+        <path d="M34 104 V58 L38 44 L42 58 V104 Z" />
+        <path d="M58 104 V58 L62 44 L66 58 V104 Z" />
+        <path d="M40 104 V70 H60 V104 Z" />
+        <path d="M31 60 L34 54 L37 60 Z M39 60 L42 54 L45 60 Z M55 60 L58 54 L61 60 Z M63 60 L66 54 L69 60 Z" />
+      </g>
+      <path d="M38 44 V38 M62 44 V38" stroke={C.yellow} strokeWidth="1.2" />
+      <path
+        d="M7 104 L14 94 H28 L32 104 Z M68 104 L72 92 H86 L93 104 Z"
+        fill="#c45a3c"
+        stroke={C.ink}
+        strokeWidth="0.6"
+      />
+      <rect x="7" y="104" width="86" height="21" fill={C.navy} />
+      <Title y={22} fill={C.navy} size={9} spacing={0.2}>
+        REPÚBLICA CHECA
+      </Title>
+      <Sub y={120}>PRAGA</Sub>
+    </Frame>
+  )
+}
+
+function Eslovaquia({ uid }) {
+  // El castillo blanco de Bratislava sobre el Danubio
+  return (
+    <Frame uid={uid}>
+      <Bands colors={['#a8d4ec', '#c6e2f0', '#e2eff3']} />
+      <path d="M7 82 Q50 64 93 82 V96 H7 Z" fill={C.green} />
+      <g stroke={C.ink} strokeWidth="0.8">
+        <rect x="30" y="56" width="40" height="26" fill={C.snow} />
+        {[30, 64].map((x) => (
+          <g key={x}>
+            <rect x={x - 2} y="48" width="10" height="34" fill={C.snow} />
+            <path d={`M${x - 3} 48 L${x + 3} 40 L${x + 9} 48 Z`} fill="#c45a3c" />
+          </g>
+        ))}
+      </g>
+      <path d="M38 62 h4 v6 h-4 z M48 62 h4 v6 h-4 z M58 62 h4 v6 h-4 z" fill={C.navy} />
+      <rect x="7" y="96" width="86" height="29" fill={C.sky} />
+      <path d="M14 104 h14 M58 110 h20" stroke={C.cream} strokeWidth="1" />
+      <Title y={24} fill={C.navy} size={12.5} spacing={0.8}>
+        ESLOVAQUIA
+      </Title>
+      <rect x="7" y="112" width="86" height="13" fill={C.navy} />
+      <Sub y={120.5}>BRATISLAVA</Sub>
+    </Frame>
+  )
+}
+
+function Hungria({ uid }) {
+  // El Parlamento de Budapest reflejado en el Danubio
+  return (
+    <Frame uid={uid}>
+      <Bands colors={['#f7b183', '#fbcf8f', '#fde6a8']} />
+      <g fill={C.snow} stroke={C.ink} strokeWidth="0.7">
+        <rect x="12" y="74" width="76" height="20" />
+        <path d="M38 74 Q38 54 50 50 Q62 54 62 74 Z" fill="#c45a3c" />
+        <path d="M50 50 V40" stroke={C.ink} strokeWidth="1" />
+        {[14, 24, 70, 80].map((x) => (
+          <path key={x} d={`M${x} 74 V66 L${x + 3} 60 L${x + 6} 66 V74 Z`} />
+        ))}
+      </g>
+      <path
+        d="M16 80 v10 M22 80 v10 M28 80 v10 M34 80 v10 M66 80 v10 M72 80 v10 M78 80 v10 M84 80 v10"
+        stroke={C.ink}
+        strokeWidth="0.6"
+      />
+      <rect x="7" y="94" width="86" height="31" fill={C.sky} />
+      <path d="M12 94 h76 v8 h-76 z" fill={C.snow} opacity="0.35" />
+      <path d="M40 94 Q50 104 60 94 Z" fill="#c45a3c" opacity="0.4" />
+      <Title y={24} fill={C.green} size={15} stroke={C.cream} spacing={1}>
+        HUNGRÍA
+      </Title>
+      <rect x="7" y="112" width="86" height="13" fill={C.navy} />
+      <Sub y={120.5}>BUDAPEST</Sub>
+    </Frame>
+  )
+}
+
+function Luxemburgo({ uid }) {
+  // La ciudad vieja sobre las murallas y el viaducto de arcos sobre el valle
+  return (
+    <Frame uid={uid}>
+      <Bands colors={['#9cc6e8', '#bcd9ee', '#e5eef3']} />
+      <g stroke={C.ink} strokeWidth="0.6">
+        <rect x="12" y="48" width="20" height="16" fill={C.cream} />
+        <rect x="34" y="44" width="18" height="20" fill={C.peach} />
+        <rect x="54" y="50" width="20" height="14" fill={C.cream} />
+        <rect x="76" y="46" width="12" height="18" fill={C.stone} />
+        <path
+          d="M10 48 L22 40 L34 48 Z M32 44 L43 36 L54 44 Z M52 50 L64 42 L76 50 Z M74 46 L82 38 L90 46 Z"
+          fill="#5d6675"
+        />
+      </g>
+      <path d="M7 64 H93 V78 H7 Z" fill={C.stone} stroke={C.ink} strokeWidth="0.6" />
+      <path d="M7 71 h86" stroke={C.brown} strokeWidth="0.5" />
+      <rect x="7" y="78" width="86" height="34" fill={C.green} />
+      <path
+        d="M7 84 H93 V112 H86 V100 Q79 88 72 100 V112 H64 V100 Q57 88 50 100 V112 H42 V100 Q35 88 28 100 V112 H20 V100 Q13 88 7 98 Z"
+        fill="#a9967a"
+        stroke={C.ink}
+        strokeWidth="0.6"
+      />
+      <Title y={24} fill={C.navy} size={11} spacing={0.6}>
+        LUXEMBURGO
+      </Title>
+      <rect x="7" y="112" width="86" height="13" fill={C.navy} />
+      <Sub y={120.5}>CIUDAD VIEJA</Sub>
+    </Frame>
+  )
+}
+
 // Por código de país (el mismo id que usa el resto del juego)
 const POSTERS = {
   '032': Argentina,
@@ -991,6 +1486,22 @@ const POSTERS = {
   340: Honduras,
   558: Nicaragua,
   '084': Belice,
+  826: ReinoUnido,
+  620: Portugal,
+  528: PaisesBajos,
+  '056': Belgica,
+  756: Suiza,
+  '040': Austria,
+  578: Noruega,
+  752: Suecia,
+  208: Dinamarca,
+  246: Finlandia,
+  352: Islandia,
+  616: Polonia,
+  203: RepublicaCheca,
+  703: Eslovaquia,
+  348: Hungria,
+  442: Luxemburgo,
 }
 
 // El afiche del país, centrado en 0,0 como el resto de las pegatinas. Hasta completar el
