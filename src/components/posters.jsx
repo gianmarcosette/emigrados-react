@@ -848,32 +848,22 @@ function Guatemala({ uid }) {
 }
 
 function ElSalvador({ uid }) {
-  // Una ola perfecta para surfear en la costa del Pacífico
+  // El lago de Coatepeque, turquesa, dentro de la caldera de un volcán
   return (
     <Frame uid={uid}>
       <Bands colors={['#f7b183', '#fbcf8f', '#fde6a8']} />
-      <circle cx="72" cy="42" r="9" fill={C.orange} />
-      <path d="M7 76 H93 V125 H7 Z" fill={C.teal} />
-      <path
-        d="M7 112 V84 Q24 58 50 60 Q66 62 68 76 Q60 70 52 74 Q44 80 48 92 Q52 102 64 104 L93 104 V112 Z"
-        fill="#3fb3c2"
-        stroke={C.ink}
-        strokeWidth="0.8"
-      />
-      <path d="M50 60 Q66 62 68 76 Q60 70 52 74" fill={C.snow} />
-      <path d="M12 96 Q30 74 48 66" fill="none" stroke={C.snow} strokeWidth="1.2" />
-      <g stroke={C.ink} strokeWidth="0.8" strokeLinejoin="round">
-        <path d="M30 92 L50 86 L52 88 L32 95 Z" fill={C.yellow} />
-        <path d="M40 89 L42 80 L45 79 L46 87 Z" fill={C.coral} />
-        <circle cx="43.5" cy="77" r="2" fill={C.brown} />
-        <path d="M42 82 L37 80 M45 82 L50 79" />
-      </g>
-      <path d="M7 104 H93 V125 H7 Z" fill="#e9cf98" />
-      <Title y={24} fill={C.navy} size={10.5} spacing={1}>
+      <circle cx="74" cy="40" r="8" fill={C.orange} />
+      <path d="M7 64 Q14 54 24 56 Q36 46 50 52 Q64 44 78 54 Q88 52 93 60 V125 H7 Z" fill={C.deepGreen} />
+      <path d="M7 72 Q20 62 34 66 Q50 58 66 66 Q80 60 93 70 V125 H7 Z" fill={C.green} />
+      <ellipse cx="50" cy="90" rx="38" ry="16" fill="#2fc0c9" stroke={C.deepGreen} strokeWidth="2" />
+      <path d="M22 88 h14 M58 96 h18 M40 102 h10" stroke={C.cream} strokeWidth="1" />
+      <path d="M60 86 Q64 80 70 84 Q68 88 60 86 Z" fill={C.deepGreen} />
+      <path d="M7 104 Q30 98 50 104 Q70 98 93 104 V125 H7 Z" fill={C.deepGreen} />
+      <Title y={24} fill={C.navy} size={11.5} spacing={0.6}>
         EL SALVADOR
       </Title>
       <rect x="7" y="112" width="86" height="13" fill={C.navy} />
-      <Sub y={120.5}>LA LIBERTAD</Sub>
+      <Sub y={120.5}>COATEPEQUE</Sub>
     </Frame>
   )
 }
@@ -1274,26 +1264,39 @@ function Finlandia({ uid }) {
 }
 
 function Islandia({ uid }) {
-  // Un géiser en erupción entre la tierra volcánica
+  // La playa de arena negra de Reynisfjara: columnas de basalto y agujas de roca en el mar
+  const columns = [10, 15, 20, 25, 30, 35, 40]
   return (
     <Frame uid={uid}>
-      <Bands colors={['#a8c6d8', '#c4d8e2', '#e0e9ec']} />
-      <path d="M7 84 L22 70 L36 78 L52 66 L70 76 L93 68 V96 H7 Z" fill="#6f7c86" />
-      <g fill={C.snow}>
-        <path d="M44 96 Q42 70 46 46 Q50 36 54 46 Q58 70 56 96 Z" />
-        <circle cx="46" cy="44" r="7" />
-        <circle cx="54" cy="40" r="8" />
-        <circle cx="50" cy="32" r="7" />
-        <circle cx="41" cy="54" r="5" />
-        <circle cx="59" cy="52" r="5" />
+      <Bands colors={['#b9cbd6', '#cfdbe2', '#e4eaec']} />
+      <path d="M18 42 q6 -5 12 -1 q6 -5 12 1 h-24 z M60 34 q5 -4 10 0 q4 -3 8 1 h-18 z" fill={C.snow} />
+      <rect x="7" y="72" width="86" height="22" fill="#4f6a7a" />
+      <g fill="#2a2d33" stroke={C.ink} strokeWidth="0.6">
+        <path d="M62 94 V66 L65 54 L68 66 V94 Z" />
+        <path d="M72 94 V60 L76 48 L80 60 V94 Z" />
+        <path d="M84 94 V70 L87 62 L90 70 V94 Z" />
       </g>
-      <path d="M7 96 Q50 88 93 96 V125 H7 Z" fill="#4c5a52" />
-      <ellipse cx="50" cy="98" rx="12" ry="3" fill="#7ad8e6" />
+      <path d="M7 50 Q24 46 46 58 V100 H7 Z" fill="#3a3d44" />
+      {columns.map((x, i) => (
+        <rect
+          key={x}
+          x={x}
+          y={60 + (i % 3) * 5}
+          width="4.4"
+          height={40 - (i % 3) * 5}
+          fill="#2a2d33"
+          stroke={C.ink}
+          strokeWidth="0.5"
+        />
+      ))}
+      <path d="M7 92 Q40 84 93 90 V96 Q50 92 7 98 Z" fill={C.snow} />
+      <path d="M7 98 Q50 92 93 96 V125 H7 Z" fill="#1f2125" />
+      <path d="M14 108 q8 -2 16 0 M56 114 q10 -2 20 0" stroke="#4a4d55" strokeWidth="1" fill="none" />
       <Title y={24} fill={C.navy} size={15} spacing={1.5}>
         ISLANDIA
       </Title>
       <rect x="7" y="112" width="86" height="13" fill={C.navy} />
-      <Sub y={120.5}>GEYSIR</Sub>
+      <Sub y={120.5}>ARENA NEGRA</Sub>
     </Frame>
   )
 }
@@ -1574,37 +1577,30 @@ function GuineaEcuatorial({ uid }) {
 }
 
 function TrinidadYTobago({ uid }) {
-  // Un tambor metálico (steelpan) y el carnaval
+  // El muelle de Pigeon Point, en Tobago, con su techo de paja sobre el agua turquesa
   return (
     <Frame uid={uid}>
-      <rect x="7" y="7" width="86" height="118" fill="#c4473a" />
-      {[
-        [16, 40, C.yellow],
-        [84, 46, C.teal],
-        [20, 96, C.rose],
-        [80, 94, C.yellow],
-      ].map(([x, y, fill]) => (
-        <path key={`${x}${y}`} d={`M${x} ${y} l2 -6 l2 6 l6 2 l-6 2 l-2 6 l-2 -6 l-6 -2 z`} fill={fill} />
-      ))}
-      <g stroke={C.ink} strokeWidth="0.8">
-        <ellipse cx="50" cy="66" rx="24" ry="9" fill="#cfd6dd" />
-        <path d="M26 66 V92 Q50 104 74 92 V66" fill="#9aa5b1" />
-        <ellipse cx="50" cy="66" rx="24" ry="9" fill="#cfd6dd" />
-        <ellipse cx="42" cy="65" rx="6" ry="2.6" fill="#b8c1ca" />
-        <ellipse cx="58" cy="65" rx="6" ry="2.6" fill="#b8c1ca" />
-        <ellipse cx="50" cy="70" rx="5" ry="2" fill="#b8c1ca" />
+      <Bands colors={['#5fc3e6', '#8fd6ec', '#bde7f1']} />
+      <circle cx="24" cy="46" r="7" fill={C.yellow} />
+      <Bands colors={['#2fc0c9', '#28aebd', '#2299ab']} y={70} h={55} />
+      <path d="M14 82 h12 M64 104 h16 M30 112 h12" stroke={C.cream} strokeWidth="1" />
+      <path d="M7 94 L56 82" stroke={C.brown} strokeWidth="3" />
+      <path d="M12 93 v8 M24 90 v8 M36 87 v8 M48 84 v8" stroke={C.brown} strokeWidth="1.2" />
+      <g stroke={C.ink} strokeWidth="0.8" strokeLinejoin="round">
+        <rect x="52" y="78" width="26" height="4" fill={C.brown} />
+        <path d="M55 82 v10 M75 82 v10 M55 66 v12 M75 66 v12" stroke={C.brown} strokeWidth="1.6" />
+        <path d="M48 68 L65 54 L82 68 Z" fill="#d9b26a" />
       </g>
-      <path d="M28 84 Q50 94 72 84" fill="none" stroke={C.yellow} strokeWidth="2" />
-      <Title y={20} fill={C.yellow} size={12} spacing={0.6}>
+      <path d="M52 64 l4 -3 M60 62 l3 -4 M68 60 l3 3 M76 64 l2 2" stroke="#b08a48" strokeWidth="0.8" />
+      <path d="M52 92 h26 v4 h-26 z" fill="#1f8a99" opacity="0.6" />
+      <Title y={20} fill={C.navy} size={12} spacing={0.6}>
         TRINIDAD
       </Title>
-      <Title y={31} fill={C.yellow} size={9} spacing={0.6}>
+      <Title y={31} fill={C.navy} size={9} spacing={0.6}>
         Y TOBAGO
       </Title>
-      <rect x="7" y="112" width="86" height="13" fill={C.ink} />
-      <Sub y={120.5} fill={C.yellow}>
-        CARNAVAL
-      </Sub>
+      <rect x="7" y="112" width="86" height="13" fill={C.navy} />
+      <Sub y={120.5}>PIGEON POINT</Sub>
     </Frame>
   )
 }
