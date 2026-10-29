@@ -122,7 +122,7 @@ export default function FirstFlight({ open, hasProfile, onClose }) {
               <li>Por ahora, todo se guarda solo en este dispositivo.</li>
               <li>Nadie más puede leer tu perfil, tus respuestas ni tu diario.</li>
               <li>En el modo Online, la otra persona solo ve tu nombre, tu edad y el país donde vivís.</li>
-              <li>Podés borrar tu perfil y tus respuestas cuando quieras, desde Mi perfil.</li>
+              <li>Podés borrar tu perfil y todas tus respuestas cuando quieras, desde Mi perfil.</li>
             </ul>
           </>
         )}
