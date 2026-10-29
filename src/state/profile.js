@@ -6,6 +6,14 @@ export const MIN_AGE = 18
 export const MAX_AGE = 120
 export const NAME_MAX = 40
 export const BIO_MAX = 200
+// Países donde viviste antes del actual (para quien ya emigró más de una vez)
+export const PREVIOUS_MAX = 6
+
+/** Lista limpia de países anteriores: códigos válidos, sin repetir y sin el país donde vivís hoy. */
+export function cleanPrevious(list, country) {
+  if (!Array.isArray(list)) return []
+  return [...new Set(list)].filter((code) => isCountryCode(code) && code !== country).slice(0, PREVIOUS_MAX)
+}
 
 // Código de pasajero como el localizador de una reserva aérea: 6 caracteres,
 // sin los que se confunden al leerlos (0/O, 1/I/L).
@@ -23,7 +31,7 @@ function cryptoRandom() {
 }
 
 /** Devuelve { campo: mensaje } con los errores; vacío si el perfil es válido. */
-export function validateProfile({ name, age, bio, country }) {
+export function validateProfile({ name, age, bio, country, birthCountry }) {
   const errors = {}
   const cleanName = (name ?? '').trim()
   if (!cleanName) errors.name = 'Contanos cómo te llamás.'
@@ -37,6 +45,9 @@ export function validateProfile({ name, age, bio, country }) {
   // El país donde vivís conecta a las personas en el modo online
   if (!isCountryCode(country)) errors.country = 'Elegí el país donde vivís hoy.'
 
+  // Dónde naciste es opcional: hay a quien no le resulta una pregunta cómoda
+  if (birthCountry && !isCountryCode(birthCountry)) errors.birthCountry = 'Elegí un país de la lista.'
+
   if ((bio ?? '').length > BIO_MAX) errors.bio = `Usá hasta ${BIO_MAX} caracteres.`
   return errors
 }
@@ -48,6 +59,10 @@ export function buildProfile(form, previous, now = new Date().toISOString()) {
     age: Number(form.age),
     bio: (form.bio ?? '').trim(),
     country: isCountryCode(form.country) ? form.country : null,
+    birthCountry: isCountryCode(form.birthCountry) ? form.birthCountry : null,
+    previousCountries: cleanPrevious(form.previousCountries, form.country),
+    // Que el origen se vea en el modo Online lo decide cada uno; de entrada, no se muestra
+    showOrigin: Boolean(form.showOrigin),
     photo: form.photo ?? null,
     // Tu pasajero dibujado; si hay foto, se muestra la foto
     avatar: normalizeAvatar(form.avatar),
@@ -66,6 +81,9 @@ export function normalizeProfile(data, legacyName) {
       bio: typeof data.bio === 'string' ? data.bio : '',
       // Los perfiles anteriores no tenían país: se pide al completar el perfil
       country: isCountryCode(data.country) ? data.country : null,
+      birthCountry: isCountryCode(data.birthCountry) ? data.birthCountry : null,
+      previousCountries: cleanPrevious(data.previousCountries, data.country),
+      showOrigin: data.showOrigin === true,
       photo: typeof data.photo === 'string' && data.photo.startsWith('data:image/') ? data.photo : null,
       avatar: normalizeAvatar(data.avatar),
       // Los perfiles creados antes de que existiera el código reciben uno nuevo
@@ -80,6 +98,9 @@ export function normalizeProfile(data, legacyName) {
       age: null,
       bio: '',
       country: null,
+      birthCountry: null,
+      previousCountries: [],
+      showOrigin: false,
       photo: null,
       code: generatePassengerCode(),
       createdAt: null,

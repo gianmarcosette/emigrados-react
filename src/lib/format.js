@@ -43,3 +43,19 @@ export function formatShortDate(iso) {
   const d = new Date(iso)
   return Number.isNaN(d.getTime()) ? '' : dayFormatter.format(d).replace('.', '')
 }
+
+const listFormatter = new Intl.ListFormat('es', { style: 'long', type: 'conjunction' })
+
+// "Italia, Chile y España"
+export function listJoin(items) {
+  return listFormatter.format(items)
+}
+
+// "03:12" en la zona horaria de otra persona (para que la distancia se note)
+export function formatTimeIn(timeZone, date = new Date()) {
+  try {
+    return new Intl.DateTimeFormat('es-AR', { hour: '2-digit', minute: '2-digit', hourCycle: 'h23', timeZone }).format(date)
+  } catch {
+    return ''
+  }
+}

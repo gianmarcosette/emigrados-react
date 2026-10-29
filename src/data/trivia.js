@@ -1,8 +1,13 @@
 // Preguntas de cultura general del modo online, por país donde vive cada persona.
+// El modo Online está abierto solo en estos países: España, los destinos más elegidos
+// (Australia, Alemania, Irlanda, Nueva Zelanda, Francia, Italia, Portugal, Reino Unido,
+// Estados Unidos y Canadá) y toda Latinoamérica. Sumar un país = escribir sus preguntas.
 // Clave: código ISO alfa-2 (el mismo del perfil). `mapId`: código numérico del mapa,
 // para dibujar la silueta del país.
 // Cada pregunta: texto, opciones (la primera es la correcta; el orden se mezcla al armar
 // el duelo) y un dato curioso que se muestra después de responder.
+
+import { countryName } from './residence.js'
 
 function q(text, options, fact) {
   return { text, options, fact }
@@ -11,6 +16,8 @@ function q(text, options, fact) {
 export const TRIVIA = {
   AR: {
     mapId: '032',
+    // Hora de su ciudad más poblada: para mostrar qué hora es allá
+    timeZone: 'America/Argentina/Buenos_Aires',
     questions: [
       q(
         '¿Cuál es la capital de Argentina?',
@@ -81,6 +88,7 @@ export const TRIVIA = {
   },
   UY: {
     mapId: '858',
+    timeZone: 'America/Montevideo',
     questions: [
       q(
         '¿Cuál es la capital de Uruguay?',
@@ -146,6 +154,7 @@ export const TRIVIA = {
   },
   CL: {
     mapId: '152',
+    timeZone: 'America/Santiago',
     questions: [
       q(
         '¿Cuál es la capital de Chile?',
@@ -211,6 +220,7 @@ export const TRIVIA = {
   },
   CO: {
     mapId: '170',
+    timeZone: 'America/Bogota',
     questions: [
       q(
         '¿Cuál es la capital de Colombia?',
@@ -276,6 +286,7 @@ export const TRIVIA = {
   },
   VE: {
     mapId: '862',
+    timeZone: 'America/Caracas',
     questions: [
       q(
         '¿Cuál es la capital de Venezuela?',
@@ -341,6 +352,7 @@ export const TRIVIA = {
   },
   PE: {
     mapId: '604',
+    timeZone: 'America/Lima',
     questions: [
       q(
         '¿Cuál es la capital de Perú?',
@@ -406,6 +418,7 @@ export const TRIVIA = {
   },
   MX: {
     mapId: '484',
+    timeZone: 'America/Mexico_City',
     questions: [
       q(
         '¿Cuál es la capital de México?',
@@ -471,6 +484,7 @@ export const TRIVIA = {
   },
   CU: {
     mapId: '192',
+    timeZone: 'America/Havana',
     questions: [
       q(
         '¿Cuál es la capital de Cuba?',
@@ -536,6 +550,7 @@ export const TRIVIA = {
   },
   BR: {
     mapId: '076',
+    timeZone: 'America/Sao_Paulo',
     questions: [
       q(
         '¿Cuál es la capital de Brasil?',
@@ -601,6 +616,7 @@ export const TRIVIA = {
   },
   ES: {
     mapId: '724',
+    timeZone: 'Europe/Madrid',
     questions: [
       q(
         '¿Cuál es la capital de España?',
@@ -666,6 +682,7 @@ export const TRIVIA = {
   },
   PT: {
     mapId: '620',
+    timeZone: 'Europe/Lisbon',
     questions: [
       q(
         '¿Cuál es la capital de Portugal?',
@@ -731,6 +748,7 @@ export const TRIVIA = {
   },
   IT: {
     mapId: '380',
+    timeZone: 'Europe/Rome',
     questions: [
       q(
         '¿Cuál es la capital de Italia?',
@@ -796,6 +814,7 @@ export const TRIVIA = {
   },
   FR: {
     mapId: '250',
+    timeZone: 'Europe/Paris',
     questions: [
       q(
         '¿Cuál es la capital de Francia?',
@@ -861,6 +880,7 @@ export const TRIVIA = {
   },
   DE: {
     mapId: '276',
+    timeZone: 'Europe/Berlin',
     questions: [
       q(
         '¿Cuál es la capital de Alemania?',
@@ -926,6 +946,7 @@ export const TRIVIA = {
   },
   GB: {
     mapId: '826',
+    timeZone: 'Europe/London',
     questions: [
       q(
         '¿Cuál es la capital del Reino Unido?',
@@ -996,6 +1017,7 @@ export const TRIVIA = {
   },
   US: {
     mapId: '840',
+    timeZone: 'America/New_York',
     questions: [
       q(
         '¿Cuál es la capital de Estados Unidos?',
@@ -1061,6 +1083,7 @@ export const TRIVIA = {
   },
   CA: {
     mapId: '124',
+    timeZone: 'America/Toronto',
     questions: [
       q(
         '¿Cuál es la capital de Canadá?',
@@ -1126,6 +1149,7 @@ export const TRIVIA = {
   },
   AU: {
     mapId: '036',
+    timeZone: 'Australia/Sydney',
     questions: [
       q(
         '¿Cuál es la capital de Australia?',
@@ -1189,6 +1213,739 @@ export const TRIVIA = {
       ),
     ],
   },
+  IE: {
+    mapId: '372',
+    timeZone: 'Europe/Dublin',
+    questions: [
+      q(
+        '¿Cuál es la capital de Irlanda?',
+        ['Dublín', 'Cork', 'Galway', 'Belfast'],
+        'Dublín nació como un asentamiento vikingo en el siglo IX. Belfast es la capital de Irlanda del Norte, que es parte del Reino Unido.',
+      ),
+      q(
+        '¿Qué santo patrono de Irlanda se celebra cada 17 de marzo?',
+        ['San Patricio', 'San Jorge', 'San Andrés', 'San Columba'],
+        'Según la tradición, San Patricio usaba el trébol de tres hojas para explicar la Santísima Trinidad.',
+      ),
+      q(
+        '¿Qué instrumento musical es el símbolo oficial de Irlanda?',
+        ['El arpa', 'La gaita', 'El violín', 'La flauta'],
+        'Irlanda es de los pocos países cuyo emblema es un instrumento: el arpa aparece en sus monedas de euro.',
+      ),
+      q(
+        '¿Qué idioma, además del inglés, es oficial en Irlanda?',
+        ['Irlandés (gaélico)', 'Galés', 'Escocés', 'Bretón'],
+        'Las zonas donde el irlandés se habla a diario se llaman Gaeltacht, y están sobre todo en la costa oeste.',
+      ),
+      q(
+        '¿Qué cerveza negra nació en Dublín en 1759?',
+        ['Guinness', 'Heineken', 'Corona', 'Stella Artois'],
+        "Arthur Guinness firmó el arrendamiento de la fábrica de St. James's Gate por 9.000 años.",
+      ),
+      q(
+        "¿Qué escritor irlandés escribió 'Ulises'?",
+        ['James Joyce', 'Oscar Wilde', 'Samuel Beckett', 'Bram Stoker'],
+        'La novela transcurre en un solo día en Dublín, el 16 de junio de 1904, que hoy se festeja como Bloomsday.',
+      ),
+      q(
+        '¿Qué crisis del siglo XIX hizo emigrar a más de un millón de irlandeses?',
+        ['La Gran Hambruna de la papa', 'La fiebre del oro', 'La Primera Guerra Mundial', 'La peste negra'],
+        'Entre 1845 y 1852 la isla perdió cerca de una cuarta parte de su población, entre muertes y emigración.',
+      ),
+      q(
+        '¿Qué acantilados famosos están en la costa oeste de Irlanda?',
+        ['Acantilados de Moher', 'Acantilados de Dover', 'Acantilados de Los Gigantes', 'Acantilados de Étretat'],
+        'En su punto más alto llegan a unos 214 metros sobre el océano Atlántico.',
+      ),
+      q(
+        '¿Qué deporte tradicional irlandés se juega con un palo de madera llamado hurley?',
+        ['Hurling', 'Críquet', 'Hockey sobre hielo', 'Lacrosse'],
+        'Es uno de los deportes de campo más antiguos del mundo: se dice que tiene más de 3.000 años.',
+      ),
+      q(
+        '¿Qué fiesta celta, que se celebraba en Irlanda, dio origen a Halloween?',
+        ['Samhain', 'Beltane', 'Imbolc', 'Yule'],
+        'Samhain marcaba el fin de la cosecha y el comienzo de la mitad oscura del año.',
+      ),
+    ],
+  },
+  NZ: {
+    mapId: '554',
+    timeZone: 'Pacific/Auckland',
+    questions: [
+      q(
+        '¿Cuál es la capital de Nueva Zelanda?',
+        ['Wellington', 'Auckland', 'Christchurch', 'Queenstown'],
+        'Wellington es la capital de un país soberano más austral del mundo. Auckland es la ciudad más poblada.',
+      ),
+      q(
+        '¿Cómo se llama el pueblo originario de Nueva Zelanda?',
+        ['Maorí', 'Aborigen', 'Inuit', 'Guaraní'],
+        'El te reo maorí es idioma oficial del país desde 1987.',
+      ),
+      q(
+        '¿Qué ave que no vuela es el símbolo del país?',
+        ['El kiwi', 'El emú', 'El pingüino', 'El avestruz'],
+        "Por eso a los neozelandeses se les dice 'kiwis'.",
+      ),
+      q(
+        '¿Qué danza ceremonial maorí hacen los All Blacks antes de cada partido?',
+        ['Haka', 'Hula', 'Capoeira', 'Flamenco'],
+        "El haka más conocido, 'Ka Mate', lo compuso el jefe maorí Te Rauparaha a principios del siglo XIX.",
+      ),
+      q(
+        '¿Cuál es el deporte más popular de Nueva Zelanda?',
+        ['Rugby', 'Fútbol', 'Béisbol', 'Básquet'],
+        'Los All Blacks ganaron la Copa del Mundo de rugby tres veces: en 1987, 2011 y 2015.',
+      ),
+      q(
+        '¿Qué trilogía de películas se filmó en los paisajes de Nueva Zelanda?',
+        ['El Señor de los Anillos', 'Harry Potter', 'Star Wars', 'Matrix'],
+        'El set de Hobbiton, en Matamata, quedó armado y hoy se puede visitar.',
+      ),
+      q(
+        '¿Qué tratado de 1840 firmaron la Corona británica y jefes maoríes?',
+        ['Tratado de Waitangi', 'Tratado de Versalles', 'Tratado de Tordesillas', 'Tratado de París'],
+        'Se lo considera el documento fundacional del país; el 6 de febrero, día de su firma, es feriado nacional.',
+      ),
+      q(
+        '¿En qué año Nueva Zelanda fue el primer país en dar el voto a las mujeres?',
+        ['1893', '1920', '1945', '1810'],
+        'Kate Sheppard encabezó la campaña; su cara aparece en el billete de 10 dólares.',
+      ),
+      q(
+        '¿Qué neozelandés llegó a la cima del Everest en 1953?',
+        ['Edmund Hillary', 'Ernest Rutherford', 'Peter Jackson', 'Russell Crowe'],
+        'Lo hizo junto al sherpa Tenzing Norgay; la cara de Hillary aparece en el billete de 5 dólares.',
+      ),
+      q(
+        '¿En qué isla vive la mayor parte de la población?',
+        ['Isla Norte', 'Isla Sur', 'Isla Stewart', 'Isla Chatham'],
+        'Aunque la Isla Sur es más grande, cerca de tres de cada cuatro personas viven en la Isla Norte.',
+      ),
+    ],
+  },
+  BO: {
+    mapId: '068',
+    timeZone: 'America/La_Paz',
+    questions: [
+      q(
+        '¿Cuál es la capital constitucional de Bolivia?',
+        ['Sucre', 'La Paz', 'Santa Cruz de la Sierra', 'Cochabamba'],
+        'La Paz es la sede del gobierno: Bolivia tiene una capital constitucional y otra ciudad donde gobierna.',
+      ),
+      q(
+        '¿Cuál es el salar más grande del mundo?',
+        ['Salar de Uyuni', 'Salar de Atacama', 'Salinas Grandes', 'Salar de Coipasa'],
+        'Ocupa más de 10.000 km² y, en época de lluvias, se convierte en un espejo gigante.',
+      ),
+      q(
+        '¿Qué lago navegable, uno de los más altos del mundo, comparte Bolivia con Perú?',
+        ['Titicaca', 'Poopó', 'Cocibolca', 'Maracaibo'],
+        'Está a unos 3.800 metros sobre el nivel del mar.',
+      ),
+      q(
+        '¿Qué cerro de Potosí fue la mayor mina de plata del mundo colonial?',
+        ['Cerro Rico', 'Illimani', 'Sajama', 'Huayna Potosí'],
+        "De ahí viene la expresión 'vale un Potosí' para algo muy valioso.",
+      ),
+      q(
+        '¿Qué carnaval boliviano es Patrimonio de la Humanidad?',
+        ['Carnaval de Oruro', 'Carnaval de Tarija', 'Carnaval de Sucre', 'Carnaval de Cobija'],
+        'Su danza más famosa es la diablada, con máscaras enormes y trajes bordados.',
+      ),
+      q(
+        '¿Qué empanada jugosa se come a media mañana en Bolivia?',
+        ['Salteña', 'Arepa', 'Pupusa', 'Tamal'],
+        'Su relleno es tan caldoso que comerla sin mancharse es todo un arte.',
+      ),
+      q(
+        '¿Cómo se llama la red de teleféricos que une La Paz con El Alto?',
+        ['Mi Teleférico', 'Metrocable', 'TransMiCable', 'Mukumbarí'],
+        'Es la red de teleféricos urbanos más extensa del mundo y se usa como transporte público.',
+      ),
+      q(
+        '¿Cuántos idiomas oficiales reconoce la Constitución de Bolivia?',
+        ['37', '2', '5', '12'],
+        'Además del castellano, reconoce 36 idiomas de pueblos indígenas, como el quechua, el aimara y el guaraní.',
+      ),
+      q(
+        '¿Qué prócer le da nombre a Bolivia?',
+        ['Simón Bolívar', 'José de San Martín', 'Antonio José de Sucre', "Bernardo O'Higgins"],
+        'La ciudad de Sucre, a su vez, lleva el nombre del mariscal Antonio José de Sucre.',
+      ),
+      q(
+        "¿Qué ruta de montaña cerca de La Paz es famosa entre ciclistas como el 'camino de la muerte'?",
+        ['Camino a los Yungas', 'Ruta 40', 'Carretera Austral', 'Camino del Inca'],
+        'Baja desde unos 4.650 metros hasta la selva de los Yungas en pocas horas.',
+      ),
+    ],
+  },
+  CR: {
+    mapId: '188',
+    timeZone: 'America/Costa_Rica',
+    questions: [
+      q(
+        '¿Cuál es la capital de Costa Rica?',
+        ['San José', 'Cartago', 'Limón', 'Alajuela'],
+        'Cartago fue la capital hasta 1823, cuando se trasladó a San José.',
+      ),
+      q(
+        '¿Qué expresión usan los costarricenses para saludar, agradecer y decir que todo está bien?',
+        ['Pura vida', 'Qué chévere', 'Ahorita', 'De una'],
+        'Es tan propia que se volvió una forma de presentar al país en el mundo.',
+      ),
+      q(
+        '¿Qué abolió Costa Rica en 1948?',
+        ['El ejército', 'Las elecciones', 'La moneda', 'Los impuestos'],
+        'Lo abolió José Figueres Ferrer, y quedó fijado en la Constitución de 1949.',
+      ),
+      q(
+        '¿Cómo se les dice a las personas de Costa Rica?',
+        ['Ticos', 'Chapines', 'Catrachos', 'Guanacos'],
+        "Viene de la costumbre de usar diminutivos terminados en '-tico', como 'chiquitico'.",
+      ),
+      q(
+        '¿Qué plato de arroz y frijoles es el desayuno típico de Costa Rica?',
+        ['Gallo pinto', 'Bandeja paisa', 'Pabellón criollo', 'Moros y cristianos'],
+        'Nicaragua también lo reclama como propio: la discusión sobre quién lo inventó es eterna.',
+      ),
+      q(
+        '¿Qué parte de la biodiversidad del mundo tiene Costa Rica, siendo un país chico?',
+        ['Cerca del 5 %', 'Cerca del 30 %', 'Menos del 0,01 %', 'La mitad'],
+        'Y eso que ocupa apenas el 0,03 % de la superficie del planeta.',
+      ),
+      q(
+        '¿Qué volcán de forma cónica estuvo muy activo entre 1968 y 2010?',
+        ['Arenal', 'Chimborazo', 'Popocatépetl', 'Cotopaxi'],
+        'Hoy está en reposo y a sus pies hay aguas termales.',
+      ),
+      q(
+        '¿Qué producto fue el motor de la economía costarricense en el siglo XIX?',
+        ['El café', 'El petróleo', 'El cobre', 'La plata'],
+        'Con las ganancias del café se construyó el Teatro Nacional, inaugurado en 1897.',
+      ),
+      q(
+        '¿Qué animal fue declarado símbolo nacional de la fauna silvestre en 2021?',
+        ['El perezoso', 'El cóndor', 'El canguro', 'El panda'],
+        'En Costa Rica viven dos especies: el perezoso de dos dedos y el de tres dedos.',
+      ),
+      q(
+        '¿Qué aguas bañan las costas de Costa Rica?',
+        ['El Pacífico y el Caribe', 'Solo el Pacífico', 'Solo el Atlántico Sur', 'El Índico y el Pacífico'],
+        'En su parte más angosta, entre una costa y la otra hay apenas unos 120 km.',
+      ),
+    ],
+  },
+  DO: {
+    mapId: '214',
+    timeZone: 'America/Santo_Domingo',
+    questions: [
+      q(
+        '¿Cuál es la capital de República Dominicana?',
+        ['Santo Domingo', 'Santiago de los Caballeros', 'Punta Cana', 'La Romana'],
+        'En su Ciudad Colonial está la Catedral Primada, la primera catedral de América.',
+      ),
+      q(
+        '¿Qué isla comparte República Dominicana con Haití?',
+        ['La Española', 'Cuba', 'Jamaica', 'Puerto Rico'],
+        'Cristóbal Colón llegó a la isla en su primer viaje, en 1492.',
+      ),
+      q(
+        '¿Qué ritmo, considerado el baile nacional, se toca con acordeón, güira y tambora?',
+        ['Merengue', 'Salsa', 'Tango', 'Cumbia'],
+        'El merengue y la bachata son, los dos, Patrimonio Cultural Inmaterial de la UNESCO.',
+      ),
+      q(
+        "¿Qué plato se conoce como 'la bandera dominicana'?",
+        ['Arroz, habichuelas y carne', 'Arepas con queso', 'Ceviche', 'Pupusas'],
+        'Se come al mediodía, en la comida fuerte del día.',
+      ),
+      q(
+        '¿Qué deporte es pasión nacional en República Dominicana?',
+        ['Béisbol', 'Fútbol', 'Rugby', 'Críquet'],
+        'Después de Estados Unidos, es el país que más jugadores aporta a las Grandes Ligas.',
+      ),
+      q(
+        '¿Cuál es la montaña más alta del Caribe?',
+        ['Pico Duarte', 'Pico Turquino', 'Blue Mountain Peak', 'Monte Pelée'],
+        'Mide unos 3.100 metros y está en la Cordillera Central dominicana.',
+      ),
+      q(
+        '¿Qué piedra semipreciosa azul solo se encuentra en República Dominicana?',
+        ['Larimar', 'Esmeralda', 'Ámbar', 'Turquesa'],
+        'Es una variedad azul de pectolita que solo se extrae en la provincia de Barahona.',
+      ),
+      q(
+        '¿En qué fecha celebra República Dominicana su independencia?',
+        ['27 de febrero', '4 de julio', '9 de julio', '16 de septiembre'],
+        'Ese día de 1844 se proclamó la independencia frente a Haití.',
+      ),
+      q(
+        '¿Con qué se hace el mangú, el puré del desayuno dominicano?',
+        ['Plátano verde', 'Yuca', 'Papa', 'Batata'],
+        "Se sirve con cebolla roja, salami, huevo y queso frito: 'los tres golpes'.",
+      ),
+      q(
+        '¿Cómo se le dice en República Dominicana al autobús?',
+        ['Guagua', 'Colectivo', 'Micro', 'Camión'],
+        'La palabra también se usa en Cuba, Puerto Rico y las Islas Canarias.',
+      ),
+    ],
+  },
+  EC: {
+    mapId: '218',
+    timeZone: 'America/Guayaquil',
+    questions: [
+      q(
+        '¿Cuál es la capital de Ecuador?',
+        ['Quito', 'Guayaquil', 'Cuenca', 'Manta'],
+        'Quito y Cracovia fueron las primeras ciudades declaradas Patrimonio de la Humanidad, en 1978.',
+      ),
+      q(
+        '¿Qué islas ecuatorianas inspiraron a Charles Darwin?',
+        ['Islas Galápagos', 'Isla de Pascua', 'Islas Canarias', 'Islas Juan Fernández'],
+        'Darwin las visitó en 1835 y lo que observó ahí lo ayudó a pensar la evolución.',
+      ),
+      q(
+        '¿De dónde viene el nombre de Ecuador?',
+        ['De la línea del ecuador', 'De un río', 'De un conquistador', 'De una palabra quechua'],
+        'Cerca de Quito, el monumento Mitad del Mundo marca el paso de la línea.',
+      ),
+      q(
+        '¿Qué moneda usa Ecuador desde el año 2000?',
+        ['El dólar estadounidense', 'El sucre', 'El peso', 'El euro'],
+        'Antes usaba el sucre, que llevaba el nombre del mariscal Antonio José de Sucre.',
+      ),
+      q(
+        '¿Con qué nombre se conoce en el mundo el sombrero de paja toquilla tejido en Ecuador?',
+        ["'Panamá'", "'Mexicano'", "'Cordobés'", "'Texano'"],
+        'Se hizo famoso entre los trabajadores del Canal de Panamá; su tejido es Patrimonio Inmaterial de la UNESCO.',
+      ),
+      q(
+        '¿Qué volcán ecuatoriano es el punto de la Tierra más alejado de su centro?',
+        ['Chimborazo', 'Cotopaxi', 'Everest', 'Aconcagua'],
+        'Por el abultamiento de la Tierra en el ecuador, su cima está más lejos del centro que la del Everest.',
+      ),
+      q(
+        '¿De qué fruta Ecuador es el mayor exportador del mundo?',
+        ['Banana', 'Manzana', 'Uva', 'Kiwi'],
+        'La costa ecuatoriana tiene el clima ideal para las plantaciones de banana.',
+      ),
+      q(
+        '¿Qué plato de mariscos se acompaña en Ecuador con canguil (pochoclo)?',
+        ['Ceviche', 'Paella', 'Sushi', 'Locro'],
+        'A diferencia del peruano, el ceviche ecuatoriano suele llevar más jugo y salsa de tomate.',
+      ),
+      q(
+        '¿Qué región selvática ocupa casi la mitad del territorio de Ecuador?',
+        ['La Amazonía', 'El Chaco', 'La Patagonia', 'El Darién'],
+        'Ecuador tiene cuatro regiones: Costa, Sierra, Amazonía y Galápagos.',
+      ),
+      q(
+        '¿Qué ciudad colonial del sur de Ecuador es famosa por las cúpulas azules de su catedral?',
+        ['Cuenca', 'Cartagena', 'Antigua', 'Cusco'],
+        'Su centro histórico es Patrimonio de la Humanidad desde 1999.',
+      ),
+    ],
+  },
+  SV: {
+    mapId: '222',
+    timeZone: 'America/El_Salvador',
+    questions: [
+      q(
+        '¿Cuál es la capital de El Salvador?',
+        ['San Salvador', 'Santa Ana', 'San Miguel', 'La Libertad'],
+        'Está al pie del volcán de San Salvador, también llamado Quezaltepeque.',
+      ),
+      q(
+        '¿Qué plato de masa de maíz rellena es el emblema de El Salvador?',
+        ['Pupusa', 'Arepa', 'Salteña', 'Empanada'],
+        'El segundo domingo de noviembre se celebra el Día Nacional de la Pupusa.',
+      ),
+      q(
+        '¿Qué apodo le dio Gabriela Mistral a El Salvador?',
+        ['El Pulgarcito de América', 'La Suiza de América', 'La Tierra del Fuego', 'El Gigante del Norte'],
+        'Lo dijo por su tamaño: es el país más chico de la América continental.',
+      ),
+      q(
+        '¿Qué arzobispo salvadoreño, asesinado en 1980, fue declarado santo?',
+        ['Óscar Arnulfo Romero', 'Oscar Niemeyer', 'José Martí', 'Rubén Darío'],
+        'Fue canonizado por el papa Francisco en 2018.',
+      ),
+      q(
+        '¿Qué moneda se usa en El Salvador en la vida diaria?',
+        ['El dólar estadounidense', 'El quetzal', 'El peso', 'La lempira'],
+        'Hasta 2001 se usaba el colón, nombrado en honor a Cristóbal Colón.',
+      ),
+      q(
+        "¿Qué sitio maya es llamado 'la Pompeya de América'?",
+        ['Joya de Cerén', 'Tikal', 'Copán', 'Chichén Itzá'],
+        'Una erupción volcánica lo cubrió de ceniza hacia el año 600 y conservó las casas de una aldea maya.',
+      ),
+      q(
+        '¿Cómo se les dice cariñosamente a las personas de El Salvador?',
+        ['Guanacos', 'Ticos', 'Chapines', 'Catrachos'],
+        'Ticos son los costarricenses, chapines los guatemaltecos y catrachos los hondureños.',
+      ),
+      q(
+        '¿Cuál es el lago más grande de El Salvador, en la caldera de un volcán?',
+        ['Ilopango', 'Coatepeque', 'Atitlán', 'Titicaca'],
+        'Se formó tras una enorme erupción ocurrida hace unos 1.500 años.',
+      ),
+      q(
+        '¿Qué bebida caliente de maíz tierno es típica de El Salvador?',
+        ['Atol de elote', 'Mate cocido', 'Tereré', 'Chicha morada'],
+        'Se prepara con maíz tierno, leche y azúcar, y se toma bien caliente.',
+      ),
+      q(
+        '¿En qué fecha celebra El Salvador su independencia?',
+        ['15 de septiembre', '25 de mayo', '9 de julio', '20 de julio'],
+        'Ese día de 1821 se independizaron también Guatemala, Honduras, Nicaragua y Costa Rica.',
+      ),
+    ],
+  },
+  GT: {
+    mapId: '320',
+    timeZone: 'America/Guatemala',
+    questions: [
+      q(
+        '¿Cuál es la capital de Guatemala?',
+        ['Ciudad de Guatemala', 'Antigua Guatemala', 'Quetzaltenango', 'Flores'],
+        'Antigua fue la capital hasta que los terremotos de 1773 obligaron a trasladarla.',
+      ),
+      q(
+        '¿Qué ave le da nombre a la moneda de Guatemala?',
+        ['El quetzal', 'El cóndor', 'El colibrí', 'El tucán'],
+        'El quetzal también aparece en el escudo, en el centro de la bandera.',
+      ),
+      q(
+        '¿Qué gran ciudad maya está en la selva de Petén?',
+        ['Tikal', 'Machu Picchu', 'Teotihuacán', 'Copán'],
+        'Sus templos asoman por encima de la selva; el más alto llega a unos 70 metros.',
+      ),
+      q(
+        '¿Qué lago guatemalteco está rodeado por tres volcanes?',
+        ['Lago de Atitlán', 'Lago de Nicaragua', 'Lago Titicaca', 'Lago de Ilopango'],
+        'Los volcanes que lo rodean son el Atitlán, el Tolimán y el San Pedro.',
+      ),
+      q(
+        '¿Qué escritor guatemalteco ganó el Premio Nobel de Literatura en 1967?',
+        ['Miguel Ángel Asturias', 'Gabriel García Márquez', 'Pablo Neruda', 'Octavio Paz'],
+        "Su novela más conocida es 'El señor presidente'.",
+      ),
+      q(
+        "¿Qué activista maya k'iche' ganó el Premio Nobel de la Paz en 1992?",
+        ['Rigoberta Menchú', 'Frida Kahlo', 'Violeta Parra', 'Gabriela Mistral'],
+        'Fue reconocida por su lucha por los derechos de los pueblos indígenas.',
+      ),
+      q(
+        '¿Cómo se les dice a las personas de Guatemala?',
+        ['Chapines', 'Ticos', 'Guanacos', 'Catrachos'],
+        'El origen más citado es el chapín, un calzado que se usaba en la época colonial.',
+      ),
+      q(
+        '¿Cuántos idiomas mayas se reconocen oficialmente en Guatemala?',
+        ['22', '2', '5', '60'],
+        'Además del español y los 22 idiomas mayas, se reconocen el garífuna y el xinka.',
+      ),
+      q(
+        '¿Qué ciudad guatemalteca es famosa por sus alfombras de aserrín de colores en Semana Santa?',
+        ['Antigua Guatemala', 'Sevilla', 'Cusco', 'Puebla'],
+        'Las alfombras se arman durante la noche y se deshacen al paso de las procesiones.',
+      ),
+      q(
+        '¿Qué volcán cercano a Antigua es uno de los más activos de Centroamérica?',
+        ['Volcán de Fuego', 'Chimborazo', 'Popocatépetl', 'Osorno'],
+        'Desde el vecino volcán Acatenango se lo puede ver lanzar lava de noche.',
+      ),
+    ],
+  },
+  HN: {
+    mapId: '340',
+    timeZone: 'America/Tegucigalpa',
+    questions: [
+      q(
+        '¿Cuál es la capital de Honduras?',
+        ['Tegucigalpa', 'San Pedro Sula', 'La Ceiba', 'Comayagua'],
+        'Comayagua fue la capital hasta 1880.',
+      ),
+      q(
+        '¿Qué ciudad maya de Honduras es famosa por su escalinata jeroglífica?',
+        ['Copán', 'Tikal', 'Palenque', 'Chichén Itzá'],
+        'La escalinata tiene más de 2.000 glifos: es el texto maya más largo que se conoce.',
+      ),
+      q(
+        '¿Cómo se les dice a las personas de Honduras?',
+        ['Catrachos', 'Ticos', 'Chapines', 'Guanacos'],
+        'El apodo viene del general Florencio Xatruch, que luchó contra el filibustero William Walker.',
+      ),
+      q(
+        '¿Qué tortilla de harina doblada, con frijoles, queso y crema, es la comida callejera más típica?',
+        ['Baleada', 'Pupusa', 'Arepa', 'Quesadilla'],
+        "Se le pueden sumar huevo, aguacate o carne: así es una 'baleada con todo'.",
+      ),
+      q(
+        '¿Qué islas del Caribe hondureño son famosas por el buceo?',
+        ['Islas de la Bahía', 'Islas Galápagos', 'Islas del Rosario', 'Isla Margarita'],
+        'Están sobre el Sistema Arrecifal Mesoamericano, la segunda barrera de coral más grande del mundo.',
+      ),
+      q(
+        '¿Cómo se llama la moneda de Honduras?',
+        ['Lempira', 'Quetzal', 'Córdoba', 'Colón'],
+        'Lleva el nombre de un cacique lenca que resistió a los conquistadores españoles.',
+      ),
+      q(
+        '¿Qué pueblo afrodescendiente vive en la costa caribeña de Honduras?',
+        ['Garífuna', 'Mapuche', 'Guaraní', 'Aimara'],
+        'Su lengua, su música y su danza son Patrimonio Inmaterial de la Humanidad.',
+      ),
+      q(
+        "¿En qué departamento de Honduras se cuenta que cada año 'llueven peces'?",
+        ['Yoro', 'Olancho', 'Cortés', 'Atlántida'],
+        'La lluvia de peces de Yoro llega con las tormentas de la temporada de lluvias y es toda una tradición local.',
+      ),
+      q(
+        "¿Qué región selvática del este de Honduras se conoce como la 'Amazonía de Centroamérica'?",
+        ['La Mosquitia', 'El Darién', 'El Petén', 'Los Yungas'],
+        'Ahí está la Reserva de la Biosfera del Río Plátano, Patrimonio de la Humanidad.',
+      ),
+      q(
+        '¿Cuál es el lago natural más grande de Honduras?',
+        ['Lago de Yojoa', 'Lago de Nicaragua', 'Lago de Atitlán', 'Lago de Güija'],
+        'Es uno de los mejores lugares del país para ver aves: se registraron cientos de especies.',
+      ),
+    ],
+  },
+  NI: {
+    mapId: '558',
+    timeZone: 'America/Managua',
+    questions: [
+      q(
+        '¿Cuál es la capital de Nicaragua?',
+        ['Managua', 'León', 'Granada', 'Masaya'],
+        'León y Granada se disputaban la capital; en 1852 se eligió Managua, que quedaba en el medio.',
+      ),
+      q(
+        '¿Cuál es el lago más grande de Centroamérica?',
+        ['Lago de Nicaragua (Cocibolca)', 'Lago de Atitlán', 'Lago Titicaca', 'Lago de Ilopango'],
+        'Tiene tiburones que llegan desde el Caribe remontando el río San Juan.',
+      ),
+      q(
+        '¿Qué poeta nicaragüense es considerado el padre del modernismo?',
+        ['Rubén Darío', 'Pablo Neruda', 'Jorge Luis Borges', 'Octavio Paz'],
+        "Su libro 'Azul...' (1888) renovó la poesía en español.",
+      ),
+      q(
+        '¿Cómo se les dice a las personas de Nicaragua?',
+        ['Nicas', 'Ticos', 'Catrachos', 'Chapines'],
+        'En Costa Rica vive una de las comunidades nicaragüenses más grandes fuera del país.',
+      ),
+      q(
+        '¿Qué tamal grande, envuelto en hoja de plátano, se come los fines de semana en Nicaragua?',
+        ['Nacatamal', 'Pupusa', 'Salteña', 'Arepa'],
+        'Lleva masa de maíz, cerdo, arroz, papa y chile, y se cocina durante horas.',
+      ),
+      q(
+        '¿Qué isla, formada por dos volcanes, está en medio del lago Cocibolca?',
+        ['Ometepe', 'Roatán', 'Isla de Pascua', 'Isla del Coco'],
+        'Sus volcanes son el Concepción y el Maderas.',
+      ),
+      q(
+        '¿Cómo se llama la moneda de Nicaragua?',
+        ['Córdoba', 'Lempira', 'Quetzal', 'Colón'],
+        'Lleva el nombre de Francisco Hernández de Córdoba, fundador de Granada y León.',
+      ),
+      q(
+        '¿Qué volcán cercano a Managua deja ver lava en su cráter?',
+        ['Masaya', 'Fuego', 'Arenal', 'Cotopaxi'],
+        "Los españoles lo llamaron 'la boca del infierno'.",
+      ),
+      q(
+        '¿Qué ciudad colonial a orillas del lago Cocibolca es una de las más antiguas de América?',
+        ['Granada', 'Cartagena', 'Antigua', 'Quito'],
+        'Fue fundada en 1524 por Francisco Hernández de Córdoba.',
+      ),
+      q(
+        '¿Cuál es el deporte más popular de Nicaragua?',
+        ['Béisbol', 'Fútbol americano', 'Rugby', 'Hockey'],
+        "Dennis Martínez, 'El Presidente', fue el primer nicaragüense en las Grandes Ligas y lanzó un juego perfecto en 1991.",
+      ),
+    ],
+  },
+  PA: {
+    mapId: '591',
+    timeZone: 'America/Panama',
+    questions: [
+      q(
+        '¿Cuál es la capital de Panamá?',
+        ['Ciudad de Panamá', 'Colón', 'David', 'Bocas del Toro'],
+        'Panamá Viejo, fundada en 1519, fue la primera ciudad europea en la costa del Pacífico de América.',
+      ),
+      q(
+        '¿Qué océanos une el Canal de Panamá?',
+        ['Atlántico y Pacífico', 'Pacífico e Índico', 'Atlántico e Índico', 'Ártico y Atlántico'],
+        'Se inauguró en 1914 y en 1999 pasó a manos de Panamá.',
+      ),
+      q(
+        '¿De qué país se separó Panamá en 1903?',
+        ['Colombia', 'España', 'Costa Rica', 'México'],
+        'Tras independizarse de España en 1821, se había unido a la Gran Colombia.',
+      ),
+      q(
+        '¿Qué moneda usa Panamá junto con el dólar estadounidense?',
+        ['Balboa', 'Colón', 'Córdoba', 'Lempira'],
+        'Lleva el nombre de Vasco Núñez de Balboa, el primer europeo en ver el Pacífico desde América.',
+      ),
+      q(
+        '¿Qué pueblo indígena vive en el archipiélago de Guna Yala (San Blas)?',
+        ['Guna', 'Maya', 'Quechua', 'Mapuche'],
+        'Las mujeres gunas cosen las molas, telas hechas con capas de colores.',
+      ),
+      q(
+        '¿Qué región selvática, sin carreteras, separa Panamá de Colombia?',
+        ['El Darién', 'La Mosquitia', 'El Petén', 'El Chaco'],
+        'Es el único tramo sin terminar de la Carretera Panamericana entre Alaska y la Patagonia.',
+      ),
+      q(
+        '¿Cómo se llama el vestido típico de las mujeres panameñas?',
+        ['La pollera', 'El huipil', 'El sari', 'El kimono'],
+        'Una pollera de gala puede llevar meses de trabajo hecho a mano.',
+      ),
+      q(
+        "¿Qué cantante panameño de salsa compuso 'Pedro Navaja'?",
+        ['Rubén Blades', 'Marc Anthony', 'Héctor Lavoe', 'Celia Cruz'],
+        'Además de músico, estudió Derecho en Harvard y fue ministro de Turismo de Panamá.',
+      ),
+      q(
+        '¿Qué sopa de gallina con ñame es el plato nacional de Panamá?',
+        ['Sancocho', 'Ajiaco', 'Locro', 'Pozole'],
+        'El sancocho panameño se perfuma con culantro.',
+      ),
+      q(
+        '¿Qué puente, inaugurado en 1962, cruza el Canal de Panamá?',
+        ['Puente de las Américas', 'Golden Gate', 'Puente de Brooklyn', 'Puente Vasco da Gama'],
+        'Fue el único puente fijo sobre el canal hasta 2004.',
+      ),
+    ],
+  },
+  PY: {
+    mapId: '600',
+    timeZone: 'America/Asuncion',
+    questions: [
+      q(
+        '¿Cuál es la capital de Paraguay?',
+        ['Asunción', 'Ciudad del Este', 'Encarnación', 'Concepción'],
+        "Se la llama 'madre de ciudades': de ahí partieron expediciones que fundaron otras, como Buenos Aires en 1580.",
+      ),
+      q(
+        '¿Cuáles son los idiomas oficiales de Paraguay?',
+        ['Español y guaraní', 'Español y portugués', 'Solo español', 'Español y quechua'],
+        'La mayoría de la población habla guaraní, también en las ciudades.',
+      ),
+      q(
+        '¿Qué infusión fría con yerba mate es Patrimonio de la Humanidad?',
+        ['Tereré', 'Mate cocido', 'Chicha', 'Café'],
+        'Se prepara con agua helada y yuyos; la UNESCO la reconoció en 2020.',
+      ),
+      q(
+        '¿Qué gran represa comparten Paraguay y Brasil?',
+        ['Itaipú', 'Yacyretá', 'Hoover', 'Tres Gargantas'],
+        'Es una de las centrales hidroeléctricas que más energía producen en el mundo. Yacyretá la comparte con Argentina.',
+      ),
+      q(
+        '¿Qué panecito de almidón de mandioca y queso es típico de Paraguay?',
+        ['Chipa', 'Medialuna', 'Arepa', 'Salteña'],
+        'En Semana Santa se hornea chipa en cantidades enormes.',
+      ),
+      q(
+        "¿Qué plato típico se llama 'sopa' aunque es sólido?",
+        ['Sopa paraguaya', 'Locro', 'Puchero', 'Ajiaco'],
+        'Es un pan de maíz con queso y cebolla: según la leyenda, nació de un error de cocina.',
+      ),
+      q(
+        '¿Cómo se llama la moneda de Paraguay?',
+        ['Guaraní', 'Peso', 'Real', 'Boliviano'],
+        'Lleva el nombre del pueblo y el idioma guaraní.',
+      ),
+      q(
+        "¿Qué encaje, cuyo nombre significa 'telaraña' en guaraní, es típico de Paraguay?",
+        ['Ñandutí', 'Mola', 'Huipil', 'Poncho'],
+        'Se teje sobre todo en Itauguá, cerca de Asunción.',
+      ),
+      q(
+        '¿Qué tiene en común Paraguay con Bolivia?',
+        ['No tienen salida al mar', 'Tienen el mismo único idioma oficial', 'Usan la misma moneda', 'Son islas'],
+        'Igual, por los ríos Paraná y Paraguay, tiene una de las flotas de barcazas más grandes del mundo.',
+      ),
+      q(
+        '¿Qué región semiárida ocupa más de la mitad de Paraguay, pero tiene muy poca población?',
+        ['El Chaco', 'La Patagonia', 'La Puna', 'El Darién'],
+        'El Chaco es más del 60 % del territorio y vive ahí menos del 3 % de la población.',
+      ),
+    ],
+  },
+  PR: {
+    mapId: '630',
+    timeZone: 'America/Puerto_Rico',
+    questions: [
+      q(
+        '¿Cuál es la capital de Puerto Rico?',
+        ['San Juan', 'Ponce', 'Mayagüez', 'Bayamón'],
+        'En el Viejo San Juan está el castillo de San Felipe del Morro, del siglo XVI.',
+      ),
+      q(
+        '¿Qué es Puerto Rico respecto de Estados Unidos?',
+        [
+          'Un territorio (Estado Libre Asociado)',
+          'Uno de sus 50 estados',
+          'Un país independiente',
+          'Una provincia de España',
+        ],
+        'Los puertorriqueños tienen ciudadanía estadounidense desde 1917.',
+      ),
+      q(
+        '¿Qué género musical popularizaron artistas puertorriqueños como Daddy Yankee?',
+        ['Reguetón', 'Tango', 'Cumbia', 'Bossa nova'],
+        "'Gasolina', de 2004, fue uno de los primeros grandes éxitos mundiales del género.",
+      ),
+      q(
+        '¿Qué ranita, cuyo canto se escucha de noche, es el símbolo de la isla?',
+        ['El coquí', 'El ajolote', 'La iguana', 'El quetzal'],
+        "Su nombre imita su canto: 'co-quí'.",
+      ),
+      q(
+        '¿Qué plato de plátano verde frito y majado con ajo es típico de Puerto Rico?',
+        ['Mofongo', 'Pupusa', 'Arepa', 'Salteña'],
+        'Se prepara en un pilón de madera y se suele rellenar con carne o mariscos.',
+      ),
+      q(
+        '¿Qué bosque de Puerto Rico es el único bosque tropical lluvioso del sistema forestal de Estados Unidos?',
+        ['El Yunque', 'Monteverde', 'El Darién', 'La Mosquitia'],
+        'Llueve tanto que algunas zonas reciben más de 5.000 mm al año.',
+      ),
+      q(
+        '¿Cómo se llamaba la isla en la lengua de los taínos?',
+        ['Borinquen', 'Quisqueya', 'Xaymaca', 'Anáhuac'],
+        'Por eso los puertorriqueños también se dicen boricuas.',
+      ),
+      q(
+        '¿Qué tiene de especial la bahía Mosquito, en la isla de Vieques?',
+        ['Brilla de noche por unos microorganismos', 'Es de agua dulce', 'Se congela en invierno', 'Tiene arena negra'],
+        'Fue reconocida como la bahía bioluminiscente más brillante del mundo.',
+      ),
+      q(
+        '¿Qué bebida navideña con coco y ron es típica de Puerto Rico?',
+        ['Coquito', 'Ponche crema', 'Rompope', 'Chicha'],
+        'Cada familia tiene su receta y en diciembre se regala en botellas.',
+      ),
+      q(
+        '¿Qué beisbolista puertorriqueño fue el primer latinoamericano en el Salón de la Fama?',
+        ['Roberto Clemente', 'Pelé', 'Diego Maradona', 'Michael Jordan'],
+        'Murió en 1972 en un avión que llevaba ayuda a Nicaragua después de un terremoto.',
+      ),
+    ],
+  },
 }
 
 // Si el país de una persona todavía no tiene preguntas, su rival responde de cultura general.
@@ -1242,4 +1999,11 @@ export function hasTrivia(code) {
 /** Preguntas sobre el país (o de cultura general si todavía no hay). */
 export function triviaFor(code) {
   return TRIVIA[code]?.questions ?? GENERAL
+}
+
+/** Países donde está abierto el modo Online, en orden alfabético. */
+export const ONLINE_COUNTRIES = Object.keys(TRIVIA).sort((a, b) => countryName(a).localeCompare(countryName(b), 'es'))
+
+export function isOnlineCountry(code) {
+  return hasTrivia(code)
 }

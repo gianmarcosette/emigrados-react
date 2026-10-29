@@ -3087,7 +3087,7 @@ h3 {
   text-transform: uppercase;
 }
 
-/* Opción "sin apuro" del duelo */
+/* Interruptor con explicación (mostrar el origen, avisos del Online) */
 .relaxed-toggle {
   display: flex;
   align-items: center;
@@ -5306,7 +5306,161 @@ h3 {
   color: var(--on-sky-soft);
 }
 
+/* Dentro de una tarjeta vuelve a ser tinta */
+.main .panel .relaxed-toggle > span:last-child {
+  color: var(--ink-soft);
+}
+
+.main .panel .relaxed-toggle strong {
+  color: var(--ink);
+}
+
 /* El chip elegido es tinta con texto claro, también en el modo grupal */
 .main .chip.chip--on {
   color: var(--paper);
+}
+
+/* Países donde viviste antes, en el perfil */
+.previous-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 8px;
+  padding: 0;
+  list-style: none;
+}
+
+.previous-list__item {
+  gap: 8px;
+  color: var(--ink);
+}
+
+.previous-list__item span {
+  font-size: 1.1em;
+  line-height: 1;
+}
+
+/* ───────────── Online: duelos a su ritmo ───────────── */
+.duel-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.panel.duel-item {
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  padding: 16px 18px;
+}
+
+.duel-item__body {
+  flex: 1 1 220px;
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.duel-item__body strong {
+  font-size: 1.05rem;
+}
+
+.duel-item__where,
+.duel-item__deadline {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+.duel-item__status {
+  font-weight: 700;
+}
+
+.duel-item--yourTurn {
+  border-left: 6px solid var(--yellow);
+}
+
+.duel-item--ready {
+  border-left: 6px solid var(--teal);
+}
+
+.duel-item--expired {
+  opacity: 0.85;
+}
+
+.duel-item__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.their-time {
+  white-space: nowrap;
+}
+
+.player-card .their-time {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+.online-country--any {
+  align-content: center;
+  min-height: 120px;
+  border-style: dashed;
+}
+
+.online-home {
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.notices {
+  margin-top: 8px;
+}
+
+.notices .relaxed-toggle {
+  opacity: 0.75;
+}
+
+.waitlist p {
+  margin: 0;
+}
+
+.waitlist__countries summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.waitlist__countries p {
+  margin-top: 8px;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+}
+
+.waiting-card {
+  text-align: center;
+}
+
+.waiting-card p {
+  margin: 0;
+}
+
+/* Botón de la prueba para no esperar a la persona simulada */
+.demo-box {
+  margin-top: 16px;
+  padding: 14px 16px;
+  border: 1.5px dashed currentColor;
+  border-radius: var(--radius);
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.demo-box p {
+  margin: 0;
 }

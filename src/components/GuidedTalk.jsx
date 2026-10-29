@@ -2,14 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { countryName } from '../data/residence.js'
 import { TALK_STAGES } from '../data/talk.js'
-import {
-  blockRival,
-  reportRival,
-  requestTalk,
-  rivalAnswer,
-  rivalQuestion,
-  rivalReaction,
-} from '../online/mockServer.js'
+import { blockRival, reportRival, rivalAnswer, rivalQuestion, rivalReaction } from '../online/mockServer.js'
 import { ANSWER_MAX, checkAnswer, echoOptions, fillPrompt, promptOptions } from '../online/talk.js'
 import { useJourney } from '../state/useJourney.js'
 import { useConfirm } from '../state/confirm.js'
@@ -23,15 +16,17 @@ const REPORT_REASONS = [
   'Otro motivo',
 ]
 
-// Charla guiada después del duelo. No hay mensajes sueltos: cada intercambio parte de una
-// pregunta. En cada momento (abrir, ir más hondo, cerrar) elegís qué preguntarle, podés
-// reaccionar a su respuesta y después te pregunta a vos.
-export default function GuidedTalk({ me, rival, onExit }) {
-  const [phase, setPhase] = useState('waiting')
+// Charla guiada después del duelo: se abre cuando los dos terminaron de responder (entrar
+// a un duelo ya es decir que tenés ganas de conectar). No hay mensajes sueltos: cada
+// intercambio parte de una pregunta. En cada momento (abrir, ir más hondo, cerrar) elegís
+// qué preguntarle, podés reaccionar a su respuesta y después te pregunta a vos.
+// `onClosed(rival)`: la charla se cerró por un bloqueo o una denuncia.
+export default function GuidedTalk({ me, rival, onExit, onClosed }) {
+  const [phase, setPhase] = useState('pick')
   const [stage, setStage] = useState(0)
-  const [log, setLog] = useState([])
+  const [log, setLog] = useState(() => [{ from: 'system', kind: 'stage', text: TALK_STAGES[0].label, id: 0 }])
   const [used, setUsed] = useState([])
-  const [options, setOptions] = useState([])
+  const [options, setOptions] = useState(() => promptOptions(0, []))
   const [echoes, setEchoes] = useState([]) // ecos para devolverle a la otra persona
   const [current, setCurrent] = useState(null) // pregunta en curso (objeto de la charla)
   const [draft, setDraft] = useState('')
@@ -51,16 +46,6 @@ export default function GuidedTalk({ me, rival, onExit }) {
     let active = true
     const done = (fn) => (value) => active && fn(value)
 
-    if (phase === 'waiting') {
-      requestTalk(rival).then(
-        done(({ accepted }) => {
-          if (!accepted) return setPhase('declined')
-          say('system', 'stage', TALK_STAGES[0].label)
-          setOptions(promptOptions(0, []))
-          setPhase('pick')
-        }),
-      )
-    }
     if (phase === 'theirAnswer') {
       rivalAnswer(current).then(
         done((text) => {
@@ -150,22 +135,17 @@ export default function GuidedTalk({ me, rival, onExit }) {
     })
     if (!ok) return
     await blockRival(rival)
+    onClosed?.(rival)
     setPhase('blocked')
   }
 
   async function report(reason) {
     await reportRival(rival, reason)
     setReporting(false)
+    onClosed?.(rival)
     setPhase('reported')
   }
 
-  if (phase === 'declined') {
-    return (
-      <TalkEnd title="Esta vez no" onExit={onExit}>
-        {rival.name} prefirió no seguir la charla esta vez. Está bien: cada quien elige cuándo abrirse.
-      </TalkEnd>
-    )
-  }
   if (phase === 'blocked') {
     return (
       <TalkEnd title="Bloqueaste a esta persona" onExit={onExit}>
@@ -189,146 +169,140 @@ export default function GuidedTalk({ me, rival, onExit }) {
         <Avatar profile={rival} size="md" />
         <div>
           <strong>Charla con {rival.name}</strong>
-          <span>Vive en {theirCountry}</span>
+          <span>
+            {rival.showOrigin && rival.birthCountry && rival.birthCountry !== rival.country
+              ? `Nació en ${countryName(rival.birthCountry)} · `
+              : ''}
+            Vive en {theirCountry}
+          </span>
         </div>
-        {phase !== 'waiting' && (
-          <div className="talk-head__actions">
-            <button type="button" className="btn btn--text" onClick={block}>
-              Bloquear
-            </button>
-            <button type="button" className="btn btn--text" onClick={() => setReporting(true)}>
-              Denunciar
-            </button>
-          </div>
-        )}
+        <div className="talk-head__actions">
+          <button type="button" className="btn btn--text" onClick={block}>
+            Bloquear
+          </button>
+          <button type="button" className="btn btn--text" onClick={() => setReporting(true)}>
+            Denunciar
+          </button>
+        </div>
       </header>
 
       {reporting && <ReportPanel rival={rival} onSend={report} onCancel={() => setReporting(false)} />}
 
-      {phase === 'waiting' ? (
-        <section className="talk-waiting" aria-live="polite">
-          <Title>Esperando a que {rival.name} acepte…</Title>
-          <p className="muted">La charla se abre solo si las dos personas quieren.</p>
-          <button type="button" className="btn btn--ghost" onClick={onExit}>
-            Cancelar
-          </button>
-        </section>
-      ) : (
-        <>
-          <p className="talk-safety">
-            Charla guiada: cada intercambio parte de una pregunta. Por tu seguridad, no compartas teléfono, mail,
-            dirección ni redes.
-          </p>
+      <>
+        <p className="talk-safety">
+          Charla guiada: cada intercambio parte de una pregunta. Por tu seguridad, no compartas teléfono, mail,
+          dirección ni redes.
+        </p>
 
-          <ol className="talk-log" aria-live="polite">
-            {log.map((m) => (
-              <li key={m.id} className={`talk-msg talk-msg--${m.from} talk-msg--${m.kind}`}>
-                {m.kind === 'question' && (
-                  <span className="talk-msg__label">
-                    {m.from === 'me' ? 'Preguntaste' : `${rival.name} te pregunta`}
-                  </span>
-                )}
-                {m.text}
-              </li>
-            ))}
-            {typing && (
-              <li className="talk-msg talk-msg--them talk-typing" aria-label={`${rival.name} está escribiendo`}>
-                <span />
-                <span />
-                <span />
-              </li>
-            )}
-          </ol>
-          <div ref={endRef} />
-
-          {phase === 'pick' && (
-            <section className="talk-compose">
-              <p className="talk-compose__title">¿Qué te gustaría preguntarle a {rival.name}?</p>
-              <div className="talk-prompts">
-                {options.map((p) => (
-                  <button key={p.id} type="button" className="talk-prompt" onClick={() => ask(p)}>
-                    {fillPrompt(p, theirCountry)}
-                  </button>
-                ))}
-              </div>
-            </section>
+        <ol className="talk-log" aria-live="polite">
+          {log.map((m) => (
+            <li key={m.id} className={`talk-msg talk-msg--${m.from} talk-msg--${m.kind}`}>
+              {m.kind === 'question' && (
+                <span className="talk-msg__label">{m.from === 'me' ? 'Preguntaste' : `${rival.name} te pregunta`}</span>
+              )}
+              {m.text}
+            </li>
+          ))}
+          {typing && (
+            <li className="talk-msg talk-msg--them talk-typing" aria-label={`${rival.name} está escribiendo`}>
+              <span />
+              <span />
+              <span />
+            </li>
           )}
+        </ol>
+        <div ref={endRef} />
 
-          {phase === 'react' && (
-            <section className="talk-compose">
-              <p className="talk-compose__title">Devolvele algo de lo que te contó</p>
-              <div className="talk-reactions">
-                {echoes.map((r) => (
-                  <button key={r} type="button" className="talk-reaction" onClick={() => react(r)}>
-                    {r}
-                  </button>
-                ))}
-              </div>
-              <button type="button" className="btn btn--text talk-skip" onClick={() => react(null)}>
-                Seguir sin responder
-              </button>
-            </section>
-          )}
-
-          {phase === 'myAnswer' && (
-            <form className="talk-compose" onSubmit={send}>
-              <label htmlFor="talk-answer" className="talk-compose__title">
-                Tu respuesta
-              </label>
-              <textarea
-                id="talk-answer"
-                rows={3}
-                maxLength={ANSWER_MAX}
-                value={draft}
-                placeholder="Contá lo que quieras compartir…"
-                aria-invalid={Boolean(error)}
-                onChange={(e) => {
-                  setDraft(e.target.value)
-                  if (error) setError('')
-                }}
-              />
-              <div className="talk-compose__foot">
-                <span className="muted">
-                  {draft.length}/{ANSWER_MAX}
-                </span>
-                <button type="submit" className="btn btn--primary" disabled={!draft.trim()}>
-                  Enviar
+        {phase === 'pick' && (
+          <section className="talk-compose">
+            <p className="talk-compose__title">¿Qué te gustaría preguntarle a {rival.name}?</p>
+            <div className="talk-prompts">
+              {options.map((p) => (
+                <button key={p.id} type="button" className="talk-prompt" onClick={() => ask(p)}>
+                  {fillPrompt(p, theirCountry)}
                 </button>
-              </div>
-              {error && (
-                <p className="field__error" role="alert">
-                  {error}
-                </p>
-              )}
-            </form>
-          )}
+              ))}
+            </div>
+          </section>
+        )}
 
-          {phase === 'done' && (
-            <section className="talk-done">
-              <Title>Fin de la charla</Title>
-              <p className="muted">
-                Gracias por compartir. En la versión real, si los dos quieren, la charla va a poder seguir.
-              </p>
-              {savedToDiary ? (
-                <p className="talk-saved" role="status">
-                  Guardada en tu diario. <Link to="/perfil#diario">Ver mi diario</Link>
-                </p>
-              ) : (
-                <div className="talk-keep">
-                  <button type="button" className="btn btn--ghost" onClick={saveToDiary}>
-                    Guardar la charla en mi diario
-                  </button>
-                  <span>Solo vos la vas a ver, en este dispositivo.</span>
-                </div>
-              )}
-              <button type="button" className="btn btn--primary" onClick={onExit}>
-                Jugar otro duelo
+        {phase === 'react' && (
+          <section className="talk-compose">
+            <p className="talk-compose__title">Devolvele algo de lo que te contó</p>
+            <div className="talk-reactions">
+              {echoes.map((r) => (
+                <button key={r} type="button" className="talk-reaction" onClick={() => react(r)}>
+                  {r}
+                </button>
+              ))}
+            </div>
+            <button type="button" className="btn btn--text talk-skip" onClick={() => react(null)}>
+              Seguir sin responder
+            </button>
+          </section>
+        )}
+
+        {phase === 'myAnswer' && (
+          <form className="talk-compose" onSubmit={send}>
+            <label htmlFor="talk-answer" className="talk-compose__title">
+              Tu respuesta
+            </label>
+            <textarea
+              id="talk-answer"
+              rows={3}
+              maxLength={ANSWER_MAX}
+              value={draft}
+              placeholder="Contá lo que quieras compartir…"
+              aria-invalid={Boolean(error)}
+              onChange={(e) => {
+                setDraft(e.target.value)
+                if (error) setError('')
+              }}
+            />
+            <div className="talk-compose__foot">
+              <span className="muted">
+                {draft.length}/{ANSWER_MAX}
+              </span>
+              <button type="submit" className="btn btn--primary" disabled={!draft.trim()}>
+                Enviar
               </button>
-            </section>
-          )}
-        </>
-      )}
-      <p className="online-trial">Versión de prueba · {rival.name} es una persona simulada</p>
+            </div>
+            {error && (
+              <p className="field__error" role="alert">
+                {error}
+              </p>
+            )}
+          </form>
+        )}
+
+        {phase === 'done' && (
+          <section className="talk-done">
+            <Title>Fin de la charla</Title>
+            <p className="muted">
+              Gracias por compartir. En la versión real, si los dos quieren, la charla va a poder seguir.
+            </p>
+            {savedToDiary ? (
+              <p className="talk-saved" role="status">
+                Guardada en tu diario. <Link to="/perfil#diario">Ver mi diario</Link>
+              </p>
+            ) : (
+              <div className="talk-keep">
+                <button type="button" className="btn btn--ghost" onClick={saveToDiary}>
+                  Guardar la charla en mi diario
+                </button>
+                <span>Solo vos la vas a ver, en este dispositivo.</span>
+              </div>
+            )}
+            <button type="button" className="btn btn--primary" onClick={onExit}>
+              Volver a mis duelos
+            </button>
+          </section>
+        )}
+      </>
+      <p className="online-trial">
+        Versión de prueba · {rival.name} es una persona simulada. En la versión real, cada respuesta llega cuando la
+        otra persona la escribe, aunque sea horas después.
+      </p>
     </div>
   )
 }
@@ -369,7 +343,7 @@ function TalkEnd({ title, children, onExit }) {
         <Title>{title}</Title>
         <p className="muted">{children}</p>
         <button type="button" className="btn btn--primary" onClick={onExit}>
-          Jugar otro duelo
+          Volver a mis duelos
         </button>
       </section>
     </div>

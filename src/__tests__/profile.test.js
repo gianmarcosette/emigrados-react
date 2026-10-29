@@ -48,6 +48,9 @@ describe('buildProfile', () => {
       age: 30,
       bio: 'hola',
       country: 'UY',
+      birthCountry: null,
+      previousCountries: [],
+      showOrigin: false,
       photo: null,
       avatar: null,
       code: expect.stringMatching(CODE_PATTERN),
@@ -58,6 +61,34 @@ describe('buildProfile', () => {
     expect(edited.code).toBe(first.code)
     expect(edited.createdAt).toBe('t1')
     expect(edited.updatedAt).toBe('t2')
+  })
+})
+
+describe('dónde naciste y dónde viviste', () => {
+  it('es opcional, pero si se elige tiene que ser un país', () => {
+    expect(validateProfile({ name: 'A', age: 30, country: 'AU' })).toEqual({})
+    expect(validateProfile({ name: 'A', age: 30, country: 'AU', birthCountry: 'AR' })).toEqual({})
+    expect(validateProfile({ name: 'A', age: 30, country: 'AU', birthCountry: 'XX' }).birthCountry).toBeDefined()
+  })
+
+  it('una segunda migración: nació en Argentina, vivió en Italia y hoy vive en Australia', () => {
+    const p = buildProfile(
+      { name: 'Ana', age: '30', country: 'AU', birthCountry: 'AR', previousCountries: ['IT', 'IT', 'AU', 'XX'] },
+      null,
+      't',
+    )
+    expect(p.birthCountry).toBe('AR')
+    // Sin repetidos, sin el país actual y sin códigos inválidos
+    expect(p.previousCountries).toEqual(['IT'])
+    expect(p.showOrigin).toBe(false)
+  })
+
+  it('los perfiles anteriores quedan sin origen y sin mostrarlo', () => {
+    const old = normalizeProfile({ name: 'Ana', age: 30, country: 'ES' })
+    expect(old.birthCountry).toBeNull()
+    expect(old.previousCountries).toEqual([])
+    expect(old.showOrigin).toBe(false)
+    expect(normalizeProfile({ name: 'Ana', age: 30, country: 'ES', showOrigin: 'si' }).showOrigin).toBe(false)
   })
 })
 
