@@ -1,37 +1,31 @@
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { COUNTRIES } from '../data/countries.js'
 import { QUESTIONS } from '../data/questions.js'
 import { TAB_ICONS } from './icons.jsx'
 
-// Primer vuelo: tres pantallas para entender el juego antes de empezar.
+// Primer vuelo: cuatro pantallas cortas, una idea en cada una, antes de empezar.
 // - Se usa un <dialog> nativo: mantiene el foco adentro y se cierra con Esc.
 // - Se puede saltar en cualquier momento y volver a ver desde el pie de página.
 // - Usa la misma metáfora que todo el juego: un viaje con escalas.
+// - Termina eligiendo un modo: tocás uno y entrás (si pide perfil, primero se crea).
+
+const PER_COUNTRY = QUESTIONS.length / COUNTRIES.length
 
 const MODES = [
-  {
-    to: '/individual',
-    name: 'Individual',
-    tag: 'Con perfil',
-    text: `Preguntas para vos. Lo que escribís queda en tu diario, con fecha, y cada país al que respondés le pega una pegatina a tu maleta: respondé las ${QUESTIONS.length} y das la vuelta al mundo.`,
-  },
-  {
-    to: '/grupal',
-    name: 'Grupal',
-    tag: 'Sin perfil',
-    text: 'Para charlar en ronda con amigos o familia, pasándose el celular. Nada queda guardado.',
-  },
+  { to: '/individual', name: 'Individual', tag: 'Con perfil', text: 'Para escribir a solas lo que sentís.' },
+  { to: '/grupal', name: 'Grupal', tag: 'Sin perfil', text: 'Para charlar en ronda, pasándose el celular.' },
   {
     to: '/online',
     name: 'Online',
-    tag: 'Versión de prueba · Con perfil',
-    text: 'Elegí un país y desafiá a alguien que vive ahí con preguntas de cultura general, cada uno a su ritmo. Cuando terminan los dos, se abre una charla guiada.',
+    tag: 'Con perfil · Versión de prueba',
+    text: 'Para conectar con alguien que vive en otro país.',
   },
 ]
 
-const STEPS = ['Bienvenida', 'Los modos', 'Tu privacidad']
+const STEPS = ['Bienvenida', 'Cómo se juega', 'Tu privacidad', 'Cómo viajar']
 
-export default function FirstFlight({ open, hasProfile, onClose }) {
+export default function FirstFlight({ open, onClose }) {
   const dialogRef = useRef(null)
   const [step, setStep] = useState(0)
   const navigate = useNavigate()
@@ -75,36 +69,45 @@ export default function FirstFlight({ open, hasProfile, onClose }) {
               Te damos la bienvenida a bordo
             </h2>
             <p>
-              Emigrados es un juego de preguntas para hablar de todo lo que implica emigrar: lo que pensabas antes de
-              irte, lo que sentís en tu nuevo lugar y cómo te fuiste reinventando.
+              Emigrados es un juego de preguntas para hablar de lo que implica emigrar: lo que pensabas antes de irte,
+              lo que sentís en tu nuevo lugar y cómo te fuiste reinventando.
             </p>
-            <p className="muted">No hay respuestas correctas, ni puntos que perder, ni apuro.</p>
+            <p className="first-flight__promise">No hay respuestas correctas, ni puntos que perder, ni apuro.</p>
           </>
         )}
 
         {step === 1 && (
           <>
             <h2 id="first-flight-title" className="first-flight__title">
-              Tres formas de viajar
+              Cada pregunta es una escala
             </h2>
-            <ul className="first-flight__modes">
-              {MODES.map((m) => (
-                <li key={m.to}>
-                  <svg viewBox="0 0 24 24" className="first-flight__icon" aria-hidden="true">
-                    {TAB_ICONS[m.to]}
-                  </svg>
-                  <div>
-                    <p className="first-flight__mode">
-                      <strong>{m.name}</strong> <span>{m.tag}</span>
-                    </p>
-                    <p>{m.text}</p>
-                  </div>
-                </li>
-              ))}
-            </ul>
+            <ol className="first-flight__loop">
+              <li>
+                <Icon>
+                  <path d="M4 5h16v11H9l-5 4z" />
+                  <path d="M10 9.2a2 2 0 1 1 2.6 1.9c-.4.2-.6.5-.6 1v.4M12 14.4v.1" />
+                </Icon>
+                <p>
+                  <strong>Te toca una pregunta</strong> sobre tu migración.
+                </p>
+              </li>
+              <li>
+                <Icon>{TAB_ICONS['/individual']}</Icon>
+                <p>
+                  <strong>Escribís lo que sentís.</strong> Queda guardado en tu diario, con fecha.
+                </p>
+              </li>
+              <li>
+                <Icon>{TAB_ICONS['/maleta']}</Icon>
+                <p>
+                  <strong>Sumás la pegatina de un país a tu maleta.</strong> Cuando respondés sus {PER_COUNTRY}{' '}
+                  preguntas, la pegatina se ilumina.
+                </p>
+              </li>
+            </ol>
             <p className="first-flight__note">
-              ¿Por qué cada pregunta tiene un país? Es la escala de tu viaje: no habla de ese país, suma su pegatina a
-              tu maleta.
+              El país no es el tema de la pregunta: es la escala de tu viaje. Respondé las {QUESTIONS.length} y das la
+              vuelta al mundo.
             </p>
           </>
         )}
@@ -112,20 +115,38 @@ export default function FirstFlight({ open, hasProfile, onClose }) {
         {step === 2 && (
           <>
             <h2 id="first-flight-title" className="first-flight__title">
-              Tu país y tu privacidad
+              Lo tuyo es tuyo
             </h2>
-            <p>
-              Para crear tu perfil te vamos a pedir el <strong>país donde vivís hoy</strong>. Sirve para una sola cosa:
-              conectarte en el modo Online con personas de otros países y que el duelo sea sobre tu país.
-            </p>
             <ul className="first-flight__privacy">
-              <li>Por ahora, todo se guarda solo en este dispositivo.</li>
-              <li>Nadie más puede leer tu perfil, tus respuestas ni tu diario.</li>
+              <li>Lo que escribís en el modo Individual queda solo en tu celular. Nadie más lo puede leer.</li>
               <li>
                 En el modo Online, la otra persona ve tu nombre, tu edad y el país donde vivís. Dónde naciste, solo si
                 vos lo elegís.
               </li>
-              <li>Podés borrar tu perfil y todas tus respuestas cuando quieras, desde Mi perfil.</li>
+              <li>Podés borrar tu perfil y todo lo que escribiste cuando quieras, desde Mi perfil.</li>
+            </ul>
+          </>
+        )}
+
+        {step === 3 && (
+          <>
+            <h2 id="first-flight-title" className="first-flight__title">
+              ¿Cómo querés viajar?
+            </h2>
+            <ul className="first-flight__modes">
+              {MODES.map((m) => (
+                <li key={m.to}>
+                  <button type="button" className="first-flight__mode-btn" onClick={() => go(m.to)}>
+                    <Icon>{TAB_ICONS[m.to]}</Icon>
+                    <span>
+                      <span className="first-flight__mode">
+                        <strong>{m.name}</strong> <span>{m.tag}</span>
+                      </span>
+                      <span className="first-flight__mode-text">{m.text}</span>
+                    </span>
+                  </button>
+                </li>
+              ))}
             </ul>
           </>
         )}
@@ -144,27 +165,20 @@ export default function FirstFlight({ open, hasProfile, onClose }) {
             Siguiente
           </button>
         )}
-        {last &&
-          (hasProfile ? (
-            <button type="button" className="btn btn--primary" onClick={onClose}>
-              Seguir jugando
-            </button>
-          ) : (
-            <div className="first-flight__cta">
-              <button type="button" className="btn btn--primary" onClick={() => go('/perfil')}>
-                Crear mi perfil
-              </button>
-              <button type="button" className="btn btn--text" onClick={() => go('/grupal')}>
-                Jugar en grupo sin perfil
-              </button>
-            </div>
-          ))}
       </footer>
     </dialog>
   )
 }
 
-// Las tres pantallas como escalas de un vuelo, con el avión en la actual
+function Icon({ children }) {
+  return (
+    <svg viewBox="0 0 24 24" className="first-flight__icon" aria-hidden="true">
+      {children}
+    </svg>
+  )
+}
+
+// Las pantallas como escalas de un vuelo, con el avión en la actual
 function Stops({ step }) {
   return (
     <ol className="first-flight__stops" aria-label={`Paso ${step + 1} de ${STEPS.length}: ${STEPS[step]}`}>
