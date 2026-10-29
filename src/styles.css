@@ -5552,3 +5552,163 @@ h3 {
   font-size: 0.92rem;
   color: var(--ink-soft);
 }
+
+/* ═════════════ Compartir una pregunta ═════════════ */
+.share-sheet {
+  width: min(760px, calc(100vw - 24px));
+  max-height: calc(100dvh - 24px);
+  padding: 0;
+  border: var(--border);
+  border-radius: 20px;
+  background: var(--card);
+  color: var(--ink);
+  overflow: auto;
+}
+
+.share-sheet::backdrop {
+  background: rgba(22, 22, 22, 0.6);
+}
+
+.share-sheet__head {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  background: var(--card);
+  border-bottom: 2px dashed var(--line);
+}
+
+.share-sheet__head h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+}
+
+.share-sheet__body {
+  display: grid;
+  gap: 22px;
+  padding: 20px;
+}
+
+.share-sheet__answer {
+  justify-content: flex-start;
+  margin: 0;
+}
+
+.share-sheet__section {
+  display: grid;
+  gap: 10px;
+}
+
+.share-sheet__section h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+}
+
+.share-sheet__hint,
+.share-sheet__message {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+.share-sheet__message {
+  font-weight: 700;
+  color: var(--ink);
+}
+
+/* Las dos tarjetas transparentes, cada una sobre un tablero que deja ver la transparencia */
+.share-sheet__stickers {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.share-sheet__stickers li {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+  border: 2px solid var(--ink);
+  border-radius: 16px;
+}
+
+.share-sheet__sticker {
+  padding: 14px 10px;
+  border-radius: 10px;
+  background: repeating-conic-gradient(#56606b 0 25%, #47505a 0 50%) 0 0 / 18px 18px;
+}
+
+.share-sheet__sticker--black {
+  background: repeating-conic-gradient(#ece8e0 0 25%, #fbf9f5 0 50%) 0 0 / 18px 18px;
+}
+
+.share-sheet__sticker canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.share-sheet__stickers p {
+  margin: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.share-sheet__stickers p span {
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+}
+
+.share-sheet__stickers .btn {
+  width: 100%;
+  /* Los dos botones a la misma altura, aunque los textos ocupen distinto */
+  margin-top: auto;
+}
+
+/* La alternativa: la historia lista, con la tarjeta centrada sobre el cielo */
+.share-sheet__ready {
+  grid-template-columns: 96px minmax(0, 1fr);
+  align-items: center;
+  gap: 16px;
+  padding-top: 18px;
+  border-top: 2px dashed var(--line);
+}
+
+.share-sheet__ready > div {
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+}
+
+.share-sheet__story {
+  display: block;
+  width: 96px;
+  height: auto;
+  aspect-ratio: 9 / 16;
+  border: 2px solid var(--ink);
+  border-radius: 10px;
+  background: #3d7299;
+}
+
+@media (max-width: 560px) {
+  .share-sheet__body {
+    padding: 16px;
+  }
+
+  .share-sheet__stickers {
+    gap: 10px;
+  }
+
+  .share-sheet__stickers li {
+    padding: 10px;
+  }
+}

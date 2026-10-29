@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import QuestionCard from '../components/QuestionCard.jsx'
+import ShareSheet from '../components/ShareSheet.jsx'
 import TalkTimer from '../components/TalkTimer.jsx'
 import Title from '../components/Title.jsx'
 import { CATEGORIES, QUESTIONS } from '../data/questions.js'
 import { shuffle } from '../state/journey.js'
 import { useConfirm } from '../state/confirm.js'
+import { useJourney } from '../state/useJourney.js'
 import { isLastSpeaker, nextSpeaker, speakersStatus, speakingOrder, startRound } from '../lib/groupTurns.js'
 import { TIMER_OPTIONS } from '../lib/timer.js'
 
@@ -33,6 +35,8 @@ export default function Grupal() {
   const [round, setRound] = useState(startRound)
   const [timerSeconds, setTimerSeconds] = useState(0)
   const [bigText, setBigText] = useState(readBigText)
+  const [sharing, setSharing] = useState(false)
+  const { profile } = useJourney()
   const confirm = useConfirm()
 
   function toggleBigText() {
@@ -160,6 +164,9 @@ export default function Grupal() {
           {/* key: el reloj vuelve a cero con cada persona que habla */}
           {timerSeconds > 0 && <TalkTimer key={`${round.question}-${round.step}`} seconds={timerSeconds} />}
           <div className="actions actions--end">
+            <button type="button" className="btn btn--text" onClick={() => setSharing(true)}>
+              Compartir
+            </button>
             {named && round.step === 0 && (
               <button type="button" className="btn btn--text" onClick={drawCard}>
                 Cambiar pregunta
@@ -177,6 +184,8 @@ export default function Grupal() {
         <p className="muted center">
           En el modo grupal no se guarda nada. Lo que se dice en la mesa, queda en la mesa.
         </p>
+        {/* Se comparte la pregunta, nunca lo que se dijo */}
+        {sharing && <ShareSheet question={question} profile={profile} onClose={() => setSharing(false)} />}
       </div>
     )
   }

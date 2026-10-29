@@ -3,6 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom'
 import CountryStamp from '../components/CountryStamp.jsx'
 import ProgressBar from '../components/ProgressBar.jsx'
 import QuestionCard from '../components/QuestionCard.jsx'
+import ShareSheet from '../components/ShareSheet.jsx'
 import Title from '../components/Title.jsx'
 import Suitcase from '../components/Suitcase.jsx'
 import { COUNTRIES, COUNTRY_BY_ID } from '../data/countries.js'
@@ -108,6 +109,7 @@ function IndividualGame({ params }) {
         route={route}
         answeredCount={answeredCount}
         totalQuestions={totalQuestions}
+        profile={profile}
         onNext={() => nextQuestion()}
       />
     )
@@ -226,7 +228,8 @@ function IndividualGame({ params }) {
 }
 
 // Después de guardar: la pegatina del país se pega en la maleta (o avanza, o se completa).
-function SavedScreen({ question, country, answers, route, answeredCount, totalQuestions, onNext }) {
+function SavedScreen({ question, country, answers, route, answeredCount, totalQuestions, profile, onNext }) {
+  const [sharing, setSharing] = useState(false)
   const stickers = useMemo(
     () => buildStickers({ questions: QUESTIONS, countries: COUNTRIES, answers, route }),
     [answers, route],
@@ -274,6 +277,9 @@ function SavedScreen({ question, country, answers, route, answeredCount, totalQu
         />
         <ProgressBar value={answeredCount} max={totalQuestions} label="Preguntas respondidas" />
         <div className="actions">
+          <button type="button" className="btn btn--ghost" onClick={() => setSharing(true)}>
+            Compartir la pregunta
+          </button>
           <Link to="/maleta" className="btn btn--ghost">
             Ver mi maleta
           </Link>
@@ -282,6 +288,14 @@ function SavedScreen({ question, country, answers, route, answeredCount, totalQu
           </button>
         </div>
       </section>
+      {sharing && (
+        <ShareSheet
+          question={question}
+          answer={answers[question.id]?.at(-1)?.text}
+          profile={profile}
+          onClose={() => setSharing(false)}
+        />
+      )}
     </div>
   )
 }

@@ -1,5 +1,6 @@
 import { COUNTRY_BY_ID } from '../data/countries.js'
-import { CATEGORIES, CATEGORY_BY_KEY } from '../data/questions.js'
+import { CATEGORY_BY_KEY } from '../data/questions.js'
+import { barcodeBars, flightCode, gateFor, seatFor } from '../lib/ticket.js'
 import Avatar from './Avatar.jsx'
 import CountryStamp from './CountryStamp.jsx'
 import Title from './Title.jsx'
@@ -17,8 +18,8 @@ export default function QuestionCard({
 }) {
   const country = COUNTRY_BY_ID[question.countryId]
   const category = CATEGORY_BY_KEY[question.category]
-  const flight = `EM ${String(question.id).padStart(3, '0')}`
-  const gate = CATEGORIES.findIndex((c) => c.key === question.category) + 1
+  const flight = flightCode(question.id)
+  const gate = gateFor(question.category)
 
   return (
     <article className={`ticket ${className}`}>
@@ -65,11 +66,6 @@ export default function QuestionCard({
   )
 }
 
-// Asiento fijo para cada pregunta: fila 1–30 y letra A–F.
-function seatFor(id) {
-  return `${((id * 7) % 30) + 1}${'ABCDEF'[id % 6]}`
-}
-
 function PlaneIcon() {
   return (
     <svg viewBox="0 0 24 24" className="ticket__plane" aria-hidden="true">
@@ -80,17 +76,7 @@ function PlaneIcon() {
 
 // Código de barras decorativo, siempre igual para la misma pregunta.
 function Barcode({ seed, label }) {
-  let n = seed * 9301 + 49297
-  const random = () => {
-    n = (n * 9301 + 49297) % 233280
-    return n / 233280
-  }
-  const bars = []
-  for (let x = 0; x < 116; ) {
-    const w = 1 + Math.floor(random() * 3)
-    bars.push({ x, w })
-    x += w + 1 + Math.floor(random() * 3)
-  }
+  const bars = barcodeBars(seed)
   return (
     <div className="ticket__barcode">
       <svg viewBox="0 0 116 36" preserveAspectRatio="none" aria-hidden="true">
