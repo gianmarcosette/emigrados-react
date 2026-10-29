@@ -573,6 +573,391 @@ function Irlanda({ uid }) {
   )
 }
 
+function Bolivia({ uid }) {
+  // El Salar de Uyuni, que en época de lluvias refleja el cielo como un espejo
+  return (
+    <Frame uid={uid}>
+      <Bands colors={['#7fb4e3', '#a9cdec', '#d4e5f2']} y={7} h={70} />
+      <path d="M7 77 L20 68 L30 72 L42 62 L54 70 L66 64 L80 71 L93 66 V77 Z" fill="#9a8aa8" />
+      <path d="M7 77 L20 86 L30 82 L42 92 L54 84 L66 90 L80 83 L93 88 V77 Z" fill="#c8bed2" />
+      <Bands colors={['#e7eef5', '#cfdeec', '#b6cde6']} y={77} h={48} />
+      <path d="M7 77 L20 86 L30 82 L42 92 L54 84 L66 90 L80 83 L93 88 V77 Z" fill="#c8bed2" opacity="0.8" />
+      <path
+        d="M12 102 l8 -4 l8 4 l8 -4 l8 4 l8 -4 l8 4 l8 -4 l8 4 l8 -4 M8 110 l8 -4 l8 4 l8 -4 l8 4 l8 -4 l8 4 l8 -4 l8 4 l8 -4 l8 4"
+        fill="none"
+        stroke={C.snow}
+        strokeWidth="0.8"
+      />
+      <circle cx="72" cy="36" r="7" fill={C.yellow} />
+      <Title y={26} fill={C.navy} size={17} spacing={1.5}>
+        BOLIVIA
+      </Title>
+      <rect x="7" y="112" width="86" height="13" fill={C.navy} />
+      <Sub y={120.5}>SALAR DE UYUNI</Sub>
+    </Frame>
+  )
+}
+
+function Ecuador({ uid }) {
+  // Una tortuga gigante de las Galápagos frente a una isla volcánica
+  return (
+    <Frame uid={uid}>
+      <Bands colors={['#8fd0e0', '#b5e1e6', '#dcf0ea']} />
+      <circle cx="26" cy="42" r="7" fill={C.yellow} />
+      <path d="M44 84 L62 56 Q66 52 70 56 L90 84 Z" fill="#6f6a72" />
+      <rect x="7" y="80" width="86" height="14" fill={C.sky} />
+      <path d="M14 86 h12 M66 88 h16" stroke={C.cream} strokeWidth="1" />
+      <path d="M7 94 Q30 88 50 92 Q72 96 93 92 V125 H7 Z" fill="#c9a76a" />
+      <g stroke={C.ink} strokeWidth="0.8" strokeLinejoin="round">
+        <path d="M24 106 Q26 84 46 82 Q66 84 68 106 Z" fill="#6d5b45" />
+        <path d="M68 100 Q74 92 80 94 Q84 96 82 100 Q78 102 74 101 L70 104 Z" fill="#8a7a62" />
+        <path d="M28 106 v7 h6 v-7 M56 106 v7 h6 v-7" fill="#8a7a62" />
+      </g>
+      <path
+        d="M34 104 L38 92 L46 88 L54 92 L58 104 M38 92 L46 96 L54 92 M46 96 V104 M30 98 L38 92 M62 98 L54 92"
+        fill="none"
+        stroke="#4b3e2f"
+        strokeWidth="0.8"
+      />
+      <circle cx="79" cy="96.5" r="0.8" fill={C.ink} />
+      <Title y={26} fill={C.navy} size={13.5} stroke={C.cream} spacing={1.5}>
+        ECUADOR
+      </Title>
+      <rect x="7" y="114" width="86" height="11" fill={C.navy} />
+      <Sub y={121.5}>GALÁPAGOS</Sub>
+    </Frame>
+  )
+}
+
+function Paraguay({ uid }) {
+  // El Palacio de López de Asunción entre lapachos en flor
+  return (
+    <Frame uid={uid}>
+      <Bands colors={['#a8d4ec', '#c6e2f0', '#e2eff3']} />
+      <g fill={C.snow} stroke={C.ink} strokeWidth="0.8">
+        <rect x="24" y="76" width="52" height="26" />
+        <rect x="44" y="56" width="12" height="20" />
+        <path d="M44 56 L50 44 L56 56 Z" />
+        <rect x="28" y="72" width="44" height="4" />
+      </g>
+      <path d="M30 82 v14 M37 82 v14 M44 82 v14 M56 82 v14 M63 82 v14 M70 82 v14" stroke={C.ink} strokeWidth="1.4" />
+      <rect x="47.5" y="61" width="5" height="8" rx="2.5" fill={C.sky} />
+      <path d="M7 102 H93 V125 H7 Z" fill={C.green} />
+      {[
+        [14, 82],
+        [86, 84],
+      ].map(([x, y]) => (
+        <g key={x}>
+          <path d={`M${x} 106 V${y + 6}`} stroke={C.brown} strokeWidth="2" />
+          <circle cx={x - 5} cy={y + 2} r="6" fill={C.rose} />
+          <circle cx={x + 4} cy={y - 2} r="6.5" fill="#ec7fa3" />
+          <circle cx={x + 1} cy={y + 6} r="5" fill={C.rose} />
+        </g>
+      ))}
+      <Title y={26} fill={C.coral} size={12.5} stroke={C.cream} spacing={1}>
+        PARAGUAY
+      </Title>
+      <rect x="7" y="112" width="86" height="13" fill={C.navy} />
+      <Sub y={120.5}>ASUNCIÓN</Sub>
+    </Frame>
+  )
+}
+
+function CostaRica({ uid }) {
+  // Un tucán en una rama, en plena selva
+  return (
+    <Frame uid={uid}>
+      <rect x="7" y="7" width="86" height="118" fill={C.deepGreen} />
+      {[
+        [14, 40, 14],
+        [86, 52, 16],
+        [20, 90, 15],
+        [84, 100, 14],
+      ].map(([x, y, r]) => (
+        <circle key={`${x}${y}`} cx={x} cy={y} r={r} fill={C.green} />
+      ))}
+      <path d="M7 88 Q40 82 93 76" stroke={C.brown} strokeWidth="3" fill="none" />
+      <g stroke={C.ink} strokeWidth="0.8" strokeLinejoin="round">
+        <path d="M38 84 Q34 66 42 54 Q50 46 56 52 Q60 60 56 76 L50 92 Z" fill={C.ink} />
+        <path d="M44 56 Q42 66 48 70 Q54 66 54 56 Q50 52 44 56 Z" fill={C.yellow} />
+        <path d="M54 52 Q72 46 80 54 Q72 58 56 60 Z" fill={C.orange} />
+        <path d="M56 56 Q70 54 79 55" fill="none" />
+      </g>
+      <circle cx="50" cy="55" r="2.2" fill={C.cream} />
+      <circle cx="50.5" cy="55" r="1" fill={C.ink} />
+      <path d="M44 92 L46 100 M50 92 L50 100" stroke={C.ink} strokeWidth="1.4" />
+      <Title y={26} fill={C.yellow} size={11.5} spacing={1}>
+        COSTA RICA
+      </Title>
+      <rect x="7" y="112" width="86" height="13" fill={C.ink} />
+      <Sub y={120.5} fill={C.yellow}>
+        PURA VIDA
+      </Sub>
+    </Frame>
+  )
+}
+
+function Cuba({ uid }) {
+  // Un auto clásico frente a las fachadas de colores de La Habana
+  const facades = [
+    { x: 7, w: 22, fill: '#f3a6b8' },
+    { x: 29, w: 22, fill: '#7fc4c0' },
+    { x: 51, w: 21, fill: C.yellow },
+    { x: 72, w: 21, fill: C.peach },
+  ]
+  return (
+    <Frame uid={uid}>
+      <Bands colors={['#8ccbe8', '#b3dcee']} y={7} h={50} />
+      {facades.map(({ x, w, fill }, i) => (
+        <g key={x}>
+          <rect x={x} y={44 + (i % 2) * 6} width={w} height="56" fill={fill} stroke={C.ink} strokeWidth="0.6" />
+          <rect x={x + 4} y={58} width="5" height="10" rx="2.5" fill={C.cream} stroke={C.ink} strokeWidth="0.5" />
+          <rect x={x + w - 9} y={58} width="5" height="10" rx="2.5" fill={C.cream} stroke={C.ink} strokeWidth="0.5" />
+          <rect x={x + 3} y={70} width={w - 6} height="2" fill={C.brown} />
+        </g>
+      ))}
+      <rect x="7" y="100" width="86" height="25" fill="#8f9bab" />
+      <g stroke={C.ink} strokeWidth="0.8" strokeLinejoin="round">
+        <path d="M18 104 Q20 96 30 94 L38 88 H58 L66 94 Q80 95 82 104 Z" fill={C.coral} />
+        <path d="M40 90 H56 L61 94 H36 Z" fill={C.cream} />
+        <circle cx="30" cy="104" r="4.5" fill={C.ink} />
+        <circle cx="70" cy="104" r="4.5" fill={C.ink} />
+      </g>
+      <circle cx="30" cy="104" r="1.6" fill={C.snow} />
+      <circle cx="70" cy="104" r="1.6" fill={C.snow} />
+      <Title y={28} fill={C.coral} size={22} stroke={C.cream} spacing={2}>
+        CUBA
+      </Title>
+      <rect x="7" y="112" width="86" height="13" fill={C.navy} />
+      <Sub y={120.5}>LA HABANA</Sub>
+    </Frame>
+  )
+}
+
+function RepublicaDominicana({ uid }) {
+  // Palmeras inclinadas sobre el mar turquesa de Punta Cana
+  return (
+    <Frame uid={uid}>
+      <Bands colors={['#5fc3e6', '#8fd6ec', '#bde7f1']} />
+      <circle cx="30" cy="40" r="8" fill={C.yellow} />
+      <rect x="7" y="76" width="86" height="20" fill="#2fb7c4" />
+      <path d="M14 84 h14 M48 90 h18" stroke={C.cream} strokeWidth="1" />
+      <path d="M7 96 Q40 88 93 94 V125 H7 Z" fill="#f2dca8" />
+      {[
+        { base: [74, 108], top: [56, 52] },
+        { base: [86, 106], top: [76, 64] },
+      ].map(({ base, top }) => (
+        <g key={base[0]}>
+          <path
+            d={`M${base[0]} ${base[1]} Q${base[0] - 2} ${(base[1] + top[1]) / 2} ${top[0]} ${top[1]}`}
+            fill="none"
+            stroke={C.brown}
+            strokeWidth="2.4"
+          />
+          <path
+            d={`M${top[0]} ${top[1]} q-12 -2 -16 6 M${top[0]} ${top[1]} q-10 -8 -18 -4 M${top[0]} ${top[1]} q4 -10 14 -8 M${top[0]} ${top[1]} q12 0 14 8 M${top[0]} ${top[1]} q-2 -10 2 -14`}
+            fill="none"
+            stroke={C.green}
+            strokeWidth="2.4"
+            strokeLinecap="round"
+          />
+        </g>
+      ))}
+      <Title y={22} fill={C.navy} size={8.8} spacing={0.4}>
+        REP. DOMINICANA
+      </Title>
+      <rect x="7" y="112" width="86" height="13" fill={C.navy} />
+      <Sub y={120.5}>PUNTA CANA</Sub>
+    </Frame>
+  )
+}
+
+function PuertoRico({ uid }) {
+  // Una garita del castillo del Morro, en San Juan, frente al mar
+  return (
+    <Frame uid={uid}>
+      <Bands colors={['#f7b183', '#fbcf8f', '#9fd2e3']} />
+      <rect x="7" y="80" width="86" height="45" fill={C.sky} />
+      <path d="M14 92 h14 M60 100 h18" stroke={C.cream} strokeWidth="1" />
+      <path d="M7 72 H62 L66 125 H7 Z" fill={C.stone} stroke={C.ink} strokeWidth="0.8" />
+      <path d="M7 72 H62" stroke={C.brown} strokeWidth="2" />
+      <g stroke={C.ink} strokeWidth="0.8">
+        <path d="M58 72 V52 Q58 44 66 44 Q74 44 74 52 V72 Q66 78 58 72 Z" fill="#e9d6ae" />
+        <path d="M56 52 H76 V49 H56 Z" fill={C.stone} />
+        <path d="M58 49 Q58 36 66 34 Q74 36 74 49 Z" fill="#e9d6ae" />
+        <circle cx="66" cy="33" r="1.6" fill={C.stone} />
+      </g>
+      <rect x="64.8" y="56" width="2.4" height="8" fill={C.ink} />
+      <Title y={24} fill={C.navy} size={11} spacing={1}>
+        PUERTO RICO
+      </Title>
+      <rect x="7" y="112" width="86" height="13" fill={C.navy} />
+      <Sub y={120.5}>SAN JUAN</Sub>
+    </Frame>
+  )
+}
+
+function Panama({ uid }) {
+  // Un barco pasando por las esclusas del Canal de Panamá
+  return (
+    <Frame uid={uid}>
+      <Bands colors={['#9fd2e3', '#c2e3e9', '#e2f1ea']} />
+      <path d="M7 70 Q20 58 32 66 Q46 56 60 66 Q74 58 93 68 V80 H7 Z" fill={C.green} />
+      <rect x="7" y="80" width="86" height="45" fill="#a7a59c" />
+      <rect x="18" y="80" width="64" height="32" fill={C.teal} />
+      <path d="M18 80 V112 M82 80 V112" stroke={C.ink} strokeWidth="1.4" />
+      <g stroke={C.ink} strokeWidth="0.8" strokeLinejoin="round">
+        <path d="M24 96 H76 L72 104 H28 Z" fill={C.coral} />
+        <rect x="30" y="86" width="12" height="10" fill={C.yellow} />
+        <rect x="44" y="88" width="12" height="8" fill={C.sky} />
+        <rect x="58" y="86" width="12" height="10" fill={C.cream} />
+        <rect x="64" y="76" width="7" height="10" fill={C.snow} />
+      </g>
+      <path d="M22 108 h12 M58 108 h16" stroke={C.cream} strokeWidth="1" />
+      <Title y={26} fill={C.navy} size={17} spacing={1.5}>
+        PANAMÁ
+      </Title>
+      <rect x="7" y="112" width="86" height="13" fill={C.navy} />
+      <Sub y={120.5}>EL CANAL</Sub>
+    </Frame>
+  )
+}
+
+function Guatemala({ uid }) {
+  // El arco de Santa Catalina en Antigua, con el volcán de Agua detrás
+  return (
+    <Frame uid={uid}>
+      <Bands colors={['#a8d4ec', '#c6e2f0', '#e2eff3']} />
+      <path d="M7 92 L40 46 Q46 40 52 46 L93 92 Z" fill="#6f87a3" />
+      <path d="M38 50 Q46 38 54 50 L50 48 L46 51 L42 48 Z" fill={C.snow} />
+      <g stroke={C.ink} strokeWidth="0.8">
+        <path d="M14 125 V78 H86 V125 H62 V100 Q50 86 38 100 V125 Z" fill={C.yellow} />
+        <rect x="40" y="66" width="20" height="12" fill={C.yellow} />
+        <path d="M38 66 H62 L50 58 Z" fill={C.coral} />
+        <circle cx="50" cy="72" r="3.4" fill={C.cream} />
+      </g>
+      <path d="M50 72 V70 M50 72 H52" stroke={C.ink} strokeWidth="0.7" />
+      <path d="M20 84 v8 M28 84 v8 M72 84 v8 M80 84 v8" stroke={C.brown} strokeWidth="1.6" />
+      <rect x="7" y="112" width="86" height="13" fill={C.navy} />
+      <Title y={26} fill={C.navy} size={12} spacing={1}>
+        GUATEMALA
+      </Title>
+      <Sub y={120.5}>ANTIGUA</Sub>
+    </Frame>
+  )
+}
+
+function ElSalvador({ uid }) {
+  // Una ola perfecta para surfear en la costa del Pacífico
+  return (
+    <Frame uid={uid}>
+      <Bands colors={['#f7b183', '#fbcf8f', '#fde6a8']} />
+      <circle cx="72" cy="42" r="9" fill={C.orange} />
+      <path d="M7 76 H93 V125 H7 Z" fill={C.teal} />
+      <path
+        d="M7 112 V84 Q24 58 50 60 Q66 62 68 76 Q60 70 52 74 Q44 80 48 92 Q52 102 64 104 L93 104 V112 Z"
+        fill="#3fb3c2"
+        stroke={C.ink}
+        strokeWidth="0.8"
+      />
+      <path d="M50 60 Q66 62 68 76 Q60 70 52 74" fill={C.snow} />
+      <path d="M12 96 Q30 74 48 66" fill="none" stroke={C.snow} strokeWidth="1.2" />
+      <g stroke={C.ink} strokeWidth="0.8" strokeLinejoin="round">
+        <path d="M30 92 L50 86 L52 88 L32 95 Z" fill={C.yellow} />
+        <path d="M40 89 L42 80 L45 79 L46 87 Z" fill={C.coral} />
+        <circle cx="43.5" cy="77" r="2" fill={C.brown} />
+        <path d="M42 82 L37 80 M45 82 L50 79" />
+      </g>
+      <path d="M7 104 H93 V125 H7 Z" fill="#e9cf98" />
+      <Title y={24} fill={C.navy} size={10.5} spacing={1}>
+        EL SALVADOR
+      </Title>
+      <rect x="7" y="112" width="86" height="13" fill={C.navy} />
+      <Sub y={120.5}>LA LIBERTAD</Sub>
+    </Frame>
+  )
+}
+
+function Honduras({ uid }) {
+  // El arrecife de Roatán, debajo de una lancha
+  return (
+    <Frame uid={uid}>
+      <Bands colors={['#9fd8ee', '#c3e8f2']} y={7} h={30} />
+      <Bands colors={['#2fb7c4', '#2a9fb3', '#22859c', '#1d6c85']} y={37} h={88} />
+      <path d="M38 37 L42 32 H62 L66 37 Z" fill={C.coral} stroke={C.ink} strokeWidth="0.8" />
+      <path d="M7 37 H93" stroke={C.snow} strokeWidth="1" />
+      <g stroke={C.ink} strokeWidth="0.6">
+        <path d="M14 112 Q12 96 18 92 Q20 100 22 112 Z" fill={C.coral} />
+        <path d="M22 112 Q26 90 30 88 Q32 100 30 112 Z" fill={C.orange} />
+        <path d="M66 112 Q64 98 70 94 Q76 98 74 112 Z" fill={C.rose} />
+        <circle cx="80" cy="106" r="6" fill={C.yellow} />
+      </g>
+      <path d="M7 112 Q50 104 93 112 V125 H7 Z" fill="#e9cf98" />
+      {[
+        [40, 64, C.yellow],
+        [58, 76, C.orange],
+        [32, 84, C.coral],
+        [62, 56, C.yellow],
+      ].map(([x, y, fill]) => (
+        <path key={`${x}${y}`} d={`M${x} ${y} q5 -4 10 0 q-5 4 -10 0 z l-4 -3 v6 z`} fill={fill} />
+      ))}
+      <Title y={26} fill={C.navy} size={14} stroke={C.cream} spacing={1}>
+        HONDURAS
+      </Title>
+      <rect x="7" y="114" width="86" height="11" fill={C.navy} />
+      <Sub y={121.5}>ROATÁN</Sub>
+    </Frame>
+  )
+}
+
+function Nicaragua({ uid }) {
+  // La catedral amarilla de Granada
+  return (
+    <Frame uid={uid}>
+      <Bands colors={['#8fc3e8', '#b5d8ef', '#dcecf4']} />
+      <g stroke={C.ink} strokeWidth="0.8">
+        <rect x="22" y="56" width="14" height="48" fill={C.yellow} />
+        <rect x="64" y="56" width="14" height="48" fill={C.yellow} />
+        <rect x="36" y="66" width="28" height="38" fill={C.yellow} />
+        <path d="M22 56 Q29 42 36 56 Z M64 56 Q71 42 78 56 Z" fill={C.coral} />
+        <path d="M40 66 Q50 48 60 66 Z" fill={C.coral} />
+        <rect x="44" y="84" width="12" height="20" rx="6" fill={C.brown} />
+      </g>
+      <g fill={C.cream} stroke={C.ink} strokeWidth="0.5">
+        <rect x="26.5" y="62" width="5" height="8" rx="2.5" />
+        <rect x="68.5" y="62" width="5" height="8" rx="2.5" />
+        <circle cx="50" cy="74" r="3" />
+      </g>
+      <path d="M29 42 V38 M71 42 V38 M50 48 V43" stroke={C.ink} strokeWidth="1" />
+      <rect x="7" y="104" width="86" height="21" fill="#8f9bab" />
+      <Title y={24} fill={C.navy} size={12} spacing={1}>
+        NICARAGUA
+      </Title>
+      <rect x="7" y="112" width="86" height="13" fill={C.navy} />
+      <Sub y={120.5}>GRANADA</Sub>
+    </Frame>
+  )
+}
+
+function Belice({ uid }) {
+  // El Gran Agujero Azul, visto desde el aire en medio del arrecife
+  return (
+    <Frame uid={uid}>
+      <rect x="7" y="7" width="86" height="118" fill="#1d6c85" />
+      <ellipse cx="50" cy="70" rx="34" ry="30" fill="#5fd0d6" />
+      <ellipse cx="50" cy="70" rx="26" ry="23" fill="#2fb7c4" />
+      <circle cx="50" cy="70" r="16" fill={C.navy} />
+      <circle cx="50" cy="70" r="16" fill="none" stroke="#3a6fb0" strokeWidth="2" />
+      <path d="M22 50 q4 -2 8 0 M70 92 q4 -2 8 0 M20 88 q3 -2 6 0" stroke={C.cream} strokeWidth="1" fill="none" />
+      <Title y={26} fill={C.cream} size={18} spacing={2}>
+        BELICE
+      </Title>
+      <rect x="7" y="112" width="86" height="13" fill={C.navy} />
+      <Sub y={120.5}>EL AGUJERO AZUL</Sub>
+    </Frame>
+  )
+}
+
 // Por código de país (el mismo id que usa el resto del juego)
 const POSTERS = {
   '032': Argentina,
@@ -593,6 +978,19 @@ const POSTERS = {
   840: EstadosUnidos,
   554: NuevaZelanda,
   372: Irlanda,
+  '068': Bolivia,
+  218: Ecuador,
+  600: Paraguay,
+  188: CostaRica,
+  192: Cuba,
+  214: RepublicaDominicana,
+  630: PuertoRico,
+  591: Panama,
+  320: Guatemala,
+  222: ElSalvador,
+  340: Honduras,
+  558: Nicaragua,
+  '084': Belice,
 }
 
 // El afiche del país, centrado en 0,0 como el resto de las pegatinas. Hasta completar el
