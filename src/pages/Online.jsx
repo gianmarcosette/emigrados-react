@@ -272,7 +272,7 @@ function Lobby({ me, duels, now, canStart, onNew, onOpen, onRemove }) {
         <TrialNote />
       </header>
 
-      <div className="actions">
+      <div className="actions actions--center">
         {canStart ? (
           <button type="button" className="btn btn--primary" onClick={onNew}>
             Nuevo duelo
