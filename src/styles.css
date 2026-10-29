@@ -5464,3 +5464,19 @@ h3 {
 .demo-box p {
   margin: 0;
 }
+
+/* Texto sobre el cielo: un halo azul oscuro suave, para que se lea también cuando cae
+   sobre la trama de puntos de una nube. Las tarjetas y los botones llenos no lo llevan. */
+.main,
+.footer {
+  text-shadow:
+    0 1px 2px rgb(22 52 76 / 0.6),
+    0 0 10px rgb(22 52 76 / 0.5);
+}
+
+.main :is(.duel-review li, .confirm, .country-panel, .duel-card, .duel-fact, .duel-option, .duel-timer, .first-flight, .history, .howto, .journal, .maleta-card, .mode, .online-country, .panel, .player, .player-card, .profile-card, .saved, .saved-toast, .stat, .statlink, .talk-compose, .talk-invite, .talk-msg--me, .talk-msg--them, .talk-prompt, .talk-reaction, .talk-report, .talk-saved, .talk-timer, .text-size, .ticket, .to-stick, .hero__profile, .speaker, .chip--toggle, .avatar-editor, .btn--primary, .pill, input, select, textarea),
+.footer :is(.footer__help, .btn--primary),
+.sky__banner,
+.first-flight {
+  text-shadow: none;
+}
