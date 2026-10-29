@@ -1,7 +1,7 @@
 // Pegatinas como afiches de viaje en miniatura: cada país con su lugar emblemático,
 // el cielo en franjas, el borde crema y el nombre grande. Se dibujan en una caja de
-// 100 × 132 con el centro en (50, 66). Los países que todavía no tienen afiche usan la
-// pegatina simple (ver Sticker.jsx). Se van sumando por tandas.
+// 100 × 132 con el centro en (50, 66). Los 52 países del juego tienen el suyo; si se suma
+// un país nuevo sin afiche, usa la pegatina simple (ver Sticker.jsx).
 
 const C = {
   ink: '#161616',
@@ -1453,6 +1453,162 @@ function Luxemburgo({ uid }) {
   )
 }
 
+function Canada({ uid }) {
+  // El lago Moraine, de un turquesa intenso, entre montañas y pinos
+  return (
+    <Frame uid={uid}>
+      <Bands colors={['#9fd2e3', '#c2e3e9', '#e2f1ea']} />
+      <path
+        d="M7 84 L18 52 L28 64 L40 38 L52 60 L64 44 L78 62 L93 50 V84 Z"
+        fill="#7d8a9e"
+        stroke={C.ink}
+        strokeWidth="0.6"
+      />
+      <path d="M36 46 L40 38 L44 46 L40 44 Z M60 52 L64 44 L68 52 L64 50 Z" fill={C.snow} />
+      <rect x="7" y="84" width="86" height="41" fill="#2fc0c9" />
+      <path d="M7 84 L18 104 L28 96 L40 114 L52 98 L64 110 L78 98 L93 106 V84 Z" fill="#259ea8" opacity="0.6" />
+      {[12, 20, 82, 89].map((x, i) => (
+        <path
+          key={x}
+          d={`M${x} ${92 - (i % 2) * 6} l-5 14 h10 z M${x} ${98 - (i % 2) * 6} l-6 14 h12 z`}
+          fill={C.deepGreen}
+        />
+      ))}
+      <path d="M32 92 h12 M58 100 h16" stroke={C.cream} strokeWidth="1" />
+      <Title y={24} fill="#d6332a" size={17} stroke={C.cream} spacing={1.5}>
+        CANADÁ
+      </Title>
+      <rect x="7" y="112" width="86" height="13" fill={C.navy} />
+      <Sub y={120.5}>LAGO MORAINE</Sub>
+    </Frame>
+  )
+}
+
+function CoreaDelSur({ uid }) {
+  // El palacio Gyeongbokgung con las montañas de Seúl detrás
+  return (
+    <Frame uid={uid}>
+      <Bands colors={['#f3a6b8', '#f7c4c4', '#fbe0d4']} />
+      <path d="M7 76 L24 56 L40 66 L58 50 L76 62 L93 54 V90 H7 Z" fill="#8fa4c4" />
+      <g stroke={C.ink} strokeWidth="0.8" strokeLinejoin="round">
+        <path d="M18 74 Q50 64 82 74 L76 78 H24 Z" fill={C.ink} />
+        <rect x="26" y="78" width="48" height="10" fill="#c4473a" />
+        <path d="M22 88 Q50 80 78 88 L74 92 H26 Z" fill={C.ink} />
+        <rect x="24" y="92" width="52" height="12" fill="#c4473a" />
+      </g>
+      <path d="M32 92 v12 M42 92 v12 M50 92 v12 M58 92 v12 M68 92 v12" stroke={C.green} strokeWidth="1.4" />
+      <rect x="7" y="104" width="86" height="21" fill={C.stone} />
+      {[
+        [14, 60],
+        [86, 64],
+      ].map(([x, y]) => (
+        <circle key={x} cx={x} cy={y} r="6" fill={C.rose} />
+      ))}
+      <Title y={22} fill={C.navy} size={10.5} spacing={0.4}>
+        COREA DEL SUR
+      </Title>
+      <rect x="7" y="112" width="86" height="13" fill={C.navy} />
+      <Sub y={120.5}>SEÚL</Sub>
+    </Frame>
+  )
+}
+
+function Emiratos({ uid }) {
+  // El Burj Khalifa entre los rascacielos de Dubái, sobre el desierto
+  return (
+    <Frame uid={uid}>
+      <Bands colors={['#f7b183', '#fbcf8f', '#fde6a8']} />
+      <circle cx="26" cy="46" r="8" fill={C.orange} />
+      <g fill="#6f7f9b">
+        <rect x="14" y="80" width="8" height="24" />
+        <rect x="24" y="72" width="7" height="32" />
+        <rect x="64" y="70" width="8" height="34" />
+        <rect x="74" y="78" width="8" height="26" />
+        <path d="M84 104 V74 Q88 66 92 74 V104 Z" />
+      </g>
+      <path
+        d="M50 40 L51 54 L53 54 L54 70 L56 70 L58 104 H42 L44 70 L46 70 L47 54 L49 54 Z"
+        fill={C.snow}
+        stroke={C.ink}
+        strokeWidth="0.7"
+        strokeLinejoin="round"
+      />
+      <path d="M7 104 Q30 98 50 104 Q70 98 93 104 V125 H7 Z" fill="#e9c27a" />
+      <Title y={20} fill={C.navy} size={12} spacing={0.6}>
+        EMIRATOS
+      </Title>
+      <Title y={31} fill={C.navy} size={9} spacing={0.6}>
+        ÁRABES UNIDOS
+      </Title>
+      <rect x="7" y="112" width="86" height="13" fill={C.navy} />
+      <Sub y={120.5}>DUBÁI</Sub>
+    </Frame>
+  )
+}
+
+function GuineaEcuatorial({ uid }) {
+  // La ceiba frente al mar, en Malabo
+  return (
+    <Frame uid={uid}>
+      <Bands colors={['#9fd2e3', '#c2e3e9', '#e2f1ea']} />
+      <path d="M7 82 L30 60 L48 72 L66 54 L93 76 V90 H7 Z" fill="#6f8f7a" />
+      <rect x="7" y="90" width="86" height="35" fill={C.sky} />
+      <path d="M14 100 h12 M60 108 h18" stroke={C.cream} strokeWidth="1" />
+      <path d="M7 98 Q30 92 54 100 V125 H7 Z" fill="#e9cf98" />
+      <g>
+        <path d="M30 100 L32 62 H36 L38 100 Z" fill={C.brown} />
+        <path d="M24 100 Q30 96 32 88 M44 100 Q38 96 36 88" fill="none" stroke={C.brown} strokeWidth="1.6" />
+        <ellipse cx="34" cy="52" rx="22" ry="9" fill={C.deepGreen} />
+        <ellipse cx="34" cy="44" rx="16" ry="7" fill={C.green} />
+      </g>
+      <Title y={20} fill={C.navy} size={12} spacing={0.6}>
+        GUINEA
+      </Title>
+      <Title y={31} fill={C.navy} size={9} spacing={0.6}>
+        ECUATORIAL
+      </Title>
+      <rect x="7" y="112" width="86" height="13" fill={C.navy} />
+      <Sub y={120.5}>MALABO</Sub>
+    </Frame>
+  )
+}
+
+function TrinidadYTobago({ uid }) {
+  // Un tambor metálico (steelpan) y el carnaval
+  return (
+    <Frame uid={uid}>
+      <rect x="7" y="7" width="86" height="118" fill="#c4473a" />
+      {[
+        [16, 40, C.yellow],
+        [84, 46, C.teal],
+        [20, 96, C.rose],
+        [80, 94, C.yellow],
+      ].map(([x, y, fill]) => (
+        <path key={`${x}${y}`} d={`M${x} ${y} l2 -6 l2 6 l6 2 l-6 2 l-2 6 l-2 -6 l-6 -2 z`} fill={fill} />
+      ))}
+      <g stroke={C.ink} strokeWidth="0.8">
+        <ellipse cx="50" cy="66" rx="24" ry="9" fill="#cfd6dd" />
+        <path d="M26 66 V92 Q50 104 74 92 V66" fill="#9aa5b1" />
+        <ellipse cx="50" cy="66" rx="24" ry="9" fill="#cfd6dd" />
+        <ellipse cx="42" cy="65" rx="6" ry="2.6" fill="#b8c1ca" />
+        <ellipse cx="58" cy="65" rx="6" ry="2.6" fill="#b8c1ca" />
+        <ellipse cx="50" cy="70" rx="5" ry="2" fill="#b8c1ca" />
+      </g>
+      <path d="M28 84 Q50 94 72 84" fill="none" stroke={C.yellow} strokeWidth="2" />
+      <Title y={20} fill={C.yellow} size={12} spacing={0.6}>
+        TRINIDAD
+      </Title>
+      <Title y={31} fill={C.yellow} size={9} spacing={0.6}>
+        Y TOBAGO
+      </Title>
+      <rect x="7" y="112" width="86" height="13" fill={C.ink} />
+      <Sub y={120.5} fill={C.yellow}>
+        CARNAVAL
+      </Sub>
+    </Frame>
+  )
+}
+
 // Por código de país (el mismo id que usa el resto del juego)
 const POSTERS = {
   '032': Argentina,
@@ -1502,6 +1658,11 @@ const POSTERS = {
   703: Eslovaquia,
   348: Hungria,
   442: Luxemburgo,
+  124: Canada,
+  410: CoreaDelSur,
+  784: Emiratos,
+  226: GuineaEcuatorial,
+  780: TrinidadYTobago,
 }
 
 // El afiche del país, centrado en 0,0 como el resto de las pegatinas. Hasta completar el
