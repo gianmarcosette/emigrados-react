@@ -58,8 +58,8 @@ export default function Home() {
             Individual
           </h2>
           <p>
-            Preguntas al azar. Tus respuestas se guardan con fecha y cada país suma una pegatina a tu maleta: respondé
-            las {totalQuestions} y das la vuelta al mundo.
+            Preguntas al azar. Tus respuestas se guardan con fecha y cada país suma un afiche a tu maleta: respondé las{' '}
+            {totalQuestions} y das la vuelta al mundo.
           </p>
           {started && profile ? (
             <>
@@ -102,7 +102,7 @@ export default function Home() {
       {started && (
         <section className="home__stats">
           <Link to="/maleta" className="statlink">
-            <strong>{pins.length}</strong> de {COUNTRIES.length} pegatinas en tu maleta · Ver mi maleta →
+            <strong>{pins.length}</strong> de {COUNTRIES.length} afiches en tu maleta · Ver mi maleta →
           </Link>
           <Link to="/perfil#diario" className="statlink">
             Releer mi diario →
@@ -120,8 +120,8 @@ export default function Home() {
             <strong>Escribís lo que sentís.</strong> No hay respuestas correctas, ni puntos, ni apuro.
           </li>
           <li>
-            <strong>Sumás una pegatina a tu maleta.</strong> Si una pregunta vuelve, ves lo que contestaste antes y cómo
-            cambiaste.
+            <strong>Sumás el afiche del país a tu maleta.</strong> Si una pregunta vuelve, ves lo que contestaste antes
+            y cómo cambiaste.
           </li>
         </ol>
       </section>

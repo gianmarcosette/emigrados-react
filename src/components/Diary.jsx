@@ -290,7 +290,7 @@ function Entry({ entry, term, position, total, onBack, onOlder, onNewer, nightBu
             <CountryShape country={entry.country} className="journal-entry__shape" decorative />
             <span>
               <b>Escala en {entry.country.name}</b>
-              <span>Su pegatina está en tu maleta</span>
+              <span>Su afiche está en tu maleta</span>
             </span>
           </Link>
           <Link to={`/individual?q=${entry.question.id}`} className="btn btn--ghost journal-entry__again">

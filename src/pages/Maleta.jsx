@@ -42,18 +42,16 @@ export default function Maleta() {
         <Title>Mi maleta de viaje</Title>
         <p className="maleta-intro">
           Cada pregunta del juego es una escala de tu viaje por un país. La primera vez que respondés en un país, su
-          pegatina va a tu maleta; cuando respondés sus {QUESTIONS.length / COUNTRIES.length} preguntas, la pegatina se
-          ilumina.
+          afiche va a tu maleta, en gris; cuando respondés sus {QUESTIONS.length / COUNTRIES.length} preguntas, el
+          afiche se pinta de color.
         </p>
-        {stickers.length > 0 && (
-          <p className="muted maleta-hint">Tocá una pegatina para releer lo que escribiste ahí.</p>
-        )}
+        {stickers.length > 0 && <p className="muted maleta-hint">Tocá un afiche para releer lo que escribiste ahí.</p>}
       </header>
 
       <div className="stats">
         <div className="stat">
           <strong>{stickers.length}</strong>
-          <span>de {COUNTRIES.length} pegatinas</span>
+          <span>de {COUNTRIES.length} afiches</span>
         </div>
         <div className="stat">
           <strong>{complete}</strong>
@@ -71,12 +69,12 @@ export default function Maleta() {
             stickers={stickers}
             selectedId={selectedId}
             onSelect={select}
-            label={`Tu maleta, con ${plural(stickers.length, 'pegatina', 'pegatinas')}`}
+            label={`Tu maleta, con ${plural(stickers.length, 'afiche', 'afiches')}`}
           />
           {!stickers.length && (
             <div className="maleta-empty">
               <p>
-                <strong>Tu maleta está vacía.</strong> Cada país al que respondas suma una pegatina.
+                <strong>Tu maleta está vacía.</strong> Cada país al que respondas suma un afiche.
               </p>
               <Link to="/individual" className="btn btn--primary">
                 Responder la primera pregunta
