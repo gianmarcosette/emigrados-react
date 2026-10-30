@@ -240,10 +240,10 @@ function SavedScreen({ question, country, answers, route, answeredCount, totalQu
   const repeated = (answers[question.id]?.length ?? 0) > 1
   const event = repeated ? 'revisit' : stickerEvent({ answeredBefore: answeredNow - 1, total })
   const left = total - answeredNow
-  const leftText = `Te ${left === 1 ? 'queda' : 'quedan'} ${plural(left, 'pregunta', 'preguntas')} de ${country.name} para completarla.`
+  const leftText = `Te ${left === 1 ? 'queda' : 'quedan'} ${plural(left, 'pregunta', 'preguntas')} de ${country.name} para completarlo.`
 
   const headline = {
-    new: 'Nueva pegatina en tu maleta:',
+    new: 'Nuevo afiche en tu maleta:',
     progress: 'Una escala más en',
     complete: '¡Completaste',
     revisit: 'Volviste a pasar por',
@@ -251,7 +251,7 @@ function SavedScreen({ question, country, answers, route, answeredCount, totalQu
   const detail = {
     new: left ? leftText : '',
     progress: leftText,
-    complete: 'Respondiste todas sus preguntas: su pegatina se iluminó en tu maleta.',
+    complete: 'Respondiste todas sus preguntas: su afiche se pintó de color en tu maleta.',
     revisit: 'Tu nueva respuesta quedó junto a la anterior en el diario.',
   }[event]
 
@@ -273,7 +273,7 @@ function SavedScreen({ question, country, answers, route, answeredCount, totalQu
           stickers={stickers}
           freshId={event === 'new' || event === 'complete' ? country.id : null}
           selectedId={country.id}
-          label={`Tu maleta, con ${plural(stickers.length, 'pegatina', 'pegatinas')}`}
+          label={`Tu maleta, con ${plural(stickers.length, 'afiche', 'afiches')}`}
         />
         <ProgressBar value={answeredCount} max={totalQuestions} label="Preguntas respondidas" />
         <div className="actions">
