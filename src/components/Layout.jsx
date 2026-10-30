@@ -72,7 +72,7 @@ export default function Layout() {
             <div className="topbar__row">
               <NavLink to="/" className="brand" aria-label="Emigrados, volver al inicio">
                 <HeartBird className="brand__icon" />
-                <Wordmark className="brand__word" />
+                <Wordmark className="brand__word" compact />
               </NavLink>
               <nav className="topbar__nav" aria-label="Secciones">
                 {LINKS.map((l) => (
