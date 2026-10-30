@@ -1,4 +1,4 @@
-// Íconos de línea de cada sección: los usan el menú del celular y el primer vuelo,
+// Íconos de línea de cada sección: los usa el menú del celular,
 // así cada modo se reconoce siempre por el mismo dibujo.
 export const TAB_ICONS = {
   '/individual': <path d="M5 19l1-4L16.5 4.5a2.1 2.1 0 0 1 3 3L9 18zM14.5 6.5l3 3M4 21h16" />,

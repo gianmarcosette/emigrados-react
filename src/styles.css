@@ -23,9 +23,6 @@
   /* Texto que va directo sobre el cielo (no dentro de una tarjeta) */
   --on-sky: #fbf9f5;
   --on-sky-soft: #eef3f7;
-  /* Cuero de la maleta de pegatinas */
-  --leather: #c98d55;
-  --leather-dark: #8a5a32;
   --sunset: linear-gradient(135deg, #ffd301 0%, #f9a910 55%, #f37c1e 100%);
   --coral: #161616;
   --paper: #f3ede0;
@@ -2970,206 +2967,8 @@ h3 {
   }
 }
 
-.first-flight__head {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-  gap: 12px;
-  padding: 14px 18px;
-  border-bottom: 2px dashed var(--line);
-}
-
-.first-flight__kicker {
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-}
-
-.first-flight__skip {
-  justify-self: end;
-  font-size: 0.85rem;
-}
-
 /* Las tres pantallas como escalas unidas por una ruta punteada */
-.first-flight__stops {
-  display: flex;
-  align-items: center;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.first-flight__stops li {
-  width: 12px;
-  height: 12px;
-  border: 2px solid var(--ink);
-  border-radius: 50%;
-  background: var(--card);
-}
-
-.first-flight__stops li + li {
-  margin-left: 30px;
-  position: relative;
-}
-
-.first-flight__stops li + li::before {
-  content: '';
-  position: absolute;
-  right: 12px;
-  top: 3px;
-  width: 26px;
-  border-top: 2px dashed var(--ink);
-}
-
-.first-flight__stops li.is-done {
-  background: var(--ink);
-}
-
-.first-flight__stops li.is-current {
-  background: var(--yellow);
-  transform: scale(1.35);
-}
-
-.first-flight__body {
-  display: grid;
-  gap: 12px;
-  padding: 22px 26px 8px;
-  animation: talk-in 0.3s ease-out;
-}
-
-.first-flight__body p {
-  margin: 0;
-  line-height: 1.55;
-}
-
-.first-flight__title {
-  margin: 0;
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-size: clamp(2rem, 6vw, 2.6rem);
-  line-height: 1.05;
-  text-align: center;
-}
-
-.first-flight__route {
-  width: min(240px, 70%);
-  justify-self: center;
-  fill: none;
-  stroke: var(--ink);
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.first-flight__route-line {
-  stroke-dasharray: 6 7;
-}
-
-.first-flight__route circle {
-  fill: var(--card);
-}
-
-.first-flight__route-pin {
-  fill: var(--ink);
-}
-
-.first-flight__route-plane {
-  fill: var(--yellow);
-}
-
-.first-flight__modes,
-.first-flight__privacy {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: grid;
-  gap: 12px;
-}
-
-.first-flight__modes li {
-  display: grid;
-  grid-template-columns: 44px minmax(0, 1fr);
-  gap: 12px;
-  align-items: start;
-}
-
-.first-flight__icon {
-  width: 44px;
-  height: 44px;
-  padding: 9px;
-  border: 2px solid var(--ink);
-  border-radius: 50%;
-  fill: none;
-  stroke: var(--ink);
-  stroke-width: 1.8;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.first-flight__mode {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 4px 8px;
-  margin-bottom: 2px !important;
-}
-
-.first-flight__mode span {
-  font-size: 0.72rem;
-  font-weight: 700;
-  padding: 1px 8px;
-  border: 1.5px solid var(--ink);
-  border-radius: 999px;
-}
-
-.first-flight__modes li p:last-child {
-  font-size: 0.92rem;
-}
-
-.first-flight__note {
-  padding: 10px 14px;
-  background: var(--yellow-soft);
-  border-radius: 12px;
-  font-size: 0.9rem;
-}
-
-.first-flight__privacy li {
-  position: relative;
-  padding-left: 28px;
-  font-size: 0.95rem;
-  line-height: 1.45;
-}
-
 /* Tilde dibujado, sin emojis */
-.first-flight__privacy li::before {
-  content: '';
-  position: absolute;
-  left: 2px;
-  top: 4px;
-  width: 7px;
-  height: 12px;
-  border: solid var(--ink);
-  border-width: 0 2.5px 2.5px 0;
-  transform: rotate(40deg);
-}
-
-.first-flight__foot {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  padding: 16px 26px 22px;
-}
-
-.first-flight__cta {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 6px;
-}
-
 /* Ayuda en el pie de cada pantalla */
 .footer {
   display: grid;
@@ -3197,51 +2996,10 @@ h3 {
   margin-top: 6px;
 }
 
-@media (max-width: 760px) {
-  .first-flight__head {
-    grid-template-columns: auto 1fr auto;
-    padding: 12px 14px;
-  }
-
-  .first-flight__stops {
-    justify-self: center;
-  }
-
-  .first-flight__body {
-    padding: 18px 18px 6px;
-  }
-
-  .first-flight__foot {
-    padding: 14px 18px 18px;
-    flex-wrap: wrap;
-  }
-
-  .first-flight__cta {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .first-flight__cta .btn--primary {
-    flex: 1;
-  }
-}
-
 .field__why {
   margin: 0;
   font-size: 0.8rem;
   color: var(--ink-soft);
-}
-
-@media (max-width: 760px) {
-  .first-flight__body {
-    font-size: 0.93rem;
-    gap: 10px;
-  }
-
-  .first-flight__privacy li,
-  .first-flight__modes li p:last-child {
-    font-size: 0.88rem;
-  }
 }
 
 /* ═════════════ Confirmación de acciones que no se deshacen ═════════════ */
@@ -3997,38 +3755,22 @@ h3 {
   overflow: visible;
 }
 
-.suitcase__handle-out {
+.suitcase__handle {
   fill: none;
-  stroke: var(--ink);
-  stroke-width: 12;
-  stroke-linecap: round;
-}
-
-.suitcase__handle-in {
-  fill: none;
-  stroke: var(--leather);
-  stroke-width: 6;
+  stroke: var(--poster-coral);
+  stroke-width: 16;
   stroke-linecap: round;
 }
 
 .suitcase__body {
-  fill: var(--leather);
-  stroke: var(--ink);
-  stroke-width: 3;
+  fill: #1f2f5c;
 }
 
 .suitcase__seam {
   fill: none;
-  stroke: var(--ink);
-  stroke-width: 1.5;
-  stroke-dasharray: 5 5;
-  opacity: 0.5;
-}
-
-.suitcase__corner {
-  fill: none;
-  stroke: var(--ink);
-  stroke-width: 7;
+  stroke: #ffd23f;
+  stroke-width: 2.4;
+  stroke-dasharray: 3 8;
   stroke-linecap: round;
 }
 
@@ -4038,19 +3780,11 @@ h3 {
 }
 
 .suitcase__strap {
-  fill: var(--leather-dark);
-  stroke: var(--ink);
-  stroke-width: 2.5;
+  fill: #ffd23f;
 }
 
 .suitcase__buckle {
-  fill: #e9e2d3;
-  stroke: var(--ink);
-  stroke-width: 2.5;
-}
-
-.suitcase__foot {
-  fill: var(--ink);
+  fill: var(--poster-coral);
 }
 
 .suitcase__sticker {
@@ -5156,77 +4890,6 @@ h3 {
 }
 
 /* Primer vuelo: el ciclo de una pregunta y los modos para elegir */
-.first-flight__promise {
-  font-weight: 700;
-}
-
-.first-flight__loop {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: grid;
-  gap: 12px;
-}
-
-.first-flight__loop li {
-  display: grid;
-  grid-template-columns: 44px minmax(0, 1fr);
-  gap: 12px;
-  align-items: center;
-}
-
-.first-flight__loop p {
-  margin: 0;
-}
-
-.first-flight__modes {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: grid;
-  gap: 10px;
-}
-
-.first-flight__modes li {
-  display: block;
-}
-
-.first-flight__mode-btn {
-  width: 100%;
-  display: grid;
-  grid-template-columns: 44px minmax(0, 1fr);
-  gap: 12px;
-  align-items: center;
-  padding: 12px 14px;
-  font: inherit;
-  text-align: left;
-  color: var(--ink);
-  background: var(--card);
-  border: 2px solid var(--ink);
-  border-radius: 16px;
-  cursor: pointer;
-  transition:
-    background 0.15s,
-    transform 0.15s;
-}
-
-.first-flight__mode-btn:hover,
-.first-flight__mode-btn:focus-visible {
-  background: var(--yellow-soft);
-  transform: translateY(-1px);
-}
-
-.first-flight__mode-btn:focus-visible {
-  outline: 3px solid var(--ink);
-  outline-offset: 2px;
-}
-
-.first-flight__mode-text {
-  display: block;
-  font-size: 0.92rem;
-  color: var(--ink-soft);
-}
-
 /* ═════════════ Compartir una pregunta ═════════════ */
 .share-sheet {
   width: min(760px, calc(100vw - 24px));
@@ -5470,4 +5133,489 @@ h3 {
 
 .passenger-avatar {
   display: block;
+}
+
+/* ═════════════ Tarjeta de embarque de papel ═════════════ */
+/* Banda cobalto con el logo arriba, la ruta de tu casa a la escala, la pregunta sobre el
+   papel de color de su etapa y, en el talón, el pasajero y el afiche del país. */
+.ticket {
+  grid-template-columns: minmax(0, 1fr) 210px;
+  background: var(--paper);
+  border-left: var(--border);
+  border-radius: 22px;
+}
+
+.ticket__band {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 12px clamp(20px, 4vw, 32px);
+  background: var(--halftone-sky);
+  color: #f3ede0;
+}
+
+.ticket__brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ticket__heart {
+  width: 1.75rem;
+  height: 1.75rem;
+  flex: none;
+}
+
+.main .ticket__word {
+  width: 6.75rem;
+  color: #f3ede0;
+}
+
+.main .ticket .ticket__flight {
+  color: #f3ede0;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-align: right;
+}
+
+.ticket__main {
+  gap: 14px;
+}
+
+.ticket__route {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 8px;
+}
+
+.ticket__route > span {
+  display: flex;
+  flex-direction: column;
+}
+
+.ticket__route .ticket__to {
+  text-align: right;
+}
+
+.ticket__route small,
+.ticket__q small,
+.ticket__passenger small {
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.ticket__route b {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.ticket__line {
+  width: 100%;
+  height: auto;
+  max-height: 44px;
+}
+
+.ticket__line path {
+  stroke: var(--ink);
+  stroke-width: 2.4;
+}
+
+.ticket__dot {
+  fill: var(--ink);
+}
+
+.ticket__ring {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 2.4;
+}
+
+/* La pregunta, sobre el papel de su etapa (siempre con letra oscura, también de noche) */
+.main .ticket .ticket__q,
+.main .ticket .ticket__q * {
+  color: #161616;
+}
+
+.ticket__q {
+  background: var(--stage);
+  border-radius: 14px;
+  padding: 16px 20px 20px;
+}
+
+.ticket .ticket__q .ticket__question {
+  background: none;
+  padding: 0;
+  margin: 6px 0 0;
+}
+
+.ticket__fields {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.ticket__fields dd {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+}
+
+.ticket__passenger {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.ticket__passenger > span {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ticket__poster {
+  width: 92px;
+  height: auto;
+  transform: rotate(4deg);
+}
+
+/* Las muescas del troquel, del color del fondo */
+.ticket__stub::before,
+.ticket__stub::after {
+  background: var(--halftone-sky);
+}
+
+@media (max-width: 760px) {
+  .ticket {
+    grid-template-columns: 1fr;
+  }
+
+  .ticket__band {
+    padding: 10px 18px;
+  }
+
+  .ticket__route b {
+    font-size: 0.95rem;
+  }
+
+  .ticket__stub {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .ticket__passenger {
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .ticket__passenger > span {
+    align-items: flex-start;
+  }
+
+  .ticket__poster {
+    width: 76px;
+    grid-row: span 2;
+  }
+
+  .ticket__barcode {
+    grid-column: 1;
+  }
+}
+
+.ticket .ticket__passenger > span {
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink);
+}
+
+.ticket .ticket__passenger small {
+  color: var(--ink-soft);
+}
+
+/* ═════════════ Primer vuelo de papel ═════════════ */
+/* Arriba, un recorte sobre papel de color; abajo, el texto en una hoja crema que lo pisa. */
+.first-flight {
+  width: min(460px, calc(100vw - 24px));
+  background: var(--paper);
+  border-radius: 28px;
+  display: none;
+}
+
+.first-flight[open] {
+  display: flex;
+  flex-direction: column;
+}
+
+.first-flight__art {
+  flex: none;
+  height: clamp(120px, 22dvh, 200px);
+  display: grid;
+  place-items: center;
+  padding-bottom: 16px;
+}
+
+.first-flight__icaro {
+  width: auto;
+  height: 100%;
+}
+
+.first-flight__scene {
+  height: 100%;
+  max-width: 80%;
+}
+
+.first-flight__trail {
+  fill: none;
+  stroke-width: 3;
+  stroke-dasharray: 2 9;
+  stroke-linecap: round;
+}
+
+.first-flight__sheet {
+  position: relative;
+  margin-top: -20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 22px 20px;
+  border-radius: 22px 22px 0 0;
+  background: var(--paper);
+}
+
+.first-flight__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.first-flight__progress {
+  width: 140px;
+  height: auto;
+}
+
+.first-flight__progress-line {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 2;
+  stroke-dasharray: 2 6;
+  stroke-linecap: round;
+}
+
+.first-flight__progress circle {
+  fill: var(--paper);
+  stroke: var(--ink);
+  stroke-width: 2;
+}
+
+.first-flight__progress circle.is-done {
+  fill: var(--ink);
+}
+
+.first-flight__skip {
+  font-size: 0.85rem;
+}
+
+.first-flight__body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  animation: slide-in 0.3s ease-out;
+}
+
+.first-flight__body p {
+  margin: 0;
+}
+
+.first-flight__title {
+  font-size: clamp(1.6rem, 6vw, 2rem);
+  line-height: 1.08;
+  margin: 6px 0 0;
+}
+
+.first-flight__promise {
+  font-weight: 700;
+}
+
+.first-flight__note {
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+}
+
+/* Los tres pasos, numerados en círculos coral */
+.first-flight__steps {
+  counter-reset: paso;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.first-flight__steps li {
+  counter-increment: paso;
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+}
+
+.first-flight__steps li::before {
+  content: counter(paso);
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--poster-coral);
+  color: #f3ede0;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.first-flight__privacy {
+  margin: 0;
+  padding-left: 20px;
+  display: grid;
+  gap: 8px;
+}
+
+.first-flight__privacy li::marker {
+  color: var(--poster-coral);
+}
+
+/* Pregunta, diario y afiche, como papeles sueltos */
+.first-flight__loop {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.first-flight__tile {
+  width: 54px;
+  height: 70px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  background: #f3ede0;
+  color: #161616;
+  transform: rotate(-3deg);
+}
+
+.first-flight__tile--question {
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+}
+
+.first-flight__tile--note {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 12px;
+  background: #f9c9a6;
+  transform: rotate(3deg);
+}
+
+.first-flight__tile--note i {
+  display: block;
+  width: 100%;
+  height: 3px;
+  border-radius: 2px;
+  background: #161616;
+  opacity: 0.55;
+}
+
+.first-flight__arrow {
+  font-weight: 800;
+  font-size: 1.3rem;
+  color: #161616;
+}
+
+.first-flight__poster {
+  width: 64px;
+  height: auto;
+  transform: rotate(-6deg);
+}
+
+/* Los modos, cada uno en su papel */
+.first-flight__modes {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+
+.first-flight__mode-btn {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  padding: 10px 14px;
+  font: inherit;
+  text-align: left;
+  color: #161616;
+  border: 2px solid #161616;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+
+.first-flight__mode-btn--individual {
+  background: #f9c9a6;
+}
+
+.first-flight__mode-btn--grupal {
+  background: #cfe3c8;
+}
+
+.first-flight__mode-btn--online {
+  background: #ffe48a;
+}
+
+.first-flight__mode-btn:hover {
+  transform: translateY(-2px);
+}
+
+.first-flight__mode-btn:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 2px;
+}
+
+.first-flight__mode-btn .mode-icon {
+  width: 56px;
+  height: 42px;
+}
+
+.first-flight__mode strong {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+}
+
+.first-flight__mode span {
+  font-size: 0.72rem;
+  font-weight: 700;
+  opacity: 0.75;
+}
+
+.first-flight__mode-text {
+  display: block;
+  font-size: 0.88rem;
+}
+
+.first-flight__foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 14px;
 }

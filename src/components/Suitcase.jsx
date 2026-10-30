@@ -7,15 +7,9 @@ import Sticker, { SunsetGradient } from './Sticker.jsx'
 const W = SUITCASE_W
 const H = SUITCASE_H - 40
 const STRAPS = [W * 0.3, W * 0.7]
-const CORNERS = [
-  [14, 48, 0],
-  [W - 14, 48, 90],
-  [W - 14, H + 18, 180],
-  [14, H + 18, 270],
-]
 
-// Maleta de cuero con las pegatinas de los países. Las correas pasan por encima, como
-// en una valija de verdad. Con `onSelect`, cada pegatina es un botón que abre lo que se
+// Maleta de papel recortado, azul noche, con los afiches de los países. Las correas
+// amarillas pasan por encima, como en una valija de verdad. Con `onSelect`, cada pegatina es un botón que abre lo que se
 // escribió en ese país; sin él, la maleta es solo un dibujo (en el inicio, por ejemplo).
 export default function Suitcase({ stickers, selectedId, onSelect, freshId, label, className = '' }) {
   const baseId = useId()
@@ -35,20 +29,22 @@ export default function Suitcase({ stickers, selectedId, onSelect, freshId, labe
           <feColorMatrix type="saturate" values="0" />
         </filter>
       </defs>
-      {/* manija */}
-      <path className="suitcase__handle-out" d={`M${W / 2 - 50} 52 V30 q0 -14 14 -14 h72 q14 0 14 14 V52`} />
-      <path className="suitcase__handle-in" d={`M${W / 2 - 50} 52 V30 q0 -14 14 -14 h72 q14 0 14 14 V52`} />
-      {/* cuerpo y costura */}
-      <rect className="suitcase__body" x="14" y="48" width={W - 28} height={H - 30} rx="26" />
-      <rect className="suitcase__seam" x="26" y="60" width={W - 52} height={H - 54} rx="18" />
-      {CORNERS.map(([x, y, r]) => (
-        <path
-          key={r}
-          className="suitcase__corner"
-          transform={`translate(${x} ${y}) rotate(${r})`}
-          d="M0 30 V14 Q0 0 14 0 H30"
-        />
-      ))}
+      {/* manija, cuerpo y costura: papeles con borde de tijera */}
+      <path
+        className="suitcase__handle"
+        filter="url(#papel-corte)"
+        d={`M${W / 2 - 54} 56 V30 q0 -18 18 -18 h72 q18 0 18 18 V56`}
+      />
+      <rect
+        className="suitcase__body"
+        filter="url(#papel-corte)"
+        x="14"
+        y="48"
+        width={W - 28}
+        height={H - 30}
+        rx="34"
+      />
+      <rect className="suitcase__seam" x="30" y="64" width={W - 60} height={H - 62} rx="22" />
 
       {stickers.map((s) => {
         const country = COUNTRY_BY_ID[s.countryId]
@@ -88,9 +84,16 @@ export default function Suitcase({ stickers, selectedId, onSelect, freshId, labe
       {/* correas y hebillas, por encima de las pegatinas */}
       {STRAPS.map((x) => (
         <g key={x} className="suitcase__strap-group">
-          <rect className="suitcase__strap" x={x - 13} y="44" width="26" height={H - 18} rx="4" />
-          <rect className="suitcase__buckle" x={x - 17} y={H / 2 + 20} width="34" height="26" rx="4" />
-          <rect className="suitcase__strap" x={x - 9} y={H / 2 + 27} width="18" height="12" rx="2" />
+          <rect
+            className="suitcase__strap"
+            filter="url(#papel-corte)"
+            x={x - 15}
+            y="44"
+            width="30"
+            height={H - 22}
+            rx="6"
+          />
+          <rect className="suitcase__buckle" x={x - 11} y={H / 2 + 16} width="22" height="26" rx="5" />
         </g>
       ))}
       {/* La pegatina elegida o recién pegada se ve también por encima de las correas
@@ -106,8 +109,6 @@ export default function Suitcase({ stickers, selectedId, onSelect, freshId, labe
             <use href={`#${artId(s.countryId)}`} />
           </g>
         ))}
-      <rect className="suitcase__foot" x="70" y={H + 18} width="34" height="10" rx="4" />
-      <rect className="suitcase__foot" x={W - 104} y={H + 18} width="34" height="10" rx="4" />
     </svg>
   )
 }
