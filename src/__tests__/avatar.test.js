@@ -10,11 +10,17 @@ describe('avatares', () => {
 
   it('normaliza datos guardados: lo desconocido vuelve al valor por defecto', () => {
     expect(normalizeAvatar(null)).toBeNull()
-    const a = normalizeAvatar({ hair: 'rulos', skin: 'p9', item: 'mate', extra: 'x' })
+    const a = normalizeAvatar({ hair: 'rulos', skin: 'p9', deco: 'hoja', extra: 'x' })
     expect(a.hair).toBe('rulos')
-    expect(a.item).toBe('mate')
+    expect(a.deco).toBe('hoja')
     expect(a.skin).toBe(DEFAULT_AVATAR.skin)
     expect(Object.keys(a).sort()).toEqual([...AVATAR_PARTS].sort())
+  })
+
+  it('el fondo de los avatares de antes sale de su ventanilla', () => {
+    expect(normalizeAvatar({ scene: 'mar' }).background).toBe('menta')
+    expect(normalizeAvatar({ scene: 'mar', background: 'rosa' }).background).toBe('rosa')
+    expect(normalizeAvatar({ scene: 'luna' }).background).toBe(DEFAULT_AVATAR.background)
   })
 
   it('"Sorprendeme" arma combinaciones válidas', () => {
@@ -26,7 +32,7 @@ describe('avatares', () => {
   })
 
   it('cada color tiene su valor', () => {
-    for (const part of ['skin', 'hairColor', 'shirt']) {
+    for (const part of ['skin', 'hairColor', 'shirt', 'background']) {
       for (const o of AVATAR_OPTIONS[part]) expect(colorOf(part, o.id)).toMatch(/^#[0-9a-f]{6}$/)
     }
   })

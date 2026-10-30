@@ -1,12 +1,16 @@
+import { useId } from 'react'
 import { COUNTRY_BY_ID } from '../data/countries.js'
 import { CATEGORY_BY_KEY } from '../data/questions.js'
-import { barcodeBars, flightCode, gateFor, seatFor } from '../lib/ticket.js'
+import { barcodeBars, flightCode, gateFor, seatFor, stageColor } from '../lib/ticket.js'
 import Avatar from './Avatar.jsx'
-import CountryStamp from './CountryStamp.jsx'
+import { Bird, HeartBird } from './paper.jsx'
+import CountryPoster from './posters.jsx'
 import Title from './Title.jsx'
+import Wordmark from './Wordmark.jsx'
 
-// La pregunta se presenta como una tarjeta de embarque: cada pregunta es un vuelo
-// con destino a un país. El talón lleva el pasajero, el sello y un código de barras.
+// La pregunta se presenta como una tarjeta de embarque: cada pregunta es un vuelo de tu casa
+// a la escala de un país. La pregunta va sobre el papel de color de su etapa; en el talón
+// van el pasajero, el código de barras y el afiche del país.
 export default function QuestionCard({
   question,
   eyebrow,
@@ -16,60 +20,84 @@ export default function QuestionCard({
   className = '',
   children,
 }) {
+  const uid = useId().replace(/:/g, '')
   const country = COUNTRY_BY_ID[question.countryId]
   const category = CATEGORY_BY_KEY[question.category]
   const flight = flightCode(question.id)
-  const gate = gateFor(question.category)
 
   return (
     <article className={`ticket ${className}`}>
+      <header className="ticket__band">
+        <span className="ticket__brand">
+          <HeartBird className="ticket__heart" />
+          <Wordmark compact className="ticket__word" />
+        </span>
+        <span className="ticket__flight">{eyebrow ?? `Vuelo ${flight}`}</span>
+      </header>
+
       <div className="ticket__main">
-        <header className="ticket__head">
-          <span>Tarjeta de embarque</span>
-          <span className="ticket__flight">
-            <PlaneIcon />
-            {eyebrow ?? `Vuelo ${flight}`}
+        <div className="ticket__route">
+          <span>
+            <small>Desde</small>
+            <b>Tu casa</b>
           </span>
-        </header>
+          <RouteLine />
+          <span className="ticket__to">
+            <small>Escala</small>
+            <b>{country.name}</b>
+          </span>
+        </div>
+
+        <div className="ticket__q" style={{ '--stage': stageColor(question.category) }}>
+          <small>Etapa · {category.label}</small>
+          <Title className="ticket__question">{question.text}</Title>
+        </div>
 
         <dl className="ticket__fields">
           <div>
-            <dt>Etapa</dt>
-            <dd>{category.label}</dd>
-          </div>
-          <div>
             <dt>Puerta</dt>
-            <dd>{gate}</dd>
+            <dd>{gateFor(question.category)}</dd>
           </div>
           <div>
             <dt>Asiento</dt>
             <dd>{seatFor(question.id)}</dd>
           </div>
+          <div>
+            <dt>Vuelo</dt>
+            <dd>{flight}</dd>
+          </div>
         </dl>
-
-        <Title className="ticket__question">{question.text}</Title>
         {children}
       </div>
 
       <aside className="ticket__stub">
         <div className="ticket__passenger">
-          {/* Tu pasajero dibujado (o tu foto) en el talón */}
+          {/* Tu avatar de recorte (o tu foto) en el talón */}
           {(passengerProfile?.avatar || passengerProfile?.photo) && <Avatar profile={passengerProfile} size="md" />}
-          <span>Pasajero</span>
-          <strong>{passenger || 'Invitado'}</strong>
-          {passengerCode && <em className="ticket__code">{passengerCode}</em>}
+          <span>
+            <small>Pasajero</small>
+            <strong>{passenger || 'Invitado'}</strong>
+            {passengerCode && <em className="ticket__code">{passengerCode}</em>}
+          </span>
         </div>
-        <CountryStamp country={country} shape="below" />
+        {/* El afiche del país: el mismo que se pega en la maleta */}
+        <svg viewBox="-33 -43 66 86" className="ticket__poster" role="img" aria-label={`Escala: ${country.name}`}>
+          <CountryPoster countryId={country.id} uid={`${uid}-afiche`} complete fallback={null} />
+        </svg>
         <Barcode seed={question.id} label={flight} />
       </aside>
     </article>
   )
 }
 
-function PlaneIcon() {
+// Ruta punteada de tu casa a la escala, con un pájaro de papel en el medio
+function RouteLine() {
   return (
-    <svg viewBox="0 0 24 24" className="ticket__plane" aria-hidden="true">
-      <path d="M2 13l8-1 5-8h3l-3 8 5 .5 2-2.5h2l-1.5 4 1.5 4h-2l-2-2.5-5 .5 3 8h-3l-5-8-8-1z" />
+    <svg viewBox="0 0 300 54" className="ticket__line" aria-hidden="true">
+      <path d="M12 44 C80 4 220 4 288 44" fill="none" strokeDasharray="2 7" strokeLinecap="round" />
+      <circle cx="12" cy="44" r="5" className="ticket__dot" />
+      <circle cx="288" cy="44" r="5" className="ticket__ring" />
+      <Bird x={170} y={14} s={0.38} fill="#e8664a" rot={8} />
     </svg>
   )
 }

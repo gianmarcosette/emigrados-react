@@ -11,6 +11,22 @@ export function gateFor(category) {
   return CATEGORIES.findIndex((c) => c.key === category) + 1
 }
 
+// Cada etapa tiene su papel de color, detrás de la pregunta
+const STAGE_COLORS = {
+  antes: '#ffd23f',
+  despedida: '#f6b48f',
+  llegada: '#f9c9a6',
+  cultura: '#ffe48a',
+  vinculos: '#f3a6b8',
+  identidad: '#cfe3c8',
+  reinventarse: '#a9cdb8',
+  hogar: '#f3d9a4',
+}
+
+export function stageColor(category) {
+  return STAGE_COLORS[category] ?? '#ffd23f'
+}
+
 // Asiento fijo para cada pregunta: fila 1–30 y letra A–F.
 export function seatFor(id) {
   return `${((id * 7) % 30) + 1}${'ABCDEF'[id % 6]}`

@@ -1,9 +1,9 @@
 import { Suspense, lazy, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import Avatar from '../components/Avatar.jsx'
-import SkyBanner, { MOTTO } from '../components/SkyBanner.jsx'
 import ProgressBar from '../components/ProgressBar.jsx'
 import Wordmark from '../components/Wordmark.jsx'
+import { Icaro, ModeIcon } from '../components/paper.jsx'
 import { COUNTRIES } from '../data/countries.js'
 import { QUESTIONS } from '../data/questions.js'
 import { buildStickers } from '../lib/suitcase.js'
@@ -23,11 +23,10 @@ export default function Home() {
   return (
     <div className="home">
       <div className="home-sky">
-        {/* Lo primero que se ve: el lema del juego, remolcado por una avioneta */}
-        <SkyBanner hero>{MOTTO}</SkyBanner>
-
         <section className="hero">
           <div className="hero__text">
+            {/* Lo primero que se ve: Ícaro, que se lanza con el corazón en el pecho, entre pájaros */}
+            <Icaro className="hero__icaro" />
             <h1 className="hero__title">
               <Wordmark />
             </h1>
@@ -54,7 +53,10 @@ export default function Home() {
 
       <section className="modes" aria-label="Elegí cómo jugar">
         <Link to="/individual" className="mode mode--individual">
-          <h2>Individual</h2>
+          <h2 className="mode__title">
+            <ModeIcon mode="individual" />
+            Individual
+          </h2>
           <p>
             Preguntas al azar. Tus respuestas se guardan con fecha y cada país suma una pegatina a tu maleta: respondé
             las {totalQuestions} y das la vuelta al mundo.
@@ -72,7 +74,10 @@ export default function Home() {
         </Link>
 
         <Link to="/grupal" className="mode mode--grupal">
-          <h2>Grupal</h2>
+          <h2 className="mode__title">
+            <ModeIcon mode="grupal" />
+            Grupal
+          </h2>
           <p>
             Para charlar entre amigos. Cada pregunta la contesta toda la mesa, de a uno, y nada queda guardado: lo que
             se dice en la mesa, queda en la mesa. No hace falta perfil.
@@ -82,7 +87,10 @@ export default function Home() {
 
         <Link to="/online" className="mode mode--online">
           <span className="mode__badge">Versión de prueba</span>
-          <h2>Online</h2>
+          <h2 className="mode__title">
+            <ModeIcon mode="online" />
+            Online
+          </h2>
           <p>
             Elegí un país y te conectamos con alguien que vive ahí: un duelo de cultura general sobre el país del otro,
             cada uno a su ritmo. Cuando terminan los dos, se abre el chat.

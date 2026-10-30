@@ -2,16 +2,15 @@ import { useId, useState } from 'react'
 import { AVATAR_OPTIONS, randomAvatar } from '../lib/avatar.js'
 import PassengerAvatar from './PassengerAvatar.jsx'
 
-// Creador de tu pasajero: cada opción se ve dibujada sobre tu propio avatar,
+// Creador de tu recorte: cada opción se ve dibujada sobre tu propio avatar,
 // así se elige viendo y no imaginando. Los colores se eligen con muestras.
 const TABS = [
   { id: 'pelo', label: 'Pelo', groups: ['hair', 'hairColor'] },
   { id: 'piel', label: 'Piel', groups: ['skin'] },
   { id: 'cabeza', label: 'Cabeza', groups: ['headwear'] },
-  { id: 'cara', label: 'Cara', groups: ['expression', 'glasses', 'facialHair'] },
-  { id: 'objeto', label: 'Objeto', groups: ['item'] },
+  { id: 'cara', label: 'Cara', groups: ['glasses', 'facialHair'] },
   { id: 'ropa', label: 'Ropa', groups: ['shirt'] },
-  { id: 'ventanilla', label: 'Ventanilla', groups: ['scene'] },
+  { id: 'fondo', label: 'Fondo', groups: ['background', 'deco'] },
 ]
 
 const GROUP_TITLES = {
@@ -19,15 +18,14 @@ const GROUP_TITLES = {
   hairColor: 'Color',
   skin: 'Tono de piel',
   headwear: 'En la cabeza',
-  expression: 'Expresión',
   glasses: 'Anteojos',
   facialHair: 'Barba o bigote',
-  item: 'Tu objeto de viaje',
   shirt: 'Color de la remera',
-  scene: 'Lo que se ve por tu ventanilla',
+  background: 'Papel de fondo',
+  deco: 'Adorno',
 }
 
-const SWATCHES = ['hairColor', 'skin', 'shirt']
+const SWATCHES = ['hairColor', 'skin', 'shirt', 'background']
 
 export default function AvatarEditor({ value, onChange }) {
   const [tab, setTab] = useState('pelo')
@@ -41,7 +39,7 @@ export default function AvatarEditor({ value, onChange }) {
   return (
     <div className="avatar-editor">
       <div className="avatar-editor__preview">
-        <PassengerAvatar avatar={value} size={150} label="Así se ve tu pasajero" />
+        <PassengerAvatar avatar={value} size={150} label="Así se ve tu recorte" />
         <button type="button" className="btn btn--ghost avatar-editor__random" onClick={() => onChange(randomAvatar())}>
           Sorprendeme
         </button>

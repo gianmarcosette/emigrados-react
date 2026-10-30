@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { DEFAULT_AVATAR } from '../lib/avatar.js'
 import { initialJourney, journeyReducer, loadJourney, saveJourney } from '../state/journey.js'
 import {
   CODE_PATTERN,
@@ -128,12 +129,12 @@ describe('perfil en el estado del juego', () => {
 
   it('guarda el avatar y descarta piezas desconocidas', () => {
     const profile = buildProfile(
-      { name: 'Ana', age: 30, country: 'ES', avatar: { hair: 'rulos', item: 'nave' } },
+      { name: 'Ana', age: 30, country: 'ES', avatar: { hair: 'rulos', deco: 'nave' } },
       null,
       't',
     )
     expect(profile.avatar.hair).toBe('rulos')
-    expect(profile.avatar.item).toBe('ninguno')
+    expect(profile.avatar.deco).toBe(DEFAULT_AVATAR.deco)
     expect(normalizeProfile({ name: 'Ana', age: 30, avatar: { hair: 'largo' } }).avatar.hair).toBe('largo')
     expect(normalizeProfile({ name: 'Ana', age: 30 }).avatar).toBeNull()
   })

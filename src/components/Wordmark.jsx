@@ -1,10 +1,23 @@
-// Logotipo con el mismo recurso que "DESCONECTADOS" de En Palabras:
-// el prefijo en negrita recta y el resto en itálica espaciada.
-export default function Wordmark({ className = '' }) {
+import { BIRD, LETTERS, LOGO_VIEWBOX, LOGO_WORD_VIEWBOX, S_BIRDS } from '../data/logo.js'
+
+// Logotipo: EMIGRADO en letra sólida y la S hecha de pájaros, con algunos que se sueltan y se
+// van volando. Toma el color del texto (currentColor); los pájaros pueden ir de otro color.
+// `compact`: la caja abraza solo las letras (para alinearlas en el encabezado) y los pájaros
+// que se vuelan salen por arriba.
+export default function Wordmark({ className = '', birds = 'currentColor', compact = false }) {
   return (
-    <span className={`wordmark ${className}`}>
-      <strong>E</strong>
-      <em>MIGRADOS</em>
-    </span>
+    <svg
+      viewBox={compact ? LOGO_WORD_VIEWBOX : LOGO_VIEWBOX}
+      className={`wordmark ${className}`}
+      role="img"
+      aria-label="Emigrados"
+    >
+      <path d={LETTERS} fill="currentColor" />
+      <g fill={birds}>
+        {S_BIRDS.map(([x, y, rot, s], i) => (
+          <path key={i} d={BIRD} transform={`translate(${x} ${y}) rotate(${rot}) scale(${s})`} />
+        ))}
+      </g>
+    </svg>
   )
 }

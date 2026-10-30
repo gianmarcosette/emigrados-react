@@ -12,7 +12,6 @@ const Grupal = lazy(() => import('./pages/Grupal.jsx'))
 const Online = lazy(() => import('./pages/Online.jsx'))
 const Maleta = lazy(() => import('./pages/Maleta.jsx'))
 const Perfil = lazy(() => import('./pages/Perfil.jsx'))
-const AvatarPreview = lazy(() => import('./pages/AvatarPreview.jsx'))
 
 export default function App() {
   return (
@@ -51,7 +50,6 @@ export default function App() {
         <Route path="diario" element={<Navigate to="/perfil#diario" replace />} />
         <Route path="perfil" element={<Perfil />} />
         {/* Página de prueba de avatares, solo mientras se desarrolla */}
-        {import.meta.env.DEV && <Route path="prueba-avatares" element={<AvatarPreview />} />}
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

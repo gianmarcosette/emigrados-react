@@ -11,7 +11,7 @@ import Avatar from './Avatar.jsx'
 import ConfirmProvider from './ConfirmDialog.jsx'
 import FirstFlight from './FirstFlight.jsx'
 import { TAB_ICONS } from './icons.jsx'
-import SkyBanner, { MOTTO } from './SkyBanner.jsx'
+import { HeartBird, PaperFilters } from './paper.jsx'
 import TextSize from './TextSize.jsx'
 import Wordmark from './Wordmark.jsx'
 
@@ -65,11 +65,14 @@ export default function Layout() {
           <a href="#contenido" className="skip-link">
             Saltar al contenido
           </a>
-          {/* Logo y menú arriba; en las secciones, el lema cruza la franja de cielo */}
+          {/* Los filtros que le dan a los dibujos el borde de papel cortado */}
+          <PaperFilters />
+          {/* Logo y menú arriba, sobre papel crema */}
           <header className="topbar">
             <div className="topbar__row">
               <NavLink to="/" className="brand" aria-label="Emigrados, volver al inicio">
-                <Wordmark />
+                <HeartBird className="brand__icon" />
+                <Wordmark className="brand__word" compact />
               </NavLink>
               <nav className="topbar__nav" aria-label="Secciones">
                 {LINKS.map((l) => (
@@ -91,8 +94,6 @@ export default function Layout() {
               </nav>
               <TextSize />
             </div>
-            {/* En el inicio la avioneta no va acá: es la protagonista de la pantalla */}
-            {!isHome && <SkyBanner>{MOTTO}</SkyBanner>}
           </header>
           <div className={isHome ? 'shell shell--home' : 'shell'}>
             <main className="main" id="contenido" tabIndex={-1}>
