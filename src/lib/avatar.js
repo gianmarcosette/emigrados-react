@@ -1,30 +1,32 @@
-// Avatares: tu pasajero en el vuelo. Se guarda como un puñado de elecciones (no como
-// imagen), así pesa casi nada y se puede mostrar en cualquier tamaño.
+// Avatares: tu pasajero, recortado en papel de color. Se guarda como un puñado de elecciones
+// (no como imagen), así pesa casi nada y se puede mostrar en cualquier tamaño.
 
 export const AVATAR_OPTIONS = {
-  // Tonos de piel suaves, para que convivan con la paleta tinta / papel / amarillo
+  // Tonos de piel en papel de color: cálidos, para que convivan con el coral y el cobalto
   skin: [
-    { id: 'p1', label: 'Muy clara', color: '#f6dfca' },
-    { id: 'p2', label: 'Clara', color: '#ecc6a2' },
-    { id: 'p3', label: 'Trigueña', color: '#d6a578' },
-    { id: 'p4', label: 'Morena', color: '#b47f55' },
-    { id: 'p5', label: 'Oscura', color: '#8f5f3e' },
-    { id: 'p6', label: 'Muy oscura', color: '#6f4630' },
+    { id: 'p1', label: 'Muy clara', color: '#f3d2b6' },
+    { id: 'p2', label: 'Clara', color: '#e8b48a' },
+    { id: 'p3', label: 'Trigueña', color: '#d9a06e' },
+    { id: 'p4', label: 'Morena', color: '#c68a5e' },
+    { id: 'p5', label: 'Oscura', color: '#8d5a3b' },
+    { id: 'p6', label: 'Muy oscura', color: '#6b4430' },
   ],
   hair: [
     { id: 'corto', label: 'Corto' },
     { id: 'largo', label: 'Largo' },
     { id: 'rulos', label: 'Rulos' },
     { id: 'rodete', label: 'Rodete' },
+    { id: 'trenzas', label: 'Trenzas' },
+    { id: 'flequillo', label: 'Flequillo' },
     { id: 'rapado', label: 'Rapado' },
     { id: 'pelado', label: 'Sin pelo' },
   ],
   hairColor: [
     { id: 'negro', label: 'Negro', color: '#161616' },
-    { id: 'castano', label: 'Castaño', color: '#5b3a24' },
-    { id: 'rubio', label: 'Rubio', color: '#e6bf6a' },
-    { id: 'cobrizo', label: 'Cobrizo', color: '#a9502b' },
-    { id: 'canas', label: 'Canas', color: '#c9c3b8' },
+    { id: 'castano', label: 'Castaño', color: '#4a2c1a' },
+    { id: 'rubio', label: 'Rubio', color: '#e2b04a' },
+    { id: 'cobrizo', label: 'Cobrizo', color: '#b5532c' },
+    { id: 'canas', label: 'Canas', color: '#d8d2c6' },
   ],
   headwear: [
     { id: 'ninguno', label: 'Nada' },
@@ -42,38 +44,32 @@ export const AVATAR_OPTIONS = {
     { id: 'redondos', label: 'Redondos' },
     { id: 'cuadrados', label: 'Cuadrados' },
   ],
-  expression: [
-    { id: 'sonrisa', label: 'Sonriente' },
-    { id: 'sereno', label: 'Sereno' },
-    { id: 'pensativo', label: 'Pensativo' },
-  ],
-  // El objeto de viaje: lo más "Emigrados" del personaje
-  item: [
-    { id: 'ninguno', label: 'Nada' },
-    { id: 'mate', label: 'Mate' },
-    { id: 'cafe', label: 'Café' },
-    { id: 'auriculares', label: 'Auriculares' },
-    { id: 'libro', label: 'Libro' },
-    { id: 'camara', label: 'Cámara' },
-    { id: 'mochila', label: 'Mochila' },
-    { id: 'carta', label: 'Carta' },
-  ],
   shirt: [
-    { id: 'papel', label: 'Crudo', color: '#fbf9f5' },
-    { id: 'amarillo', label: 'Amarillo', color: '#ffd700' },
-    { id: 'tinta', label: 'Negro', color: '#161616' },
-    { id: 'arena', label: 'Arena', color: '#ddd0b6' },
-    { id: 'salvia', label: 'Salvia', color: '#bcc7ab' },
+    { id: 'coral', label: 'Coral', color: '#e8664a' },
+    { id: 'amarillo', label: 'Amarillo', color: '#ffd23f' },
+    { id: 'verde', label: 'Verde', color: '#3f7d5a' },
+    { id: 'noche', label: 'Azul noche', color: '#1f2f5c' },
+    { id: 'cielo', label: 'Celeste', color: '#3d7299' },
+    { id: 'papel', label: 'Crema', color: '#f3ede0' },
   ],
-  // Lo que se ve por tu ventanilla: las mismas escenas del juego
-  scene: [
-    { id: 'nubes', label: 'Nubes' },
-    { id: 'mar', label: 'Mar' },
-    { id: 'atardecer', label: 'Atardecer' },
-    { id: 'noche', label: 'Noche' },
-    { id: 'montanas', label: 'Montañas' },
-    { id: 'ciudad', label: 'Ciudad' },
-    { id: 'ala', label: 'El ala del avión' },
+  // El papel de fondo del recorte
+  background: [
+    { id: 'cielo', label: 'Celeste', color: '#3d7299' },
+    { id: 'coral', label: 'Coral', color: '#e8664a' },
+    { id: 'durazno', label: 'Durazno', color: '#f6b48f' },
+    { id: 'amarillo', label: 'Amarillo', color: '#ffd23f' },
+    { id: 'verde', label: 'Verde', color: '#3f7d5a' },
+    { id: 'menta', label: 'Menta', color: '#a9cdb8' },
+    { id: 'rosa', label: 'Rosa', color: '#f3a6b8' },
+    { id: 'noche', label: 'Azul noche', color: '#1f2f5c' },
+  ],
+  // Un adorno de papel junto a la cabeza, como en los recortes de Matisse
+  deco: [
+    { id: 'ninguno', label: 'Nada' },
+    { id: 'estrella', label: 'Estrella' },
+    { id: 'hoja', label: 'Hoja' },
+    { id: 'corazon', label: 'Corazón' },
+    { id: 'pajaro', label: 'Pájaro' },
   ],
 }
 
@@ -86,10 +82,9 @@ export const DEFAULT_AVATAR = {
   headwear: 'ninguno',
   facialHair: 'ninguno',
   glasses: 'ninguno',
-  expression: 'sonrisa',
-  item: 'ninguno',
-  shirt: 'amarillo',
-  scene: 'nubes',
+  shirt: 'coral',
+  background: 'cielo',
+  deco: 'estrella',
 }
 
 const has = (part, id) => AVATAR_OPTIONS[part].some((o) => o.id === id)
@@ -97,9 +92,21 @@ const has = (part, id) => AVATAR_OPTIONS[part].some((o) => o.id === id)
 /** Un avatar válido a partir de datos guardados; cada pieza desconocida vuelve a su valor por defecto. */
 export function normalizeAvatar(data) {
   if (!data || typeof data !== 'object') return null
+  // Los avatares de antes elegían lo que se veía por la ventanilla: pasa a ser el color de fondo
+  const migrated = data.background ? data : { ...data, background: SCENE_BACKGROUND[data.scene] }
   return Object.fromEntries(
-    AVATAR_PARTS.map((part) => [part, has(part, data[part]) ? data[part] : DEFAULT_AVATAR[part]]),
+    AVATAR_PARTS.map((part) => [part, has(part, migrated[part]) ? migrated[part] : DEFAULT_AVATAR[part]]),
   )
+}
+
+const SCENE_BACKGROUND = {
+  nubes: 'cielo',
+  mar: 'menta',
+  atardecer: 'durazno',
+  noche: 'noche',
+  montanas: 'verde',
+  ciudad: 'amarillo',
+  ala: 'coral',
 }
 
 /** "Sorprendeme": una combinación al azar. */
