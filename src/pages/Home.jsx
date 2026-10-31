@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom'
 import Avatar from '../components/Avatar.jsx'
 import ProgressBar from '../components/ProgressBar.jsx'
 import Wordmark from '../components/Wordmark.jsx'
-import { Icaro, ModeIcon } from '../components/paper.jsx'
+import HomeBackdrop from '../components/HomeBackdrop.jsx'
+import { ModeIcon } from '../components/paper.jsx'
 import { COUNTRIES } from '../data/countries.js'
 import { QUESTIONS } from '../data/questions.js'
 import { buildStickers } from '../lib/suitcase.js'
@@ -23,10 +24,9 @@ export default function Home() {
   return (
     <div className="home">
       <div className="home-sky">
+        <HomeBackdrop />
         <section className="hero">
           <div className="hero__text">
-            {/* Lo primero que se ve: Ícaro, que se lanza con el corazón en el pecho, entre pájaros */}
-            <Icaro className="hero__icaro" />
             <h1 className="hero__title">
               <Wordmark />
             </h1>
