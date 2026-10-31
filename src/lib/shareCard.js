@@ -8,7 +8,7 @@
 // Lo de arriba (medidas, cortes de línea) no usa el navegador y se puede testear; lo de
 // abajo dibuja en el canvas.
 import { BIRD, LETTERS, S_BIRDS } from '../data/logo.js'
-import { FLYING_BIRD, GULL, HEART, PAPER } from './paper.js'
+import { GULL, PAPER } from './paper.js'
 import { barcodeBars } from './ticket.js'
 
 export const STORY_W = 1080
@@ -64,8 +64,8 @@ const FONT_SMALL = '800 18px Montserrat'
 const FONT_FIELD = '700 34px Archivo'
 
 // Medidas fijas de la tarjeta (en px de la historia de 1080 de ancho)
-const LOGO = { cap: 40, top: 86 } // altura de las letras y dónde empiezan (los pájaros vuelan arriba)
-const HEAD_H = 158 // banda del logo
+const LOGO = { cap: 44, top: 94 } // altura de las letras y dónde empiezan (los pájaros vuelan arriba)
+const HEAD_H = 166 // banda del logo
 
 /** Espera a que estén las tipografías del juego (si no, el canvas dibuja con otras). */
 export async function loadShareFonts() {
@@ -87,10 +87,9 @@ function spaced(ctx, text, x, y, spacing) {
 
 /** Los colores de cada versión: líneas blancas, líneas negras o los papeles del juego. */
 function paletteFor(style) {
-  if (style === 'color')
-    return { fg: PAPER.ink, logo: PAPER.cream, band: COBALT, card: PAPER.cream, heart: PAPER.coral, bird: PAPER.coral }
+  if (style === 'color') return { fg: PAPER.ink, logo: PAPER.cream, band: COBALT, card: PAPER.cream }
   const fg = style === 'black' ? PAPER.ink : '#fff'
-  return { fg, logo: fg, band: null, card: null, heart: fg, bird: fg }
+  return { fg, logo: fg, band: null, card: null }
 }
 
 /**
@@ -132,33 +131,6 @@ function shape(ctx, d, x, y, scale, rotate = 0) {
   ctx.scale(scale, scale)
   ctx.fill(new Path2D(d))
   ctx.restore()
-}
-
-function flyingBird(ctx, x, y, scale, rotate = 0) {
-  shape(ctx, FLYING_BIRD, x, y, scale, rotate)
-  ctx.save()
-  ctx.translate(x, y)
-  ctx.rotate((rotate * Math.PI) / 180)
-  ctx.beginPath()
-  ctx.arc(0, 2 * scale, 6 * scale, 0, Math.PI * 2)
-  ctx.fill()
-  ctx.restore()
-}
-
-/** El ícono: el pájaro dentro del corazón. En las versiones de una sola tinta el pájaro queda calado. */
-function drawHeartBird(ctx, x, y, size, heart, bird) {
-  const k = size / 260
-  const layer = document.createElement('canvas')
-  layer.width = layer.height = Math.ceil(size * 2)
-  const c = layer.getContext('2d')
-  c.scale(2 * k, 2 * k)
-  c.translate(-70, -80)
-  c.fillStyle = heart
-  c.fill(new Path2D(HEART))
-  if (bird === heart) c.globalCompositeOperation = 'destination-out'
-  else c.fillStyle = bird
-  flyingBird(c, 200, 188, 2.1)
-  ctx.drawImage(layer, x, y, size, size)
 }
 
 /** Logo: EMIGRADO y la S de pájaros que se vuelan. (x, y) es la esquina de arriba de las letras. */
@@ -218,10 +190,9 @@ function drawCard(ctx, x, y, data, look, style) {
     ctx.fillRect(x + 2, y + HEAD_H - 2, w - 4, 4)
   }
 
-  // Encabezado: el corazón con el pájaro, el logo y el vuelo
+  // Encabezado: solo la palabra, con su S de pájaros
   const capTop = y + LOGO.top
-  drawHeartBird(ctx, left - 6, capTop - 12, 64, p.heart, p.card ? PAPER.cream : p.heart)
-  drawWordmark(ctx, left + 70, capTop, LOGO.cap, p.logo)
+  drawWordmark(ctx, left, capTop, LOGO.cap, p.logo)
   ctx.fillStyle = p.fg
 
   // La pregunta: el gancho
