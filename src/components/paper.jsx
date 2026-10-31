@@ -1,4 +1,4 @@
-// Recortes de papel al estilo Matisse: los pájaros, Ícaro y los íconos de cada modo.
+// Recortes de papel al estilo Matisse: los pájaros, las casas y los íconos de cada modo.
 // Las figuras se arman con trazos gruesos de puntas redondas que el filtro "papel-goo" funde
 // en una sola forma; el filtro "papel-corte" le da el borde irregular de la tijera. Los
 // filtros se definen una sola vez, en <PaperFilters /> (ver Layout).
@@ -103,34 +103,16 @@ export function Swallow({ x, y, s = 1, fill, rot = -22 }) {
   )
 }
 
-/** Ícaro: alguien que se lanza con el corazón en el pecho, entre pájaros. */
-export function Icaro({ className = '' }) {
-  const { cream, coral, yellow } = PAPER
+/** Casa de papel: pared, techo a dos aguas, puerta y ventana. (x, y) es el centro del piso. */
+export function House({ x, y, w = 80, h = 64, roof = 40, wall, top, door = PAPER.navy, window = PAPER.cream }) {
+  const left = x - w / 2
   return (
-    <svg viewBox="20 20 360 360" className={`icaro ${className}`} aria-hidden="true" focusable="false">
-      <Gull x={70} y={70} s={1.1} fill={cream} rot={-8} />
-      <Gull x={118} y={44} s={0.7} fill={cream} rot={6} />
-      <Gull x={330} y={96} s={0.9} fill={cream} rot={10} />
-      <Gull x={350} y={300} s={0.6} fill={yellow} rot={-6} />
-      <Gull x={64} y={270} s={0.7} fill={yellow} rot={4} />
-      <Goo
-        fill={cream}
-        parts={[
-          [204, 98, 23],
-          [200, 134, 203, 166, 200, 200, 50],
-          [200, 200, 199, 222, 197, 240, 38],
-          [182, 142, 150, 130, 122, 104, 18],
-          [122, 104, 108, 92, 92, 86, 11],
-          [218, 142, 252, 128, 280, 100, 18],
-          [280, 100, 292, 88, 308, 82, 11],
-          [190, 236, 176, 274, 160, 306, 22],
-          [160, 306, 152, 324, 148, 344, 12],
-          [208, 236, 230, 262, 246, 290, 20],
-          [246, 290, 258, 310, 278, 322, 11],
-        ]}
-      />
-      <SmallHeart x={208} y={168} s={0.5} fill={coral} rot={-6} />
-    </svg>
+    <g filter="url(#papel-corte)">
+      <rect x={left} y={y - h} width={w} height={h} fill={wall} />
+      <path d={`M${left - 10} ${y - h + 2} L${x} ${y - h - roof} L${left + w + 10} ${y - h + 2} Z`} fill={top} />
+      <rect x={x - w * 0.12 - w * 0.14} y={y - h * 0.52} width={w * 0.24} height={h * 0.52} rx={w * 0.12} fill={door} />
+      <rect x={x + w * 0.12} y={y - h * 0.78} width={w * 0.22} height={w * 0.22} rx="3" fill={window} />
+    </g>
   )
 }
 

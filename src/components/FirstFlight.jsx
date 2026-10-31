@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { COUNTRIES } from '../data/countries.js'
 import { QUESTIONS } from '../data/questions.js'
 import CountryPoster from './posters.jsx'
-import { Bird, Gull, Icaro, Leaf, ModeIcon, Star, Swallow } from './paper.jsx'
+import { Bird, Gull, House, Leaf, ModeIcon, Star, Swallow } from './paper.jsx'
 
 // Primer vuelo: cuatro pantallas cortas, una idea en cada una, antes de empezar.
 // - Se usa un <dialog> nativo: mantiene el foco adentro y se cierra con Esc.
@@ -72,7 +72,7 @@ export default function FirstFlight({ open, onClose }) {
     // Esc o "Saltar" disparan `close`; ahí se avisa que ya se vio
     <dialog ref={dialogRef} className="first-flight" aria-labelledby="first-flight-title" onClose={onClose}>
       <div className="first-flight__art" style={{ background: ART_COLORS[step] }} key={`art-${step}`}>
-        {step === 0 && <Icaro className="first-flight__icaro" />}
+        {step === 0 && <WelcomeArt />}
         {step === 1 && <LoopArt />}
         {step === 2 && <PrivacyArt />}
         {step === 3 && <MeetArt />}
@@ -215,6 +215,26 @@ function Progress({ step }) {
         <circle key={cx} cx={cx} cy={cy} r="4" className={i < step ? 'is-done' : ''} />
       ))}
       <Bird x={x} y={y - 4} s={0.3} fill="#e8664a" />
+    </svg>
+  )
+}
+
+// De una casa a otra, con las golondrinas: la misma escena que el inicio
+function WelcomeArt() {
+  return (
+    <svg viewBox="0 0 300 170" className="first-flight__scene" aria-hidden="true">
+      <path
+        d="M52 150 C110 120 120 70 170 64 S 236 40 262 14"
+        className="first-flight__trail"
+        stroke="#f3ede0"
+        strokeOpacity="0.6"
+      />
+      <House x={36} y={170} w={52} h={40} roof={28} wall="#e8664a" top="#1f2f5c" />
+      <Swallow x={186} y={56} s={0.26} fill="#f3ede0" rot={-30} />
+      <Swallow x={222} y={38} s={0.21} fill="#ffd23f" rot={-30} />
+      <Swallow x={254} y={22} s={0.17} fill="#f3ede0" rot={-30} />
+      <House x={246} y={170} w={40} h={38} roof={22} wall="#ffd23f" top="#e8664a" />
+      <House x={286} y={170} w={44} h={56} roof={26} wall="#3f7d5a" top="#1f2f5c" window="#ffd23f" />
     </svg>
   )
 }
