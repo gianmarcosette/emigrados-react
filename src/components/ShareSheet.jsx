@@ -1,9 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { COUNTRY_BY_ID } from '../data/countries.js'
-import { CATEGORY_BY_KEY } from '../data/questions.js'
 import { canvasToFile, clipAnswer, loadShareFonts, renderSticker, renderStory } from '../lib/shareCard.js'
-import { flightCode, gateFor, seatFor, stageColor } from '../lib/ticket.js'
+import { flightCode } from '../lib/ticket.js'
 
 const STICKERS = [
   { style: 'shadow', label: 'Blanco con sombra', hint: 'Para fotos oscuras o con colores', file: 'blanca' },
@@ -19,7 +17,7 @@ const STICKERS = [
 // - La respuesta no se comparte nunca sin que la persona lo pida: el interruptor arranca
 //   apagado cada vez que se abre.
 // Se monta solo mientras está abierta (así todo vuelve a empezar la próxima vez).
-export default function ShareSheet({ question, answer, profile, onClose }) {
+export default function ShareSheet({ question, answer, onClose }) {
   const dialogRef = useRef(null)
   const canvases = useRef({})
   const files = useRef({})
@@ -30,12 +28,6 @@ export default function ShareSheet({ question, answer, profile, onClose }) {
   const data = {
     question: question.text,
     flight: flightCode(question.id),
-    stage: CATEGORY_BY_KEY[question.category].label,
-    stageColor: stageColor(question.category),
-    country: COUNTRY_BY_ID[question.countryId].name,
-    gate: gateFor(question.category),
-    seat: seatFor(question.id),
-    code: profile?.code ?? null,
     answer: withAnswer && answer ? clipAnswer(answer) : null,
   }
   const slug = `emigrados-${data.flight.replace(' ', '').toLowerCase()}`

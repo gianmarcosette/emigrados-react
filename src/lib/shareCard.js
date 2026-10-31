@@ -20,7 +20,7 @@ const SAFE_BOTTOM = 330
 // Lo que entra de la respuesta en la tarjeta: unas tres líneas
 export const ANSWER_MAX = 140
 
-const CARD = { x: 70, w: 940, stub: 236, radius: 26, line: 4, pad: 38 }
+const CARD = { x: 110, w: 860, stub: 180, radius: 26, line: 4, pad: 38 }
 const COBALT = '#2a4f9e'
 
 /** Recorta la respuesta en una palabra entera y le agrega "…" si es más larga que `max`. */
@@ -61,15 +61,11 @@ export function cardTop(position, height) {
 const FONT_QUESTION = (size) => `700 ${size}px Archivo`
 const FONT_TEXT = '600 32px Montserrat'
 const FONT_SMALL = '800 18px Montserrat'
-const FONT_BIG = '700 32px Archivo'
 const FONT_FIELD = '700 34px Archivo'
-const FONT_CODE = '700 40px Archivo'
 
 // Medidas fijas de la tarjeta (en px de la historia de 1080 de ancho)
-const LOGO = { cap: 40, top: 96 } // altura de las letras y dónde empiezan (los pájaros vuelan arriba)
-const HEAD_H = 170 // banda del logo
-const ROUTE_H = 66
-const BOX_PAD = 28
+const LOGO = { cap: 40, top: 86 } // altura de las letras y dónde empiezan (los pájaros vuelan arriba)
+const HEAD_H = 158 // banda del logo
 
 /** Espera a que estén las tipografías del juego (si no, el canvas dibuja con otras). */
 export async function loadShareFonts() {
@@ -89,10 +85,6 @@ function spaced(ctx, text, x, y, spacing) {
   return cursor - x - spacing
 }
 
-function spacedWidth(ctx, text, spacing) {
-  return [...text].reduce((w, ch) => w + ctx.measureText(ch).width + spacing, -spacing)
-}
-
 /** Los colores de cada versión: líneas blancas, líneas negras o los papeles del juego. */
 function paletteFor(style) {
   if (style === 'color')
@@ -102,25 +94,24 @@ function paletteFor(style) {
 }
 
 /**
- * Mide la tarjeta y decide los cortes de línea.
- * data: { question, flight, stage, stageColor, country, gate, seat, code, answer }
+ * Mide la tarjeta y decide los cortes de línea. Lleva solo lo que importa a quien ve la
+ * historia: el logo, la pregunta y la invitación a responder (o la respuesta, si se eligió).
+ * data: { question, flight, answer }
  */
 function layout(ctx, data) {
-  const textW = CARD.w - CARD.stub - CARD.pad * 2 - BOX_PAD * 2
-  const qSize = data.question.length < 45 ? 80 : data.question.length < 90 ? 66 : 56
+  const textW = CARD.w - CARD.stub - CARD.pad * 2
+  const qSize = data.question.length < 45 ? 76 : data.question.length < 90 ? 64 : 54
   ctx.font = FONT_QUESTION(qSize)
   const qLines = wrapLines(data.question, textW, (t) => ctx.measureText(t).width)
   ctx.font = FONT_TEXT
   const foot = data.answer
     ? { label: 'MI RESPUESTA', text: data.answer }
     : { label: 'TU TURNO', text: '¿Y vos qué responderías?' }
-  const footLines = wrapLines(foot.text, CARD.w - CARD.stub - CARD.pad * 2, (t) => ctx.measureText(t).width)
+  const footLines = wrapLines(foot.text, textW, (t) => ctx.measureText(t).width)
 
-  const boxH = BOX_PAD + 18 + 14 + qLines.length * qSize * 1.04 + BOX_PAD
   const footH = 3 + 18 + 22 + 6 + footLines.length * 32 * 1.3
-  const leftH = HEAD_H + 26 + ROUTE_H + 22 + boxH + 30 + footH + 34
-  const stubH = HEAD_H + 26 + 3 * 92 + 60 + 40
-  return { qSize, qLines, boxH, foot, footLines, height: Math.ceil(Math.max(leftH, stubH)) }
+  const height = HEAD_H + 34 + qLines.length * qSize * 1.04 + 30 + footH + 34
+  return { qSize, qLines, foot, footLines, height: Math.ceil(Math.max(height, HEAD_H + 300)) }
 }
 
 function roundRect(ctx, x, y, w, h, r) {
@@ -231,68 +222,14 @@ function drawCard(ctx, x, y, data, look, style) {
   const capTop = y + LOGO.top
   drawHeartBird(ctx, left - 6, capTop - 12, 64, p.heart, p.card ? PAPER.cream : p.heart)
   drawWordmark(ctx, left + 70, capTop, LOGO.cap, p.logo)
-  ctx.fillStyle = p.logo
-  ctx.font = FONT_SMALL
-  const flight = `VUELO ${data.flight}`
-  spaced(ctx, flight, x + w - CARD.pad - spacedWidth(ctx, flight, 3), capTop + LOGO.cap - 8, 3)
   ctx.fillStyle = p.fg
 
-  // Ruta: de tu casa a la escala, con un pájaro en el medio
-  let cy = y + HEAD_H + 26
-  ctx.font = FONT_SMALL
-  spaced(ctx, 'DESDE', left, cy + 18, 3)
-  const toLabel = 'ESCALA'
-  spaced(ctx, toLabel, left + leftW - spacedWidth(ctx, toLabel, 3), cy + 18, 3)
-  ctx.font = FONT_BIG
-  ctx.fillText('TU CASA', left, cy + 56)
-  const country = data.country.toUpperCase()
-  const countryW = ctx.measureText(country).width
-  ctx.fillText(country, left + leftW - countryW, cy + 56)
-  const fromX = left + ctx.measureText('TU CASA').width + 26
-  const toX = left + leftW - countryW - 26
-  if (toX - fromX > 80) {
-    ctx.save()
-    ctx.lineWidth = 3
-    ctx.lineCap = 'round'
-    ctx.setLineDash([2, 10])
-    ctx.beginPath()
-    ctx.moveTo(fromX, cy + 50)
-    ctx.quadraticCurveTo((fromX + toX) / 2, cy - 4, toX, cy + 50)
-    ctx.stroke()
-    ctx.setLineDash([])
-    ctx.beginPath()
-    ctx.arc(fromX, cy + 50, 6, 0, Math.PI * 2)
-    ctx.fill()
-    ctx.beginPath()
-    ctx.arc(toX, cy + 50, 6, 0, Math.PI * 2)
-    ctx.stroke()
-    ctx.fillStyle = p.bird
-    flyingBird(ctx, (fromX + toX) / 2 + 12, cy + 14, 0.5, 8)
-    ctx.restore()
-  }
-
-  // La pregunta, en el papel de su etapa (a color) o en un recuadro de línea
-  cy += ROUTE_H + 22
-  if (p.card) {
-    ctx.save()
-    ctx.fillStyle = data.stageColor
-    roundRect(ctx, left, cy, leftW, look.boxH, 18)
-    ctx.fill()
-    ctx.restore()
-  } else {
-    ctx.save()
-    ctx.lineWidth = 3
-    roundRect(ctx, left, cy, leftW, look.boxH, 18)
-    ctx.stroke()
-    ctx.restore()
-  }
-  ctx.font = FONT_SMALL
-  spaced(ctx, `ETAPA · ${data.stage.toUpperCase()}`, left + BOX_PAD, cy + BOX_PAD + 16, 3)
-  let qy = cy + BOX_PAD + 18 + 14
+  // La pregunta: el gancho
+  let qy = y + HEAD_H + 34
   ctx.font = FONT_QUESTION(look.qSize)
   for (const line of look.qLines) {
     qy += look.qSize * 1.04
-    ctx.fillText(line, left + BOX_PAD, qy - look.qSize * 0.2)
+    ctx.fillText(line, left, qy - look.qSize * 0.2)
   }
 
   // Pie: "Tu turno" o "Mi respuesta", siempre abajo de todo con una línea arriba
@@ -317,22 +254,14 @@ function drawCard(ctx, x, y, data, look, style) {
   ctx.lineTo(stubX, y + h - 16)
   ctx.stroke()
   ctx.restore()
+  // En el talón, solo el vuelo y el código de barras, como en un billete
   const sx = stubX + 30
-  let sy = y + HEAD_H + 26
-  const fields = [
-    ['PUERTA', String(data.gate)],
-    ['ASIENTO', data.seat],
-    ...(data.code ? [['PASAJERO', data.code]] : []),
-  ]
-  for (const [label, value] of fields) {
-    ctx.font = FONT_SMALL
-    spaced(ctx, label, sx, sy + 18, 3)
-    ctx.font = label === 'PASAJERO' ? FONT_CODE : FONT_FIELD
-    spaced(ctx, value, sx, sy + 60, label === 'PASAJERO' ? 3.5 : 1)
-    sy += 92
-  }
+  ctx.font = FONT_SMALL
+  spaced(ctx, 'VUELO', sx, y + HEAD_H + 44, 3)
+  ctx.font = FONT_FIELD
+  spaced(ctx, data.flight, sx, y + HEAD_H + 86, 1)
   for (const bar of barcodeBars(Number(data.flight.replace(/\D/g, '')) || 1, 116)) {
-    ctx.fillRect(sx + bar.x * 1.5, y + h - 34 - 60, bar.w * 1.5, 60)
+    ctx.fillRect(sx + bar.x, y + h - 34 - 60, bar.w, 60)
   }
   ctx.restore()
 
