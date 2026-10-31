@@ -1,23 +1,23 @@
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { CATEGORY_BY_KEY } from '../data/questions.js'
 import { canvasToFile, clipAnswer, loadShareFonts, renderSticker, renderStory } from '../lib/shareCard.js'
-import { flightCode, seatFor } from '../lib/ticket.js'
+import { flightCode } from '../lib/ticket.js'
 
 const STICKERS = [
-  { style: 'shadow', label: 'Blanco con sombra', hint: 'Para fotos oscuras o con colores' },
-  { style: 'black', label: 'Negro', hint: 'Para fotos claras' },
+  { style: 'shadow', label: 'Blanco con sombra', hint: 'Para fotos oscuras o con colores', file: 'blanca' },
+  { style: 'black', label: 'Negro', hint: 'Para fotos claras', file: 'negra' },
+  { style: 'color', label: 'A color', hint: 'Con los papeles del juego', file: 'color' },
 ]
 
 // Compartir una pregunta en historias (Instagram, TikTok, WhatsApp).
 // - Lo principal es la tarjeta sola, con fondo transparente: la persona la pega sobre la
 //   foto que quiera, como quiera (estilo Strava). La foto nunca pasa por el juego.
 // - Si no quiere usar una foto propia, hay una historia lista con la tarjeta centrada
-//   sobre el cielo del juego.
+//   sobre el cobalto del juego.
 // - La respuesta no se comparte nunca sin que la persona lo pida: el interruptor arranca
 //   apagado cada vez que se abre.
 // Se monta solo mientras está abierta (así todo vuelve a empezar la próxima vez).
-export default function ShareSheet({ question, answer, profile, onClose }) {
+export default function ShareSheet({ question, answer, onClose }) {
   const dialogRef = useRef(null)
   const canvases = useRef({})
   const files = useRef({})
@@ -28,9 +28,6 @@ export default function ShareSheet({ question, answer, profile, onClose }) {
   const data = {
     question: question.text,
     flight: flightCode(question.id),
-    stage: CATEGORY_BY_KEY[question.category].label,
-    seat: seatFor(question.id),
-    code: profile?.code ?? null,
     answer: withAnswer && answer ? clipAnswer(answer) : null,
   }
   const slug = `emigrados-${data.flight.replace(' ', '').toLowerCase()}`
@@ -49,10 +46,9 @@ export default function ShareSheet({ question, answer, profile, onClose }) {
       if (!active || !c.story) return
       for (const { style } of STICKERS) renderSticker(c[style], { data, style })
       renderStory(c.story, { data })
-      const made = {
-        shadow: await canvasToFile(c.shadow, `${slug}-transparente-blanca.png`),
-        black: await canvasToFile(c.black, `${slug}-transparente-negra.png`),
-        story: await canvasToFile(c.story, `${slug}-historia.png`),
+      const made = { story: await canvasToFile(c.story, `${slug}-historia.png`) }
+      for (const { style, file } of STICKERS) {
+        made[style] = await canvasToFile(c[style], `${slug}-transparente-${file}.png`)
       }
       if (active) {
         files.current = made
@@ -162,7 +158,7 @@ export default function ShareSheet({ question, answer, profile, onClose }) {
           />
           <div>
             <h3 id="share-story">O una historia lista</h3>
-            <p className="share-sheet__hint">La tarjeta centrada sobre el cielo de Emigrados, para subirla tal cual.</p>
+            <p className="share-sheet__hint">La tarjeta a color sobre el azul de Emigrados, para subirla tal cual.</p>
             <button type="button" className="btn btn--ghost" disabled={!ready} onClick={() => send('story')}>
               Compartir la historia
             </button>

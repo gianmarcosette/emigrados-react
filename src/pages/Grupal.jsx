@@ -6,7 +6,6 @@ import Title from '../components/Title.jsx'
 import { CATEGORIES, QUESTIONS } from '../data/questions.js'
 import { shuffle } from '../state/journey.js'
 import { useConfirm } from '../state/confirm.js'
-import { useJourney } from '../state/useJourney.js'
 import { isLastSpeaker, nextSpeaker, speakersStatus, speakingOrder, startRound } from '../lib/groupTurns.js'
 import { TIMER_OPTIONS } from '../lib/timer.js'
 
@@ -36,7 +35,6 @@ export default function Grupal() {
   const [timerSeconds, setTimerSeconds] = useState(0)
   const [bigText, setBigText] = useState(readBigText)
   const [sharing, setSharing] = useState(false)
-  const { profile } = useJourney()
   const confirm = useConfirm()
 
   function toggleBigText() {
@@ -185,7 +183,7 @@ export default function Grupal() {
           En el modo grupal no se guarda nada. Lo que se dice en la mesa, queda en la mesa.
         </p>
         {/* Se comparte la pregunta, nunca lo que se dijo */}
-        {sharing && <ShareSheet question={question} profile={profile} onClose={() => setSharing(false)} />}
+        {sharing && <ShareSheet question={question} onClose={() => setSharing(false)} />}
       </div>
     )
   }

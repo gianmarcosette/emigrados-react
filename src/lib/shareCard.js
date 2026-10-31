@@ -1,11 +1,14 @@
 // Imágenes para compartir en historias (Instagram, TikTok, WhatsApp), dibujadas en un
 // <canvas> en el mismo dispositivo:
-// - la tarjeta de embarque sola, en líneas y con fondo transparente, para pegarla sobre
-//   cualquier foto propia (estilo Strava): es la principal;
-// - una historia lista, con la tarjeta centrada sobre el cielo del juego.
+// - la tarjeta de embarque sola, con fondo transparente, para pegarla sobre cualquier foto
+//   propia (estilo Strava): es la principal. Va en líneas blancas o negras, o a color, con
+//   los papeles del juego;
+// - una historia lista, con la tarjeta a color sobre el cobalto del juego y sus pájaros.
 //
 // Lo de arriba (medidas, cortes de línea) no usa el navegador y se puede testear; lo de
 // abajo dibuja en el canvas.
+import { BIRD, LETTERS, S_BIRDS } from '../data/logo.js'
+import { GULL, PAPER } from './paper.js'
 import { barcodeBars } from './ticket.js'
 
 export const STORY_W = 1080
@@ -17,9 +20,8 @@ const SAFE_BOTTOM = 330
 // Lo que entra de la respuesta en la tarjeta: unas tres líneas
 export const ANSWER_MAX = 140
 
-const CARD = { x: 70, w: 940, stub: 236, radius: 22, line: 4, pad: 38, top: 36 }
-const INK = '#161616'
-const PLANE = 'M2 13l8-1 5-8h3l-3 8 5 .5 2-2.5h2l-1.5 4 1.5 4h-2l-2-2.5-5 .5 3 8h-3l-5-8-8-1z'
+const CARD = { x: 110, w: 860, stub: 180, radius: 26, line: 4, pad: 38 }
+const COBALT = '#2a4f9e'
 
 /** Recorta la respuesta en una palabra entera y le agrega "…" si es más larga que `max`. */
 export function clipAnswer(text, max = ANSWER_MAX) {
@@ -54,27 +56,22 @@ export function cardTop(position, height) {
   return STORY_H - SAFE_BOTTOM - height
 }
 
-/** La etapa en el talón: si tiene una palabra larga, va más chica para que entre. */
-export function stageSize(stage) {
-  return Math.max(...stage.split(' ').map((w) => w.length)) > 9 ? 21 : 30
-}
-
 // ───────────── Dibujo ─────────────
 
 const FONT_QUESTION = (size) => `700 ${size}px Archivo`
 const FONT_TEXT = '600 32px Montserrat'
 const FONT_SMALL = '800 18px Montserrat'
-const FONT_FIELD_LABEL = '700 17px Montserrat'
-const FONT_FIELD = (size) => `800 ${size}px Montserrat`
-const FONT_CODE = '700 44px Archivo'
+const FONT_FIELD = '700 34px Archivo'
+
+// Medidas fijas de la tarjeta (en px de la historia de 1080 de ancho)
+const LOGO = { cap: 44, top: 94 } // altura de las letras y dónde empiezan (los pájaros vuelan arriba)
+const HEAD_H = 166 // banda del logo
 
 /** Espera a que estén las tipografías del juego (si no, el canvas dibuja con otras). */
 export async function loadShareFonts() {
   if (!globalThis.document?.fonts) return
   await Promise.all(
-    [FONT_QUESTION(84), FONT_TEXT, FONT_SMALL, FONT_FIELD(30), '800 44px Montserrat', 'italic 500 44px Montserrat'].map(
-      (f) => document.fonts.load(f, 'ÁÉÍÓÚáéíóúñ¿?'),
-    ),
+    [FONT_QUESTION(84), FONT_TEXT, FONT_SMALL, FONT_FIELD].map((f) => document.fonts.load(f, 'ÁÉÍÓÚáéíóúñ¿?')),
   ).catch(() => {})
 }
 
@@ -88,18 +85,21 @@ function spaced(ctx, text, x, y, spacing) {
   return cursor - x - spacing
 }
 
-function spacedWidth(ctx, text, spacing) {
-  return [...text].reduce((w, ch) => w + ctx.measureText(ch).width + spacing, -spacing)
+/** Los colores de cada versión: líneas blancas, líneas negras o los papeles del juego. */
+function paletteFor(style) {
+  if (style === 'color') return { fg: PAPER.ink, logo: PAPER.cream, band: COBALT, card: PAPER.cream }
+  const fg = style === 'black' ? PAPER.ink : '#fff'
+  return { fg, logo: fg, band: null, card: null }
 }
 
 /**
- * Mide la tarjeta y decide los cortes de línea.
- * data: { question, flight, stage, seat, code, answer }
+ * Mide la tarjeta y decide los cortes de línea. Lleva solo lo que importa a quien ve la
+ * historia: el logo, la pregunta y la invitación a responder (o la respuesta, si se eligió).
+ * data: { question, flight, answer }
  */
 function layout(ctx, data) {
-  const leftW = CARD.w - CARD.stub
-  const textW = leftW - CARD.pad * 2
-  const qSize = data.question.length < 45 ? 84 : 70
+  const textW = CARD.w - CARD.stub - CARD.pad * 2
+  const qSize = data.question.length < 45 ? 76 : data.question.length < 90 ? 64 : 54
   ctx.font = FONT_QUESTION(qSize)
   const qLines = wrapLines(data.question, textW, (t) => ctx.measureText(t).width)
   ctx.font = FONT_TEXT
@@ -108,24 +108,9 @@ function layout(ctx, data) {
     : { label: 'TU TURNO', text: '¿Y vos qué responderías?' }
   const footLines = wrapLines(foot.text, textW, (t) => ctx.measureText(t).width)
 
-  const brandH = 44
-  const qH = qLines.length * qSize * 1.02
   const footH = 3 + 18 + 22 + 6 + footLines.length * 32 * 1.3
-  const leftH = CARD.top + brandH + 30 + qH + 28 + footH + 36
-
-  const sSize = stageSize(data.stage)
-  ctx.font = FONT_FIELD(sSize)
-  const stageLines = wrapLines(data.stage.toUpperCase(), CARD.stub - 52, (t) => spacedWidth(ctx, t, sSize * 0.04))
-  const fields = [
-    { label: 'VUELO', lines: [data.flight], size: 30 },
-    { label: 'ETAPA', lines: stageLines, size: sSize },
-    { label: 'ASIENTO', lines: [data.seat], size: 30 },
-    ...(data.code ? [{ label: 'PASAJERO', lines: [data.code], size: 44, code: true }] : []),
-  ]
-  const fieldsH = fields.reduce((h, f) => h + 20 + 4 + f.lines.length * f.size * 1.1, 0)
-  const stubH = 36 + fieldsH + (fields.length - 1) * 20 + 30 + 60 + 30
-
-  return { qSize, qLines, foot, footLines, fields, height: Math.ceil(Math.max(leftH, stubH)) }
+  const height = HEAD_H + 34 + qLines.length * qSize * 1.04 + 30 + footH + 34
+  return { qSize, qLines, foot, footLines, height: Math.ceil(Math.max(height, HEAD_H + 300)) }
 }
 
 function roundRect(ctx, x, y, w, h, r) {
@@ -138,13 +123,45 @@ function roundRect(ctx, x, y, w, h, r) {
   ctx.closePath()
 }
 
+// Un trazo SVG (path) ubicado en x, y con giro y escala
+function shape(ctx, d, x, y, scale, rotate = 0) {
+  ctx.save()
+  ctx.translate(x, y)
+  ctx.rotate((rotate * Math.PI) / 180)
+  ctx.scale(scale, scale)
+  ctx.fill(new Path2D(d))
+  ctx.restore()
+}
+
+/** Logo: EMIGRADO y la S de pájaros que se vuelan. (x, y) es la esquina de arriba de las letras. */
+function drawWordmark(ctx, x, y, cap, color) {
+  const k = cap / 146
+  ctx.save()
+  ctx.fillStyle = color
+  ctx.translate(x, y)
+  ctx.scale(k, k)
+  ctx.translate(0, -237)
+  ctx.fill(new Path2D(LETTERS))
+  const bird = new Path2D(BIRD)
+  for (const [bx, by, rot, s] of S_BIRDS) {
+    ctx.save()
+    ctx.translate(bx, by)
+    ctx.rotate((rot * Math.PI) / 180)
+    ctx.scale(s, s)
+    ctx.fill(bird)
+    ctx.restore()
+  }
+  ctx.restore()
+}
+
 /** Dibuja la tarjeta con su esquina superior izquierda en (x, y). */
 function drawCard(ctx, x, y, data, look, style) {
-  const color = style === 'black' ? INK : '#fff'
+  const p = paletteFor(style)
   const w = CARD.w
   const h = look.height
   const left = x + CARD.pad
   const stubX = x + w - CARD.stub
+  const leftW = stubX - CARD.pad - left
 
   ctx.save()
   if (style === 'shadow') {
@@ -152,46 +169,44 @@ function drawCard(ctx, x, y, data, look, style) {
     ctx.shadowBlur = 10
     ctx.shadowOffsetY = 2
   }
-  ctx.fillStyle = color
-  ctx.strokeStyle = color
+  ctx.fillStyle = p.fg
+  ctx.strokeStyle = p.fg
+  ctx.lineWidth = CARD.line
   ctx.textBaseline = 'alphabetic'
 
-  // Marco y perforación del talón
-  ctx.lineWidth = CARD.line
-  roundRect(ctx, x + 2, y + 2, w - 4, h - 4, CARD.radius)
-  ctx.stroke()
-  ctx.setLineDash([10, 8])
-  ctx.beginPath()
-  ctx.moveTo(stubX, y + 4)
-  ctx.lineTo(stubX, y + h - 4)
-  ctx.stroke()
-  ctx.setLineDash([])
+  // Papel y banda del logo (a color) o marco de líneas (blanco y negro)
+  if (p.card) {
+    ctx.save()
+    roundRect(ctx, x, y, w, h, CARD.radius)
+    ctx.clip()
+    ctx.fillStyle = p.card
+    ctx.fillRect(x, y, w, h)
+    ctx.fillStyle = p.band
+    ctx.fillRect(x, y, w, HEAD_H)
+    ctx.restore()
+  } else {
+    roundRect(ctx, x + 2, y + 2, w - 4, h - 4, CARD.radius)
+    ctx.stroke()
+    ctx.fillRect(x + 2, y + HEAD_H - 2, w - 4, 4)
+  }
 
-  // Logo: la E recta y en negrita, el resto en itálica espaciada (como en el juego)
-  let cy = y + CARD.top + 36
-  ctx.font = '800 44px Montserrat'
-  const eW = spaced(ctx, 'E', left, cy, 0)
-  ctx.font = 'italic 500 44px Montserrat'
-  spaced(ctx, 'MIGRADOS', left + eW + 8, cy, 8)
-  // Avión
-  ctx.save()
-  ctx.translate(stubX - CARD.pad - 40, cy - 34)
-  ctx.scale(40 / 24, 40 / 24)
-  ctx.fill(new Path2D(PLANE))
-  ctx.restore()
+  // Encabezado: solo la palabra, con su S de pájaros
+  const capTop = y + LOGO.top
+  drawWordmark(ctx, left, capTop, LOGO.cap, p.logo)
+  ctx.fillStyle = p.fg
 
-  // Pregunta
-  cy = y + CARD.top + 44 + 30
+  // La pregunta: el gancho
+  let qy = y + HEAD_H + 34
   ctx.font = FONT_QUESTION(look.qSize)
   for (const line of look.qLines) {
-    cy += look.qSize * 1.02
-    ctx.fillText(line, left, cy - look.qSize * 0.2)
+    qy += look.qSize * 1.04
+    ctx.fillText(line, left, qy - look.qSize * 0.2)
   }
 
   // Pie: "Tu turno" o "Mi respuesta", siempre abajo de todo con una línea arriba
   const footH = 3 + 18 + 22 + 6 + look.footLines.length * 32 * 1.3
-  let fy = y + h - 36 - footH
-  ctx.fillRect(left, fy, stubX - CARD.pad - left, 3)
+  let fy = y + h - 34 - footH
+  ctx.fillRect(left, fy, leftW, 3)
   fy += 3 + 18 + 18
   ctx.font = FONT_SMALL
   spaced(ctx, look.foot.label, left, fy, 3)
@@ -202,77 +217,81 @@ function drawCard(ctx, x, y, data, look, style) {
     ctx.fillText(line, left, fy - 8)
   }
 
-  // Talón: datos del vuelo, código de pasajero y código de barras
-  const sx = stubX + 26
-  let sy = y + 36
-  for (const f of look.fields) {
-    ctx.font = FONT_FIELD_LABEL
-    sy += 18
-    spaced(ctx, f.label, sx, sy, 2.7)
-    sy += 6
-    ctx.font = f.code ? FONT_CODE : FONT_FIELD(f.size)
-    for (const line of f.lines) {
-      sy += f.size * 1.1
-      spaced(ctx, line, sx, sy - f.size * 0.18, f.code ? 3.5 : f.size * 0.04)
-    }
-    sy += 20
-  }
+  // Talón: troquel, puerta, asiento, código de pasajero y código de barras
+  ctx.save()
+  ctx.setLineDash([10, 8])
+  ctx.beginPath()
+  ctx.moveTo(stubX, y + HEAD_H + 16)
+  ctx.lineTo(stubX, y + h - 16)
+  ctx.stroke()
+  ctx.restore()
+  // En el talón, solo el vuelo y el código de barras, como en un billete
+  const sx = stubX + 30
+  ctx.font = FONT_SMALL
+  spaced(ctx, 'VUELO', sx, y + HEAD_H + 44, 3)
+  ctx.font = FONT_FIELD
+  spaced(ctx, data.flight, sx, y + HEAD_H + 86, 1)
   for (const bar of barcodeBars(Number(data.flight.replace(/\D/g, '')) || 1, 116)) {
-    ctx.fillRect(sx + bar.x * 1.6, y + h - 30 - 60, bar.w * 1.6, 60)
+    ctx.fillRect(sx + bar.x, y + h - 34 - 60, bar.w, 60)
   }
   ctx.restore()
-}
 
-// El cielo del juego con nubes en trama de puntos. Las nubes esquivan la franja
-// de la tarjeta, así la trama no se mezcla con el texto.
-const CLOUDS = [
-  [0.06, 0.09, 0.38, 0.07],
-  [0.96, 0.22, 0.34, 0.07],
-  [0.02, 0.4, 0.3, 0.06],
-  [0.98, 0.56, 0.32, 0.06],
-  [0.04, 0.74, 0.3, 0.06],
-  [0.4, 1, 0.6, 0.06],
-]
-
-function drawSky(ctx, band) {
-  ctx.fillStyle = '#3d7299'
-  ctx.fillRect(0, 0, STORY_W, STORY_H)
-  const clouds = CLOUDS.filter(([, cy, , ry]) => {
-    const top = (cy - ry * 0.72) * STORY_H
-    const bottom = (cy + ry * 0.72) * STORY_H
-    return bottom < band.top - 40 || top > band.bottom + 40
-  })
-  ctx.fillStyle = '#efe6d2'
-  for (let y = 0; y < STORY_H; y += 5) {
-    const row = Math.round(y / 5)
-    for (let x = row % 2 ? 5 : 0; x < STORY_W; x += 10) {
-      let alpha = 0
-      for (const [cx, cy, rx, ry] of clouds) {
-        const d = Math.hypot((x / STORY_W - cx) / rx, (y / STORY_H - cy) / ry)
-        alpha = Math.max(alpha, Math.min(1, Math.max(0, (0.72 - d) / 0.32)))
-      }
-      if (alpha <= 0) continue
-      ctx.globalAlpha = alpha
+  // Las muescas del troquel, caladas en el papel
+  if (p.card) {
+    ctx.save()
+    ctx.globalCompositeOperation = 'destination-out'
+    for (const ny of [y + HEAD_H, y + h]) {
       ctx.beginPath()
-      ctx.arc(x, y, 2.8, 0, Math.PI * 2)
+      ctx.arc(stubX, ny, 16, 0, Math.PI * 2)
       ctx.fill()
     }
+    ctx.restore()
   }
-  ctx.globalAlpha = 1
+}
+
+// Gaviotas de papel sobre el cobalto, arriba y abajo de la tarjeta
+const GULLS = [
+  [0.16, 0.08, 1.6, -8, PAPER.cream],
+  [0.3, 0.05, 1, 6, PAPER.cream],
+  [0.82, 0.11, 1.3, 10, PAPER.yellow],
+  [0.14, 0.92, 1.2, 4, PAPER.yellow],
+  [0.78, 0.9, 1.7, -6, PAPER.cream],
+  [0.9, 0.95, 0.9, 8, PAPER.coral],
+]
+
+function drawBackdrop(ctx, band) {
+  ctx.fillStyle = COBALT
+  ctx.fillRect(0, 0, STORY_W, STORY_H)
+  for (const [gx, gy, s, rot, color] of GULLS) {
+    const y = gy * STORY_H
+    if (y > band.top - 60 && y < band.bottom + 60) continue
+    ctx.fillStyle = color
+    shape(ctx, GULL, gx * STORY_W, y, s * 1.6, rot)
+  }
 }
 
 /**
- * Historia lista (1080 × 1920) en `canvas`: la tarjeta sobre el cielo del juego.
- * options: { data, position, style }
+ * Historia lista (1080 × 1920) en `canvas`: la tarjeta a color sobre el cobalto del juego.
+ * options: { data, position }
  */
-export function renderStory(canvas, { data, position = 'middle', style = 'shadow' }) {
+export function renderStory(canvas, { data, position = 'middle' }) {
   canvas.width = STORY_W
   canvas.height = STORY_H
   const ctx = canvas.getContext('2d')
   const look = layout(ctx, data)
   const top = cardTop(position, look.height)
-  drawSky(ctx, { top, bottom: top + look.height })
-  drawCard(ctx, CARD.x, top, data, look, style)
+  drawBackdrop(ctx, { top, bottom: top + look.height })
+  // La tarjeta se dibuja aparte, así las muescas dejan ver el cobalto y no un agujero
+  const card = document.createElement('canvas')
+  card.width = STORY_W
+  card.height = look.height + 40
+  drawCard(card.getContext('2d'), CARD.x, 20, data, look, 'color')
+  ctx.save()
+  ctx.shadowColor = 'rgba(10, 20, 50, 0.35)'
+  ctx.shadowBlur = 24
+  ctx.shadowOffsetY = 8
+  ctx.drawImage(card, 0, top - 20)
+  ctx.restore()
 }
 
 /** Solo la tarjeta, con fondo transparente y al doble de resolución, para pegar sobre otra foto. */

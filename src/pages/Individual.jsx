@@ -109,7 +109,6 @@ function IndividualGame({ params }) {
         route={route}
         answeredCount={answeredCount}
         totalQuestions={totalQuestions}
-        profile={profile}
         onNext={() => nextQuestion()}
       />
     )
@@ -227,8 +226,8 @@ function IndividualGame({ params }) {
   )
 }
 
-// Después de guardar: la pegatina del país se pega en la maleta (o avanza, o se completa).
-function SavedScreen({ question, country, answers, route, answeredCount, totalQuestions, profile, onNext }) {
+// Después de guardar: el afiche del país se pega en la maleta (o avanza, o se completa).
+function SavedScreen({ question, country, answers, route, answeredCount, totalQuestions, onNext }) {
   const [sharing, setSharing] = useState(false)
   const stickers = useMemo(
     () => buildStickers({ questions: QUESTIONS, countries: COUNTRIES, answers, route }),
@@ -289,12 +288,7 @@ function SavedScreen({ question, country, answers, route, answeredCount, totalQu
         </div>
       </section>
       {sharing && (
-        <ShareSheet
-          question={question}
-          answer={answers[question.id]?.at(-1)?.text}
-          profile={profile}
-          onClose={() => setSharing(false)}
-        />
+        <ShareSheet question={question} answer={answers[question.id]?.at(-1)?.text} onClose={() => setSharing(false)} />
       )}
     </div>
   )
