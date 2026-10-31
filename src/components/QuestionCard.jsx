@@ -3,7 +3,7 @@ import { COUNTRY_BY_ID } from '../data/countries.js'
 import { CATEGORY_BY_KEY } from '../data/questions.js'
 import { barcodeBars, flightCode, gateFor, seatFor, stageColor } from '../lib/ticket.js'
 import Avatar from './Avatar.jsx'
-import { Bird, HeartBird } from './paper.jsx'
+import { Bird } from './paper.jsx'
 import CountryPoster from './posters.jsx'
 import Title from './Title.jsx'
 import Wordmark from './Wordmark.jsx'
@@ -28,10 +28,7 @@ export default function QuestionCard({
   return (
     <article className={`ticket ${className}`}>
       <header className="ticket__band">
-        <span className="ticket__brand">
-          <HeartBird className="ticket__heart" />
-          <Wordmark compact className="ticket__word" />
-        </span>
+        <Wordmark compact className="ticket__word" />
         <span className="ticket__flight">{eyebrow ?? `Vuelo ${flight}`}</span>
       </header>
 

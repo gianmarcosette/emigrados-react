@@ -5053,7 +5053,7 @@ h3 {
 }
 
 /* ═════════════ Recortes de papel ═════════════ */
-/* Logo en el encabezado: el corazón con el pájaro y la palabra con su bandada */
+/* Logo en el encabezado: la palabra con su bandada */
 .brand {
   display: flex;
   align-items: center;
@@ -5061,14 +5061,10 @@ h3 {
   color: var(--ink);
 }
 
-.brand__icon {
-  width: 2.1rem;
-  height: 2.1rem;
-  flex: none;
-}
-
 .brand__word {
-  width: 9.5rem;
+  width: 10.5rem;
+  /* Un poco más abajo: los pájaros que se vuelan necesitan lugar arriba */
+  margin-top: 0.9rem;
 }
 
 /* Inicio: Ícaro arriba del logo */
@@ -5156,18 +5152,6 @@ h3 {
   padding: 12px clamp(20px, 4vw, 32px);
   background: var(--halftone-sky);
   color: #f3ede0;
-}
-
-.ticket__brand {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.ticket__heart {
-  width: 1.75rem;
-  height: 1.75rem;
-  flex: none;
 }
 
 .main .ticket__word {

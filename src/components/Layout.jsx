@@ -11,7 +11,7 @@ import Avatar from './Avatar.jsx'
 import ConfirmProvider from './ConfirmDialog.jsx'
 import FirstFlight from './FirstFlight.jsx'
 import { TAB_ICONS } from './icons.jsx'
-import { HeartBird, PaperFilters } from './paper.jsx'
+import { PaperFilters } from './paper.jsx'
 import TextSize from './TextSize.jsx'
 import Wordmark from './Wordmark.jsx'
 
@@ -71,7 +71,6 @@ export default function Layout() {
           <header className="topbar">
             <div className="topbar__row">
               <NavLink to="/" className="brand" aria-label="Emigrados, volver al inicio">
-                <HeartBird className="brand__icon" />
                 <Wordmark className="brand__word" compact />
               </NavLink>
               <nav className="topbar__nav" aria-label="Secciones">

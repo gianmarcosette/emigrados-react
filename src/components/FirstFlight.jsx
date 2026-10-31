@@ -2,9 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { COUNTRIES } from '../data/countries.js'
 import { QUESTIONS } from '../data/questions.js'
-import { HEART } from '../lib/paper.js'
 import CountryPoster from './posters.jsx'
-import { Bird, Gull, Icaro, Leaf, ModeIcon, Star } from './paper.jsx'
+import { Bird, Gull, Icaro, Leaf, ModeIcon, Star, Swallow } from './paper.jsx'
 
 // Primer vuelo: cuatro pantallas cortas, una idea en cada una, antes de empezar.
 // - Se usa un <dialog> nativo: mantiene el foco adentro y se cierra con Esc.
@@ -239,17 +238,24 @@ function LoopArt() {
   )
 }
 
-// El corazón con el pájaro, entre hojas: lo tuyo queda cuidado
+// Tu hoja, entre hojas de papel: lo que escribís queda con vos
 function PrivacyArt() {
   return (
     <svg viewBox="0 0 300 170" className="first-flight__scene" aria-hidden="true">
       <Leaf x={52} y={160} s={1} fill="#ffd23f" rot={-18} />
       <Leaf x={252} y={160} s={0.9} fill="#ffd23f" rot={20} />
-      <g transform="translate(80 -6) scale(0.55)">
-        <path filter="url(#papel-corte)" d={HEART} fill="#f3ede0" />
-        <Bird x={200} y={188} s={2.1} fill="#e8664a" />
+      <g transform="rotate(-4 150 96)" filter="url(#papel-corte)">
+        <rect x="104" y="40" width="92" height="112" rx="8" fill="#f3ede0" />
+        <path
+          d="M120 72 H180 M120 92 H180 M120 112 H164"
+          stroke="#161616"
+          strokeWidth="4"
+          strokeLinecap="round"
+          opacity="0.55"
+        />
       </g>
-      <Star x={250} y={36} r={14} fill="#ffd23f" />
+      <Swallow x={226} y={40} s={0.55} fill="#f3ede0" rot={-26} />
+      <Star x={70} y={44} r={14} fill="#ffd23f" />
     </svg>
   )
 }

@@ -1,8 +1,8 @@
-// Recortes de papel al estilo Matisse: el pájaro, el corazón, Ícaro y los íconos de cada modo.
+// Recortes de papel al estilo Matisse: los pájaros, Ícaro y los íconos de cada modo.
 // Las figuras se arman con trazos gruesos de puntas redondas que el filtro "papel-goo" funde
 // en una sola forma; el filtro "papel-corte" le da el borde irregular de la tijera. Los
 // filtros se definen una sola vez, en <PaperFilters /> (ver Layout).
-import { FLYING_BIRD, GULL, HEART, PAPER } from '../lib/paper.js'
+import { FLYING_BIRD, GULL, PAPER, SWALLOW } from '../lib/paper.js'
 
 export function PaperFilters() {
   return (
@@ -94,21 +94,12 @@ export function Star({ x, y, r, fill, rot = 0, seed = 3, points = 7 }) {
   return <polygon points={pts.join(' ')} fill={fill} stroke={fill} strokeWidth="3" strokeLinejoin="round" />
 }
 
-/** El ícono de Emigrados: un pájaro en vuelo dentro de un corazón. */
-export function HeartBird({ heart = PAPER.coral, bird = PAPER.cream, size, label, className = '' }) {
+// Golondrina: sube en diagonal, como quien se va
+export function Swallow({ x, y, s = 1, fill, rot = -22 }) {
   return (
-    <svg
-      viewBox="70 80 260 260"
-      width={size}
-      height={size}
-      className={`heart-bird ${className}`}
-      role={label ? 'img' : undefined}
-      aria-label={label}
-      aria-hidden={label ? undefined : true}
-    >
-      <path filter="url(#papel-corte)" d={HEART} fill={heart} />
-      <Bird x={200} y={188} s={2.1} fill={bird} />
-    </svg>
+    <g transform={`translate(${x} ${y}) rotate(${rot}) scale(${s})`} filter="url(#papel-corte)">
+      <path d={SWALLOW} fill={fill} />
+    </g>
   )
 }
 
@@ -143,11 +134,16 @@ export function Icaro({ className = '' }) {
   )
 }
 
-/** El dibujo de cada modo: el corazón con el pájaro, la bandada en V y las rutas que se juntan. */
+/** El dibujo de cada modo: una golondrina que vuela sola, la bandada en V y dos pájaros que se encuentran. */
 export function ModeIcon({ mode, className = '' }) {
   const { coral, navy, green, yellow } = PAPER
   const cls = `mode-icon ${className}`
-  if (mode === 'individual') return <HeartBird className={cls} />
+  if (mode === 'individual')
+    return (
+      <svg viewBox="40 40 320 240" className={cls} aria-hidden="true" focusable="false">
+        <Swallow x={200} y={160} s={1.9} fill={coral} rot={-24} />
+      </svg>
+    )
   if (mode === 'grupal')
     return (
       <svg viewBox="40 80 320 180" className={cls} aria-hidden="true" focusable="false">
