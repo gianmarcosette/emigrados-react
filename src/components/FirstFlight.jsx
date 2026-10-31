@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { COUNTRIES } from '../data/countries.js'
 import { QUESTIONS } from '../data/questions.js'
+import { HEART } from '../lib/paper.js'
 import CountryPoster from './posters.jsx'
 import { Bird, Gull, Icaro, Leaf, ModeIcon, Star } from './paper.jsx'
 
@@ -245,11 +246,7 @@ function PrivacyArt() {
       <Leaf x={52} y={160} s={1} fill="#ffd23f" rot={-18} />
       <Leaf x={252} y={160} s={0.9} fill="#ffd23f" rot={20} />
       <g transform="translate(80 -6) scale(0.55)">
-        <path
-          filter="url(#papel-corte)"
-          d="M200 318 C150 286 86 242 86 172 C86 126 120 98 156 98 C178 98 192 110 200 124 C208 110 222 98 244 98 C280 98 314 126 314 172 C314 242 250 286 200 318 Z"
-          fill="#f3ede0"
-        />
+        <path filter="url(#papel-corte)" d={HEART} fill="#f3ede0" />
         <Bird x={200} y={188} s={2.1} fill="#e8664a" />
       </g>
       <Star x={250} y={36} r={14} fill="#ffd23f" />

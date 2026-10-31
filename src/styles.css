@@ -4965,7 +4965,7 @@ h3 {
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
 }
 
@@ -4984,7 +4984,8 @@ h3 {
   background: repeating-conic-gradient(#56606b 0 25%, #47505a 0 50%) 0 0 / 18px 18px;
 }
 
-.share-sheet__sticker--black {
+.share-sheet__sticker--black,
+.share-sheet__sticker--color {
   background: repeating-conic-gradient(#ece8e0 0 25%, #fbf9f5 0 50%) 0 0 / 18px 18px;
 }
 
@@ -5033,7 +5034,7 @@ h3 {
   aspect-ratio: 9 / 16;
   border: 2px solid var(--ink);
   border-radius: 10px;
-  background: #3d7299;
+  background: #2a4f9e;
 }
 
 @media (max-width: 560px) {
@@ -5042,6 +5043,7 @@ h3 {
   }
 
   .share-sheet__stickers {
+    grid-template-columns: 1fr;
     gap: 10px;
   }
 

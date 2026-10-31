@@ -2,7 +2,7 @@
 // Las figuras se arman con trazos gruesos de puntas redondas que el filtro "papel-goo" funde
 // en una sola forma; el filtro "papel-corte" le da el borde irregular de la tijera. Los
 // filtros se definen una sola vez, en <PaperFilters /> (ver Layout).
-import { PAPER } from '../lib/paper.js'
+import { FLYING_BIRD, GULL, HEART, PAPER } from '../lib/paper.js'
 
 export function PaperFilters() {
   return (
@@ -39,13 +39,10 @@ export function Goo({ fill, parts }) {
 }
 
 // Pájaro en vuelo visto de frente: alas abiertas, cuerpo y cola
-const BIRD =
-  'M0 6 C-8 -2 -20 -16 -46 -18 C-36 -10 -24 2 -10 12 C-8 20 -4 28 0 34 C4 28 8 20 10 12 C24 2 36 -10 46 -18 C20 -16 8 -2 0 6 Z M-5 30 L0 44 L5 30 Z'
-
 export function Bird({ x, y, s = 1, fill, rot = 0 }) {
   return (
     <g transform={`translate(${x} ${y}) rotate(${rot}) scale(${s})`} filter="url(#papel-corte)">
-      <path d={BIRD} fill={fill} />
+      <path d={FLYING_BIRD} fill={fill} />
       <circle cx="0" cy="2" r="6" fill={fill} />
     </g>
   )
@@ -55,7 +52,7 @@ export function Bird({ x, y, s = 1, fill, rot = 0 }) {
 export function Gull({ x, y, s = 1, fill, rot = 0 }) {
   return (
     <g transform={`translate(${x} ${y}) rotate(${rot}) scale(${s})`} filter="url(#papel-corte)">
-      <path d="M-30 6 C-22 -10 -10 -12 0 2 C10 -12 22 -10 30 6 C20 -2 10 0 0 10 C-10 0 -20 -2 -30 6 Z" fill={fill} />
+      <path d={GULL} fill={fill} />
     </g>
   )
 }
@@ -109,11 +106,7 @@ export function HeartBird({ heart = PAPER.coral, bird = PAPER.cream, size, label
       aria-label={label}
       aria-hidden={label ? undefined : true}
     >
-      <path
-        filter="url(#papel-corte)"
-        d="M200 318 C150 286 86 242 86 172 C86 126 120 98 156 98 C178 98 192 110 200 124 C208 110 222 98 244 98 C280 98 314 126 314 172 C314 242 250 286 200 318 Z"
-        fill={heart}
-      />
+      <path filter="url(#papel-corte)" d={HEART} fill={heart} />
       <Bird x={200} y={188} s={2.1} fill={bird} />
     </svg>
   )

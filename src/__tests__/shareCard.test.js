@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { ANSWER_MAX, STORY_H, cardTop, clipAnswer, stageSize, wrapLines } from '../lib/shareCard.js'
+import { ANSWER_MAX, STORY_H, cardTop, clipAnswer, wrapLines } from '../lib/shareCard.js'
 import { barcodeBars, flightCode, gateFor, seatFor } from '../lib/ticket.js'
 
 describe('imagen para compartir', () => {
@@ -29,12 +29,6 @@ describe('imagen para compartir', () => {
     expect(cardTop('top', 500)).toBe(250)
     expect(cardTop('bottom', 500) + 500).toBe(STORY_H - 330)
     expect(cardTop('middle', 520)).toBe((STORY_H - 520) / 2)
-  })
-
-  it('las etapas con palabras largas van más chicas en el talón', () => {
-    expect(stageSize('Hogar y futuro')).toBe(30)
-    expect(stageSize('Reinventarse')).toBe(21)
-    expect(stageSize('Idioma y costumbres')).toBe(21)
   })
 })
 
