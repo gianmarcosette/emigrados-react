@@ -63,7 +63,7 @@ Después de responder (o en cada pregunta de Grupal), **Compartir** arma imágen
 ## Cuidado y privacidad
 
 - Las respuestas de Individual y el perfil se guardan **solo en el dispositivo** (`localStorage`). Grupal no guarda nada.
-- Borrar el perfil borra también las respuestas y los duelos, con una confirmación clara.
+- Borrar el perfil borra también las respuestas, los borradores y los duelos, con una confirmación clara.
 - En el Online, la otra persona ve tu nombre, tu edad y el país donde vivís. Dónde naciste se muestra solo si lo elegís. La charla filtra datos de contacto y permite bloquear y denunciar.
 - **Accesibilidad:** navegación con teclado, foco visible, textos alternativos, contraste AA sobre el cobalto, tamaño de letra a elección y menús que no se agrandan de más.
 
