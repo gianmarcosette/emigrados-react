@@ -1,6 +1,15 @@
-# Registro de iteración con IA
+# Registro del proceso con IA
 
-Este proyecto se desarrolló iterando con **Claude Code** (agente de IA de Anthropic). Cada etapa quedó registrada como un commit en el repositorio.
+Emigrados se desarrolló iterando con **Claude Code**, el agente de IA de Anthropic, que trabaja directamente sobre el repositorio.
+
+## Cómo trabajamos
+
+1. **Pedido:** yo describía lo que quería, a veces con imágenes de referencia (mockups, capturas, cuadros de Matisse, fotos), y la IA proponía cómo hacerlo.
+2. **Maqueta antes que código:** en las decisiones de diseño, la IA armaba primero propuestas en el navegador (capturas o páginas de prueba) sin tocar el juego. Yo elegía, pedía cambios o descartaba.
+3. **Rama y verificación:** cada cambio se hizo en una rama. Antes de subirlo, la IA corría los tests (Vitest), el lint (oxlint) y el build, y sacaba capturas en celular y compu para revisarlo.
+4. **Revisión y merge:** yo lo probaba en VS Code y, cuando me convencía, pedía "pásalo a main". La IA abría el pull request y lo integraba.
+
+Resultado: 30 pull requests, más de 100 commits y 104 tests automáticos.
 
 ## Prompt inicial
 
@@ -8,21 +17,75 @@ Este proyecto se desarrolló iterando con **Claude Code** (agente de IA de Anthr
 
 Archivos adjuntos: guía de evaluación del Momento 2 y mockups de Emigrados (PDF).
 
-## Iteraciones
+## Momento 2 · Base del juego (PR #1 a #3)
 
-| # | Qué se pidió / decidió | Resultado (commit) |
-|---|------------------------|--------------------|
-| 1 | Armar la base del proyecto en React con React Router | Proyecto Vite + React 19 + React Router 7 |
-| 2 | Escribir al menos 200 preguntas y asociar cada una a un país | 208 preguntas en 8 etapas, 52 países, tests que lo verifican |
-| 3 | Guardar respuestas con fecha y permitir comparar al repetir | Reducer `journeyReducer` + `localStorage` con historial por pregunta |
-| 4 | Mapa del mundo con un marcador por cada país "visitado" | `WorldMap` con d3-geo, ruta del viaje y panel por país |
-| 5 | Mejorar los mockups | Rediseño: tarjeta de embarque, sellos de pasaporte, paleta verde azulado + amarillo del mockup original |
-| 6 | Modo grupal sin guardado | Jugadores con turnos, filtro por etapas, mazo mezclado |
-| 7 | Extras | Diario con búsqueda y descarga, modo Online marcado como "próximamente" |
-| 8 | Verificación | Pruebas en navegador (escritorio y celular), lint, build y tests |
+| Pedido / decisión | Resultado |
+|---|---|
+| Armar la base en React con React Router | Vite + React 19 + React Router 7 |
+| Escribir al menos 200 preguntas y asociar cada una a un país | 208 preguntas en 8 etapas, 52 países y tests que lo verifican |
+| Guardar respuestas con fecha y poder compararlas al repetir | Reducer con `localStorage` e historial por pregunta |
+| Mejorar los mockups | Cada pregunta como **tarjeta de embarque**, el país como sello de pasaporte |
+| Modo grupal sin guardado | Jugadores con turnos, filtro por etapas y mazo mezclado |
+| Sin emojis y con la tipografía de En Palabras | Íconos dibujados y Montserrat |
 
-## Decisiones de diseño tomadas con la IA
+## Momento 3 · Del avance al juego completo
 
-- Se conservó la paleta del mockup (verde azulado + amarillo) pero se reemplazaron las fotos de fondo por una estética de viaje propia: cada pregunta es una **tarjeta de embarque** y el país aparece como un **sello de pasaporte**.
-- El login del mockup se reemplazó por un nombre opcional: no hace falta crear cuenta para el Momento 2. Los perfiles quedan para el modo Online.
-- El modo Online del mockup se muestra como "Próximamente" y forma parte del plan para el Momento 3.
+### Perfil, diario y celular (PR #4 y #5)
+
+| Pedido / decisión | Resultado |
+|---|---|
+| Perfil de usuario con nombre, edad, descripción y foto | Perfil con código de pasajero (localizador de 6 caracteres) |
+| El diario dentro del perfil | Diario de viaje con buscador y filtro por etapa |
+| Que funcione bien en el celular | Barra de navegación inferior y diseño adaptado |
+
+### Modos de juego (PR #9 a #16)
+
+| Pedido / decisión | Resultado |
+|---|---|
+| Perfil obligatorio, salvo en Grupal | Grupal se juega sin perfil y no guarda nada |
+| Un modo Online para conectar migrantes de distintos países | Duelo de cultura general sobre el país del otro, con marcador y resultado (ganaste, perdiste o empate), seguido de una **charla guiada** con filtro de datos de contacto, bloqueo y denuncia |
+| No perder lo escrito | Borrador automático en Individual |
+| Explicar el juego al entrar | **Primer vuelo**: bienvenida en varias pantallas que se puede volver a ver |
+| Auditoría de experiencia de uso | Confirmaciones claras antes de borrar, accesibilidad (teclado, foco, contraste) y señales más claras |
+| Avatares | Creador de avatar en el perfil y edad mínima de 18 años |
+| Grupal con un solo teléfono en la mesa | Cada pregunta la contesta toda la mesa, de a uno, con letra grande y reloj opcional |
+| Tamaño de letra | Se elige partiendo del que tiene el dispositivo |
+
+### Maleta y diario (PR #17 a #26)
+
+| Pedido / decisión | Resultado |
+|---|---|
+| Reemplazar el mapa por algo más lindo de juntar | **Mi maleta**: cada país suma un afiche |
+| Diario como app de notas | Escritura limpia, modo noche y la tipografía Archivo |
+| Un afiche de viaje por país | 52 afiches ilustrados con su lugar emblemático. Rehicimos El Salvador, Islandia y Trinidad y Tobago porque no me convencían |
+| Perfil más completo | Dónde naciste y dónde viviste antes (opcionales, solo visibles si lo elegís) |
+| Online sin depender del horario | Duelos asincrónicos: cada uno responde a su ritmo, con 3 días de plazo y hasta 3 duelos abiertos |
+| Compartir para llegar a más gente | Tarjeta con fondo transparente para pegar sobre una foto propia, estilo Strava, e historia lista. La respuesta solo se comparte si la persona lo pide |
+
+### Identidad visual nueva (PR #27 a #30)
+
+Exploramos con la IA varias direcciones a partir de cuadros de Matisse y de mi pedido de algo sentimental (el viaje, la identidad):
+
+| Pedido / decisión | Resultado |
+|---|---|
+| Probar el estilo de los recortes de Matisse | **Fondo cobalto**, papeles de color y bordes de tijera hechos con filtros SVG |
+| Un logo con fuerza, sin frase debajo | EMIGRADOS con la **S hecha de pájaros que se vuelan**. Descartamos varias frases ("¿Querés? ¿Dónde? ¿Estás?", "¿Querés jugar?") porque la palabra sola ya alcanza |
+| Íconos de los modos | Al principio eran figuras humanas, pero "parecían otra cosa", así que pasamos a **pájaros**: una golondrina sola (Individual), una bandada en V (Grupal) y dos pájaros que se encuentran (Online). Un corazón en Online "parecía una app de citas" y lo sacamos |
+| Avatares | Avatares de recorte sin rasgos en la cara |
+| Rediseño de la tarjeta de embarque, la maleta y el primer vuelo | Elegí entre dos propuestas de cada uno: tarjeta crema con banda cobalto, maleta azul noche y primer vuelo con un recorte por pantalla |
+| Imágenes para Instagram más simples | Solo el logo, la pregunta (el gancho) y el formato de billete. Sacamos la ruta, la etapa y el asiento porque a quien ve la historia no le interesan |
+| El ícono del pájaro en el corazón "recordaba a una iglesia" | Sacamos el corazón: la marca es la palabra, y el ícono es la S sobre cobalto |
+| Rellenar el fondo del inicio | Una ruta punteada sale de una casa y cruza el fondo con una bandada de golondrinas hasta un barrio nuevo. Sacamos a Ícaro, la figura anterior, porque no se entendía |
+
+### Cierre
+
+| Pedido / decisión | Resultado |
+|---|---|
+| Revisar la consigna del Momento 3 | Evaluación punto por punto de lo que estaba y lo que faltaba |
+| Limpiar el repositorio | Borramos capturas sueltas, la pegatina vieja y más de 300 líneas de estilos del diseño anterior, comprobando con capturas que nada cambiara |
+| Documentar | Este registro, el README y la guía de la prueba de usabilidad |
+
+## Qué aportó la IA y qué decidí yo
+
+- **La IA:** escribió el código y los tests, propuso alternativas de diseño en maquetas, verificó cada cambio en celular y compu, y señaló riesgos (privacidad al compartir, contraste del texto, cómo se leía un ícono en tamaño chico).
+- **Yo:** definí el concepto, el público y el tono, elegí entre las propuestas, descarté lo que no me representaba (frases, íconos, colores) y decidí cuándo algo estaba listo para pasar a `main`.
