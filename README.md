@@ -4,7 +4,7 @@
 
 Proyecto Integrador · Contenidos y Creatividad III — Videojuegos: Experiencias Interactivas (UP). Activación para la marca **En Palabras**.
 
-- **Jugar:** _URL de Vercel (pendiente de publicar)_
+- **Jugar:** [emigrados-react.vercel.app](https://emigrados-react.vercel.app)
 - **Público:** mayores de 18 años (pensado para personas de 18 a 55) que vivieron al menos 6 meses fuera de su país.
 - **Objetivo:** responder las **208 preguntas** y "dar la vuelta al mundo", juntando en la maleta el afiche de cada uno de los **52 países** del viaje.
 - **Referentes:** Trivial, Preguntados, P.A.P.A.
@@ -113,5 +113,5 @@ El juego se desarrolló iterando con **Claude Code**, el agente de IA de Anthrop
 | Diseño visual pulido | Recortes de papel con filtros SVG, paleta coherente, animaciones, modo noche y versión para celular. |
 | Personalización narrativa y estética | Metáfora del viaje en todo el juego (vuelos, escalas, pasajero, maleta, diario) y mensajes propios. Sin textos de plantilla. |
 | Pruebas de usabilidad | [`docs/USABILIDAD.md`](docs/USABILIDAD.md) |
-| Despliegue en Vercel | _Pendiente_ |
+| Despliegue en Vercel | [emigrados-react.vercel.app](https://emigrados-react.vercel.app). `vercel.json` hace que cualquier dirección abra el juego, también al recargar. |
 | Repositorio y README | Este archivo y [`docs/PROMPTS.md`](docs/PROMPTS.md) |
