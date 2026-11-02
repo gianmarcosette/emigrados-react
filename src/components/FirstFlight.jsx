@@ -252,7 +252,7 @@ function LoopArt() {
       </span>
       <span className="first-flight__arrow">→</span>
       <svg viewBox="-33 -43 66 86" className="first-flight__poster">
-        <CountryPoster countryId="724" uid="primer-vuelo-afiche" complete fallback={null} />
+        <CountryPoster countryId="724" uid="primer-vuelo-afiche" complete />
       </svg>
     </div>
   )

@@ -2,7 +2,6 @@ import { useId } from 'react'
 import { COUNTRY_BY_ID } from '../data/countries.js'
 import { SUITCASE_H, SUITCASE_W } from '../lib/suitcase.js'
 import CountryPoster from './posters.jsx'
-import Sticker, { SunsetGradient } from './Sticker.jsx'
 
 const W = SUITCASE_W
 const H = SUITCASE_H - 40
@@ -13,7 +12,6 @@ const STRAPS = [W * 0.3, W * 0.7]
 // escribió en ese país; sin él, la maleta es solo un dibujo (en el inicio, por ejemplo).
 export default function Suitcase({ stickers, selectedId, onSelect, freshId, label, className = '' }) {
   const baseId = useId()
-  const gradientId = `${baseId}-sunset`
   const artId = (countryId) => `${baseId}-sticker-${countryId}`
   return (
     <svg
@@ -23,7 +21,6 @@ export default function Suitcase({ stickers, selectedId, onSelect, freshId, labe
       {...(label ? { role: onSelect ? 'group' : 'img', 'aria-label': label } : { 'aria-hidden': true })}
     >
       <defs>
-        <SunsetGradient id={gradientId} />
         {/* Afiche recién pegado: en blanco y negro hasta completar el país */}
         <filter id={`${baseId}-mono`}>
           <feColorMatrix type="saturate" values="0" />
@@ -74,7 +71,6 @@ export default function Suitcase({ stickers, selectedId, onSelect, freshId, labe
                 uid={`${baseId}-p-${s.countryId}`}
                 complete={s.complete}
                 monoId={`${baseId}-mono`}
-                fallback={<Sticker country={country} kind={s.kind} complete={s.complete} gradientId={gradientId} />}
               />
             </g>
           </g>

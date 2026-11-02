@@ -1,7 +1,7 @@
 // Pegatinas como afiches de viaje en miniatura: cada país con su lugar emblemático,
 // el cielo en franjas, el borde crema y el nombre grande. Se dibujan en una caja de
-// 100 × 132 con el centro en (50, 66). Los 52 países del juego tienen el suyo; si se suma
-// un país nuevo sin afiche, usa la pegatina simple (ver Sticker.jsx).
+// 100 × 132 con el centro en (50, 66). Cada uno de los 52 países del juego tiene el suyo
+// (un test lo verifica: un país nuevo necesita su afiche).
 
 const C = {
   ink: '#161616',
@@ -1661,12 +1661,11 @@ const POSTERS = {
   780: TrinidadYTobago,
 }
 
-// El afiche del país, centrado en 0,0 como el resto de las pegatinas. Hasta completar el
-// país se ve en blanco y negro (monoId: filtro definido en la maleta). Si el país todavía
-// no tiene afiche, se muestra `fallback`.
-export default function CountryPoster({ countryId, uid, complete, monoId, fallback }) {
+// El afiche del país, centrado en 0,0. Hasta completar el país se ve en blanco y negro
+// (monoId: filtro definido en la maleta).
+export default function CountryPoster({ countryId, uid, complete, monoId }) {
   const Poster = POSTERS[countryId]
-  if (!Poster) return fallback
+  if (!Poster) return null
   return (
     <g transform="translate(-31 -41) scale(0.62)" filter={complete ? undefined : `url(#${monoId})`}>
       <Poster uid={uid} />

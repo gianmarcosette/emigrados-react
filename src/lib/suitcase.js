@@ -5,7 +5,6 @@
 
 export const SUITCASE_W = 520
 export const SUITCASE_H = 380
-export const STICKER_KINDS = ['circle', 'label', 'shield', 'oval']
 
 // Lugares para pegar (centro de cada pegatina), en una grilla sobre el cuerpo de la
 // maleta que esquiva las correas. Hay uno por país.
@@ -42,11 +41,10 @@ const SLOTS = (() => {
 
 export const MAX_STICKERS = SLOTS.length
 
-/** Forma e inclinación propias de cada país (según su lugar en la lista de países). */
+/** Inclinación y corrimiento propios de cada país (siempre los mismos). */
 export function stickerLook(countryId, countryIndex) {
   const random = seeded(parseInt(countryId, 10) || countryIndex + 1)
   return {
-    kind: STICKER_KINDS[countryIndex % STICKER_KINDS.length],
     rotate: Math.round((random() - 0.5) * 28),
     dx: Math.round((random() - 0.5) * 14),
     dy: Math.round((random() - 0.5) * 10),
@@ -84,7 +82,6 @@ export function buildStickers({ questions, countries, answers, route }) {
     const done = answered.get(countryId)
     return {
       countryId,
-      kind: look.kind,
       x: slot.x + look.dx,
       y: slot.y + look.dy,
       rotate: look.rotate,

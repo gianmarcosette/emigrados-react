@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { COUNTRIES } from '../data/countries.js'
 import { QUESTIONS } from '../data/questions.js'
+import CountryPoster from '../components/posters.jsx'
 import { MAX_STICKERS, SUITCASE_W, buildStickers, stickerEvent, stickerLook, stickerScale } from '../lib/suitcase.js'
 
 const answersFor = (ids) => Object.fromEntries(ids.map((id) => [id, [{ text: 'x', date: '2026-01-01' }]]))
@@ -48,10 +49,14 @@ describe('maleta de pegatinas', () => {
     }
   })
 
-  it('cada país tiene siempre la misma forma', () => {
+  it('cada uno de los 52 países tiene su afiche', () => {
+    const missing = COUNTRIES.filter((c) => CountryPoster({ countryId: c.id, uid: 'test', complete: true }) === null)
+    expect(missing.map((c) => c.name)).toEqual([])
+  })
+
+  it('cada país se pega siempre igual, apenas torcido', () => {
     expect(stickerLook('380', 1)).toEqual(stickerLook('380', 1))
-    const kinds = new Set(COUNTRIES.slice(0, 4).map((c, i) => stickerLook(c.id, i).kind))
-    expect(kinds.size).toBe(4)
+    for (const [i, c] of COUNTRIES.entries()) expect(Math.abs(stickerLook(c.id, i).rotate)).toBeLessThanOrEqual(14)
   })
 
   it('el tamaño baja de a poco y tiene un mínimo', () => {
