@@ -79,7 +79,7 @@ export default function QuestionCard({
         </div>
         {/* El afiche del país: el mismo que se pega en la maleta */}
         <svg viewBox="-33 -43 66 86" className="ticket__poster" role="img" aria-label={`Escala: ${country.name}`}>
-          <CountryPoster countryId={country.id} uid={`${uid}-afiche`} complete fallback={null} />
+          <CountryPoster countryId={country.id} uid={`${uid}-afiche`} complete />
         </svg>
         <Barcode seed={question.id} label={flight} />
       </aside>

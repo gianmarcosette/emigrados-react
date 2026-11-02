@@ -1,33 +1,26 @@
 /* ───────────── Tokens ───────────── */
 :root {
-  /* Estilo minimalista: tinta negra sobre crema, con el amarillo como único acento.
-     Amarillo "Axon" y degradé de atardecer de la paleta de En Palabras; el degradé
-     se reserva para los momentos de viaje (bandera del inicio, progreso, atardecer).
-     Sobre amarillo o naranja el texto va siempre en tinta: el blanco no se lee.
-     Los nombres de las variables se conservan para no tocar cada regla. */
+  /* Recortes de papel al estilo Matisse sobre un fondo azul cobalto: tarjetas en papel
+     crema con tinta negra, coral y amarillo como acentos y un papel de color para cada
+     modo. Sobre amarillo o coral el texto va siempre en tinta.
+     Algunos nombres (teal, halftone-sky) vienen de la primera paleta y se conservan para
+     no tocar cada regla. */
   --teal: #161616;
   --teal-dark: #000;
   --teal-soft: #ece7dd;
   --yellow: #ffd700;
   --yellow-soft: #fff3b3;
-  --orange: #f37c1e;
-  /* Colores planos de las ventanillas y los afiches (estilo afiche de viaje) */
-  --sky: #3a6fd6;
-  --sky-deep: #2f5fc4;
-  --mint: #a9cdb8;
   --poster-coral: #e8664a;
-  --sand: #e4d6bf;
   --night: #2f3a33;
-  /* Fondo de todo el sitio: azul cobalto, como el fondo de los recortes de Matisse */
+  /* Fondo de todo el sitio: azul cobalto */
   --halftone-sky: #2a4f9e;
-  /* Texto que va directo sobre el cielo (no dentro de una tarjeta) */
+  /* Texto que va directo sobre el cobalto (no dentro de una tarjeta) */
   --on-sky: #fbf9f5;
   --on-sky-soft: #eef3f7;
   --sunset: linear-gradient(135deg, #ffd301 0%, #f9a910 55%, #f37c1e 100%);
   --coral: #161616;
   --paper: #f3ede0;
   --card: #fbf9f5;
-  --glass: #fdfcfa;
   --ink: #161616;
   --ink-soft: #5f5a54;
   --line: #d9d2c4;
@@ -390,14 +383,6 @@ textarea:focus {
   align-items: flex-start;
 }
 
-.hero__tagline {
-  color: var(--teal);
-  font-weight: 700;
-  font-size: clamp(1rem, 2.2vw, 1.2rem);
-  max-width: 520px;
-  margin: 0 0 12px;
-}
-
 .hero__title {
   /* Es el logotipo: nunca más ancho que la pantalla */
   width: min(520px, 100%);
@@ -583,22 +568,6 @@ a.mode:hover {
   min-width: 0;
 }
 
-.ticket__meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.ticket__number {
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--ink-soft);
-}
-
 .ticket__question {
   font-size: clamp(1.25rem, 3vw, 1.7rem);
   color: var(--teal-dark);
@@ -637,14 +606,6 @@ a.mode:hover {
 
 .ticket__stub::after {
   bottom: -12px;
-}
-
-.ticket__label {
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--teal);
 }
 
 @keyframes slide-in {
@@ -1014,31 +975,10 @@ a.mode:hover {
   font-size: 0.85rem;
 }
 
-.turn {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: var(--card);
-  padding: 10px 16px;
-  border-radius: 999px;
-  box-shadow: var(--shadow);
-  font-size: 1.1rem;
-  flex-wrap: wrap;
-  animation: slide-in 0.3s ease-out;
-}
-
-.turn__queue {
-  margin-left: auto;
-  font-size: 0.85rem;
-  color: var(--ink-soft);
-}
-
 .group-hint {
   margin: 0;
   color: var(--ink-soft);
 }
-
-/* ───────────── Diario ───────────── */
 
 /* ───────────── Perfil ───────────── */
 .kicker {
@@ -1087,7 +1027,9 @@ a.mode:hover {
   width: 128px;
   height: 128px;
   font-size: 2.6rem;
-  box-shadow: 0 0 0 6px var(--card), 0 10px 30px rgba(20, 63, 58, 0.18);
+  box-shadow:
+    0 0 0 6px var(--card),
+    0 10px 30px rgba(20, 63, 58, 0.18);
 }
 
 .navlink--profile {
@@ -1117,27 +1059,6 @@ a.mode:hover {
 .profile-form__photo .field__error {
   max-width: 160px;
   text-align: center;
-}
-
-.photo-picker {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-}
-
-.photo-picker:hover .avatar {
-  filter: brightness(0.92);
-}
-
-.photo-picker__label {
-  font-weight: 700;
-  color: var(--teal);
-  font-size: 0.9rem;
 }
 
 .profile-form__fields {
@@ -1382,8 +1303,7 @@ h3 {
 .profile-card,
 .stat,
 .maleta-card,
-.country-panel,
-.turn {
+.country-panel {
   border: var(--border);
   box-shadow: none;
 }
@@ -1484,7 +1404,9 @@ h3 {
 }
 
 .avatar--lg {
-  box-shadow: 0 0 0 5px var(--card), 0 0 0 7px var(--ink);
+  box-shadow:
+    0 0 0 5px var(--card),
+    0 0 0 7px var(--ink);
 }
 
 .hero__profile {
@@ -1539,8 +1461,6 @@ h3 {
   position: relative;
   isolation: isolate;
 }
-
-/* Fila de ventanillas del inicio: el costado de un avión que pasa */
 
 /* Silueta del país junto al sello */
 .stamp-group {
@@ -1619,31 +1539,11 @@ h3 {
   gap: 18px;
 }
 
-.ticket__head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  padding-bottom: 12px;
-  border-bottom: 1.5px dashed var(--ink);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-
 .ticket__flight {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   letter-spacing: 0.12em;
-}
-
-.ticket__plane {
-  width: 16px;
-  height: 16px;
-  fill: var(--ink);
-  transform: scaleX(-1);
 }
 
 .ticket__fields {
@@ -1739,12 +1639,6 @@ h3 {
     padding: 16px 20px 18px;
   }
 
-  .ticket__head {
-    font-size: 0.64rem;
-    letter-spacing: 0.12em;
-    white-space: nowrap;
-  }
-
   /* Menos es más: en el talón angosto basta con el nombre del país */
   .ticket__stub .stamp__coords {
     display: none;
@@ -1781,24 +1675,6 @@ h3 {
   .navlink {
     padding: 8px 10px;
   }
-}
-
-/* Lomo con anillos */
-
-/* Tapa */
-
-/* Anotaciones escritas a mano */
-
-/* La tinta aparece de izquierda a derecha, como al escribir */
-
-/* Inicio: la frase como subtítulo del logo, en negrita */
-.hero__tagline {
-  color: var(--ink);
-  font-weight: 700;
-  font-size: clamp(1.1rem, 2vw, 1.35rem);
-  line-height: 1.35;
-  max-width: 520px;
-  margin: 10px 0 0;
 }
 
 /* Código de pasajero (localizador) */
@@ -1846,8 +1722,6 @@ h3 {
   font-style: italic;
   line-height: 1.5;
 }
-
-/* Marcadores y puntos con tamaño fijo al hacer zoom */
 
 /* ═════════════ Celular ═════════════ */
 .tabbar {
@@ -1917,13 +1791,9 @@ h3 {
   .footer {
     padding-bottom: 20px;
   }
-
-  /* Ventanilla más baja para que el contenido aparezca antes */
-
 }
 
 @media (max-width: 760px) {
-
   /* Detalle del país: hoja que sube desde abajo, sobre la barra de navegación */
   .country-panel {
     position: fixed;
@@ -1949,8 +1819,6 @@ h3 {
     background: var(--line);
   }
 
-  /* Cerrado: queda solo la tapa, sin el largo de las hojas */
-
   /* Individual: la tarjeta aparece antes */
   .toolbar .pill {
     display: none;
@@ -1971,9 +1839,6 @@ h3 {
     padding-left: 18px;
     padding-right: 18px;
   }
-
-  /* Inicio: ventanilla más chica para que el título entre en la primera pantalla */
-
 }
 
 @keyframes sheet-up {
@@ -1987,11 +1852,7 @@ h3 {
   }
 }
 
-/* Hoja del índice: entradas a mano con línea de puntos hasta el número de hoja */
-
-/* Línea de puntos en el espacio libre antes del número */
-
-/* ═════════════ Encabezado: cielo nocturno con la bandera del lema ═════════════ */
+/* ═════════════ Encabezado: papel crema con el logo y el menú ═════════════ */
 .topbar {
   --row: 4rem;
   position: relative;
@@ -2099,7 +1960,9 @@ h3 {
   border: var(--border);
   border-radius: var(--radius);
   cursor: pointer;
-  transition: transform 0.15s, background 0.15s;
+  transition:
+    transform 0.15s,
+    background 0.15s;
 }
 
 .online-country:hover,
@@ -2123,21 +1986,6 @@ h3 {
   gap: 6px;
   font-size: 0.78rem;
   color: var(--ink-soft);
-}
-
-.online-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--yellow);
-  box-shadow: 0 0 0 1.5px var(--ink);
-  animation: online-pulse 1.6s ease-in-out infinite;
-}
-
-@keyframes online-pulse {
-  50% {
-    opacity: 0.35;
-  }
 }
 
 /* Búsqueda: radar con la silueta del país */
@@ -2255,41 +2103,6 @@ h3 {
 }
 
 /* Duelo */
-.scoreboard {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-  align-items: center;
-  gap: 12px;
-  padding: 10px 16px;
-  background: var(--ink);
-  color: var(--paper);
-  border-radius: 999px;
-}
-
-.scoreboard__player {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 700;
-  min-width: 0;
-}
-
-.scoreboard__player--rival {
-  justify-content: flex-end;
-}
-
-.scoreboard .avatar--nav {
-  box-shadow: 0 0 0 1.5px var(--paper);
-}
-
-.scoreboard__score {
-  font-size: 1.5rem;
-  font-variant-numeric: tabular-nums;
-}
-
-.scoreboard__score span {
-  opacity: 0.5;
-}
 
 .duel-card {
   background: var(--card);
@@ -2314,21 +2127,6 @@ h3 {
   font-variant-numeric: tabular-nums;
 }
 
-.duel-timer {
-  height: 6px;
-  border-radius: 3px;
-  background: var(--line);
-  overflow: hidden;
-}
-
-.duel-timer span {
-  display: block;
-  height: 100%;
-  background: var(--ink);
-  transform-origin: left center;
-  transition: transform 0.2s linear;
-}
-
 .duel-card__question {
   margin: 4px 0;
   font-size: clamp(1.6rem, 4vw, 2.2rem);
@@ -2348,7 +2146,9 @@ h3 {
   font-weight: 600;
   text-align: center;
   cursor: pointer;
-  transition: background 0.15s, opacity 0.2s;
+  transition:
+    background 0.15s,
+    opacity 0.2s;
 }
 
 .duel-option:hover:not(:disabled) {
@@ -2388,15 +2188,6 @@ h3 {
 
 .rival-turn p {
   margin: 0;
-}
-
-.rival-turn__status {
-  margin-top: 6px !important;
-  font-weight: 700;
-}
-
-.rival-turn__status.is-thinking {
-  animation: online-pulse 1.6s ease-in-out infinite;
 }
 
 /* Resultado */
@@ -2490,11 +2281,6 @@ h3 {
 
   .versus {
     grid-template-columns: 1fr;
-  }
-
-  .scoreboard {
-    font-size: 0.85rem;
-    padding: 8px 12px;
   }
 
   .tab {
@@ -2938,8 +2724,6 @@ h3 {
   color: var(--ink);
 }
 
-/* Charla guardada en el diario */
-
 /* ═════════════ Primer vuelo (bienvenida) ═════════════ */
 .first-flight {
   width: min(560px, calc(100vw - 24px));
@@ -2966,9 +2750,6 @@ h3 {
     transform: translateY(16px) scale(0.98);
   }
 }
-
-/* Las tres pantallas como escalas unidas por una ruta punteada */
-/* Tilde dibujado, sin emojis */
 /* Ayuda en el pie de cada pantalla */
 .footer {
   display: grid;
@@ -3079,9 +2860,6 @@ h3 {
 }
 
 /* Sobre fondos oscuros el anillo de foco pasa a amarillo para que se vea */
-.scoreboard :focus-visible {
-  outline-color: var(--yellow);
-}
 
 @media (max-width: 760px) {
   .tab {
@@ -3090,8 +2868,6 @@ h3 {
     letter-spacing: 0;
   }
 }
-
-/* Pista para pasar las hojas del diario deslizando (solo en pantallas táctiles) */
 
 /* Aviso de guardado */
 .saved-toast {
@@ -3108,55 +2884,6 @@ h3 {
 .passenger-avatar {
   display: block;
   flex: none;
-}
-
-.avatar-preview {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-  gap: 22px;
-}
-
-.avatar-preview li {
-  display: grid;
-  justify-items: center;
-  gap: 8px;
-  padding: 18px 12px;
-  background: var(--card);
-  border: var(--border);
-  border-radius: var(--radius);
-}
-
-.avatar-preview__small {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.avatar-preview__title {
-  margin: 28px 0 0;
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-size: 1.8rem;
-  text-align: center;
-}
-
-.avatar-preview__row {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 18px;
-}
-
-.avatar-preview__row figure {
-  margin: 0;
-  display: grid;
-  justify-items: center;
-  gap: 6px;
-  font-size: 0.85rem;
-  font-weight: 600;
 }
 
 /* ═════════════ Avatar en el perfil y en todo el juego ═════════════ */
@@ -3538,7 +3265,6 @@ h3 {
   color: var(--card);
 }
 
-
 /* ───────────── Tamaño de letra ───────────── */
 
 .text-size-btn {
@@ -3832,79 +3558,6 @@ h3 {
 /* Pegatinas */
 .sticker {
   filter: drop-shadow(0 1.5px 0 rgb(22 22 22 / 0.25));
-}
-
-.sticker__yellow,
-.sticker__paper,
-.sticker__soft,
-.sticker__ink {
-  stroke: var(--ink);
-  stroke-width: 2.5;
-}
-
-.sticker__yellow {
-  fill: var(--yellow);
-}
-
-.sticker__paper {
-  fill: var(--card);
-}
-
-.sticker__soft {
-  fill: var(--yellow-soft);
-}
-
-.sticker__ink {
-  fill: var(--ink);
-}
-
-.sticker__dots {
-  fill: none;
-  stroke: var(--ink);
-  stroke-width: 1;
-  stroke-dasharray: 2 3;
-}
-
-.sticker__band {
-  fill: var(--ink);
-}
-
-.sticker__shape {
-  fill: none;
-  stroke: var(--ink);
-  stroke-linejoin: round;
-}
-
-.sticker--dark .sticker__shape--light {
-  stroke: var(--yellow);
-}
-
-.sticker__caps,
-.sticker__brand {
-  font-family: var(--font-body);
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  fill: var(--ink);
-}
-
-.sticker--dark .sticker__caps--light {
-  fill: var(--yellow);
-}
-
-.sticker__brand {
-  font-size: 6.5px;
-  letter-spacing: 0.2em;
-  fill: var(--yellow);
-}
-
-.sticker__brand--ink {
-  font-size: 5.5px;
-  fill: var(--ink);
-}
-
-.sticker__serif {
-  font-family: var(--font-display);
-  fill: var(--ink);
 }
 
 /* Países por pegar */
@@ -4549,19 +4202,6 @@ h3 {
   background: transparent;
 }
 
-/* ───────────── Inicio: cielo en trama de puntos ───────────── */
-/* Detrás de la bandera y del inicio, un cielo azul con nubes en trama de puntos, como
-   impreso en una imprenta vieja. Está hecho con CSS (un patrón de puntos recortado con
-   forma de nubes de bordes suaves): no pesa nada. */
-
-/* Sobre el cielo, el texto va en crema */
-
-/* En el inicio la ventanilla va sin el borde de color detrás del vidrio */
-
-/* La ventanilla quieta: la escena se ve, pero no se mueve */
-
-/* Sobre la franja de cielo los pasajeros entran y salen por el borde, sin desvanecerse */
-
 /* Afiches de viaje de la maleta */
 .poster {
   filter: drop-shadow(0 2px 0 rgb(22 22 22 / 0.25));
@@ -4578,7 +4218,7 @@ h3 {
   letter-spacing: 2.2px;
 }
 
-/* Texto que va directo sobre el cielo (fuera de las tarjetas): crema, para leerse sobre
+/* Texto que va directo sobre el cobalto (fuera de las tarjetas): crema, para leerse sobre
    el azul con buen contraste. Lo que está dentro de tarjetas sigue en tinta. */
 .page__header,
 .page__header .title,
@@ -4624,7 +4264,7 @@ h3 {
   text-underline-offset: 4px;
 }
 
-/* El foco del teclado sobre el cielo: amarillo, que se ve sobre el azul */
+/* El foco del teclado sobre el cobalto: amarillo, que se ve sobre el azul */
 .main :focus-visible {
   outline-color: var(--yellow);
 }
@@ -4639,7 +4279,7 @@ h3 {
   outline-color: var(--ink);
 }
 
-/* Inicio sin ventanilla: el título y el texto van centrados, sobre el cielo */
+/* Inicio: el logo y el texto van centrados, sobre el cobalto */
 .hero {
   grid-template-columns: minmax(0, 1fr);
   justify-items: center;
@@ -4683,39 +4323,535 @@ h3 {
   }
 }
 
-/* ───────────── Texto sobre el cielo, en general ───────────── */
+/* ───────────── Texto sobre el cobalto, en general ───────────── */
 /* Dentro del contenido, todo lo que no está en una superficie (tarjeta, panel, tarjeta de
-   embarque, diario, botón principal…) va en crema, para leerse sobre el cielo. Así una
+   embarque, diario, botón principal…) va en crema, para leerse sobre el cobalto. Así una
    pantalla nueva no queda con texto oscuro sobre el azul. Los campos de formulario y los
    dibujos mantienen sus colores. */
-.main *:not(.confirm, .confirm *, .country-panel, .country-panel *, .duel-card, .duel-card *, .duel-fact, .duel-fact *, .duel-option, .duel-option *, .duel-timer, .duel-timer *, .first-flight, .first-flight *, .history, .history *, .howto, .howto *, .journal, .journal *, .maleta-card, .maleta-card *, .mode, .mode *, .online-country, .online-country *, .panel, .panel *, .player, .player *, .player-card, .player-card *, .profile-card, .profile-card *, .saved, .saved *, .saved-toast, .saved-toast *, .stat, .stat *, .statlink, .statlink *, .talk-compose, .talk-compose *, .talk-invite, .talk-invite *, .talk-msg--me, .talk-msg--me *, .talk-msg--them, .talk-msg--them *, .talk-prompt, .talk-prompt *, .talk-reaction, .talk-reaction *, .talk-report, .talk-report *, .talk-saved, .talk-saved *, .duel-review li, .duel-review li *, .talk-timer, .talk-timer *, .text-size, .text-size *, .ticket, .ticket *, .to-stick, .to-stick *, .hero__profile, .hero__profile *, .speaker, .speaker *, .footer__help, .footer__help *, .chip--toggle, .chip--toggle *, .answer__input, .answer__input *, .avatar-editor, .avatar-editor *, .mark, .mark *, .online-dot, .online-dot *, .progress__track, .progress__track *, .relaxed-toggle__switch, .relaxed-toggle__switch *, .btn--primary, .btn--primary *, .pill, .pill *, input, select, textarea, option, svg, svg *) {
+.main
+  *:not(
+    .confirm,
+    .confirm *,
+    .country-panel,
+    .country-panel *,
+    .duel-card,
+    .duel-card *,
+    .duel-fact,
+    .duel-fact *,
+    .duel-option,
+    .duel-option *,
+    .first-flight,
+    .first-flight *,
+    .history,
+    .history *,
+    .howto,
+    .howto *,
+    .journal,
+    .journal *,
+    .maleta-card,
+    .maleta-card *,
+    .mode,
+    .mode *,
+    .online-country,
+    .online-country *,
+    .panel,
+    .panel *,
+    .player,
+    .player *,
+    .player-card,
+    .player-card *,
+    .profile-card,
+    .profile-card *,
+    .saved,
+    .saved *,
+    .saved-toast,
+    .saved-toast *,
+    .stat,
+    .stat *,
+    .statlink,
+    .statlink *,
+    .talk-compose,
+    .talk-compose *,
+    .talk-invite,
+    .talk-invite *,
+    .talk-msg--me,
+    .talk-msg--me *,
+    .talk-msg--them,
+    .talk-msg--them *,
+    .talk-prompt,
+    .talk-prompt *,
+    .talk-reaction,
+    .talk-reaction *,
+    .talk-report,
+    .talk-report *,
+    .talk-saved,
+    .talk-saved *,
+    .duel-review li,
+    .duel-review li *,
+    .talk-timer,
+    .talk-timer *,
+    .text-size,
+    .text-size *,
+    .ticket,
+    .ticket *,
+    .to-stick,
+    .to-stick *,
+    .hero__profile,
+    .hero__profile *,
+    .speaker,
+    .speaker *,
+    .footer__help,
+    .footer__help *,
+    .chip--toggle,
+    .chip--toggle *,
+    .answer__input,
+    .answer__input *,
+    .avatar-editor,
+    .avatar-editor *,
+    .mark,
+    .mark *,
+    .progress__track,
+    .progress__track *,
+    .relaxed-toggle__switch,
+    .relaxed-toggle__switch *,
+    .btn--primary,
+    .btn--primary *,
+    .pill,
+    .pill *,
+    input,
+    select,
+    textarea,
+    option,
+    svg,
+    svg *
+  ) {
   color: var(--on-sky);
 }
 
 /* Cada superficie vuelve a la tinta: su texto no hereda el crema de lo que está alrededor */
-.main :is(.duel-review li, .confirm, .country-panel, .duel-card, .duel-fact, .duel-option, .duel-timer, .first-flight, .history, .howto, .journal, .maleta-card, .mode, .online-country, .panel, .player, .player-card, .profile-card, .saved, .saved-toast, .stat, .statlink, .talk-compose, .talk-invite, .talk-msg--me, .talk-msg--them, .talk-prompt, .talk-reaction, .talk-report, .talk-saved, .talk-timer, .text-size, .ticket, .to-stick, .hero__profile, .speaker, .footer__help, .chip--toggle, .avatar-editor) {
+.main
+  :is(
+    .duel-review li,
+    .confirm,
+    .country-panel,
+    .duel-card,
+    .duel-fact,
+    .duel-option,
+    .first-flight,
+    .history,
+    .howto,
+    .journal,
+    .maleta-card,
+    .mode,
+    .online-country,
+    .panel,
+    .player,
+    .player-card,
+    .profile-card,
+    .saved,
+    .saved-toast,
+    .stat,
+    .statlink,
+    .talk-compose,
+    .talk-invite,
+    .talk-msg--me,
+    .talk-msg--them,
+    .talk-prompt,
+    .talk-reaction,
+    .talk-report,
+    .talk-saved,
+    .talk-timer,
+    .text-size,
+    .ticket,
+    .to-stick,
+    .hero__profile,
+    .speaker,
+    .footer__help,
+    .chip--toggle,
+    .avatar-editor
+  ) {
   color: var(--ink);
 }
 
 /* Los textos secundarios, un poco más suaves */
-.main :is(.muted, .kicker, .talk-safety):not(.confirm, .confirm *, .country-panel, .country-panel *, .duel-card, .duel-card *, .duel-fact, .duel-fact *, .duel-option, .duel-option *, .duel-timer, .duel-timer *, .first-flight, .first-flight *, .history, .history *, .howto, .howto *, .journal, .journal *, .maleta-card, .maleta-card *, .mode, .mode *, .online-country, .online-country *, .panel, .panel *, .player, .player *, .player-card, .player-card *, .profile-card, .profile-card *, .saved, .saved *, .saved-toast, .saved-toast *, .stat, .stat *, .statlink, .statlink *, .talk-compose, .talk-compose *, .talk-invite, .talk-invite *, .talk-msg--me, .talk-msg--me *, .talk-msg--them, .talk-msg--them *, .talk-prompt, .talk-prompt *, .talk-reaction, .talk-reaction *, .talk-report, .talk-report *, .talk-saved, .talk-saved *, .duel-review li, .duel-review li *, .talk-timer, .talk-timer *, .text-size, .text-size *, .ticket, .ticket *, .to-stick, .to-stick *, .hero__profile, .hero__profile *, .speaker, .speaker *, .footer__help, .footer__help *, .chip--toggle, .chip--toggle *, .answer__input, .answer__input *, .avatar-editor, .avatar-editor *, .mark, .mark *, .online-dot, .online-dot *, .progress__track, .progress__track *, .relaxed-toggle__switch, .relaxed-toggle__switch *, .btn--primary, .btn--primary *, .pill, .pill *) {
+.main
+  :is(.muted, .kicker, .talk-safety):not(
+    .confirm,
+    .confirm *,
+    .country-panel,
+    .country-panel *,
+    .duel-card,
+    .duel-card *,
+    .duel-fact,
+    .duel-fact *,
+    .duel-option,
+    .duel-option *,
+    .first-flight,
+    .first-flight *,
+    .history,
+    .history *,
+    .howto,
+    .howto *,
+    .journal,
+    .journal *,
+    .maleta-card,
+    .maleta-card *,
+    .mode,
+    .mode *,
+    .online-country,
+    .online-country *,
+    .panel,
+    .panel *,
+    .player,
+    .player *,
+    .player-card,
+    .player-card *,
+    .profile-card,
+    .profile-card *,
+    .saved,
+    .saved *,
+    .saved-toast,
+    .saved-toast *,
+    .stat,
+    .stat *,
+    .statlink,
+    .statlink *,
+    .talk-compose,
+    .talk-compose *,
+    .talk-invite,
+    .talk-invite *,
+    .talk-msg--me,
+    .talk-msg--me *,
+    .talk-msg--them,
+    .talk-msg--them *,
+    .talk-prompt,
+    .talk-prompt *,
+    .talk-reaction,
+    .talk-reaction *,
+    .talk-report,
+    .talk-report *,
+    .talk-saved,
+    .talk-saved *,
+    .duel-review li,
+    .duel-review li *,
+    .talk-timer,
+    .talk-timer *,
+    .text-size,
+    .text-size *,
+    .ticket,
+    .ticket *,
+    .to-stick,
+    .to-stick *,
+    .hero__profile,
+    .hero__profile *,
+    .speaker,
+    .speaker *,
+    .footer__help,
+    .footer__help *,
+    .chip--toggle,
+    .chip--toggle *,
+    .answer__input,
+    .answer__input *,
+    .avatar-editor,
+    .avatar-editor *,
+    .mark,
+    .mark *,
+    .progress__track,
+    .progress__track *,
+    .relaxed-toggle__switch,
+    .relaxed-toggle__switch *,
+    .btn--primary,
+    .btn--primary *,
+    .pill,
+    .pill *
+  ) {
   color: var(--on-sky-soft);
 }
 
-/* Botón secundario sobre el cielo: contorno y texto crema; al pasar, se rellena */
-.main .btn--ghost:not(.confirm, .confirm *, .country-panel, .country-panel *, .duel-card, .duel-card *, .duel-fact, .duel-fact *, .duel-option, .duel-option *, .duel-timer, .duel-timer *, .first-flight, .first-flight *, .history, .history *, .howto, .howto *, .journal, .journal *, .maleta-card, .maleta-card *, .mode, .mode *, .online-country, .online-country *, .panel, .panel *, .player, .player *, .player-card, .player-card *, .profile-card, .profile-card *, .saved, .saved *, .saved-toast, .saved-toast *, .stat, .stat *, .statlink, .statlink *, .talk-compose, .talk-compose *, .talk-invite, .talk-invite *, .talk-msg--me, .talk-msg--me *, .talk-msg--them, .talk-msg--them *, .talk-prompt, .talk-prompt *, .talk-reaction, .talk-reaction *, .talk-report, .talk-report *, .talk-saved, .talk-saved *, .duel-review li, .duel-review li *, .talk-timer, .talk-timer *, .text-size, .text-size *, .ticket, .ticket *, .to-stick, .to-stick *, .hero__profile, .hero__profile *, .speaker, .speaker *, .footer__help, .footer__help *, .chip--toggle, .chip--toggle *, .answer__input, .answer__input *, .avatar-editor, .avatar-editor *, .mark, .mark *, .online-dot, .online-dot *, .progress__track, .progress__track *, .relaxed-toggle__switch, .relaxed-toggle__switch *, .btn--primary, .btn--primary *, .pill, .pill *) {
+/* Botón secundario sobre el cobalto: contorno y texto crema; al pasar, se rellena */
+.main
+  .btn--ghost:not(
+    .confirm,
+    .confirm *,
+    .country-panel,
+    .country-panel *,
+    .duel-card,
+    .duel-card *,
+    .duel-fact,
+    .duel-fact *,
+    .duel-option,
+    .duel-option *,
+    .first-flight,
+    .first-flight *,
+    .history,
+    .history *,
+    .howto,
+    .howto *,
+    .journal,
+    .journal *,
+    .maleta-card,
+    .maleta-card *,
+    .mode,
+    .mode *,
+    .online-country,
+    .online-country *,
+    .panel,
+    .panel *,
+    .player,
+    .player *,
+    .player-card,
+    .player-card *,
+    .profile-card,
+    .profile-card *,
+    .saved,
+    .saved *,
+    .saved-toast,
+    .saved-toast *,
+    .stat,
+    .stat *,
+    .statlink,
+    .statlink *,
+    .talk-compose,
+    .talk-compose *,
+    .talk-invite,
+    .talk-invite *,
+    .talk-msg--me,
+    .talk-msg--me *,
+    .talk-msg--them,
+    .talk-msg--them *,
+    .talk-prompt,
+    .talk-prompt *,
+    .talk-reaction,
+    .talk-reaction *,
+    .talk-report,
+    .talk-report *,
+    .talk-saved,
+    .talk-saved *,
+    .duel-review li,
+    .duel-review li *,
+    .talk-timer,
+    .talk-timer *,
+    .text-size,
+    .text-size *,
+    .ticket,
+    .ticket *,
+    .to-stick,
+    .to-stick *,
+    .hero__profile,
+    .hero__profile *,
+    .speaker,
+    .speaker *,
+    .footer__help,
+    .footer__help *,
+    .chip--toggle,
+    .chip--toggle *,
+    .answer__input,
+    .answer__input *,
+    .avatar-editor,
+    .avatar-editor *,
+    .mark,
+    .mark *,
+    .progress__track,
+    .progress__track *,
+    .relaxed-toggle__switch,
+    .relaxed-toggle__switch *,
+    .btn--primary,
+    .btn--primary *,
+    .pill,
+    .pill *
+  ) {
   border-color: var(--on-sky);
   color: var(--on-sky);
 }
 
-.main .btn--ghost:not(.confirm, .confirm *, .country-panel, .country-panel *, .duel-card, .duel-card *, .duel-fact, .duel-fact *, .duel-option, .duel-option *, .duel-timer, .duel-timer *, .first-flight, .first-flight *, .history, .history *, .howto, .howto *, .journal, .journal *, .maleta-card, .maleta-card *, .mode, .mode *, .online-country, .online-country *, .panel, .panel *, .player, .player *, .player-card, .player-card *, .profile-card, .profile-card *, .saved, .saved *, .saved-toast, .saved-toast *, .stat, .stat *, .statlink, .statlink *, .talk-compose, .talk-compose *, .talk-invite, .talk-invite *, .talk-msg--me, .talk-msg--me *, .talk-msg--them, .talk-msg--them *, .talk-prompt, .talk-prompt *, .talk-reaction, .talk-reaction *, .talk-report, .talk-report *, .talk-saved, .talk-saved *, .duel-review li, .duel-review li *, .talk-timer, .talk-timer *, .text-size, .text-size *, .ticket, .ticket *, .to-stick, .to-stick *, .hero__profile, .hero__profile *, .speaker, .speaker *, .footer__help, .footer__help *, .chip--toggle, .chip--toggle *, .answer__input, .answer__input *, .avatar-editor, .avatar-editor *, .mark, .mark *, .online-dot, .online-dot *, .progress__track, .progress__track *, .relaxed-toggle__switch, .relaxed-toggle__switch *, .btn--primary, .btn--primary *, .pill, .pill *):hover:not(:disabled) {
+.main
+  .btn--ghost:not(
+    .confirm,
+    .confirm *,
+    .country-panel,
+    .country-panel *,
+    .duel-card,
+    .duel-card *,
+    .duel-fact,
+    .duel-fact *,
+    .duel-option,
+    .duel-option *,
+    .first-flight,
+    .first-flight *,
+    .history,
+    .history *,
+    .howto,
+    .howto *,
+    .journal,
+    .journal *,
+    .maleta-card,
+    .maleta-card *,
+    .mode,
+    .mode *,
+    .online-country,
+    .online-country *,
+    .panel,
+    .panel *,
+    .player,
+    .player *,
+    .player-card,
+    .player-card *,
+    .profile-card,
+    .profile-card *,
+    .saved,
+    .saved *,
+    .saved-toast,
+    .saved-toast *,
+    .stat,
+    .stat *,
+    .statlink,
+    .statlink *,
+    .talk-compose,
+    .talk-compose *,
+    .talk-invite,
+    .talk-invite *,
+    .talk-msg--me,
+    .talk-msg--me *,
+    .talk-msg--them,
+    .talk-msg--them *,
+    .talk-prompt,
+    .talk-prompt *,
+    .talk-reaction,
+    .talk-reaction *,
+    .talk-report,
+    .talk-report *,
+    .talk-saved,
+    .talk-saved *,
+    .duel-review li,
+    .duel-review li *,
+    .talk-timer,
+    .talk-timer *,
+    .text-size,
+    .text-size *,
+    .ticket,
+    .ticket *,
+    .to-stick,
+    .to-stick *,
+    .hero__profile,
+    .hero__profile *,
+    .speaker,
+    .speaker *,
+    .footer__help,
+    .footer__help *,
+    .chip--toggle,
+    .chip--toggle *,
+    .answer__input,
+    .answer__input *,
+    .avatar-editor,
+    .avatar-editor *,
+    .mark,
+    .mark *,
+    .progress__track,
+    .progress__track *,
+    .relaxed-toggle__switch,
+    .relaxed-toggle__switch *,
+    .btn--primary,
+    .btn--primary *,
+    .pill,
+    .pill *
+  ):hover:not(:disabled) {
   background: var(--on-sky);
   color: var(--ink);
 }
 
-/* Links y botones de texto sobre el cielo: al pasar se subrayan (el amarillo sobre el azul
+/* Links y botones de texto sobre el cobalto: al pasar se subrayan (el amarillo sobre el azul
    no llega al contraste mínimo) */
-.main :is(.btn--text, .btn--link, a:not(.btn)):not(.confirm, .confirm *, .country-panel, .country-panel *, .duel-card, .duel-card *, .duel-fact, .duel-fact *, .duel-option, .duel-option *, .duel-timer, .duel-timer *, .first-flight, .first-flight *, .history, .history *, .howto, .howto *, .journal, .journal *, .maleta-card, .maleta-card *, .mode, .mode *, .online-country, .online-country *, .panel, .panel *, .player, .player *, .player-card, .player-card *, .profile-card, .profile-card *, .saved, .saved *, .saved-toast, .saved-toast *, .stat, .stat *, .statlink, .statlink *, .talk-compose, .talk-compose *, .talk-invite, .talk-invite *, .talk-msg--me, .talk-msg--me *, .talk-msg--them, .talk-msg--them *, .talk-prompt, .talk-prompt *, .talk-reaction, .talk-reaction *, .talk-report, .talk-report *, .talk-saved, .talk-saved *, .duel-review li, .duel-review li *, .talk-timer, .talk-timer *, .text-size, .text-size *, .ticket, .ticket *, .to-stick, .to-stick *, .hero__profile, .hero__profile *, .speaker, .speaker *, .footer__help, .footer__help *, .chip--toggle, .chip--toggle *, .answer__input, .answer__input *, .avatar-editor, .avatar-editor *, .mark, .mark *, .online-dot, .online-dot *, .progress__track, .progress__track *, .relaxed-toggle__switch, .relaxed-toggle__switch *, .btn--primary, .btn--primary *, .pill, .pill *):hover {
+.main
+  :is(.btn--text, .btn--link, a:not(.btn)):not(
+    .confirm,
+    .confirm *,
+    .country-panel,
+    .country-panel *,
+    .duel-card,
+    .duel-card *,
+    .duel-fact,
+    .duel-fact *,
+    .duel-option,
+    .duel-option *,
+    .first-flight,
+    .first-flight *,
+    .history,
+    .history *,
+    .howto,
+    .howto *,
+    .journal,
+    .journal *,
+    .maleta-card,
+    .maleta-card *,
+    .mode,
+    .mode *,
+    .online-country,
+    .online-country *,
+    .panel,
+    .panel *,
+    .player,
+    .player *,
+    .player-card,
+    .player-card *,
+    .profile-card,
+    .profile-card *,
+    .saved,
+    .saved *,
+    .saved-toast,
+    .saved-toast *,
+    .stat,
+    .stat *,
+    .statlink,
+    .statlink *,
+    .talk-compose,
+    .talk-compose *,
+    .talk-invite,
+    .talk-invite *,
+    .talk-msg--me,
+    .talk-msg--me *,
+    .talk-msg--them,
+    .talk-msg--them *,
+    .talk-prompt,
+    .talk-prompt *,
+    .talk-reaction,
+    .talk-reaction *,
+    .talk-report,
+    .talk-report *,
+    .talk-saved,
+    .talk-saved *,
+    .duel-review li,
+    .duel-review li *,
+    .talk-timer,
+    .talk-timer *,
+    .text-size,
+    .text-size *,
+    .ticket,
+    .ticket *,
+    .to-stick,
+    .to-stick *,
+    .hero__profile,
+    .hero__profile *,
+    .speaker,
+    .speaker *,
+    .footer__help,
+    .footer__help *,
+    .chip--toggle,
+    .chip--toggle *,
+    .answer__input,
+    .answer__input *,
+    .avatar-editor,
+    .avatar-editor *,
+    .mark,
+    .mark *,
+    .progress__track,
+    .progress__track *,
+    .relaxed-toggle__switch,
+    .relaxed-toggle__switch *,
+    .btn--primary,
+    .btn--primary *,
+    .pill,
+    .pill *
+  ):hover {
   color: var(--on-sky);
   text-decoration: underline;
   text-underline-offset: 4px;
@@ -4888,8 +5024,6 @@ h3 {
 .demo-box p {
   margin: 0;
 }
-
-/* Primer vuelo: el ciclo de una pregunta y los modos para elegir */
 /* ═════════════ Compartir una pregunta ═════════════ */
 .share-sheet {
   width: min(760px, calc(100vw - 24px));
@@ -5012,7 +5146,7 @@ h3 {
   margin-top: auto;
 }
 
-/* La alternativa: la historia lista, con la tarjeta centrada sobre el cielo */
+/* La alternativa: la historia lista, con la tarjeta a color sobre el cobalto */
 .share-sheet__ready {
   grid-template-columns: 96px minmax(0, 1fr);
   align-items: center;

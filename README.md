@@ -1,83 +1,117 @@
-# Emigrados — En Palabras
+# Emigrados
 
-**Emigrados** es un juego de preguntas creado para la activación de la marca **En Palabras**. Su objetivo es hablar de todo el proceso que implica emigrar: lo que pensábamos antes de irnos, lo que sentimos en el nuevo lugar y cómo nos reinventamos. Un espacio seguro, en medio de la rutina, para conocernos más y entender por qué estamos donde estamos.
+**Emigrados** es un videojuego web de preguntas para hablar de todo lo que implica emigrar: lo que pensabas antes de irte, lo que sentís en tu nuevo lugar y cómo te fuiste reinventando. Un espacio seguro para conocerte más y entender **por qué estás donde estás**.
 
-- **Público:** mayores de 18 años (pensado para personas de 18 a 55) que hayan vivido al menos 6 meses fuera de su país.
-- **Objetivo del juego:** responder las **208 preguntas** y así "dar la vuelta al mundo".
+Proyecto Integrador · Contenidos y Creatividad III — Videojuegos: Experiencias Interactivas (UP). Activación para la marca **En Palabras**.
+
+- **Jugar:** _URL de Vercel (pendiente de publicar)_
+- **Público:** mayores de 18 años (pensado para personas de 18 a 55) que vivieron al menos 6 meses fuera de su país.
+- **Objetivo:** responder las **208 preguntas** y "dar la vuelta al mundo", juntando en la maleta el afiche de cada uno de los **52 países** del viaje.
 - **Referentes:** Trivial, Preguntados, P.A.P.A.
 
-Proyecto Integrador · Contenidos y Creatividad III — Videojuegos: Experiencias Interactivas (UP).
+## Concepto
+
+Cada pregunta es un **vuelo**: se presenta como una tarjeta de embarque que sale de tu casa y hace escala en un país. Al responder, el afiche de ese país se pega en tu **maleta** (en gris) y se pinta de color cuando respondés sus 4 preguntas. Lo que escribís queda en tu **diario de viaje**, con fecha, para releerlo y ver cómo cambiaste.
+
+No hay respuestas correctas en las preguntas de migración: el juego invita a contar lo propio. La competencia está en el modo **Online**, un duelo de cultura general sobre el país del otro que termina en una charla.
+
+## Cómo se juega
+
+| Modo | Para qué | Cómo |
+|---|---|---|
+| **Individual** | Escribir a solas | Te toca una pregunta al azar (podés filtrar por etapa). Escribís lo que sentís, como en una app de notas, y se guarda con fecha. Si la pregunta vuelve, ves lo que respondiste antes. |
+| **Grupal** | Charlar en una mesa, con un solo teléfono | Cargan los nombres (o juegan sin nombres) y eligen etapas. Cada pregunta la contesta toda la mesa, de a uno, y quien la abre va rotando. Letra grande y reloj opcional. **No se guarda nada.** No hace falta perfil. |
+| **Online** _(versión de prueba)_ | Conectar con alguien que vive en otro país | Elegís un país y se arma un duelo: cada uno responde 5 preguntas de cultura general **sobre el país del otro**, a su ritmo, con 3 días de plazo y hasta 3 duelos abiertos. Cuando terminan los dos se ve el resultado y se abre una **charla guiada**. |
+
+### Puntuación, victoria y derrota
+
+- **Individual — la vuelta al mundo:** el progreso cuenta las preguntas respondidas (de 208) y los países completos (de 52). Al responder las 208 aparece **"¡Diste la vuelta al mundo!"**. Después de cada respuesta, un aviso cuenta qué pasó en tu maleta: *Nuevo afiche*, *Una escala más* o *¡Completaste [país]!*.
+- **Online — el duelo:** cada acierto suma un punto. El resultado es **"¡Ganaste!"** (_Sabés más de [país] que [rival] de [tu país]_), **"Ganó [rival]"** o **"¡Empate!"**, con el marcador y la revisión de cada pregunta con su dato curioso. Si se vence el plazo, el duelo vence sin culpa de nadie.
+
+## Pantallas (React Router)
+
+| Ruta | Pantalla | Qué tiene |
+|---|---|---|
+| `/` | Inicio | Logo, invitación a crear el perfil o saludo al pasajero, los tres modos y "¿Cómo se juega?". La primera vez se abre el **primer vuelo**: cuatro pantallas (bienvenida, cada pregunta es una escala, privacidad y elegir cómo viajar). Se puede volver a ver desde el pie de cada pantalla. |
+| `/individual` | Individual | Tarjeta de embarque con la pregunta, escritura con borrador automático y modo noche, y pantalla de "respuesta guardada" con la maleta y el botón **Compartir**. |
+| `/grupal` | Grupal | Armado de la ronda, turnos y reloj. |
+| `/online` | Online | Lista de duelos, nuevo duelo, preguntas, resultado y charla guiada. Abierto en 31 países; desde otro país se ve una lista de espera. |
+| `/maleta` | Mi maleta | La maleta con los afiches, contadores y "Por pegar". Tocar un afiche abre lo que escribiste en ese país. |
+| `/perfil` | Mi perfil | Avatar de recorte, datos del pasajero, código de pasajero y el **diario de viaje** con buscador y filtro por etapa. |
+| `*` | 404 | "Este destino no figura en ningún vuelo". |
+
+`/diario` y `/mapa` redirigen a su lugar actual.
+
+## Diseño
+
+- **Recortes de papel al estilo Matisse sobre un fondo azul cobalto.** Tarjetas en papel crema con tinta negra, coral y amarillo como acentos, y un papel de color para cada modo (durazno, verde claro y amarillo). Las figuras tienen el borde irregular de la tijera gracias a filtros SVG.
+- **Marca:** la palabra EMIGRADOS en Montserrat ExtraBold, con la **S hecha de pájaros**, algunos de los cuales se sueltan y se van volando. El ícono es la S sobre cobalto.
+- **Los pájaros como hilo:** una golondrina que vuela sola (Individual), una bandada en V (Grupal) y dos pájaros que llegan de lugares distintos y se encuentran (Online). En el inicio, una ruta punteada sale de una casa, cruza el fondo con una bandada de golondrinas y llega a un barrio nuevo.
+- **Tarjeta de embarque:** banda cobalto con el logo, ruta de tu casa a la escala, la pregunta sobre el papel de color de su etapa y, en el talón, tu avatar, tu código de pasajero y el afiche del país.
+- **52 afiches de viaje ilustrados**, uno por país, con su lugar emblemático (`components/posters.jsx`).
+- **Avatares de recorte** sin rasgos en la cara, para que cualquiera pueda verse ahí: piel, pelo, ropa, accesorios, papel de fondo y un adorno.
+- **Tipografías:** Archivo angosta para títulos y preguntas, y Montserrat para los textos. Están incluidas en el proyecto y funcionan sin internet.
+
+## Compartir en historias
+
+Después de responder (o en cada pregunta de Grupal), **Compartir** arma imágenes para Instagram, TikTok o WhatsApp:
+
+- **La tarjeta sola, con fondo transparente** (estilo Strava), para pegar sobre una foto propia. Hay tres versiones: blanca con sombra, negra y a color. Lleva solo la palabra Emigrados, la pregunta como gancho y la invitación "Tu turno: ¿Y vos qué responderías?", en formato de billete.
+- **Una historia lista** (1080 × 1920), con la tarjeta a color sobre el cobalto.
+- **La respuesta se comparte solo si la persona lo pide:** el interruptor arranca apagado cada vez. La foto nunca pasa por el juego: todo se dibuja en el dispositivo (`lib/shareCard.js`).
+
+## Cuidado y privacidad
+
+- Las respuestas de Individual y el perfil se guardan **solo en el dispositivo** (`localStorage`). Grupal no guarda nada.
+- Borrar el perfil borra también las respuestas, los borradores y los duelos, con una confirmación clara.
+- En el Online, la otra persona ve tu nombre, tu edad y el país donde vivís. Dónde naciste se muestra solo si lo elegís. La charla filtra datos de contacto y permite bloquear y denunciar.
+- **Accesibilidad:** navegación con teclado, foco visible, textos alternativos, contraste AA sobre el cobalto, tamaño de letra a elección y menús que no se agrandan de más.
+
+## Tecnologías
+
+React 19, React Router 7, Vite 8, Vitest (104 tests) y oxlint. Sin backend: el modo Online usa un servidor simulado (`src/online/mockServer.js`) con las reglas del duelo ya listas para conectarse a uno real. Las siluetas de los países se calculan una vez con d3-geo y world-atlas (`npm run shapes`).
 
 ## Cómo correrlo
 
 ```bash
 npm install
-npm run dev      # abre http://localhost:5173
+npm run dev      # http://localhost:5173
+npm test         # tests
+npm run lint     # oxlint
+npm run build    # versión de producción en dist/
 ```
-
-Otros comandos: `npm run build` (versión de producción), `npm test` (tests con Vitest), `npm run lint` (oxlint), `npm run shapes` (vuelve a calcular las siluetas de los países después de sumar uno).
-
-## Pantallas (React Router)
-
-| Ruta          | Pantalla   | Qué hace |
-|---------------|------------|----------|
-| `/`           | Inicio     | Elegís modo: Individual, Grupal u Online (versión de prueba). La primera vez se abre el **primer vuelo**: cuatro pantallas cortas (bienvenida, cada pregunta es una escala, privacidad y elegir cómo viajar) que terminan entrando directo al modo elegido; se puede volver a ver desde el pie de cada pantalla. Ventanilla con el despegue y fila de pasajeros animados. |
-| `/individual` | Individual | Cada pregunta es una tarjeta de embarque (vuelo, etapa, puerta, asiento y talón con pasajero, sello, silueta del país y código de barras). La respuesta se escribe como en una app de notas (letra grande, la hora arriba, modo noche opcional), se guarda con fecha y pega la pegatina de su país en la maleta. Lo que estás escribiendo se guarda solo como borrador y se retoma al volver. Si la pregunta se repite, ves lo que respondiste antes. Después de guardar, **Compartir la pregunta** arma una historia 9:16 (ver abajo). |
-| `/grupal`     | Grupal     | Cargás jugadores y etapas; cada pregunta la contesta toda la mesa, de a uno, y quien la abre va rotando. Letra grande y reloj opcional. **No se guarda nada.** Se puede compartir la pregunta (nunca lo que se dijo). |
-| `/online`     | Online     | **Versión de prueba, sin servidor todavía.** Abierto en 31 países (España, Latinoamérica y los destinos más elegidos: Australia, Alemania, Irlanda, Nueva Zelanda, Francia, Italia, Portugal, Reino Unido, Estados Unidos y Canadá); desde otro país se ve una lista de espera. **Duelos sin tiempo real:** elegís un país (o cualquiera) y te conectamos con alguien que vive ahí; cada uno responde 5 preguntas de cultura general sobre el país del otro (10 a 12 por país, cada una con un dato curioso), a su ritmo y sin reloj, con 3 días de plazo y hasta 3 duelos abiertos. Las respuestas del otro se ven cuando terminaron los dos, y ahí se abre la **charla guiada** en tres momentos (abrir, ir más hondo, cerrar), con filtro de datos de contacto y botones para bloquear y denunciar; se puede guardar en el diario. Los duelos se guardan para retomarlos; se muestra qué hora es en el país del otro. Las personas son simuladas (`src/online/mockServer.js`), con un botón para no esperar en una demostración. |
-| `/maleta`     | Mi maleta  | Maleta de cuero con una pegatina por cada país al que se respondió. Cada uno de los 52 países tiene su afiche de viaje con su lugar emblemático (`components/posters.jsx`): se pega en blanco y negro y se imprime a color al responder sus 4 preguntas. Tocar una pegatina abre las respuestas de ese país; "Por pegar" lista los países que faltan. La dirección vieja `/mapa` lleva acá. |
-| `/perfil`     | Mi perfil  | Nombre, edad, país donde vivís, dónde naciste y dónde viviste antes (opcionales, y se muestran en el Online solo si lo elegís), descripción, foto y código de pasajero (localizador de 6 caracteres). Incluye el **diario de viaje**, al estilo de una app de notas: entradas por mes con buscador (resalta lo encontrado) y filtro por etapa; cada entrada se abre con la fecha, la pregunta y la respuesta en letra grande, lo respondido antes y la escala de la maleta. Tiene modo noche, que sigue al del teléfono o se elige a mano. `/diario` redirige acá. |
-
-## Mecánica
-
-- **208 preguntas** en 8 etapas del proceso migratorio: *Antes de partir, La despedida, Los primeros días, Idioma y costumbres, Vínculos, Identidad, Reinventarse, Hogar y futuro*.
-- Cada pregunta está asociada a uno de **52 países** (4 preguntas por país): los que importan en la migración hispanohablante, es decir los países de habla hispana, Brasil y los destinos a los que más se emigra (Europa, Norteamérica, Australia, Nueva Zelanda, Japón, Corea y Emiratos). Al responderla por primera vez en un país, su pegatina se pega en la maleta.
-- El modo individual prioriza las preguntas que todavía no respondiste; con "Repetir una anterior" (o al terminar todas) vuelven preguntas ya respondidas para comparar.
-- **Sin perfil solo se juega el modo Grupal**, que no guarda nada. Individual, la maleta y el diario piden crear el perfil primero (`components/ProfileGate.jsx`).
-- El perfil (nombre, edad, descripción, foto y código de pasajero) y las respuestas se guardan en el navegador (`localStorage`). La foto se recorta y se reduce a 320 px antes de guardarse.
-- El fondo de todo el sitio es un cielo azul con nubes en trama de puntos, como impreso en una imprenta vieja (hecho con CSS, sin imágenes). El texto que va directo sobre el cielo es crema, con contraste AA.
-
-## Compartir
-
-- **Compartir la pregunta** (en Individual después de guardar y en cada pregunta de Grupal) ofrece la **tarjeta de embarque sola, con fondo transparente** (estilo Strava), en dos versiones: **blanco con sombra** (fotos oscuras o con colores) y **negro** (fotos claras). La persona la pega sobre la foto que quiera, donde quiera: su foto nunca pasa por el juego. Lleva *Emigrados*, la pregunta, vuelo, etapa, asiento, el código de pasajero y "Tu turno: ¿Y vos qué responderías?".
-- Si no quiere usar una foto propia, hay una **historia lista** (1080 × 1920) con la tarjeta centrada sobre el cielo del juego.
-- **La respuesta solo se comparte si la persona lo pide:** el interruptor "Incluir mi respuesta" arranca apagado cada vez; si es larga, va recortada. En Grupal no se ofrece.
-- En el celular abre el menú de compartir del teléfono (guardar en Fotos, Instagram, TikTok, WhatsApp); en la compu, descarga la imagen. Todo se dibuja en el dispositivo (`src/lib/shareCard.js`, `components/ShareSheet.jsx`).
-
-## Diseño
-
-- Estilo minimalista: tinta negra sobre crema, con el amarillo como único acento.
-- Tipografías: Archivo (títulos, preguntas y números, gruesa y un poco angosta; una versión recortada de 14 KB que se genera con `npm run fonts`) y Montserrat (textos y logo). Incluidas con Fontsource, funcionan sin internet.
 
 ## Estructura
 
 ```
 src/
-├── App.jsx                 # Rutas
-├── main.jsx                # BrowserRouter + JourneyProvider
-├── components/             # Layout, QuestionCard (tarjeta de embarque), Diary (estilo notas), Suitcase y Sticker (maleta), ProfileForm…
-├── pages/                  # Home, Individual, Grupal, Online, Maleta, Perfil, NotFound
-├── online/                 # duel.js (reglas del duelo), talk.js (charla guiada) y mockServer.js (servidor simulado)
-├── data/                   # questions.js (208 preguntas), countries.js (52 países), trivia.js (cultura general), talk.js (preguntas de la charla), residence.js (países donde vivir)
-├── state/                  # journey.js (reducer + persistencia), profile.js, duels.js (duelos guardados y lista de espera), JourneyContext.jsx
-├── lib/                    # Fechas, fotos de perfil y siluetas de países
-└── __tests__/              # Tests del banco de preguntas y del estado
+├── App.jsx            # Rutas
+├── main.jsx           # BrowserRouter + JourneyProvider
+├── pages/             # Home, Individual, Grupal, Online, Maleta, Perfil, NotFound
+├── components/        # Layout, QuestionCard (tarjeta de embarque), Suitcase y posters (maleta), Diary,
+│                      # FirstFlight, ShareSheet, PassengerAvatar y AvatarEditor, HomeBackdrop, paper (recortes)
+├── online/            # duel.js (reglas del duelo), talk.js (charla guiada), mockServer.js (servidor simulado)
+├── data/              # questions.js (208 preguntas), countries.js (52 países), trivia.js (346 preguntas de
+│                      # cultura general de 31 países), logo.js (contornos del logo), talk.js, residence.js
+├── state/             # journey.js (reducer + guardado), profile.js, duels.js, drafts.js, firstFlight.js
+├── lib/               # shareCard.js (imágenes para compartir), suitcase.js, ticket.js, avatar.js, paper.js…
+└── __tests__/         # 16 archivos de tests
+docs/
+├── PROMPTS.md         # Registro del proceso con IA
+└── USABILIDAD.md      # Prueba de usabilidad con una persona externa
 ```
 
-Tecnologías: React 19, React Router 7, Vite, Vitest. Las siluetas de los países se calculan una vez con d3-geo + world-atlas (`npm run shapes`) y se guardan en `src/data/countryShapes.json`: el juego no descarga el mapa del mundo.
+## Proceso con IA
 
-## Consigna del Momento 2 (avance 50%)
+El juego se desarrolló iterando con **Claude Code**, el agente de IA de Anthropic. Cada pedido se trabajó en una rama, se verificó (tests, lint, build y capturas en celular y compu) y se integró a `main` con un pull request: hay 30 pull requests y más de 100 commits. Las decisiones de diseño se probaron primero con maquetas en el navegador, sin tocar el juego, y se aplicaron recién cuando estuvieron aprobadas. El detalle está en [`docs/PROMPTS.md`](docs/PROMPTS.md).
+
+## Consigna del Momento 3
 
 | Requisito | Dónde se cumple |
-|-----------|-----------------|
-| Estructura React con navegación entre al menos 2 pantallas usando React Router | `src/App.jsx`: 5 pantallas + 404 y redirección de `/diario`, navegación en `Layout.jsx` |
-| Al menos una interacción: evento conectado a un cambio de estado | Textarea controlada + "Guardar respuesta" (`useReducer`), alta de jugadores y turnos en Grupal, filtros, pegatinas de la maleta |
-| Evidencia de iteración con un agente de IA | Historial de commits y [`docs/PROMPTS.md`](docs/PROMPTS.md) |
-
-## Plan hacia el Momento 3 (100%)
-
-1. **Modo Online real:** reemplazar `src/online/mockServer.js` por un servidor (p. ej. Supabase o Firebase) con cuentas de usuario, duelos guardados y avisos al celular cuando el otro termina (app instalable). Las pantallas y las reglas del duelo ya están listas. Las respuestas de Individual y Grupal siguen solo en el dispositivo.
-2. **Identidad visual En Palabras:** ilustraciones/fotos por país para el fondo de cada tarjeta, sonidos suaves.
-3. **Logros y estadísticas:** continentes completos, etapas completas, "aniversarios" de respuestas.
-4. **Testeo con usuarios migrantes** para ajustar el tono de las preguntas y sumar nuevas.
-5. **Deploy** (Vercel / GitHub Pages) para jugarlo desde el celular.
+|---|---|
+| Mecánica completa, pantallas, puntuación, victoria o derrota y navegación con React Router | 6 pantallas más 404 en `src/App.jsx`. La vuelta al mundo y los afiches en Individual, y el duelo con marcador y "¡Ganaste! / Ganó [rival] / ¡Empate!" en Online. |
+| Diseño visual pulido | Recortes de papel con filtros SVG, paleta coherente, animaciones, modo noche y versión para celular. |
+| Personalización narrativa y estética | Metáfora del viaje en todo el juego (vuelos, escalas, pasajero, maleta, diario) y mensajes propios. Sin textos de plantilla. |
+| Pruebas de usabilidad | [`docs/USABILIDAD.md`](docs/USABILIDAD.md) |
+| Despliegue en Vercel | _Pendiente_ |
+| Repositorio y README | Este archivo y [`docs/PROMPTS.md`](docs/PROMPTS.md) |
