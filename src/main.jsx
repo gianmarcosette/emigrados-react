@@ -1,6 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
+import { Analytics } from '@vercel/analytics/react'
 import App from './App.jsx'
 import { JourneyProvider } from './state/JourneyContext.jsx'
 import { applyTextSize, readTextSize } from './lib/textSize.js'
@@ -21,5 +22,8 @@ createRoot(document.getElementById('root')).render(
         <App />
       </JourneyProvider>
     </BrowserRouter>
+    {/* Visitas anónimas, sin cookies (Vercel Web Analytics). Solo se manda la pantalla, nunca
+        lo que se escribe: se saca todo lo que va después de "?" (pregunta o país elegidos). */}
+    <Analytics beforeSend={(event) => ({ ...event, url: event.url.split('?')[0] })} />
   </StrictMode>,
 )
