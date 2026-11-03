@@ -11,6 +11,7 @@ import {
 import Avatar from './Avatar.jsx'
 import ConfirmProvider from './ConfirmDialog.jsx'
 import FirstFlight from './FirstFlight.jsx'
+import HomeBackdrop from './HomeBackdrop.jsx'
 import { PaperFilters, TabIcon } from './paper.jsx'
 import TextSize from './TextSize.jsx'
 import Wordmark from './Wordmark.jsx'
@@ -75,6 +76,9 @@ export default function Layout() {
           </a>
           {/* Los filtros que le dan a los dibujos el borde de papel cortado */}
           <PaperFilters />
+          {/* La ruta de casa a casa con las golondrinas, detrás de todas las pantallas
+              (el inicio la tiene detrás del logo) */}
+          {!isHome && <HomeBackdrop page />}
           {/* Logo y menú arriba, sobre papel crema */}
           <header className="topbar">
             <div className="topbar__row">

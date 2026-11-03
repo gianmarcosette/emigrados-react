@@ -5276,6 +5276,24 @@ h3 {
   }
 }
 
+/* En el resto de las pantallas: fijo detrás de todo, de la cabecera para abajo (en el celular,
+   hasta la barra de abajo) */
+.home-backdrop--page {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  transform: none;
+}
+
+@media (max-width: 760px) {
+  .home-backdrop--page {
+    top: 0;
+    bottom: calc(72px + env(safe-area-inset-bottom));
+  }
+}
+
 .hero__title .wordmark {
   color: var(--paper);
 }
