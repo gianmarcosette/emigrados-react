@@ -1742,8 +1742,9 @@ h3 {
     bottom: 0;
     z-index: 20;
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    padding: 6px 8px calc(6px + env(safe-area-inset-bottom));
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4px;
+    padding: 6px 10px calc(6px + env(safe-area-inset-bottom));
     background: var(--card);
     border-top: var(--border);
   }
@@ -1762,25 +1763,26 @@ h3 {
     color: var(--ink-soft);
   }
 
-  .tab svg {
-    width: 1.625rem;
-    height: 1.625rem;
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 1.8;
-    stroke-linecap: round;
-    stroke-linejoin: round;
+  /* Íconos de recorte a color: la casa, la golondrina, tu maleta y tu avatar */
+  .tab__icon {
+    width: 1.9rem;
+    height: 1.9rem;
   }
 
   .tab .avatar--nav {
-    width: 26px;
-    height: 26px;
+    width: 1.75rem;
+    height: 1.75rem;
+    margin: 0.075rem;
     font-size: 0.65rem;
   }
 
+  /* La pestaña donde estás: un papel amarillo apenas torcido, como pegado */
   .tab--active {
     color: var(--ink);
+    font-weight: 800;
     background: var(--yellow);
+    border-radius: 10px 14px 9px 13px;
+    transform: rotate(-1.5deg);
   }
 
   /* Lugar para que la barra no tape el final de la página */
@@ -2283,9 +2285,6 @@ h3 {
     grid-template-columns: 1fr;
   }
 
-  .tab {
-    font-size: 0.62rem;
-  }
 }
 
 .duel-result .title,

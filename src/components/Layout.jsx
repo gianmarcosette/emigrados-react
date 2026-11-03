@@ -1,5 +1,6 @@
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
 import { Suspense, useEffect, useState } from 'react'
+import { suitcaseColor, useSuitcaseLook } from '../state/suitcaseLook.js'
 import { useJourney } from '../state/useJourney.js'
 import {
   FirstFlightContext,
@@ -10,8 +11,7 @@ import {
 import Avatar from './Avatar.jsx'
 import ConfirmProvider from './ConfirmDialog.jsx'
 import FirstFlight from './FirstFlight.jsx'
-import { TAB_ICONS } from './icons.jsx'
-import { PaperFilters } from './paper.jsx'
+import { PaperFilters, TabIcon } from './paper.jsx'
 import TextSize from './TextSize.jsx'
 import Wordmark from './Wordmark.jsx'
 
@@ -25,16 +25,24 @@ const TITLES = {
   '/perfil': 'Mi perfil · Emigrados',
 }
 
+const TABS = [
+  { to: '/', label: 'Inicio', icon: 'inicio' },
+  { to: '/individual', label: 'Individual', icon: 'individual' },
+  { to: '/maleta', label: 'Maleta', icon: 'maleta' },
+  { to: '/perfil', label: 'Perfil', icon: 'perfil' },
+]
+
 const LINKS = [
   { to: '/individual', label: 'Individual' },
   { to: '/grupal', label: 'Grupal' },
   { to: '/online', label: 'Online' },
-  { to: '/maleta', label: 'Mi maleta', short: 'Maleta' },
+  { to: '/maleta', label: 'Mi maleta' },
 ]
 
 export default function Layout() {
   const { pathname, hash } = useLocation()
   const { profile, answeredCount } = useJourney()
+  const [suitcase] = useSuitcaseLook()
   const isHome = pathname === '/'
   // La primera vez que alguien nuevo entra al inicio, la bienvenida se abre sola
   const [flightOpen, setFlightOpen] = useState(() =>
@@ -107,27 +115,24 @@ export default function Layout() {
               </Suspense>
             </main>
           </div>
-          {/* Menú inferior, solo en el celular */}
+          {/* Menú inferior, solo en el celular: lo de todos los días. Grupal y Online están a un
+              toque desde las tarjetas del inicio. */}
           <nav className="tabbar" aria-label="Secciones">
-            {LINKS.map((l) => (
-              <NavLink key={l.to} to={l.to} className={({ isActive }) => `tab ${isActive ? 'tab--active' : ''}`}>
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  {TAB_ICONS[l.to]}
-                </svg>
-                {l.short ?? l.label}
+            {TABS.map((t) => (
+              <NavLink
+                key={t.to}
+                to={t.to}
+                end={t.to === '/'}
+                className={({ isActive }) => `tab ${isActive ? 'tab--active' : ''}`}
+              >
+                {t.icon === 'perfil' && profile ? (
+                  <Avatar profile={profile} size="nav" />
+                ) : (
+                  <TabIcon name={t.icon} suitcase={suitcaseColor(suitcase.color)} />
+                )}
+                {t.label}
               </NavLink>
             ))}
-            <NavLink to="/perfil" className={({ isActive }) => `tab ${isActive ? 'tab--active' : ''}`}>
-              {profile ? (
-                <Avatar profile={profile} size="nav" />
-              ) : (
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <circle cx="12" cy="8" r="3.6" />
-                  <path d="M4.5 20c.8-4 3.8-6.2 7.5-6.2s6.7 2.2 7.5 6.2" />
-                </svg>
-              )}
-              Perfil
-            </NavLink>
           </nav>
           <footer className="footer">
             {/* La ayuda siempre en el mismo lugar, en todas las pantallas */}

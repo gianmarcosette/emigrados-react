@@ -161,3 +161,36 @@ export function ModeIcon({ mode, className = '' }) {
     </svg>
   )
 }
+
+/** Íconos de la barra de abajo del celular, con los mismos recortes del juego. */
+export function TabIcon({ name, suitcase }) {
+  return (
+    <svg viewBox="0 0 64 64" className="tab__icon" aria-hidden="true" focusable="false">
+      {name === 'inicio' && <House x={32} y={58} w={34} h={26} roof={20} wall={PAPER.coral} top={PAPER.navy} />}
+      {name === 'individual' && <Swallow x={33} y={33} s={0.46} fill={PAPER.coral} rot={-24} />}
+      {name === 'maleta' && (
+        <g filter="url(#papel-corte)">
+          <path
+            d="M24 22 V16 q0 -5 5 -5 h6 q5 0 5 5 V22"
+            fill="none"
+            stroke={suitcase.handle}
+            strokeWidth="5"
+            strokeLinecap="round"
+          />
+          <rect x="7" y="20" width="50" height="36" rx="8" fill={suitcase.body} />
+          <rect x="18" y="19" width="6" height="38" rx="2" fill={suitcase.strap} />
+          <rect x="40" y="19" width="6" height="38" rx="2" fill={suitcase.strap} />
+          <rect x="27" y="29" width="10" height="13" rx="1.5" fill={PAPER.cream} transform="rotate(-6 32 35)" />
+        </g>
+      )}
+      {/* Sin perfil todavía: un pasajero de papel, sin cara */}
+      {name === 'perfil' && (
+        <g filter="url(#papel-corte)">
+          <circle cx="32" cy="32" r="28" fill="#3d7299" />
+          <circle cx="32" cy="27" r="10" fill={PAPER.cream} />
+          <path d="M14 56 C16 44 23 40 32 40 C41 40 48 44 50 56 Z" fill={PAPER.cream} />
+        </g>
+      )}
+    </svg>
+  )
+}
