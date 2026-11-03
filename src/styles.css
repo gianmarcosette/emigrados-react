@@ -5296,6 +5296,8 @@ h3 {
   left: 0;
   width: 100%;
   transform: none;
+  /* En su propia capa: al desplazarse, el celular lo mueve sin volver a pintarlo */
+  will-change: transform;
 }
 
 @media (max-width: 760px) {
