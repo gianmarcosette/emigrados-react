@@ -9,7 +9,7 @@ Emigrados se desarrolló iterando con **Claude Code**, el agente de IA de Anthro
 3. **Rama y verificación:** cada cambio se hizo en una rama. Antes de subirlo, la IA corría los tests (Vitest), el lint (oxlint) y el build, y sacaba capturas en celular y compu para revisarlo.
 4. **Revisión y merge:** yo lo probaba en VS Code y, cuando me convencía, pedía "pásalo a main". La IA abría el pull request y lo integraba.
 
-Resultado: 30 pull requests, más de 100 commits y 104 tests automáticos.
+Resultado: más de 30 pull requests, más de 100 commits y 108 tests automáticos.
 
 ## Prompt inicial
 
@@ -76,6 +76,19 @@ Exploramos con la IA varias direcciones a partir de cuadros de Matisse y de mi p
 | Imágenes para Instagram más simples | Solo el logo, la pregunta (el gancho) y el formato de billete. Sacamos la ruta, la etapa y el asiento porque a quien ve la historia no le interesan |
 | El ícono del pájaro en el corazón "recordaba a una iglesia" | Sacamos el corazón: la marca es la palabra, y el ícono es la S sobre cobalto |
 | Rellenar el fondo del inicio | Una ruta punteada sale de una casa y cruza el fondo con una bandada de golondrinas hasta un barrio nuevo. Sacamos a Ícaro, la figura anterior, porque no se entendía |
+
+### Después de probarlo en clase
+
+Ideas que surgieron al mostrar el juego. Las vimos primero en maquetas y después las aplicamos:
+
+| Pedido / decisión | Resultado |
+|---|---|
+| Poder acomodar los afiches de la maleta | **"Acomodar mi maleta"**: los afiches se arrastran con el dedo, se giran y también se mueven con el teclado. "Ordenar sola" vuelve al orden automático. Es un modo aparte, para que tocar un afiche siga abriendo lo que escribiste |
+| Elegir el color de la maleta | Seis colores de la paleta del juego, cada uno con sus correas |
+| Volver al inicio desde el celular | La barra de abajo pasa a ser Inicio, Individual, Maleta y Perfil |
+| Los íconos de la barra "no se correspondían" con los recortes | Íconos de papel a color: la casa, la golondrina, tu maleta y tu avatar, con la pestaña activa en papel amarillo |
+| Ponerle ojos a los avatares | Dos ojos de tinta, en tres miradas, que vienen abiertos por defecto |
+| El fondo de casas y golondrinas en todas las pantallas | Queda fijo detrás de todo |
 
 ### Cierre
 

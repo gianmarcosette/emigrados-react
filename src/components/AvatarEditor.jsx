@@ -8,7 +8,7 @@ const TABS = [
   { id: 'pelo', label: 'Pelo', groups: ['hair', 'hairColor'] },
   { id: 'piel', label: 'Piel', groups: ['skin'] },
   { id: 'cabeza', label: 'Cabeza', groups: ['headwear'] },
-  { id: 'cara', label: 'Cara', groups: ['glasses', 'facialHair'] },
+  { id: 'cara', label: 'Cara', groups: ['eyes', 'glasses', 'facialHair'] },
   { id: 'ropa', label: 'Ropa', groups: ['shirt'] },
   { id: 'fondo', label: 'Fondo', groups: ['background', 'deco'] },
 ]
@@ -19,6 +19,7 @@ const GROUP_TITLES = {
   skin: 'Tono de piel',
   headwear: 'En la cabeza',
   glasses: 'Anteojos',
+  eyes: 'Mirada',
   facialHair: 'Barba o bigote',
   shirt: 'Color de la remera',
   background: 'Papel de fondo',

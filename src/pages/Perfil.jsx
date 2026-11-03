@@ -10,6 +10,7 @@ import { countryName } from '../data/residence.js'
 import { listJoin, plural } from '../lib/format.js'
 import { clearAllDrafts } from '../state/drafts.js'
 import { clearOnline } from '../state/duels.js'
+import { clearSuitcase } from '../state/suitcaseLook.js'
 import { isProfileComplete } from '../state/profile.js'
 import { useConfirm } from '../state/confirm.js'
 import { useJourney } from '../state/useJourney.js'
@@ -57,6 +58,7 @@ export default function Perfil() {
       dispatch({ type: 'deleteProfile' })
       clearAllDrafts()
       clearOnline()
+      clearSuitcase()
       setEditing(true)
     }
   }

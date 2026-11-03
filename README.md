@@ -4,7 +4,7 @@
 
 Proyecto Integrador · Contenidos y Creatividad III — Videojuegos: Experiencias Interactivas (UP). Activación para la marca **En Palabras**.
 
-- **Jugar:** _URL de Vercel (pendiente de publicar)_
+- **Jugar:** [emigrados-react.vercel.app](https://emigrados-react.vercel.app)
 - **Público:** mayores de 18 años (pensado para personas de 18 a 55) que vivieron al menos 6 meses fuera de su país.
 - **Objetivo:** responder las **208 preguntas** y "dar la vuelta al mundo", juntando en la maleta el afiche de cada uno de los **52 países** del viaje.
 - **Referentes:** Trivial, Preguntados, P.A.P.A.
@@ -36,7 +36,7 @@ No hay respuestas correctas en las preguntas de migración: el juego invita a co
 | `/individual` | Individual | Tarjeta de embarque con la pregunta, escritura con borrador automático y modo noche, y pantalla de "respuesta guardada" con la maleta y el botón **Compartir**. |
 | `/grupal` | Grupal | Armado de la ronda, turnos y reloj. |
 | `/online` | Online | Lista de duelos, nuevo duelo, preguntas, resultado y charla guiada. Abierto en 31 países; desde otro país se ve una lista de espera. |
-| `/maleta` | Mi maleta | La maleta con los afiches, contadores y "Por pegar". Tocar un afiche abre lo que escribiste en ese país. |
+| `/maleta` | Mi maleta | La maleta con los afiches, contadores y "Por pegar". Tocar un afiche abre lo que escribiste en ese país. Con **"Acomodar mi maleta"** elegís el color de la maleta y arrastrás cada afiche donde quieras (también se puede girar o mover con el teclado). |
 | `/perfil` | Mi perfil | Avatar de recorte, datos del pasajero, código de pasajero y el **diario de viaje** con buscador y filtro por etapa. |
 | `*` | 404 | "Este destino no figura en ningún vuelo". |
 
@@ -46,10 +46,11 @@ No hay respuestas correctas en las preguntas de migración: el juego invita a co
 
 - **Recortes de papel al estilo Matisse sobre un fondo azul cobalto.** Tarjetas en papel crema con tinta negra, coral y amarillo como acentos, y un papel de color para cada modo (durazno, verde claro y amarillo). Las figuras tienen el borde irregular de la tijera gracias a filtros SVG.
 - **Marca:** la palabra EMIGRADOS en Montserrat ExtraBold, con la **S hecha de pájaros**, algunos de los cuales se sueltan y se van volando. El ícono es la S sobre cobalto.
-- **Los pájaros como hilo:** una golondrina que vuela sola (Individual), una bandada en V (Grupal) y dos pájaros que llegan de lugares distintos y se encuentran (Online). En el inicio, una ruta punteada sale de una casa, cruza el fondo con una bandada de golondrinas y llega a un barrio nuevo.
+- **Los pájaros como hilo:** una golondrina que vuela sola (Individual), una bandada en V (Grupal) y dos pájaros que llegan de lugares distintos y se encuentran (Online). De fondo, en todas las pantallas, una ruta punteada sale de una casa, cruza la pantalla con una bandada de golondrinas y llega a un barrio nuevo.
 - **Tarjeta de embarque:** banda cobalto con el logo, ruta de tu casa a la escala, la pregunta sobre el papel de color de su etapa y, en el talón, tu avatar, tu código de pasajero y el afiche del país.
 - **52 afiches de viaje ilustrados**, uno por país, con su lugar emblemático (`components/posters.jsx`).
-- **Avatares de recorte** sin rasgos en la cara, para que cualquiera pueda verse ahí: piel, pelo, ropa, accesorios, papel de fondo y un adorno.
+- **Avatares de recorte** con dos ojos de tinta y nada más en la cara, para que cualquiera pueda verse ahí: piel, pelo, mirada (abiertos, sonrientes, serenos o sin rasgos), ropa, accesorios, papel de fondo y un adorno.
+- **Barra de abajo en el celular** con recortes a color: Inicio (la casa), Individual (la golondrina), Maleta (tu maleta, en el color que elegiste) y Perfil (tu avatar).
 - **Tipografías:** Archivo angosta para títulos y preguntas, y Montserrat para los textos. Están incluidas en el proyecto y funcionan sin internet.
 
 ## Compartir en historias
@@ -69,7 +70,7 @@ Después de responder (o en cada pregunta de Grupal), **Compartir** arma imágen
 
 ## Tecnologías
 
-React 19, React Router 7, Vite 8, Vitest (104 tests) y oxlint. Sin backend: el modo Online usa un servidor simulado (`src/online/mockServer.js`) con las reglas del duelo ya listas para conectarse a uno real. Las siluetas de los países se calculan una vez con d3-geo y world-atlas (`npm run shapes`).
+React 19, React Router 7, Vite 8, Vitest (108 tests) y oxlint. Sin backend: el modo Online usa un servidor simulado (`src/online/mockServer.js`) con las reglas del duelo ya listas para conectarse a uno real. Las siluetas de los países se calculan una vez con d3-geo y world-atlas (`npm run shapes`).
 
 ## Cómo correrlo
 
@@ -95,7 +96,7 @@ src/
 │                      # cultura general de 31 países), logo.js (contornos del logo), talk.js, residence.js
 ├── state/             # journey.js (reducer + guardado), profile.js, duels.js, drafts.js, firstFlight.js
 ├── lib/               # shareCard.js (imágenes para compartir), suitcase.js, ticket.js, avatar.js, paper.js…
-└── __tests__/         # 16 archivos de tests
+└── __tests__/         # 17 archivos de tests
 docs/
 ├── PROMPTS.md         # Registro del proceso con IA
 └── USABILIDAD.md      # Prueba de usabilidad con una persona externa
@@ -103,7 +104,7 @@ docs/
 
 ## Proceso con IA
 
-El juego se desarrolló iterando con **Claude Code**, el agente de IA de Anthropic. Cada pedido se trabajó en una rama, se verificó (tests, lint, build y capturas en celular y compu) y se integró a `main` con un pull request: hay 30 pull requests y más de 100 commits. Las decisiones de diseño se probaron primero con maquetas en el navegador, sin tocar el juego, y se aplicaron recién cuando estuvieron aprobadas. El detalle está en [`docs/PROMPTS.md`](docs/PROMPTS.md).
+El juego se desarrolló iterando con **Claude Code**, el agente de IA de Anthropic. Cada pedido se trabajó en una rama, se verificó (tests, lint, build y capturas en celular y compu) y se integró a `main` con un pull request: hay más de 30 pull requests y más de 100 commits. Las decisiones de diseño se probaron primero con maquetas en el navegador, sin tocar el juego, y se aplicaron recién cuando estuvieron aprobadas. El detalle está en [`docs/PROMPTS.md`](docs/PROMPTS.md).
 
 ## Consigna del Momento 3
 
@@ -113,5 +114,5 @@ El juego se desarrolló iterando con **Claude Code**, el agente de IA de Anthrop
 | Diseño visual pulido | Recortes de papel con filtros SVG, paleta coherente, animaciones, modo noche y versión para celular. |
 | Personalización narrativa y estética | Metáfora del viaje en todo el juego (vuelos, escalas, pasajero, maleta, diario) y mensajes propios. Sin textos de plantilla. |
 | Pruebas de usabilidad | [`docs/USABILIDAD.md`](docs/USABILIDAD.md) |
-| Despliegue en Vercel | _Pendiente_ |
+| Despliegue en Vercel | [emigrados-react.vercel.app](https://emigrados-react.vercel.app). `vercel.json` hace que cualquier dirección abra el juego, también al recargar. |
 | Repositorio y README | Este archivo y [`docs/PROMPTS.md`](docs/PROMPTS.md) |

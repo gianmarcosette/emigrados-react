@@ -1,9 +1,11 @@
 import { PAPER } from '../lib/paper.js'
 import { House, Star, Swallow } from './paper.jsx'
 
-// Fondo del inicio: una ruta punteada sale de una casa, cruza por detrás del logo y se va
-// con una bandada de golondrinas hacia un barrio nuevo. Es la historia del juego: irse de un
-// lugar y llegar a otro. En la compu ocupa todo el ancho; en el celular, una versión angosta.
+// Fondo del juego: una ruta punteada sale de una casa, cruza la pantalla y se va con una
+// bandada de golondrinas hacia un barrio nuevo. Es la historia del juego: irse de un lugar y
+// llegar a otro. En el inicio va detrás del logo; en el resto de las pantallas (`page`) queda
+// fijo detrás de todo, aunque las tarjetas tapen una parte. En la compu ocupa todo el ancho;
+// en el celular, una versión angosta.
 const { cream, coral, yellow, navy, green } = PAPER
 const PEACH = '#f6b48f'
 
@@ -25,10 +27,15 @@ function Route({ d }) {
   )
 }
 
-export default function HomeBackdrop() {
+export default function HomeBackdrop({ page = false }) {
   return (
-    <div className="home-backdrop" aria-hidden="true">
-      <svg viewBox="0 0 1440 760" preserveAspectRatio="xMidYMax slice" className="home-backdrop__wide">
+    <div className={`home-backdrop ${page ? 'home-backdrop--page' : ''}`} aria-hidden="true">
+      <svg
+        // En las otras pantallas el dibujo tiene más aire arriba, para que entre a lo ancho
+        viewBox={page ? '0 -140 1440 900' : '0 0 1440 760'}
+        preserveAspectRatio="xMidYMax slice"
+        className="home-backdrop__wide"
+      >
         <Route d="M168 690 C330 640 250 330 420 220 S 860 140 1080 200 S 1300 150 1480 40" />
         <House x={120} y={760} w={110} h={86} roof={56} wall={coral} top={navy} />
         <Flock

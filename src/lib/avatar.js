@@ -34,6 +34,13 @@ export const AVATAR_OPTIONS = {
     { id: 'gorro', label: 'Gorro de lana' },
     { id: 'gorra', label: 'Gorra' },
   ],
+  // Los ojos: dos recortes de tinta, sin boca ni nariz
+  eyes: [
+    { id: 'abiertos', label: 'Abiertos' },
+    { id: 'sonrientes', label: 'Sonrientes' },
+    { id: 'serenos', label: 'Serenos' },
+    { id: 'ninguno', label: 'Sin rasgos' },
+  ],
   facialHair: [
     { id: 'ninguno', label: 'Nada' },
     { id: 'bigote', label: 'Bigote' },
@@ -80,6 +87,7 @@ export const DEFAULT_AVATAR = {
   hair: 'corto',
   hairColor: 'castano',
   headwear: 'ninguno',
+  eyes: 'abiertos',
   facialHair: 'ninguno',
   glasses: 'ninguno',
   shirt: 'coral',
