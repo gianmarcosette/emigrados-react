@@ -3450,9 +3450,11 @@ h3 {
   border-radius: var(--radius);
 }
 
+/* El aviso va encima de la maleta, pero deja pasar los toques al botón de acomodar */
 .maleta-empty {
   position: absolute;
   inset: 0;
+  pointer-events: none;
   display: grid;
   place-content: center;
   justify-items: center;
@@ -3655,9 +3657,18 @@ h3 {
   pointer-events: none;
 }
 
-/* Acomodar la maleta: los afiches se arrastran (sin que la página se desplace) */
-.suitcase--editing {
+.maleta-empty > * {
+  pointer-events: auto;
+}
+
+/* Acomodar la maleta: los afiches se arrastran sin que la página se desplace, ni se seleccione
+   el texto de los afiches, ni se abra el menú del iPhone al mantener el dedo apretado */
+.suitcase--editing,
+.suitcase--editing * {
   touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
 }
 
 .suitcase--editing .suitcase__sticker {

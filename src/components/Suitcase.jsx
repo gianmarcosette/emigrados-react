@@ -47,6 +47,8 @@ export default function Suitcase({
   }
 
   function startDrag(e, s) {
+    // Sin esto, el navegador puede empezar a seleccionar texto o a arrastrar la imagen
+    e.preventDefault()
     onPick?.(s.countryId)
     const p = toSvg(e)
     drag.current = {
@@ -57,7 +59,13 @@ export default function Suitcase({
       rotate: s.rotate,
       moved: false,
     }
-    svgRef.current.setPointerCapture(e.pointerId)
+    // Así el afiche sigue al dedo aunque se salga del dibujo. Si el navegador no lo permite,
+    // el arrastre funciona igual mientras el dedo esté sobre la maleta.
+    try {
+      svgRef.current.setPointerCapture(e.pointerId)
+    } catch {
+      // Sin captura del puntero
+    }
   }
 
   function moveDrag(e) {
@@ -94,7 +102,12 @@ export default function Suitcase({
       viewBox={`0 0 ${W} ${SUITCASE_H}`}
       // Sin texto (dibujo de adorno, como en el inicio) la maleta no se anuncia
       {...(label ? { role: onSelect || editing ? 'group' : 'img', 'aria-label': label } : { 'aria-hidden': true })}
-      {...(editing && { onPointerMove: moveDrag, onPointerUp: endDrag, onPointerCancel: endDrag })}
+      {...(editing && {
+        onPointerMove: moveDrag,
+        onPointerUp: endDrag,
+        onPointerCancel: endDrag,
+        onLostPointerCapture: endDrag,
+      })}
     >
       <defs>
         {/* Afiche recién pegado: en blanco y negro hasta completar el país */}
