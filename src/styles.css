@@ -2181,6 +2181,26 @@ h3 {
   font-weight: 700;
 }
 
+.duel-next {
+  display: flex;
+  justify-content: center;
+}
+
+/* En el celular, "Siguiente pregunta" flota abajo, justo sobre la barra de navegación */
+@media (max-width: 760px) {
+  .duel-next {
+    position: sticky;
+    bottom: calc(84px + env(safe-area-inset-bottom));
+    z-index: 5;
+    pointer-events: none;
+  }
+
+  .duel-next .btn {
+    pointer-events: auto;
+    box-shadow: 0 6px 18px rgba(22, 22, 22, 0.35);
+  }
+}
+
 .rival-turn {
   border: 1.5px dashed var(--ink);
   border-radius: var(--radius);
