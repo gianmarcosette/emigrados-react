@@ -8,7 +8,15 @@ export default function ProgressBar({ value, max, label }) {
           {value}/{max}
         </strong>
       </div>
-      <div className="progress__track" role="progressbar" aria-valuenow={value} aria-valuemin={0} aria-valuemax={max}>
+      <div
+        className="progress__track"
+        role="progressbar"
+        aria-label={label}
+        aria-valuenow={value}
+        aria-valuemin={0}
+        aria-valuemax={max}
+        aria-valuetext={`${value} de ${max}`}
+      >
         <div className="progress__fill" style={{ width: `${pct}%` }} />
       </div>
     </div>
