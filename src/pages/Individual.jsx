@@ -9,11 +9,12 @@ import Suitcase from '../components/Suitcase.jsx'
 import { COUNTRIES, COUNTRY_BY_ID } from '../data/countries.js'
 import { CATEGORIES, QUESTIONS, QUESTION_BY_ID } from '../data/questions.js'
 import { formatDate, formatLongDate, formatTime, plural } from '../lib/format.js'
-import { buildStickers, stickerEvent } from '../lib/suitcase.js'
+import { buildStickers, placeStickers, stickerEvent } from '../lib/suitcase.js'
 import { clearDraft, getDraft, latestDraft, saveDraft } from '../state/drafts.js'
 import { useJourney } from '../state/useJourney.js'
 import { pickQuestion } from '../state/journey.js'
 import { useNightMode } from '../state/nightMode.js'
+import { suitcaseColor, useSuitcaseLook } from '../state/suitcaseLook.js'
 
 const MAX_LENGTH = 1500
 
@@ -229,9 +230,10 @@ function IndividualGame({ params }) {
 // Después de guardar: el afiche del país se pega en la maleta (o avanza, o se completa).
 function SavedScreen({ question, country, answers, route, answeredCount, totalQuestions, onNext }) {
   const [sharing, setSharing] = useState(false)
+  const [look] = useSuitcaseLook()
   const stickers = useMemo(
-    () => buildStickers({ questions: QUESTIONS, countries: COUNTRIES, answers, route }),
-    [answers, route],
+    () => placeStickers(buildStickers({ questions: QUESTIONS, countries: COUNTRIES, answers, route }), look.places),
+    [answers, route, look.places],
   )
   const sticker = stickers.find((s) => s.countryId === country.id)
   const total = sticker?.total ?? 0
@@ -270,6 +272,7 @@ function SavedScreen({ question, country, answers, route, answeredCount, totalQu
         <Suitcase
           className="suitcase--saved"
           stickers={stickers}
+          look={suitcaseColor(look.color)}
           freshId={event === 'new' || event === 'complete' ? country.id : null}
           selectedId={country.id}
           label={`Tu maleta, con ${plural(stickers.length, 'afiche', 'afiches')}`}

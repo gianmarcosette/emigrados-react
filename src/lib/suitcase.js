@@ -99,3 +99,43 @@ export function stickerEvent({ answeredBefore, total }) {
   if (answeredBefore + 1 === total) return 'complete'
   return answeredBefore >= total ? 'revisit' : 'progress'
 }
+
+// Zona del cuerpo de la maleta donde se puede pegar un afiche (su centro), sin salirse del borde
+export const PLACE_BOUNDS = { minX: 46, maxX: SUITCASE_W - 46, minY: 98, maxY: SUITCASE_H - 68 }
+
+/** Lleva un lugar al borde de la maleta si se sale, y redondea. */
+export function clampPlace({ x, y, rotate = 0 }) {
+  const b = PLACE_BOUNDS
+  return {
+    x: Math.round(Math.min(b.maxX, Math.max(b.minX, x))),
+    y: Math.round(Math.min(b.maxY, Math.max(b.minY, y))),
+    rotate: Math.max(-45, Math.min(45, Math.round(rotate))),
+  }
+}
+
+/**
+ * Aplica los lugares que eligió la persona. Los afiches que nunca movió quedan en su lugar
+ * automático, salvo que caiga encima de uno movido: ahí buscan el lugar libre más alejado.
+ */
+export function placeStickers(stickers, places = {}) {
+  const placed = stickers.filter((s) => places[s.countryId]).map((s) => ({ ...s, ...clampPlace(places[s.countryId]) }))
+  if (!placed.length) return stickers
+  const taken = placed.map((s) => [s.x, s.y])
+  const near = ([x, y]) => taken.some(([tx, ty]) => Math.hypot(tx - x, ty - y) < 48)
+  return stickers.map((s) => {
+    const own = placed.find((p) => p.countryId === s.countryId)
+    if (own) return own
+    let spot = [s.x, s.y]
+    if (near(spot)) {
+      const free = SLOTS.map((slot) => [slot.x, slot.y]).filter((p) => !near(p))
+      if (free.length) {
+        spot = free.reduce((best, p) => {
+          const gap = (q) => Math.min(...taken.map(([tx, ty]) => Math.hypot(tx - q[0], ty - q[1])))
+          return gap(p) > gap(best) ? p : best
+        })
+      }
+    }
+    taken.push(spot)
+    return { ...s, x: spot[0], y: spot[1] }
+  })
+}

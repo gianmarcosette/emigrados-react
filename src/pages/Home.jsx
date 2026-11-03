@@ -7,7 +7,8 @@ import HomeBackdrop from '../components/HomeBackdrop.jsx'
 import { ModeIcon } from '../components/paper.jsx'
 import { COUNTRIES } from '../data/countries.js'
 import { QUESTIONS } from '../data/questions.js'
-import { buildStickers } from '../lib/suitcase.js'
+import { buildStickers, placeStickers } from '../lib/suitcase.js'
+import { suitcaseColor, useSuitcaseLook } from '../state/suitcaseLook.js'
 import { useJourney } from '../state/useJourney.js'
 
 // La maleta trae las siluetas de los países: se descarga aparte, recién cuando hay pegatinas
@@ -15,9 +16,10 @@ const Suitcase = lazy(() => import('../components/Suitcase.jsx'))
 
 export default function Home() {
   const { profile, answers, route, answeredCount, totalQuestions, pins } = useJourney()
+  const [look] = useSuitcaseLook()
   const stickers = useMemo(
-    () => buildStickers({ questions: QUESTIONS, countries: COUNTRIES, answers, route }),
-    [answers, route],
+    () => placeStickers(buildStickers({ questions: QUESTIONS, countries: COUNTRIES, answers, route }), look.places),
+    [answers, route, look.places],
   )
   const started = answeredCount > 0
 
@@ -64,7 +66,7 @@ export default function Home() {
           {started && profile ? (
             <>
               <Suspense fallback={null}>
-                <Suitcase className="suitcase--mini" stickers={stickers} label="" />
+                <Suitcase className="suitcase--mini" stickers={stickers} look={suitcaseColor(look.color)} label="" />
               </Suspense>
               <ProgressBar value={answeredCount} max={totalQuestions} label="Tu vuelta al mundo" />
             </>
