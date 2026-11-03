@@ -3,8 +3,8 @@ import { DEFAULT_AVATAR, colorOf, normalizeAvatar } from '../lib/avatar.js'
 import { PAPER } from '../lib/paper.js'
 import { Bird, Goo, Leaf, SmallHeart, Star } from './paper.jsx'
 
-// Tu pasajero, recortado en papel de color: cabeza y hombros sobre un círculo, sin rasgos en
-// la cara (cualquiera puede verse ahí y, en el modo Online, cuida la privacidad). Se dibuja en
+// Tu pasajero, recortado en papel de color: cabeza y hombros sobre un círculo, con dos ojos de
+// tinta y nada más en la cara (cualquiera puede verse ahí y, en el modo Online, cuida la privacidad). Se dibuja en
 // una caja de 400 × 400 y se arma por capas: fondo, adorno, ropa, pelo, cabeza y lo que va encima.
 
 const HAIR = {
@@ -61,9 +61,11 @@ export default function PassengerAvatar({ avatar, size = 120, label = 'Avatar', 
   const hair = colorOf('hairColor', a.hairColor)
   const shirt = colorOf('shirt', a.shirt)
   const accent = ACCENT[a.background]
-  // Gorro y pañuelo en un papel que no se pierda contra la ropa
-  const hat = a.shirt === 'coral' ? PAPER.yellow : PAPER.coral
-  const scarf = a.shirt === 'noche' ? PAPER.coral : PAPER.navy
+  // Gorro y pañuelo en un papel que no se pierda contra la ropa ni contra el fondo
+  const taken = [shirt, colorOf('background', a.background)]
+  const free = (order) => order.find((c) => !taken.includes(c)) ?? order[0]
+  const hat = free([PAPER.coral, PAPER.yellow, PAPER.green, PAPER.navy])
+  const scarf = free([PAPER.navy, PAPER.coral, PAPER.green, PAPER.yellow])
 
   return (
     <svg
@@ -124,9 +126,9 @@ export default function PassengerAvatar({ avatar, size = 120, label = 'Avatar', 
           <Goo
             fill={hat}
             parts={[
-              [200, 122, 50],
-              [148, 138, 200, 128, 252, 138, 18],
-              [200, 70, 13],
+              [200, 118, 48],
+              [148, 134, 200, 124, 252, 134, 18],
+              [200, 68, 13],
             ]}
           />
         )}
@@ -136,6 +138,7 @@ export default function PassengerAvatar({ avatar, size = 120, label = 'Avatar', 
             <path d="M150 146 Q206 136 272 150 Q274 162 250 162 Q204 152 150 158 Z" />
           </g>
         )}
+        <Eyes style={a.eyes} />
         <Glasses style={a.glasses} />
       </g>
     </svg>
@@ -152,6 +155,28 @@ function Deco({ deco, color }) {
       {deco === 'corazon' && <SmallHeart x={300} y={110} s={0.55} fill={color} rot={12} />}
       {deco === 'pajaro' && <Bird x={298} y={104} s={0.8} fill={color} rot={10} />}
     </>
+  )
+}
+
+// Ojos de tinta: dos puntos, dos arcos que sonríen o dos arcos cerrados
+function Eyes({ style }) {
+  if (style === 'abiertos')
+    return (
+      <g fill={PAPER.ink}>
+        <ellipse cx="183" cy="167" rx="5.5" ry="7" />
+        <ellipse cx="217" cy="167" rx="5.5" ry="7" />
+      </g>
+    )
+  const d = {
+    sonrientes: ['M175 170 Q183 159 191 170', 'M209 170 Q217 159 225 170'],
+    serenos: ['M175 165 Q183 174 191 165', 'M209 165 Q217 174 225 165'],
+  }[style]
+  if (!d) return null
+  return (
+    <g fill="none" stroke={PAPER.ink} strokeWidth="5" strokeLinecap="round">
+      <path d={d[0]} />
+      <path d={d[1]} />
+    </g>
   )
 }
 
