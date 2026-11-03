@@ -1,6 +1,8 @@
 // Lógica pura del "viaje" del modo individual: estado, reducer y persistencia.
 // Se mantiene sin React para poder testearla con Vitest.
 
+import { QUESTIONS_VERSION, RETIRED_QUESTIONS } from '../data/questions.js'
+import { clearDraft } from './drafts.js'
 import { normalizeProfile } from './profile.js'
 
 export const STORAGE_KEY = 'emigrados:v1'
@@ -15,6 +17,11 @@ export const initialJourney = {
   // Charlas guiadas del modo online que se guardaron en el diario:
   // [{ id, date, rival: { name, country }, messages: [{ from: 'me' | 'them', kind, text }] }]
   talks: [],
+  // Respuestas a preguntas que ya no están en el juego (se cambiaron por otras). Siguen en el
+  // diario con su pregunta original: [{ questionId, question, text, date }]
+  archive: [],
+  // Versión del banco de preguntas con la que se guardó lo de arriba
+  questionsVersion: QUESTIONS_VERSION,
 }
 
 export function journeyReducer(state, action) {
@@ -49,11 +56,48 @@ export function journeyReducer(state, action) {
 
 function normalize(data) {
   if (!data || typeof data !== 'object') return initialJourney
-  const answers = data.answers && typeof data.answers === 'object' ? data.answers : {}
-  const route = Array.isArray(data.route) ? data.route : Object.keys(answers).map(Number)
+  const answers = data.answers && typeof data.answers === 'object' ? { ...data.answers } : {}
+  let route = Array.isArray(data.route) ? data.route : Object.keys(answers).map(Number)
   const talks = Array.isArray(data.talks) ? data.talks.map(normalizeTalk).filter(Boolean) : []
+  const archive = Array.isArray(data.archive) ? data.archive.filter(isArchived) : []
+  // Si una pregunta cambió por otra desde que se guardó, lo respondido pasa al archivo con su
+  // pregunta original, y la pregunta nueva queda por responder.
+  const version = Number.isInteger(data.questionsVersion) ? data.questionsVersion : 1
+  for (let v = version + 1; v <= QUESTIONS_VERSION; v++) {
+    for (const [id, question] of Object.entries(RETIRED_QUESTIONS[v] ?? {})) {
+      const list = answers[id]
+      if (!Array.isArray(list)) continue
+      for (const a of list) archive.push({ questionId: Number(id), question, text: a.text, date: a.date })
+      delete answers[id]
+      route = route.filter((r) => String(r) !== id)
+    }
+  }
   // Versiones anteriores guardaban solo `name`: se migra a un perfil incompleto.
-  return { profile: normalizeProfile(data.profile, data.name), answers, route, talks }
+  return {
+    profile: normalizeProfile(data.profile, data.name),
+    answers,
+    route,
+    talks,
+    archive,
+    questionsVersion: QUESTIONS_VERSION,
+  }
+}
+
+function isArchived(a) {
+  return (
+    a &&
+    Number.isInteger(a.questionId) &&
+    typeof a.question === 'string' &&
+    typeof a.text === 'string' &&
+    typeof a.date === 'string'
+  )
+}
+
+/** Los borradores de las preguntas que cambiaron se descartan: eran para la pregunta vieja. */
+function dropRetiredDrafts(version, storage) {
+  for (let v = version + 1; v <= QUESTIONS_VERSION; v++) {
+    for (const id of Object.keys(RETIRED_QUESTIONS[v] ?? {})) clearDraft(Number(id), storage)
+  }
 }
 
 const TALK_FROM = ['me', 'them']
@@ -77,7 +121,11 @@ function normalizeTalk(talk) {
 export function loadJourney(storage = globalThis.localStorage) {
   try {
     const raw = storage?.getItem(STORAGE_KEY)
-    return raw ? normalize(JSON.parse(raw)) : initialJourney
+    if (!raw) return initialJourney
+    const data = JSON.parse(raw)
+    const version = Number.isInteger(data?.questionsVersion) ? data.questionsVersion : 1
+    if (version < QUESTIONS_VERSION) dropRetiredDrafts(version, storage)
+    return normalize(data)
   } catch {
     return initialJourney
   }
@@ -96,14 +144,47 @@ export function saveJourney(state, storage = globalThis.localStorage) {
  * se respondieron todas (o se pide `revisit`), elige una ya respondida para
  * poder comparar con lo que se contestó antes.
  */
-export function pickQuestion(questions, answers, { excludeId, revisit = false, random = Math.random } = {}) {
+export function pickQuestion(
+  questions,
+  answers,
+  { excludeId, revisit = false, gentle = false, random = Math.random } = {},
+) {
   const pool = questions.filter((q) => q.id !== excludeId)
   const answered = pool.filter((q) => answers[q.id]?.length)
   const pending = pool.filter((q) => !answers[q.id]?.length)
   const source = revisit ? answered : pending.length ? pending : answered
-  const candidates = source.length ? source : pool
+  let candidates = source.length ? source : pool
+  // Con `gentle` (al empezar, o después de una pregunta profunda) se evita otra profunda, si hay
+  const lighter = candidates.filter((q) => q.depth !== DEEP)
+  if (gentle && lighter.length) candidates = lighter
   if (!candidates.length) return null
   return candidates[Math.floor(random() * candidates.length)]
+}
+
+/** Intensidad de las preguntas que más remueven (ver data/questions.js). */
+export const DEEP = 3
+
+/**
+ * Ordena un mazo ya mezclado para dosificar: no arranca con una pregunta profunda y no
+ * pone dos profundas seguidas, mientras alcancen las otras para separarlas.
+ */
+export function paceDeck(deck) {
+  const deep = deck.filter((q) => q.depth === DEEP)
+  const rest = deck.filter((q) => q.depth !== DEEP)
+  // Cada cuántas preguntas livianas o medias va una profunda, para repartirlas en toda la partida
+  const gap = deep.length ? Math.max(1, Math.floor(rest.length / deep.length)) : Infinity
+  const paced = []
+  let since = 0
+  while (deep.length || rest.length) {
+    if (deep.length && (since >= gap || !rest.length)) {
+      paced.push(deep.shift())
+      since = 0
+    } else {
+      paced.push(rest.shift())
+      since++
+    }
+  }
+  return paced
 }
 
 export function shuffle(list, random = Math.random) {

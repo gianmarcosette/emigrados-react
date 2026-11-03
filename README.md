@@ -13,7 +13,7 @@ Proyecto Integrador · Contenidos y Creatividad III — Videojuegos: Experiencia
 
 Cada pregunta es un **vuelo**: se presenta como una tarjeta de embarque que sale de tu casa y hace escala en un país. Al responder, el afiche de ese país se pega en tu **maleta** (en gris) y se pinta de color cuando respondés sus 4 preguntas. Lo que escribís queda en tu **diario de viaje**, con fecha, para releerlo y ver cómo cambiaste.
 
-No hay respuestas correctas en las preguntas de migración: el juego invita a contar lo propio. La competencia está en el modo **Online**, un duelo de cultura general sobre el país del otro que termina en una charla.
+No hay respuestas correctas en las preguntas de migración: el juego invita a contar lo propio. Las preguntas se revisaron con un enfoque clínico del duelo migratorio: piden momentos concretos en lugar de respuestas de sí o no, dejan lugar a lo que no salió bien y también incluyen a quien se fue sin poder elegir. Cada una tiene una intensidad (liviana, media o profunda): el juego no arranca con una profunda ni pone dos seguidas. La competencia está en el modo **Online**, un duelo de cultura general sobre el país del otro que termina en una charla.
 
 ## Cómo se juega
 
@@ -70,7 +70,7 @@ Después de responder (o en cada pregunta de Grupal), **Compartir** arma imágen
 
 ## Tecnologías
 
-React 19, React Router 7, Vite 8, Vitest (108 tests) y oxlint. Sin backend: el modo Online usa un servidor simulado (`src/online/mockServer.js`) con las reglas del duelo ya listas para conectarse a uno real. Las siluetas de los países se calculan una vez con d3-geo y world-atlas (`npm run shapes`).
+React 19, React Router 7, Vite 8, Vitest (117 tests) y oxlint. Sin backend: el modo Online usa un servidor simulado (`src/online/mockServer.js`) con las reglas del duelo ya listas para conectarse a uno real. Las siluetas de los países se calculan una vez con d3-geo y world-atlas (`npm run shapes`).
 
 ## Cómo correrlo
 
@@ -92,7 +92,7 @@ src/
 ├── components/        # Layout, QuestionCard (tarjeta de embarque), Suitcase y posters (maleta), Diary,
 │                      # FirstFlight, ShareSheet, PassengerAvatar y AvatarEditor, HomeBackdrop, paper (recortes)
 ├── online/            # duel.js (reglas del duelo), talk.js (charla guiada), mockServer.js (servidor simulado)
-├── data/              # questions.js (208 preguntas), countries.js (52 países), trivia.js (346 preguntas de
+├── data/              # questions.js (208 preguntas con su intensidad), countries.js (52 países), trivia.js (346 preguntas de
 │                      # cultura general de 31 países), logo.js (contornos del logo), talk.js, residence.js
 ├── state/             # journey.js (reducer + guardado), profile.js, duels.js, drafts.js, firstFlight.js
 ├── lib/               # shareCard.js (imágenes para compartir), suitcase.js, ticket.js, avatar.js, paper.js…
