@@ -583,21 +583,24 @@ function Play({ duel, me, onAnswer, onDone, onLater }) {
         )}
       </section>
 
-      <p className="rival-turn">
-        <strong>{rival.name}</strong> responde sobre {countryName(me.country)} cuando pueda. Sus respuestas se ven
-        cuando terminen los dos.
-      </p>
-
-      <div className="actions actions--center">
-        {answered && (
+      {/* En el celular queda flotando abajo, sobre la barra: se aprieta sin tener que bajar */}
+      {answered && (
+        <div className="duel-next">
           <button type="button" className="btn btn--primary" onClick={next}>
             {last ? 'Terminar' : 'Siguiente pregunta'}
           </button>
-        )}
+        </div>
+      )}
+      <div className="actions actions--center">
         <button type="button" className="btn btn--text" onClick={onLater}>
           Seguir después
         </button>
       </div>
+
+      <p className="rival-turn">
+        <strong>{rival.name}</strong> responde sobre {countryName(me.country)} cuando pueda. Sus respuestas se ven
+        cuando terminen los dos.
+      </p>
       <TrialNote />
     </div>
   )
