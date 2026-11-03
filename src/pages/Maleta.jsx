@@ -171,7 +171,7 @@ export default function Maleta() {
                 : `Tu maleta, con ${plural(stickers.length, 'afiche', 'afiches')}`
             }
           />
-          {!stickers.length && (
+          {!stickers.length && !editing && (
             <div className="maleta-empty">
               <p>
                 <strong>Tu maleta está vacía.</strong> Cada país al que respondas suma un afiche.
