@@ -8,13 +8,17 @@ export function PaperFilters() {
   return (
     <svg width="0" height="0" style={{ position: 'absolute' }} aria-hidden="true" focusable="false">
       <defs>
-        <filter id="papel-goo" filterUnits="userSpaceOnUse" x="-50" y="-50" width="500" height="500">
+        {/* Solo se usa en los avatares: el área es justo el círculo del avatar (lo de afuera se
+            recorta igual). Cuanto más chica el área, menos trabaja el celular. */}
+        <filter id="papel-goo" filterUnits="userSpaceOnUse" x="40" y="40" width="320" height="320">
           <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="b" />
           <feColorMatrix in="b" mode="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 28 -12" result="g" />
           <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="4" result="n" />
           <feDisplacementMap in="g" in2="n" scale="1.6" xChannelSelector="R" yChannelSelector="G" />
         </filter>
-        <filter id="papel-corte" filterUnits="userSpaceOnUse" x="-500" y="-500" width="2000" height="2000">
+        {/* El borde de tijera se calcula sobre cada dibujo y un margen, no sobre un área fija enorme:
+            antes cada golondrina recalculaba 2000 × 2000 unidades, y en el iPhone eso calienta. */}
+        <filter id="papel-corte" x="-40%" y="-40%" width="180%" height="180%">
           <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="7" result="n" />
           <feDisplacementMap in="SourceGraphic" in2="n" scale="2" xChannelSelector="R" yChannelSelector="G" />
         </filter>
