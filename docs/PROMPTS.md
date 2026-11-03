@@ -9,7 +9,7 @@ Emigrados se desarrolló iterando con **Claude Code**, el agente de IA de Anthro
 3. **Rama y verificación:** cada cambio se hizo en una rama. Antes de subirlo, la IA corría los tests (Vitest), el lint (oxlint) y el build, y sacaba capturas en celular y compu para revisarlo.
 4. **Revisión y merge:** yo lo probaba en VS Code y, cuando me convencía, pedía "pásalo a main". La IA abría el pull request y lo integraba.
 
-Resultado: más de 30 pull requests, más de 100 commits y 108 tests automáticos.
+Resultado: más de 30 pull requests, más de 100 commits y 117 tests automáticos.
 
 ## Prompt inicial
 
@@ -89,6 +89,20 @@ Ideas que surgieron al mostrar el juego. Las vimos primero en maquetas y despué
 | Los íconos de la barra "no se correspondían" con los recortes | Íconos de papel a color: la casa, la golondrina, tu maleta y tu avatar, con la pestaña activa en papel amarillo |
 | Ponerle ojos a los avatares | Dos ojos de tinta, en tres miradas, que vienen abiertos por defecto |
 | El fondo de casas y golondrinas en todas las pantallas | Queda fijo detrás de todo |
+
+### Revisión clínica de las preguntas
+
+Le pedí a la IA que analizara las 208 preguntas "con un ojo clínico y psicológico especialista en procesos migratorios", sin tocar el juego. Usó como referencia los siete duelos migratorios de Achotegui, el trabajo de León y Rebeca Grinberg sobre migración y exilio, la pérdida ambigua de Pauline Boss y las estrategias de aculturación de Berry. Primero vimos el análisis y la lista completa corregida; cuando la aprobé, la aplicamos.
+
+| Pedido / decisión | Resultado |
+|---|---|
+| Que las preguntas evoquen respuestas sinceras | 43 reescritas: menos preguntas de sí o no y más momentos concretos con un giro emocional ("¿Dónde dormiste la primera noche? ¿Qué sentiste al apagar la luz?") |
+| Incluir a quien no eligió irse | Fuera las preguntas que suponían ilusión, pasaje de avión o poder volver de visita |
+| Dejar lugar a lo que no salió bien | "¿Hubo un momento en que sentiste que valió la pena? ¿Y uno en que sentiste que no?", y agradecer y también reclamar al lugar que te recibió |
+| Temas que faltaban | 14 preguntas nuevas: una mala noticia a la distancia, la familia que envejece lejos, los papeles, la discriminación, lo que se espera de quien se fue y lo que se perdió sin que nadie lo vea |
+| Preguntas que se pisaban o no se entendían al salir al azar | 7 fusiones ("¿Y qué palabra…?" y "ese trabajo" ya no dependen de otra) |
+| Dosificar | Cada pregunta tiene intensidad. Individual y Grupal no arrancan con una profunda ni ponen dos seguidas, y en Grupal no sale la que puede polarizar la mesa |
+| No perder lo ya escrito | Lo que alguien respondió a una pregunta que cambió queda en su diario con la pregunta original |
 
 ### Cierre
 

@@ -12,7 +12,7 @@ import { formatDate, formatLongDate, formatTime, plural } from '../lib/format.js
 import { buildStickers, placeStickers, stickerEvent } from '../lib/suitcase.js'
 import { clearDraft, getDraft, latestDraft, saveDraft } from '../state/drafts.js'
 import { useJourney } from '../state/useJourney.js'
-import { pickQuestion } from '../state/journey.js'
+import { DEEP, pickQuestion } from '../state/journey.js'
 import { useNightMode } from '../state/nightMode.js'
 import { suitcaseColor, useSuitcaseLook } from '../state/suitcaseLook.js'
 
@@ -36,10 +36,11 @@ function firstQuestion(params, answers) {
   const countryId = params.get('pais')
   if (countryId) {
     const inCountry = QUESTIONS.filter((q) => q.countryId === countryId)
-    const picked = pickQuestion(inCountry, answers)
+    const picked = pickQuestion(inCountry, answers, { gentle: true })
     if (picked) return picked
   }
-  return pickQuestion(QUESTIONS, answers)
+  // Se arranca suave: la primera pregunta no es de las profundas
+  return pickQuestion(QUESTIONS, answers, { gentle: true })
 }
 
 function IndividualGame({ params }) {
@@ -82,13 +83,14 @@ function IndividualGame({ params }) {
   }
 
   function nextQuestion({ revisit = false } = {}) {
-    goTo(pickQuestion(pool, answers, { excludeId: question.id, revisit }))
+    // Después de una pregunta profunda, la siguiente da un respiro
+    goTo(pickQuestion(pool, answers, { excludeId: question.id, revisit, gentle: question.depth === DEEP }))
   }
 
   function changeCategory(value) {
     setCategory(value)
     const nextPool = value === 'all' ? QUESTIONS : QUESTIONS.filter((q) => q.category === value)
-    goTo(pickQuestion(nextPool, answers, { excludeId: question.id }))
+    goTo(pickQuestion(nextPool, answers, { excludeId: question.id, gentle: question.depth === DEEP }))
   }
 
   function handleSubmit(e) {

@@ -15,7 +15,7 @@ import CountryShape from './CountryShape.jsx'
 // buscador, y cada entrada se abre limpia (fecha, pregunta y respuesta en letra grande).
 // También guarda las charlas del modo online. Vive en "Mi perfil" (#diario).
 export default function Diary() {
-  const { answers, answeredCount, talks = [], dispatch, profile } = useJourney()
+  const { answers, answeredCount, talks = [], archive = [], dispatch, profile } = useJourney()
   const confirm = useConfirm()
   const [night, toggleNight] = useNightMode()
   const [term, setTerm] = useState('')
@@ -25,8 +25,8 @@ export default function Diary() {
   const lastOpened = useRef(null)
 
   const all = useMemo(
-    () => buildEntries({ answers, talks, questionById: QUESTION_BY_ID, countryById: COUNTRY_BY_ID }),
-    [answers, talks],
+    () => buildEntries({ answers, talks, archive, questionById: QUESTION_BY_ID, countryById: COUNTRY_BY_ID }),
+    [answers, talks, archive],
   )
   const entries = useMemo(() => filterEntries(all, { term, category, countryName }), [all, term, category])
   const groups = useMemo(() => groupByMonth(entries), [entries])
@@ -286,16 +286,25 @@ function Entry({ entry, term, position, total, onBack, onOlder, onNewer, nightBu
             </details>
           )}
 
-          <Link to="/maleta" className="journal-entry__stop">
-            <CountryShape country={entry.country} className="journal-entry__shape" decorative />
-            <span>
-              <b>Escala en {entry.country.name}</b>
-              <span>Su afiche está en tu maleta</span>
-            </span>
-          </Link>
-          <Link to={`/individual?q=${entry.question.id}`} className="btn btn--ghost journal-entry__again">
-            Volver a responder
-          </Link>
+          {/* Una pregunta que ya no está en el juego: se guarda lo escrito, pero no se vuelve a responder */}
+          {entry.retired ? (
+            <p className="journal-entry__retired">
+              Esta pregunta ya no está en el juego: la cambiamos por otra. Lo que escribiste queda acá.
+            </p>
+          ) : (
+            <>
+              <Link to="/maleta" className="journal-entry__stop">
+                <CountryShape country={entry.country} className="journal-entry__shape" decorative />
+                <span>
+                  <b>Escala en {entry.country.name}</b>
+                  <span>Su afiche está en tu maleta</span>
+                </span>
+              </Link>
+              <Link to={`/individual?q=${entry.question.id}`} className="btn btn--ghost journal-entry__again">
+                Volver a responder
+              </Link>
+            </>
+          )}
         </>
       )}
 

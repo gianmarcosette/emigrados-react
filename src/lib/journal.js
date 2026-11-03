@@ -12,8 +12,9 @@ export function fold(text) {
  * Entradas del diario, de la más nueva a la más vieja.
  * Cada respuesta: { key, kind: 'answer', question, country, text, date, earlier: [{ text, date }] }
  * Cada charla:    { key, kind: 'talk', talk, date }
+ * Las respuestas archivadas (a preguntas que se cambiaron) se ven con su pregunta original.
  */
-export function buildEntries({ answers, talks = [], questionById, countryById }) {
+export function buildEntries({ answers, talks = [], archive = [], questionById, countryById }) {
   const answerEntries = Object.entries(answers).flatMap(([id, list]) => {
     const question = questionById[id]
     if (!question) return []
@@ -28,8 +29,25 @@ export function buildEntries({ answers, talks = [], questionById, countryById })
       earlier: list.slice(0, i).reverse(),
     }))
   })
+  const archived = archive.flatMap((a) => {
+    const slot = questionById[a.questionId]
+    if (!slot) return []
+    const question = { ...slot, text: a.question }
+    return [
+      {
+        key: `archivo-${a.questionId}-${a.date}`,
+        kind: 'answer',
+        question,
+        country: countryById[slot.countryId],
+        text: a.text,
+        date: a.date,
+        earlier: [],
+        retired: true,
+      },
+    ]
+  })
   const talkEntries = talks.map((talk) => ({ key: `talk-${talk.id}`, kind: 'talk', talk, date: talk.date }))
-  return [...answerEntries, ...talkEntries].sort((a, b) => b.date.localeCompare(a.date))
+  return [...answerEntries, ...archived, ...talkEntries].sort((a, b) => b.date.localeCompare(a.date))
 }
 
 /** Textos donde se busca en cada entrada. */

@@ -4,7 +4,7 @@ import ShareSheet from '../components/ShareSheet.jsx'
 import TalkTimer from '../components/TalkTimer.jsx'
 import Title from '../components/Title.jsx'
 import { CATEGORIES, QUESTIONS } from '../data/questions.js'
-import { shuffle } from '../state/journey.js'
+import { paceDeck, shuffle } from '../state/journey.js'
 import { useConfirm } from '../state/confirm.js'
 import { isLastSpeaker, nextSpeaker, speakersStatus, speakingOrder, startRound } from '../lib/groupTurns.js'
 import { TIMER_OPTIONS } from '../lib/timer.js'
@@ -65,7 +65,8 @@ export default function Grupal() {
   }
 
   function start() {
-    setDeck(shuffle(QUESTIONS.filter((q) => categories.includes(q.category))))
+    // Sin las preguntas que pueden polarizar la mesa, y con las profundas repartidas
+    setDeck(paceDeck(shuffle(QUESTIONS.filter((q) => categories.includes(q.category) && q.only !== 'individual'))))
     setIndex(0)
     setRound(startRound())
   }
