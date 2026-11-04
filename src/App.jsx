@@ -12,6 +12,8 @@ const Grupal = lazy(() => import('./pages/Grupal.jsx'))
 const Online = lazy(() => import('./pages/Online.jsx'))
 const Maleta = lazy(() => import('./pages/Maleta.jsx'))
 const Perfil = lazy(() => import('./pages/Perfil.jsx'))
+const Pregunta = lazy(() => import('./pages/Pregunta.jsx'))
+const Carta = lazy(() => import('./pages/Carta.jsx'))
 
 export default function App() {
   return (
@@ -49,6 +51,16 @@ export default function App() {
         {/* El diario ahora vive dentro del perfil; se mantiene la dirección vieja. */}
         <Route path="diario" element={<Navigate to="/perfil#diario" replace />} />
         <Route path="perfil" element={<Perfil />} />
+        {/* Lo que abre quien recibe "Preguntale a alguien de allá": sin perfil */}
+        <Route path="pregunta/:id" element={<Pregunta />} />
+        <Route
+          path="carta"
+          element={
+            <ProfileGate>
+              <Carta />
+            </ProfileGate>
+          }
+        />
         {/* Página de prueba de avatares, solo mientras se desarrolla */}
         <Route path="*" element={<NotFound />} />
       </Route>

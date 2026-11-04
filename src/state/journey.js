@@ -2,6 +2,7 @@
 // Se mantiene sin React para poder testearla con Vitest.
 
 import { QUESTIONS_VERSION, RETIRED_QUESTIONS } from '../data/questions.js'
+import { normalizeLetter } from '../lib/letter.js'
 import { clearDraft } from './drafts.js'
 import { normalizeProfile } from './profile.js'
 
@@ -20,6 +21,8 @@ export const initialJourney = {
   // Respuestas a preguntas que ya no están en el juego (se cambiaron por otras). Siguen en el
   // diario con su pregunta original: [{ questionId, question, text, date }]
   archive: [],
+  // Cartas al futuro: [{ id, text, writtenAt, openOn: 'AAAA-MM-DD', openedAt?, reply?: { text, date } }]
+  letters: [],
   // Versión del banco de preguntas con la que se guardó lo de arriba
   questionsVersion: QUESTIONS_VERSION,
 }
@@ -45,13 +48,34 @@ export function journeyReducer(state, action) {
       if (!talk || state.talks.some((t) => t.id === talk.id)) return state
       return { ...state, talks: [...state.talks, talk] }
     }
+    // Carta al futuro: se cierra, se abre el día elegido y se le puede contestar
+    case 'sealLetter': {
+      const letter = normalizeLetter(action.letter)
+      if (!letter || state.letters.some((l) => l.id === letter.id)) return state
+      return { ...state, letters: [...state.letters, letter] }
+    }
+    case 'openLetter':
+      return updateLetter(state, action.id, (l) =>
+        l.openedAt ? l : { ...l, openedAt: action.date ?? new Date().toISOString() },
+      )
+    case 'replyLetter':
+      return updateLetter(state, action.id, (l) =>
+        l.openedAt ? { ...l, reply: { text: action.text, date: action.date ?? new Date().toISOString() } } : l,
+      )
+    case 'deleteLetter':
+      return { ...state, letters: state.letters.filter((l) => l.id !== action.id) }
     case 'import':
       return normalize(action.data)
+    // Borrar el diario no borra las cartas al futuro: son aparte, y puede haber alguna cerrada
     case 'reset':
-      return { ...initialJourney, profile: state.profile }
+      return { ...initialJourney, profile: state.profile, letters: state.letters }
     default:
       throw new Error(`Acción desconocida: ${action.type}`)
   }
+}
+
+function updateLetter(state, id, change) {
+  return { ...state, letters: state.letters.map((l) => (l.id === id ? change(l) : l)) }
 }
 
 function normalize(data) {
@@ -60,6 +84,7 @@ function normalize(data) {
   let route = Array.isArray(data.route) ? data.route : Object.keys(answers).map(Number)
   const talks = Array.isArray(data.talks) ? data.talks.map(normalizeTalk).filter(Boolean) : []
   const archive = Array.isArray(data.archive) ? data.archive.filter(isArchived) : []
+  const letters = Array.isArray(data.letters) ? data.letters.map(normalizeLetter).filter(Boolean) : []
   // Si una pregunta cambió por otra desde que se guardó, lo respondido pasa al archivo con su
   // pregunta original, y la pregunta nueva queda por responder.
   const version = Number.isInteger(data.questionsVersion) ? data.questionsVersion : 1
@@ -79,6 +104,7 @@ function normalize(data) {
     route,
     talks,
     archive,
+    letters,
     questionsVersion: QUESTIONS_VERSION,
   }
 }

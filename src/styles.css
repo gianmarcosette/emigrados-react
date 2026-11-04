@@ -4414,6 +4414,8 @@ h3 {
     .online-country *,
     .panel,
     .panel *,
+    .letter-paper,
+    .letter-paper *,
     .player,
     .player *,
     .player-card,
@@ -4428,6 +4430,10 @@ h3 {
     .stat *,
     .statlink,
     .statlink *,
+    .letter-card,
+    .letter-card *,
+    .letter-item,
+    .letter-item *,
     .talk-compose,
     .talk-compose *,
     .talk-invite,
@@ -4560,6 +4566,8 @@ h3 {
     .online-country *,
     .panel,
     .panel *,
+    .letter-paper,
+    .letter-paper *,
     .player,
     .player *,
     .player-card,
@@ -4574,6 +4582,10 @@ h3 {
     .stat *,
     .statlink,
     .statlink *,
+    .letter-card,
+    .letter-card *,
+    .letter-item,
+    .letter-item *,
     .talk-compose,
     .talk-compose *,
     .talk-invite,
@@ -4655,6 +4667,8 @@ h3 {
     .online-country *,
     .panel,
     .panel *,
+    .letter-paper,
+    .letter-paper *,
     .player,
     .player *,
     .player-card,
@@ -4669,6 +4683,10 @@ h3 {
     .stat *,
     .statlink,
     .statlink *,
+    .letter-card,
+    .letter-card *,
+    .letter-item,
+    .letter-item *,
     .talk-compose,
     .talk-compose *,
     .talk-invite,
@@ -4750,6 +4768,8 @@ h3 {
     .online-country *,
     .panel,
     .panel *,
+    .letter-paper,
+    .letter-paper *,
     .player,
     .player *,
     .player-card,
@@ -4764,6 +4784,10 @@ h3 {
     .stat *,
     .statlink,
     .statlink *,
+    .letter-card,
+    .letter-card *,
+    .letter-item,
+    .letter-item *,
     .talk-compose,
     .talk-compose *,
     .talk-invite,
@@ -4847,6 +4871,8 @@ h3 {
     .online-country *,
     .panel,
     .panel *,
+    .letter-paper,
+    .letter-paper *,
     .player,
     .player *,
     .player-card,
@@ -4861,6 +4887,10 @@ h3 {
     .stat *,
     .statlink,
     .statlink *,
+    .letter-card,
+    .letter-card *,
+    .letter-item,
+    .letter-item *,
     .talk-compose,
     .talk-compose *,
     .talk-invite,
@@ -5943,4 +5973,374 @@ h3 {
     width: 100%;
     justify-content: space-between;
   }
+}
+
+/* ═════════════ Preguntale a alguien de allá ═════════════ */
+.btn--whatsapp {
+  background: var(--yellow);
+  border-color: var(--ink);
+  color: var(--ink);
+}
+
+.btn--whatsapp:hover {
+  background: #ffe34d;
+}
+
+.ask-sheet__who {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ask-sheet__text {
+  width: 100%;
+  box-sizing: border-box;
+  border: 2px solid var(--ink);
+  border-radius: 14px;
+  padding: 12px 14px;
+  font: inherit;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  background: var(--card);
+  color: var(--ink);
+  resize: vertical;
+}
+
+.ask-sheet__actions {
+  display: grid;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.ask-page__head {
+  text-align: center;
+  color: var(--on-sky);
+}
+
+.ask-page__head h1 {
+  color: var(--on-sky);
+  font-size: clamp(1.7rem, 5vw, 2.4rem);
+}
+
+.ask-page__eyebrow,
+.letter-page__eyebrow {
+  margin: 0 0 6px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--yellow);
+}
+
+.ask-page__reply {
+  margin-top: 18px;
+  border: var(--border);
+}
+
+.ask-page__reply p {
+  margin: 0;
+}
+
+/* ═════════════ Carta al futuro ═════════════ */
+.envelope {
+  display: block;
+  width: 150px;
+  height: auto;
+  margin: 0 auto;
+}
+
+.letter-page__head {
+  text-align: center;
+  color: var(--on-sky);
+}
+
+.letter-page__head h1 {
+  color: var(--on-sky);
+}
+
+.letter-page__head p {
+  color: var(--on-sky-soft);
+}
+
+.letter-page .panel {
+  border: var(--border);
+  margin-top: 18px;
+}
+
+.letter-page__new {
+  margin: 18px auto 0;
+  display: flex;
+  width: fit-content;
+}
+
+.letter-hint {
+  margin: 0;
+  font-size: 0.88rem;
+}
+
+.letter-form__label {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.25rem;
+}
+
+.letter-form__text {
+  width: 100%;
+  box-sizing: border-box;
+  border: 2px solid var(--ink);
+  border-radius: 14px;
+  padding: 12px 14px;
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--ink);
+  background: var(--card) repeating-linear-gradient(transparent 0 25px, var(--line) 25px 26px);
+  background-attachment: local;
+  background-position: 0 12px;
+  resize: vertical;
+}
+
+.letter-form__when {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.letter-form__when legend {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 4px;
+}
+
+.letter-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border: 2px solid var(--ink);
+  border-radius: 14px;
+  cursor: pointer;
+}
+
+.letter-option.is-on {
+  background: var(--yellow);
+}
+
+.letter-option input {
+  accent-color: var(--ink);
+  width: 18px;
+  height: 18px;
+  margin: 0;
+}
+
+.letter-option span {
+  display: grid;
+}
+
+.letter-option small {
+  color: var(--ink-soft);
+}
+
+.letter-option.is-on small {
+  color: var(--ink);
+}
+
+.letter-form__date {
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 10px 12px;
+  font: inherit;
+  background: var(--card);
+  color: var(--ink);
+}
+
+.letter-sealed,
+.letter-due {
+  text-align: center;
+  align-items: center;
+}
+
+.letter-sealed h1,
+.letter-due h2 {
+  margin: 0;
+  font-family: var(--font-display);
+}
+
+.letter-sealed p,
+.letter-due p {
+  margin: 0;
+}
+
+.letter-list {
+  margin-top: 26px;
+}
+
+.letter-list h2 {
+  color: var(--on-sky);
+  font-size: 1.3rem;
+  margin: 0 0 10px;
+}
+
+.letter-list ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.letter-item {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 16px;
+  background: var(--card);
+  border: var(--border);
+  border-radius: 16px;
+  color: var(--ink);
+  text-align: left;
+  font: inherit;
+}
+
+.letter-item--opened {
+  cursor: pointer;
+}
+
+.letter-item > div,
+.letter-item > span {
+  display: grid;
+  gap: 2px;
+}
+
+.letter-item span span,
+.letter-item > div > span {
+  color: var(--ink-soft);
+  font-size: 0.86rem;
+}
+
+.letter-item__envelope {
+  width: 64px;
+  margin: 0;
+  flex: none;
+}
+
+.letter-item__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 4px;
+  font-size: 0.86rem;
+}
+
+.letter-paper {
+  margin-top: 18px;
+  padding: 22px 22px 26px;
+  background: var(--paper) repeating-linear-gradient(transparent 0 29px, var(--line) 29px 30px);
+  background-position: 0 58px;
+  border: var(--border);
+  border-radius: 18px;
+  color: var(--ink);
+  transform: rotate(-0.6deg);
+}
+
+.letter-paper__date {
+  margin: 0 0 12px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.letter-paper__text {
+  margin: 0;
+  white-space: pre-wrap;
+  font-size: 1.05rem;
+  line-height: 30px;
+}
+
+.letter-reply h2 {
+  margin: 0;
+  font-family: var(--font-display);
+}
+
+.letter-reply form {
+  display: grid;
+  gap: 10px;
+}
+
+.letter-page__home {
+  display: block;
+  width: fit-content;
+  margin: 18px auto 0;
+  color: var(--on-sky);
+}
+
+/* En el inicio: el sobre cerrado o el aviso de que hoy se abre */
+.letter-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 0 auto 18px;
+  max-width: 760px;
+  padding: 14px 18px;
+  background: var(--yellow-soft);
+  border: var(--border);
+  border-radius: 20px;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.letter-card--due {
+  background: var(--yellow);
+}
+
+.letter-card .envelope {
+  width: 76px;
+  margin: 0;
+  flex: none;
+}
+
+.letter-card span {
+  display: grid;
+  gap: 2px;
+}
+
+.letter-card strong {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+}
+
+.letter-card small {
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+}
+
+.letter-card--due small {
+  color: var(--ink);
+}
+
+/* En el perfil: el acceso a las cartas */
+.letter-link {
+  margin-top: 18px;
+  border: var(--border);
+  color: var(--ink);
+  text-decoration: none;
+  gap: 4px;
+}
+
+.letter-link strong {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+}
+
+.letter-link span {
+  color: var(--ink-soft);
 }

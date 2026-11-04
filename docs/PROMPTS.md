@@ -9,7 +9,7 @@ Emigrados se desarrolló iterando con **Claude Code**, el agente de IA de Anthro
 3. **Rama y verificación:** cada cambio se hizo en una rama. Antes de subirlo, la IA corría los tests (Vitest), el lint (oxlint) y el build, y sacaba capturas en celular y compu para revisarlo.
 4. **Revisión y merge:** yo lo probaba en VS Code y, cuando me convencía, pedía "pásalo a main". La IA abría el pull request y lo integraba.
 
-Resultado: más de 30 pull requests, más de 100 commits y 117 tests automáticos.
+Resultado: más de 30 pull requests, más de 100 commits y 128 tests automáticos.
 
 ## Prompt inicial
 
@@ -103,6 +103,16 @@ Le pedí a la IA que analizara las 208 preguntas "con un ojo clínico y psicoló
 | Preguntas que se pisaban o no se entendían al salir al azar | 7 fusiones ("¿Y qué palabra…?" y "ese trabajo" ya no dependen de otra) |
 | Dosificar | Cada pregunta tiene intensidad. Individual y Grupal no arrancan con una profunda ni ponen dos seguidas, y en Grupal no sale la que puede polarizar la mesa |
 | No perder lo ya escrito | Lo que alguien respondió a una pregunta que cambió queda en su diario con la pregunta original |
+
+### Que la gente vuelva y se conecte
+
+Le pedí a la IA un nuevo análisis: cómo lograr que la gente vuelva y cómo acompañar a quien juega porque quiere remover algo o porque se siente solo. Propuso notificaciones sin culpa, una red de cuidado, tarjetas que ponen nombre a lo que se siente, mandar la pregunta a alguien querido y una carta al futuro. Vimos maquetas y elegí:
+
+| Pedido / decisión | Resultado |
+|---|---|
+| Ayudar a retomar vínculos y animarse a conversaciones pendientes | **Preguntale a alguien de allá**: la pregunta sale por WhatsApp con un link que la abre sin perfil, y quien la recibe le contesta a la persona |
+| Un motivo para volver que tenga sentido | **Carta al futuro**: se escribe hoy, se abre en la fecha elegida y se le puede contestar. El aviso va al calendario de cada persona, sin servidor |
+| Recursos de ayuda y tarjetas "Lo que te pasa tiene nombre" | En pausa: necesitan la revisión de un profesional de salud mental antes de publicarse |
 
 ### Cierre
 

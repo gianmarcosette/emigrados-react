@@ -3,6 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom'
 import CountryStamp from '../components/CountryStamp.jsx'
 import ProgressBar from '../components/ProgressBar.jsx'
 import QuestionCard from '../components/QuestionCard.jsx'
+import AskSheet from '../components/AskSheet.jsx'
 import ShareSheet from '../components/ShareSheet.jsx'
 import Title from '../components/Title.jsx'
 import Suitcase from '../components/Suitcase.jsx'
@@ -112,6 +113,7 @@ function IndividualGame({ params }) {
         route={route}
         answeredCount={answeredCount}
         totalQuestions={totalQuestions}
+        profile={profile}
         onNext={() => nextQuestion()}
       />
     )
@@ -230,8 +232,9 @@ function IndividualGame({ params }) {
 }
 
 // Después de guardar: el afiche del país se pega en la maleta (o avanza, o se completa).
-function SavedScreen({ question, country, answers, route, answeredCount, totalQuestions, onNext }) {
+function SavedScreen({ question, country, answers, route, answeredCount, totalQuestions, profile, onNext }) {
   const [sharing, setSharing] = useState(false)
+  const [asking, setAsking] = useState(false)
   const [look] = useSuitcaseLook()
   const stickers = useMemo(
     () => placeStickers(buildStickers({ questions: QUESTIONS, countries: COUNTRIES, answers, route }), look.places),
@@ -281,6 +284,9 @@ function SavedScreen({ question, country, answers, route, answeredCount, totalQu
         />
         <ProgressBar value={answeredCount} max={totalQuestions} label="Preguntas respondidas" />
         <div className="actions">
+          <button type="button" className="btn btn--ghost" onClick={() => setAsking(true)}>
+            Preguntale a alguien de allá
+          </button>
           <button type="button" className="btn btn--ghost" onClick={() => setSharing(true)}>
             Compartir la pregunta
           </button>
@@ -292,6 +298,14 @@ function SavedScreen({ question, country, answers, route, answeredCount, totalQu
           </button>
         </div>
       </section>
+      {asking && (
+        <AskSheet
+          question={question}
+          answer={answers[question.id]?.at(-1)?.text}
+          profile={profile}
+          onClose={() => setAsking(false)}
+        />
+      )}
       {sharing && (
         <ShareSheet question={question} answer={answers[question.id]?.at(-1)?.text} onClose={() => setSharing(false)} />
       )}
