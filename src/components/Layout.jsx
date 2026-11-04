@@ -18,7 +18,7 @@ import Wordmark from './Wordmark.jsx'
 
 // Título de la pestaña del navegador en cada pantalla (lo leen también los lectores de pantalla)
 const TITLES = {
-  '/': 'Emigrados · En Palabras',
+  '/': 'Emigrados',
   '/individual': 'Individual · Emigrados',
   '/grupal': 'Grupal · Emigrados',
   '/online': 'Online · Emigrados',
@@ -56,7 +56,7 @@ export default function Layout() {
   }
 
   useEffect(() => {
-    document.title = TITLES[pathname] ?? 'Emigrados · En Palabras'
+    document.title = TITLES[pathname] ?? 'Emigrados'
   }, [pathname])
 
   // Al cambiar de pantalla se vuelve arriba, salvo que el link apunte a una sección (#diario).
@@ -143,9 +143,7 @@ export default function Layout() {
             <button type="button" className="footer__help" onClick={() => setFlightOpen(true)}>
               ¿Cómo funciona? Ver el primer vuelo
             </button>
-            <span>
-              Una activación de <strong>En Palabras</strong> · Para mayores de 18 años que emigraron de su país
-            </span>
+            <span>Para mayores de 18 años que emigraron de su país</span>
           </footer>
           <FirstFlight open={flightOpen} onClose={closeFlight} />
         </div>

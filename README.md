@@ -2,7 +2,7 @@
 
 **Emigrados** es un videojuego web de preguntas para hablar de todo lo que implica emigrar: lo que pensabas antes de irte, lo que sentís en tu nuevo lugar y cómo te fuiste reinventando. Un espacio seguro para conocerte más y entender **por qué estás donde estás**.
 
-Proyecto Integrador · Contenidos y Creatividad III — Videojuegos: Experiencias Interactivas (UP). Activación para la marca **En Palabras**.
+Proyecto Integrador · Contenidos y Creatividad III — Videojuegos: Experiencias Interactivas (UP). La idea nació inspirada en los juegos de preguntas de En Palabras, pero el juego no está asociado a esa marca.
 
 - **Jugar:** [emigrados-react.vercel.app](https://emigrados-react.vercel.app)
 - **Público:** mayores de 18 años (pensado para personas de 18 a 55) que vivieron al menos 6 meses fuera de su país.
