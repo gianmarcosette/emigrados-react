@@ -53,3 +53,33 @@ export function latestDraft(storage = globalThis.localStorage) {
   const [questionId, draft] = entries.sort((a, b) => String(b[1].date).localeCompare(String(a[1].date)))[0]
   return { questionId: Number(questionId), ...draft }
 }
+
+// La carta al futuro también se guarda sola mientras se escribe, aparte de las respuestas
+// (borrar el diario no la toca; borrar el perfil, sí).
+export const LETTER_DRAFT_KEY = 'emigrados:carta-borrador'
+
+export function getLetterDraft(storage = globalThis.localStorage) {
+  try {
+    const draft = JSON.parse(storage?.getItem(LETTER_DRAFT_KEY) ?? 'null')
+    return typeof draft?.text === 'string' && draft.text.trim() ? draft : null
+  } catch {
+    return null
+  }
+}
+
+export function saveLetterDraft(text, storage = globalThis.localStorage, date = new Date().toISOString()) {
+  try {
+    if (text.trim()) storage?.setItem(LETTER_DRAFT_KEY, JSON.stringify({ text, date }))
+    else storage?.removeItem(LETTER_DRAFT_KEY)
+  } catch {
+    // Sin almacenamiento: el borrador vive solo mientras la pantalla esté abierta.
+  }
+}
+
+export function clearLetterDraft(storage = globalThis.localStorage) {
+  try {
+    storage?.removeItem(LETTER_DRAFT_KEY)
+  } catch {
+    // Nada que borrar
+  }
+}

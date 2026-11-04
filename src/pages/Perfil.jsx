@@ -8,7 +8,7 @@ import Title from '../components/Title.jsx'
 import { COUNTRIES } from '../data/countries.js'
 import { countryName } from '../data/residence.js'
 import { listJoin, plural } from '../lib/format.js'
-import { clearAllDrafts } from '../state/drafts.js'
+import { clearAllDrafts, clearLetterDraft } from '../state/drafts.js'
 import { clearOnline } from '../state/duels.js'
 import { clearSuitcase } from '../state/suitcaseLook.js'
 import { isProfileComplete } from '../state/profile.js'
@@ -58,6 +58,7 @@ export default function Perfil() {
     if (ok) {
       dispatch({ type: 'deleteProfile' })
       clearAllDrafts()
+      clearLetterDraft()
       clearOnline()
       clearSuitcase()
       setEditing(true)
