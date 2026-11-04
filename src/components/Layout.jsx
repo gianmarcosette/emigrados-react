@@ -1,6 +1,7 @@
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
 import { Suspense, useEffect, useState } from 'react'
 import { suitcaseColor, useSuitcaseLook } from '../state/suitcaseLook.js'
+import { useSaveFailed } from '../state/saveStatus.js'
 import { useJourney } from '../state/useJourney.js'
 import {
   FirstFlightContext,
@@ -43,6 +44,7 @@ const LINKS = [
 export default function Layout() {
   const { pathname, hash } = useLocation()
   const { profile, answeredCount } = useJourney()
+  const saveFailed = useSaveFailed()
   const [suitcase] = useSuitcaseLook()
   const isHome = pathname === '/'
   // La primera vez que alguien nuevo entra al inicio, la bienvenida se abre sola
@@ -108,6 +110,12 @@ export default function Layout() {
           </header>
           <div className={isHome ? 'shell shell--home' : 'shell'}>
             <main className="main" id="contenido" tabIndex={-1}>
+              {saveFailed && (
+                <p className="save-alert" role="alert">
+                  <strong>No pudimos guardar lo último que hiciste.</strong> Tu celular se quedó sin espacio para el
+                  juego. Liberá espacio o descargá tu diario desde tu perfil para no perder lo que escribiste.
+                </p>
+              )}
               <Suspense
                 fallback={
                   <p className="page-loading" role="status">

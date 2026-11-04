@@ -3,6 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom'
 import CountryStamp from '../components/CountryStamp.jsx'
 import ProgressBar from '../components/ProgressBar.jsx'
 import QuestionCard from '../components/QuestionCard.jsx'
+import AskSheet from '../components/AskSheet.jsx'
 import ShareSheet from '../components/ShareSheet.jsx'
 import Title from '../components/Title.jsx'
 import Suitcase from '../components/Suitcase.jsx'
@@ -14,9 +15,11 @@ import { clearDraft, getDraft, latestDraft, saveDraft } from '../state/drafts.js
 import { useJourney } from '../state/useJourney.js'
 import { DEEP, pickQuestion } from '../state/journey.js'
 import { useNightMode } from '../state/nightMode.js'
+import { useSaveFailed } from '../state/saveStatus.js'
 import { suitcaseColor, useSuitcaseLook } from '../state/suitcaseLook.js'
 
-const MAX_LENGTH = 1500
+// Para reflexionar no hay tope que se sienta: este es solo de seguridad (unas 8 páginas por respuesta)
+const MAX_LENGTH = 20000
 
 // Se remonta cuando cambian los parámetros (?q= o ?pais=) para arrancar con esa pregunta.
 // El perfil lo pide ProfileGate (ver App.jsx) antes de llegar acá.
@@ -50,6 +53,7 @@ function IndividualGame({ params }) {
   // Lo escrito se guarda solo, en cada tecla, hasta que se guarda la respuesta
   const [resumed, setResumed] = useState(() => getDraft(question.id))
   const [draft, setDraft] = useState(() => resumed?.text ?? '')
+  const [draftSaved, setDraftSaved] = useState(true)
   const [saved, setSaved] = useState(false)
   const [showHistory, setShowHistory] = useState(true)
   const [night, toggleNight] = useNightMode()
@@ -64,7 +68,7 @@ function IndividualGame({ params }) {
 
   function updateDraft(text) {
     setDraft(text)
-    saveDraft(question.id, text)
+    setDraftSaved(saveDraft(question.id, text))
   }
 
   function startOver() {
@@ -78,6 +82,7 @@ function IndividualGame({ params }) {
     setQuestion(next)
     setResumed(pending)
     setDraft(pending?.text ?? '')
+    setDraftSaved(true)
     setSaved(false)
     setShowHistory(true)
   }
@@ -112,6 +117,7 @@ function IndividualGame({ params }) {
         route={route}
         answeredCount={answeredCount}
         totalQuestions={totalQuestions}
+        profile={profile}
         onNext={() => nextQuestion()}
       />
     )
@@ -203,9 +209,10 @@ function IndividualGame({ params }) {
             onChange={(e) => updateDraft(e.target.value)}
           />
           <div className="answer__footer">
-            <span className="answer__meta">
-              {draft.length} / {MAX_LENGTH}
-              {draft.trim() && <span className="answer__autosave"> · Guardado</span>}
+            {/* Sin contador de caracteres: como en una app de notas, solo si quedó guardado */}
+            <span className="answer__meta" aria-live="polite">
+              {draft.trim() &&
+                (draftSaved ? 'Guardado' : 'No se pudo guardar el borrador: tu celular no tiene espacio')}
             </span>
             <div className="actions">
               {answeredCount - (previous.length ? 1 : 0) > 0 && (
@@ -230,8 +237,10 @@ function IndividualGame({ params }) {
 }
 
 // Después de guardar: el afiche del país se pega en la maleta (o avanza, o se completa).
-function SavedScreen({ question, country, answers, route, answeredCount, totalQuestions, onNext }) {
+function SavedScreen({ question, country, answers, route, answeredCount, totalQuestions, profile, onNext }) {
   const [sharing, setSharing] = useState(false)
+  const [asking, setAsking] = useState(false)
+  const saveFailed = useSaveFailed()
   const [look] = useSuitcaseLook()
   const stickers = useMemo(
     () => placeStickers(buildStickers({ questions: QUESTIONS, countries: COUNTRIES, answers, route }), look.places),
@@ -261,11 +270,20 @@ function SavedScreen({ question, country, answers, route, answeredCount, totalQu
   return (
     <div className="page page--narrow">
       <section className="saved">
-        <svg className="saved__check" viewBox="0 0 56 56" aria-hidden="true">
-          <circle cx="28" cy="28" r="28" />
-          <path d="M17 29l7 7 15-16" />
-        </svg>
-        <Title>Tu respuesta se ha guardado con éxito.</Title>
+        {!saveFailed && (
+          <svg className="saved__check" viewBox="0 0 56 56" aria-hidden="true">
+            <circle cx="28" cy="28" r="28" />
+            <path d="M17 29l7 7 15-16" />
+          </svg>
+        )}
+        <Title>
+          {saveFailed ? 'Tu respuesta no se pudo guardar en el celular.' : 'Tu respuesta se ha guardado con éxito.'}
+        </Title>
+        {saveFailed && (
+          <p className="muted saved__detail">
+            Sigue acá mientras no cierres el juego. Copiala o liberá espacio en tu celular para no perderla.
+          </p>
+        )}
         <p className="saved__where" role="status">
           {headline} <CountryStamp country={country} size="sm" />
           {event === 'complete' && '!'}
@@ -281,6 +299,9 @@ function SavedScreen({ question, country, answers, route, answeredCount, totalQu
         />
         <ProgressBar value={answeredCount} max={totalQuestions} label="Preguntas respondidas" />
         <div className="actions">
+          <button type="button" className="btn btn--ghost" onClick={() => setAsking(true)}>
+            Preguntale a alguien de allá
+          </button>
           <button type="button" className="btn btn--ghost" onClick={() => setSharing(true)}>
             Compartir la pregunta
           </button>
@@ -292,6 +313,14 @@ function SavedScreen({ question, country, answers, route, answeredCount, totalQu
           </button>
         </div>
       </section>
+      {asking && (
+        <AskSheet
+          question={question}
+          answer={answers[question.id]?.at(-1)?.text}
+          profile={profile}
+          onClose={() => setAsking(false)}
+        />
+      )}
       {sharing && (
         <ShareSheet question={question} answer={answers[question.id]?.at(-1)?.text} onClose={() => setSharing(false)} />
       )}

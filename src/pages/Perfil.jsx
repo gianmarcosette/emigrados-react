@@ -8,7 +8,7 @@ import Title from '../components/Title.jsx'
 import { COUNTRIES } from '../data/countries.js'
 import { countryName } from '../data/residence.js'
 import { listJoin, plural } from '../lib/format.js'
-import { clearAllDrafts } from '../state/drafts.js'
+import { clearAllDrafts, clearLetterDraft } from '../state/drafts.js'
 import { clearOnline } from '../state/duels.js'
 import { clearSuitcase } from '../state/suitcaseLook.js'
 import { isProfileComplete } from '../state/profile.js'
@@ -18,7 +18,7 @@ import { useJourney } from '../state/useJourney.js'
 const memberSince = new Intl.DateTimeFormat('es-AR', { month: 'long', year: 'numeric' })
 
 export default function Perfil() {
-  const { profile, dispatch, answeredCount, totalQuestions, pins, talks = [] } = useJourney()
+  const { profile, dispatch, answeredCount, totalQuestions, pins, talks = [], letters = [] } = useJourney()
   const complete = isProfileComplete(profile)
   const [editing, setEditing] = useState(!complete)
   const confirm = useConfirm()
@@ -42,10 +42,11 @@ export default function Perfil() {
       title: '¿Borrar tu perfil?',
       // Se dice exactamente qué se pierde, y cómo conservarlo antes
       message: `Se borran tu nombre, tu foto, tu código de pasajero${
-        answeredCount || talks.length
+        answeredCount || talks.length || letters.length
           ? ` y también ${[
               answeredCount && plural(answeredCount, 'respuesta', 'respuestas'),
               talks.length && plural(talks.length, 'charla guardada', 'charlas guardadas'),
+              letters.length && plural(letters.length, 'carta al futuro', 'cartas al futuro'),
             ]
               .filter(Boolean)
               .join(' y ')}, tu maleta, tus borradores y tus duelos`
@@ -57,6 +58,7 @@ export default function Perfil() {
     if (ok) {
       dispatch({ type: 'deleteProfile' })
       clearAllDrafts()
+      clearLetterDraft()
       clearOnline()
       clearSuitcase()
       setEditing(true)
@@ -143,6 +145,15 @@ export default function Perfil() {
           Borrar perfil y respuestas
         </button>
       </p>
+
+      <Link to="/carta" className="letter-link panel">
+        <strong>Carta al futuro</strong>
+        <span>
+          {letters.length
+            ? `${plural(letters.length, 'carta', 'cartas')}. Escribí otra o leé las que ya se abrieron →`
+            : 'Escribile a quien vas a ser y elegí cuándo se abre →'}
+        </span>
+      </Link>
 
       <Diary />
     </div>

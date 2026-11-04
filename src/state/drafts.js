@@ -14,12 +14,15 @@ export function loadDrafts(storage = globalThis.localStorage) {
   }
 }
 
+/** Devuelve false si no se pudo guardar (sin espacio o sin almacenamiento). */
 function write(drafts, storage) {
   try {
     if (Object.keys(drafts).length) storage?.setItem(DRAFTS_KEY, JSON.stringify(drafts))
     else storage?.removeItem(DRAFTS_KEY)
+    return true
   } catch {
     // Sin almacenamiento disponible: el borrador vive solo mientras la pantalla esté abierta.
+    return false
   }
 }
 
@@ -33,7 +36,7 @@ export function saveDraft(questionId, text, storage = globalThis.localStorage, d
   const drafts = loadDrafts(storage)
   if (text.trim()) drafts[questionId] = { text, date }
   else delete drafts[questionId]
-  write(drafts, storage)
+  return write(drafts, storage)
 }
 
 export function clearDraft(questionId, storage = globalThis.localStorage) {
@@ -52,4 +55,36 @@ export function latestDraft(storage = globalThis.localStorage) {
   if (!entries.length) return null
   const [questionId, draft] = entries.sort((a, b) => String(b[1].date).localeCompare(String(a[1].date)))[0]
   return { questionId: Number(questionId), ...draft }
+}
+
+// La carta al futuro también se guarda sola mientras se escribe, aparte de las respuestas
+// (borrar el diario no la toca; borrar el perfil, sí).
+export const LETTER_DRAFT_KEY = 'emigrados:carta-borrador'
+
+export function getLetterDraft(storage = globalThis.localStorage) {
+  try {
+    const draft = JSON.parse(storage?.getItem(LETTER_DRAFT_KEY) ?? 'null')
+    return typeof draft?.text === 'string' && draft.text.trim() ? draft : null
+  } catch {
+    return null
+  }
+}
+
+export function saveLetterDraft(text, storage = globalThis.localStorage, date = new Date().toISOString()) {
+  try {
+    if (text.trim()) storage?.setItem(LETTER_DRAFT_KEY, JSON.stringify({ text, date }))
+    else storage?.removeItem(LETTER_DRAFT_KEY)
+    return true
+  } catch {
+    // Sin almacenamiento: el borrador vive solo mientras la pantalla esté abierta.
+    return false
+  }
+}
+
+export function clearLetterDraft(storage = globalThis.localStorage) {
+  try {
+    storage?.removeItem(LETTER_DRAFT_KEY)
+  } catch {
+    // Nada que borrar
+  }
 }

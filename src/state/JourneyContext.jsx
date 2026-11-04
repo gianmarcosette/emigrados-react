@@ -2,13 +2,15 @@ import { useEffect, useMemo, useReducer } from 'react'
 import { COUNTRY_BY_ID } from '../data/countries.js'
 import { QUESTIONS, QUESTION_BY_ID } from '../data/questions.js'
 import { journeyReducer, loadJourney, saveJourney } from './journey.js'
+import { setSaveFailed } from './saveStatus.js'
 import { JourneyContext } from './useJourney.js'
 
 export function JourneyProvider({ children }) {
   const [state, dispatch] = useReducer(journeyReducer, undefined, () => loadJourney())
 
+  // Si no se pudo guardar (el celular sin espacio), se avisa en todas las pantallas (ver Layout)
   useEffect(() => {
-    saveJourney(state)
+    setSaveFailed(!saveJourney(state))
   }, [state])
 
   const value = useMemo(() => {

@@ -1,12 +1,14 @@
 import { Suspense, lazy, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import Avatar from '../components/Avatar.jsx'
+import Envelope from '../components/Envelope.jsx'
 import ProgressBar from '../components/ProgressBar.jsx'
 import Wordmark from '../components/Wordmark.jsx'
 import HomeBackdrop from '../components/HomeBackdrop.jsx'
 import { ModeIcon } from '../components/paper.jsx'
 import { COUNTRIES } from '../data/countries.js'
 import { QUESTIONS } from '../data/questions.js'
+import { daysUntil, formatDay, sortLetters } from '../lib/letter.js'
 import { buildStickers, placeStickers } from '../lib/suitcase.js'
 import { suitcaseColor, useSuitcaseLook } from '../state/suitcaseLook.js'
 import { useJourney } from '../state/useJourney.js'
@@ -15,7 +17,7 @@ import { useJourney } from '../state/useJourney.js'
 const Suitcase = lazy(() => import('../components/Suitcase.jsx'))
 
 export default function Home() {
-  const { profile, answers, route, answeredCount, totalQuestions, pins } = useJourney()
+  const { profile, answers, route, answeredCount, totalQuestions, pins, letters = [] } = useJourney()
   const [look] = useSuitcaseLook()
   const stickers = useMemo(
     () => placeStickers(buildStickers({ questions: QUESTIONS, countries: COUNTRIES, answers, route }), look.places),
@@ -101,6 +103,8 @@ export default function Home() {
         </Link>
       </section>
 
+      {profile && <LetterCard letters={letters} />}
+
       {started && (
         <section className="home__stats">
           <Link to="/maleta" className="statlink">
@@ -109,6 +113,11 @@ export default function Home() {
           <Link to="/perfil#diario" className="statlink">
             Releer mi diario →
           </Link>
+          {!letters.length && (
+            <Link to="/carta" className="statlink">
+              Escribile una carta a quien vas a ser →
+            </Link>
+          )}
         </section>
       )}
 
@@ -128,5 +137,36 @@ export default function Home() {
         </ol>
       </section>
     </div>
+  )
+}
+
+// La carta al futuro en el inicio: el sobre cerrado con los días que faltan, o el aviso de
+// que hoy se abre. Sin cartas no aparece (la invitación está entre los accesos de abajo).
+function LetterCard({ letters }) {
+  const { due, sealed } = sortLetters(letters)
+  if (due.length) {
+    return (
+      <Link to="/carta" className="letter-card letter-card--due">
+        <Envelope />
+        <span>
+          <strong>Hoy se abre tu carta</strong>
+          <small>La que te escribiste. Tocá para abrirla →</small>
+        </span>
+      </Link>
+    )
+  }
+  const next = sealed[0]
+  if (!next) return null
+  const left = daysUntil(next.openOn)
+  return (
+    <Link to="/carta" className="letter-card">
+      <Envelope />
+      <span>
+        <strong>Tu carta está en camino</strong>
+        <small>
+          Se abre el {formatDay(next.openOn)}. {left === 1 ? 'Falta 1 día' : `Faltan ${left} días`}.
+        </small>
+      </span>
+    </Link>
   )
 }

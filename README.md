@@ -33,7 +33,9 @@ No hay respuestas correctas en las preguntas de migración: el juego invita a co
 | Ruta | Pantalla | Qué tiene |
 |---|---|---|
 | `/` | Inicio | Logo, invitación a crear el perfil o saludo al pasajero, los tres modos y "¿Cómo se juega?". La primera vez se abre el **primer vuelo**: cuatro pantallas (bienvenida, cada pregunta es una escala, privacidad y elegir cómo viajar). Se puede volver a ver desde el pie de cada pantalla. |
-| `/individual` | Individual | Tarjeta de embarque con la pregunta, escritura con borrador automático y modo noche, y pantalla de "respuesta guardada" con la maleta y el botón **Compartir**. |
+| `/individual` | Individual | Tarjeta de embarque con la pregunta, escritura con borrador automático y modo noche, y pantalla de "respuesta guardada" con la maleta, **Preguntale a alguien de allá** y **Compartir**. |
+| `/pregunta/:id` | Una pregunta para vos | Lo que abre quien recibe "Preguntale a alguien de allá": la pregunta en la tarjeta de embarque y el botón para contestarle por WhatsApp a quien la mandó. No hace falta perfil. |
+| `/carta` | Carta al futuro | Escribís una carta, elegís cuándo se abre (3, 6 o 12 meses, o un día propio) y queda cerrada hasta ese día. Se puede agregar al calendario para que avise. El día que llega se abre y se le contesta. |
 | `/grupal` | Grupal | Armado de la ronda, turnos y reloj. |
 | `/online` | Online | Lista de duelos, nuevo duelo, preguntas, resultado y charla guiada. Abierto en 31 países; desde otro país se ve una lista de espera. |
 | `/maleta` | Mi maleta | La maleta con los afiches, contadores y "Por pegar". Tocar un afiche abre lo que escribiste en ese país. Con **"Acomodar mi maleta"** elegís el color de la maleta y arrastrás cada afiche donde quieras (también se puede girar o mover con el teclado). |
@@ -61,16 +63,22 @@ Después de responder (o en cada pregunta de Grupal), **Compartir** arma imágen
 - **Una historia lista** (1080 × 1920), con la tarjeta a color sobre el cobalto.
 - **La respuesta se comparte solo si la persona lo pide:** el interruptor arranca apagado cada vez. La foto nunca pasa por el juego: todo se dibuja en el dispositivo (`lib/shareCard.js`).
 
+## Volver y conectar
+
+- **Preguntale a alguien de allá:** después de responder, la pregunta sale armada para WhatsApp para mandársela a alguien querido (o a alguien con quien hace tiempo no hablás). El mensaje se puede editar y la respuesta propia solo viaja si se suma. Quien la recibe abre la pregunta sin perfil y le contesta a la persona, no al juego.
+- **Carta al futuro:** un motivo para volver con sentido. Mientras está cerrada, el inicio muestra el sobre y los días que faltan; el día que se abre, avisa. El aviso lo da el calendario de cada persona (un archivo `.ics`), así el juego sigue sin servidor.
+
 ## Cuidado y privacidad
 
 - Las respuestas de Individual y el perfil se guardan **solo en el dispositivo** (`localStorage`). Grupal no guarda nada.
+- **Sin límite para escribir:** en Individual y en la carta al futuro no hay contador ni tope visible (solo uno de seguridad, de unas 8 páginas). Si el celular se queda sin espacio, el juego lo avisa en lugar de hacer como que guardó.
 - Borrar el perfil borra también las respuestas, los borradores y los duelos, con una confirmación clara.
 - En el Online, la otra persona ve tu nombre, tu edad y el país donde vivís. Dónde naciste se muestra solo si lo elegís. La charla filtra datos de contacto y permite bloquear y denunciar.
 - **Accesibilidad:** navegación con teclado, foco visible, textos alternativos, contraste AA sobre el cobalto, tamaño de letra a elección y menús que no se agrandan de más.
 
 ## Tecnologías
 
-React 19, React Router 7, Vite 8, Vitest (117 tests) y oxlint. Sin backend: el modo Online usa un servidor simulado (`src/online/mockServer.js`) con las reglas del duelo ya listas para conectarse a uno real. Las siluetas de los países se calculan una vez con d3-geo y world-atlas (`npm run shapes`).
+React 19, React Router 7, Vite 8, Vitest (130 tests) y oxlint. Sin backend: el modo Online usa un servidor simulado (`src/online/mockServer.js`) con las reglas del duelo ya listas para conectarse a uno real. Las siluetas de los países se calculan una vez con d3-geo y world-atlas (`npm run shapes`).
 
 ## Cómo correrlo
 
