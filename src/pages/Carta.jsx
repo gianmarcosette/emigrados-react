@@ -228,6 +228,7 @@ function Write({ bar, onSeal }) {
   const [startedAt] = useState(() => new Date())
   const [resumed] = useState(() => getLetterDraft())
   const [text, setText] = useState(resumed?.text ?? '')
+  const [saved, setSaved] = useState(true)
   const [option, setOption] = useState('6m')
   const [custom, setCustom] = useState('')
   const [error, setError] = useState('')
@@ -235,7 +236,7 @@ function Write({ bar, onSeal }) {
 
   function change(value) {
     setText(value)
-    saveLetterDraft(value)
+    setSaved(saveLetterDraft(value))
     setError('')
   }
 
@@ -274,9 +275,8 @@ function Write({ bar, onSeal }) {
           placeholder="Hoy…"
           onChange={(e) => change(e.target.value)}
         />
-        <p className="answer__meta letter-note__meta">
-          {text.length} / {LETTER_MAX}
-          {text.trim() && <span className="answer__autosave"> · Guardado</span>}
+        <p className="answer__meta letter-note__meta" aria-live="polite">
+          {text.trim() && (saved ? 'Guardado' : 'No se pudo guardar el borrador: tu celular no tiene espacio')}
         </p>
 
         <fieldset className="letter-note__when">

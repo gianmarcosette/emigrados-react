@@ -71,13 +71,14 @@ Después de responder (o en cada pregunta de Grupal), **Compartir** arma imágen
 ## Cuidado y privacidad
 
 - Las respuestas de Individual y el perfil se guardan **solo en el dispositivo** (`localStorage`). Grupal no guarda nada.
+- **Sin límite para escribir:** en Individual y en la carta al futuro no hay contador ni tope visible (solo uno de seguridad, de unas 8 páginas). Si el celular se queda sin espacio, el juego lo avisa en lugar de hacer como que guardó.
 - Borrar el perfil borra también las respuestas, los borradores y los duelos, con una confirmación clara.
 - En el Online, la otra persona ve tu nombre, tu edad y el país donde vivís. Dónde naciste se muestra solo si lo elegís. La charla filtra datos de contacto y permite bloquear y denunciar.
 - **Accesibilidad:** navegación con teclado, foco visible, textos alternativos, contraste AA sobre el cobalto, tamaño de letra a elección y menús que no se agrandan de más.
 
 ## Tecnologías
 
-React 19, React Router 7, Vite 8, Vitest (128 tests) y oxlint. Sin backend: el modo Online usa un servidor simulado (`src/online/mockServer.js`) con las reglas del duelo ya listas para conectarse a uno real. Las siluetas de los países se calculan una vez con d3-geo y world-atlas (`npm run shapes`).
+React 19, React Router 7, Vite 8, Vitest (130 tests) y oxlint. Sin backend: el modo Online usa un servidor simulado (`src/online/mockServer.js`) con las reglas del duelo ya listas para conectarse a uno real. Las siluetas de los países se calculan una vez con d3-geo y world-atlas (`npm run shapes`).
 
 ## Cómo correrlo
 

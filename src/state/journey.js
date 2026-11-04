@@ -157,11 +157,14 @@ export function loadJourney(storage = globalThis.localStorage) {
   }
 }
 
+/** Devuelve false si no se pudo guardar (por ejemplo, si el celular se quedó sin espacio). */
 export function saveJourney(state, storage = globalThis.localStorage) {
   try {
     storage?.setItem(STORAGE_KEY, JSON.stringify(state))
+    return true
   } catch {
-    // Sin almacenamiento disponible (modo privado): el juego sigue funcionando en memoria.
+    // Sin almacenamiento disponible: el juego sigue funcionando en memoria, y se avisa (ver Layout).
+    return false
   }
 }
 

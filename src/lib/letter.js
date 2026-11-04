@@ -2,7 +2,8 @@
 // Las fechas de apertura son días del calendario ("2027-05-04"), en la hora de quien juega.
 // Sin React, para poder testearlo.
 
-export const LETTER_MAX = 3000
+// Tope de seguridad, no un límite para escribir: unas 8 páginas
+export const LETTER_MAX = 20000
 
 export const OPEN_OPTIONS = [
   { key: '3m', label: 'En 3 meses', months: 3 },

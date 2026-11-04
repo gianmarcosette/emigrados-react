@@ -15,9 +15,11 @@ import { clearDraft, getDraft, latestDraft, saveDraft } from '../state/drafts.js
 import { useJourney } from '../state/useJourney.js'
 import { DEEP, pickQuestion } from '../state/journey.js'
 import { useNightMode } from '../state/nightMode.js'
+import { useSaveFailed } from '../state/saveStatus.js'
 import { suitcaseColor, useSuitcaseLook } from '../state/suitcaseLook.js'
 
-const MAX_LENGTH = 1500
+// Para reflexionar no hay tope que se sienta: este es solo de seguridad (unas 8 páginas por respuesta)
+const MAX_LENGTH = 20000
 
 // Se remonta cuando cambian los parámetros (?q= o ?pais=) para arrancar con esa pregunta.
 // El perfil lo pide ProfileGate (ver App.jsx) antes de llegar acá.
@@ -51,6 +53,7 @@ function IndividualGame({ params }) {
   // Lo escrito se guarda solo, en cada tecla, hasta que se guarda la respuesta
   const [resumed, setResumed] = useState(() => getDraft(question.id))
   const [draft, setDraft] = useState(() => resumed?.text ?? '')
+  const [draftSaved, setDraftSaved] = useState(true)
   const [saved, setSaved] = useState(false)
   const [showHistory, setShowHistory] = useState(true)
   const [night, toggleNight] = useNightMode()
@@ -65,7 +68,7 @@ function IndividualGame({ params }) {
 
   function updateDraft(text) {
     setDraft(text)
-    saveDraft(question.id, text)
+    setDraftSaved(saveDraft(question.id, text))
   }
 
   function startOver() {
@@ -79,6 +82,7 @@ function IndividualGame({ params }) {
     setQuestion(next)
     setResumed(pending)
     setDraft(pending?.text ?? '')
+    setDraftSaved(true)
     setSaved(false)
     setShowHistory(true)
   }
@@ -205,9 +209,10 @@ function IndividualGame({ params }) {
             onChange={(e) => updateDraft(e.target.value)}
           />
           <div className="answer__footer">
-            <span className="answer__meta">
-              {draft.length} / {MAX_LENGTH}
-              {draft.trim() && <span className="answer__autosave"> · Guardado</span>}
+            {/* Sin contador de caracteres: como en una app de notas, solo si quedó guardado */}
+            <span className="answer__meta" aria-live="polite">
+              {draft.trim() &&
+                (draftSaved ? 'Guardado' : 'No se pudo guardar el borrador: tu celular no tiene espacio')}
             </span>
             <div className="actions">
               {answeredCount - (previous.length ? 1 : 0) > 0 && (
@@ -235,6 +240,7 @@ function IndividualGame({ params }) {
 function SavedScreen({ question, country, answers, route, answeredCount, totalQuestions, profile, onNext }) {
   const [sharing, setSharing] = useState(false)
   const [asking, setAsking] = useState(false)
+  const saveFailed = useSaveFailed()
   const [look] = useSuitcaseLook()
   const stickers = useMemo(
     () => placeStickers(buildStickers({ questions: QUESTIONS, countries: COUNTRIES, answers, route }), look.places),
@@ -264,11 +270,20 @@ function SavedScreen({ question, country, answers, route, answeredCount, totalQu
   return (
     <div className="page page--narrow">
       <section className="saved">
-        <svg className="saved__check" viewBox="0 0 56 56" aria-hidden="true">
-          <circle cx="28" cy="28" r="28" />
-          <path d="M17 29l7 7 15-16" />
-        </svg>
-        <Title>Tu respuesta se ha guardado con éxito.</Title>
+        {!saveFailed && (
+          <svg className="saved__check" viewBox="0 0 56 56" aria-hidden="true">
+            <circle cx="28" cy="28" r="28" />
+            <path d="M17 29l7 7 15-16" />
+          </svg>
+        )}
+        <Title>
+          {saveFailed ? 'Tu respuesta no se pudo guardar en el celular.' : 'Tu respuesta se ha guardado con éxito.'}
+        </Title>
+        {saveFailed && (
+          <p className="muted saved__detail">
+            Sigue acá mientras no cierres el juego. Copiala o liberá espacio en tu celular para no perderla.
+          </p>
+        )}
         <p className="saved__where" role="status">
           {headline} <CountryStamp country={country} size="sm" />
           {event === 'complete' && '!'}

@@ -14,12 +14,15 @@ export function loadDrafts(storage = globalThis.localStorage) {
   }
 }
 
+/** Devuelve false si no se pudo guardar (sin espacio o sin almacenamiento). */
 function write(drafts, storage) {
   try {
     if (Object.keys(drafts).length) storage?.setItem(DRAFTS_KEY, JSON.stringify(drafts))
     else storage?.removeItem(DRAFTS_KEY)
+    return true
   } catch {
     // Sin almacenamiento disponible: el borrador vive solo mientras la pantalla esté abierta.
+    return false
   }
 }
 
@@ -33,7 +36,7 @@ export function saveDraft(questionId, text, storage = globalThis.localStorage, d
   const drafts = loadDrafts(storage)
   if (text.trim()) drafts[questionId] = { text, date }
   else delete drafts[questionId]
-  write(drafts, storage)
+  return write(drafts, storage)
 }
 
 export function clearDraft(questionId, storage = globalThis.localStorage) {
@@ -71,8 +74,10 @@ export function saveLetterDraft(text, storage = globalThis.localStorage, date = 
   try {
     if (text.trim()) storage?.setItem(LETTER_DRAFT_KEY, JSON.stringify({ text, date }))
     else storage?.removeItem(LETTER_DRAFT_KEY)
+    return true
   } catch {
     // Sin almacenamiento: el borrador vive solo mientras la pantalla esté abierta.
+    return false
   }
 }
 

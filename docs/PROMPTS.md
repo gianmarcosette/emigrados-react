@@ -9,7 +9,7 @@ Emigrados se desarrolló iterando con **Claude Code**, el agente de IA de Anthro
 3. **Rama y verificación:** cada cambio se hizo en una rama. Antes de subirlo, la IA corría los tests (Vitest), el lint (oxlint) y el build, y sacaba capturas en celular y compu para revisarlo.
 4. **Revisión y merge:** yo lo probaba en VS Code y, cuando me convencía, pedía "pásalo a main". La IA abría el pull request y lo integraba.
 
-Resultado: más de 30 pull requests, más de 100 commits y 128 tests automáticos.
+Resultado: más de 30 pull requests, más de 100 commits y 130 tests automáticos.
 
 ## Prompt inicial
 
@@ -112,6 +112,8 @@ Le pedí a la IA un nuevo análisis: cómo lograr que la gente vuelva y cómo ac
 |---|---|
 | Ayudar a retomar vínculos y animarse a conversaciones pendientes | **Preguntale a alguien de allá**: la pregunta sale por WhatsApp con un link que la abre sin perfil, y quien la recibe le contesta a la persona |
 | Un motivo para volver que tenga sentido | **Carta al futuro**: se escribe hoy, se abre en la fecha elegida y se le puede contestar. El aviso va al calendario de cada persona, sin servidor |
+| La carta con el mismo estilo de notas que las preguntas | Misma hoja, fecha arriba, letra grande sin caja, modo noche y borrador automático |
+| ¿Por qué hay un límite de caracteres si se trata de reflexionar? | No había un motivo: era un valor por defecto. Se sacó el contador y el tope visible, y el juego ahora avisa si el celular se queda sin espacio |
 | Recursos de ayuda y tarjetas "Lo que te pasa tiene nombre" | En pausa: necesitan la revisión de un profesional de salud mental antes de publicarse |
 
 ### Cierre

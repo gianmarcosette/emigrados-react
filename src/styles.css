@@ -4428,6 +4428,8 @@ h3 {
     .stat *,
     .statlink,
     .statlink *,
+    .save-alert,
+    .save-alert *,
     .letter-card,
     .letter-card *,
     .talk-compose,
@@ -4576,6 +4578,8 @@ h3 {
     .stat *,
     .statlink,
     .statlink *,
+    .save-alert,
+    .save-alert *,
     .letter-card,
     .letter-card *,
     .talk-compose,
@@ -4673,6 +4677,8 @@ h3 {
     .stat *,
     .statlink,
     .statlink *,
+    .save-alert,
+    .save-alert *,
     .letter-card,
     .letter-card *,
     .talk-compose,
@@ -4770,6 +4776,8 @@ h3 {
     .stat *,
     .statlink,
     .statlink *,
+    .save-alert,
+    .save-alert *,
     .letter-card,
     .letter-card *,
     .talk-compose,
@@ -4869,6 +4877,8 @@ h3 {
     .stat *,
     .statlink,
     .statlink *,
+    .save-alert,
+    .save-alert *,
     .letter-card,
     .letter-card *,
     .talk-compose,
@@ -6214,4 +6224,17 @@ h3 {
 
 .letter-link span {
   color: var(--ink-soft);
+}
+
+/* Aviso si no se pudo guardar (el celular sin espacio): en todas las pantallas, arriba */
+.save-alert {
+  max-width: 760px;
+  margin: 0 auto 16px;
+  padding: 12px 16px;
+  background: #fde3da;
+  border: var(--border);
+  border-radius: 14px;
+  color: #161616;
+  font-size: 0.92rem;
+  line-height: 1.45;
 }
