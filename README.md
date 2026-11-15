@@ -67,6 +67,7 @@ Después de responder (o en cada pregunta de Grupal), **Compartir** arma imágen
 
 - **Preguntale a alguien de allá:** después de responder, la pregunta sale armada para WhatsApp para mandársela a alguien querido (o a alguien con quien hace tiempo no hablás). El mensaje se puede editar y la respuesta propia solo viaja si se suma. Quien la recibe abre la pregunta sin perfil y le contesta a la persona, no al juego.
 - **Carta al futuro:** un motivo para volver con sentido. Mientras está cerrada, el inicio muestra el sobre y los días que faltan; el día que se abre, avisa. El aviso lo da el calendario de cada persona (un archivo `.ics`), así el juego sigue sin servidor.
+- **Se instala en el celular:** el inicio invita a dejar Emigrados en la pantalla del teléfono (en Android con un botón; en iPhone, desde Compartir). Instalado, abre a pantalla completa y funciona sin conexión, porque todo el juego queda guardado en el dispositivo.
 
 ## Cuidado y privacidad
 

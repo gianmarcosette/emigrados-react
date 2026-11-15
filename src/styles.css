@@ -4432,6 +4432,8 @@ h3 {
     .save-alert *,
     .letter-card,
     .letter-card *,
+    .install-card,
+    .install-card *,
     .talk-compose,
     .talk-compose *,
     .talk-invite,
@@ -4582,6 +4584,8 @@ h3 {
     .save-alert *,
     .letter-card,
     .letter-card *,
+    .install-card,
+    .install-card *,
     .talk-compose,
     .talk-compose *,
     .talk-invite,
@@ -4681,6 +4685,8 @@ h3 {
     .save-alert *,
     .letter-card,
     .letter-card *,
+    .install-card,
+    .install-card *,
     .talk-compose,
     .talk-compose *,
     .talk-invite,
@@ -4780,6 +4786,8 @@ h3 {
     .save-alert *,
     .letter-card,
     .letter-card *,
+    .install-card,
+    .install-card *,
     .talk-compose,
     .talk-compose *,
     .talk-invite,
@@ -4881,6 +4889,8 @@ h3 {
     .save-alert *,
     .letter-card,
     .letter-card *,
+    .install-card,
+    .install-card *,
     .talk-compose,
     .talk-compose *,
     .talk-invite,
@@ -6206,6 +6216,64 @@ h3 {
 
 .letter-card--due small {
   color: var(--ink);
+}
+
+/* En el inicio: la invitación a instalar el juego en el celular */
+.install-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 18px auto;
+  max-width: 760px;
+  padding: 14px 18px;
+  background: var(--card);
+  border: var(--border);
+  border-radius: 20px;
+  color: var(--ink);
+}
+
+.install-card img {
+  width: 56px;
+  height: 56px;
+  flex: none;
+  border-radius: 14px;
+}
+
+.install-card__text {
+  display: grid;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.install-card strong {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+}
+
+.install-card small {
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+}
+
+.install-card__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex: none;
+}
+
+@media (max-width: 480px) {
+  .install-card {
+    flex-wrap: wrap;
+  }
+
+  .install-card__actions {
+    flex-direction: row;
+    width: 100%;
+    justify-content: flex-end;
+  }
 }
 
 /* En el perfil: el acceso a las cartas */
