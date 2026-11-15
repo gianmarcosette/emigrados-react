@@ -138,7 +138,7 @@ const RAW = {
     ['¿Qué vínculo se fue apagando y cómo lo viviste?', 3],
     ['¿Te perdiste algún evento importante de alguien querido? ¿Cómo lo atravesaste?', 3],
     ['¿Cómo es una videollamada típica con tu familia?', 1],
-    ['¿Formaste una "familia elegida" acá? ¿Quiénes la integran?', 2],
+    ['¿Tenés acá una familia que elegiste? ¿Quiénes la integran?', 2],
     ['¿Con quiénes te sentís más vos: gente de tu país, de acá u otros migrantes? ¿Por qué?', 2],
     ['¿Qué te cuesta compartir con quienes se quedaron?', 3],
     ['¿Qué te cuesta compartir con quienes conociste acá?', 2],

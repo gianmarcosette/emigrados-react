@@ -5,10 +5,10 @@ Notas para la etapa de creación y venta (no es parte de la entrega del juego).
 ## Línea de productos
 
 1. **El juego web (gratis):** la puerta de entrada. Diario, maleta, carta al futuro y "Preguntale a alguien de allá".
-2. **El mazo de cartas:** para regalarle a alguien que emigró y para jugar con su familia elegida (otros amigos migrantes). De 3 a 8 personas.
+2. **El mazo de cartas:** para regalarle a alguien que emigró y para jugar con la familia que elegimos (otros amigos migrantes). De 3 a 8 personas.
    - Unas 150 preguntas que funcionen en voz alta; las más íntimas quedan para el diario.
    - Reglas que cuidan al grupo: siempre se puede pasar, golondrinas de intensidad, "lo que se dice en la mesa, queda en la mesa".
-   - Caja: "Para jugar con tu familia elegida".
+   - Caja: "Para jugar con la familia que elegimos".
 3. **El Diario de viaje:** un regalo para usar todos los días.
 4. **El Online:** para más adelante (unos dos años).
 
