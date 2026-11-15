@@ -138,9 +138,9 @@ const RAW = {
     ['¿Qué vínculo se fue apagando y cómo lo viviste?', 3],
     ['¿Te perdiste algún evento importante de alguien querido? ¿Cómo lo atravesaste?', 3],
     ['¿Cómo es una videollamada típica con tu familia?', 1],
-    ['¿Formaste una "familia elegida" acá? ¿Quiénes la integran?', 2],
+    ['¿Tenés acá una familia que elegiste? ¿Quiénes la integran?', 2],
     ['¿Con quiénes te sentís más vos: gente de tu país, de acá u otros migrantes? ¿Por qué?', 2],
-    ['¿Qué te cuesta compartir con quienes se quedaron?', 3],
+    ['¿Hubo algún mensaje que escribiste y no mandaste para no preocupar a los de allá? ¿Qué decía?', 3],
     ['¿Qué te cuesta compartir con quienes conociste acá?', 2],
     ['Si alguien de allá viniera a verte, ¿qué le mostrarías primero? ¿Y qué preferirías que no viera?', 2],
     ['¿En qué momentos aparece la culpa por estar lejos? ¿Qué te decís cuando aparece?', 3],
@@ -249,7 +249,7 @@ const RAW = {
 
 // Cuando una pregunta cambia de sentido, lo que se respondió a la anterior no se pierde: pasa
 // al diario con su pregunta original (ver journey.js). Acá queda el texto viejo de cada una.
-export const QUESTIONS_VERSION = 2
+export const QUESTIONS_VERSION = 3
 
 export const RETIRED_QUESTIONS = {
   2: {
@@ -268,6 +268,9 @@ export const RETIRED_QUESTIONS = {
     176: '¿Qué te gustaría aprender en el próximo año?',
     194: '¿Qué encontraste distinto cuando volviste de visita?',
     199: '¿Cómo sería tu día perfecto en este lugar?',
+  },
+  3: {
+    114: '¿Qué te cuesta compartir con quienes se quedaron?',
   },
 }
 
