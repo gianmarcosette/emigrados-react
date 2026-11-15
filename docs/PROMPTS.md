@@ -74,7 +74,7 @@ Exploramos con la IA varias direcciones a partir de cuadros de Matisse y de mi p
 | Avatares | Avatares de recorte sin rasgos en la cara |
 | Rediseño de la tarjeta de embarque, la maleta y el primer vuelo | Elegí entre dos propuestas de cada uno: tarjeta crema con banda cobalto, maleta azul noche y primer vuelo con un recorte por pantalla |
 | Imágenes para Instagram más simples | Solo el logo, la pregunta (el gancho) y el formato de billete. Sacamos la ruta, la etapa y el asiento porque a quien ve la historia no le interesan |
-| El ícono del pájaro en el corazón "recordaba a una iglesia" | Sacamos el corazón: la marca es la palabra, y el ícono es la S sobre cobalto |
+| El ícono del pájaro en el corazón "recordaba a una iglesia" | Sacamos el corazón: la marca es la palabra, y el ícono es la letra sobre cobalto (primero la S; después la E, la inicial del nombre) |
 | Rellenar el fondo del inicio | Una ruta punteada sale de una casa y cruza el fondo con una bandada de golondrinas hasta un barrio nuevo. Sacamos a Ícaro, la figura anterior, porque no se entendía |
 
 ### Después de probarlo en clase

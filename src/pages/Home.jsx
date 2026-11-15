@@ -5,6 +5,7 @@ import Envelope from '../components/Envelope.jsx'
 import ProgressBar from '../components/ProgressBar.jsx'
 import Wordmark from '../components/Wordmark.jsx'
 import HomeBackdrop from '../components/HomeBackdrop.jsx'
+import InstallCard from '../components/InstallCard.jsx'
 import { ModeIcon } from '../components/paper.jsx'
 import { COUNTRIES } from '../data/countries.js'
 import { QUESTIONS } from '../data/questions.js'
@@ -104,6 +105,8 @@ export default function Home() {
       </section>
 
       {profile && <LetterCard letters={letters} />}
+
+      <InstallCard />
 
       {started && (
         <section className="home__stats">
