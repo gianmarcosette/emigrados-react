@@ -47,7 +47,7 @@ No hay respuestas correctas en las preguntas de migración: el juego invita a co
 ## Diseño
 
 - **Recortes de papel al estilo Matisse sobre un fondo azul cobalto.** Tarjetas en papel crema con tinta negra, coral y amarillo como acentos, y un papel de color para cada modo (durazno, verde claro y amarillo). Las figuras tienen el borde irregular de la tijera gracias a filtros SVG.
-- **Marca:** la palabra EMIGRADOS en Montserrat ExtraBold, con la **S hecha de pájaros**, algunos de los cuales se sueltan y se van volando. El ícono es la S sobre cobalto.
+- **Marca:** la palabra EMIGRADOS en Montserrat ExtraBold, con la **S hecha de pájaros**, algunos de los cuales se sueltan y se van volando. El ícono es la E de Emigrados sobre cobalto, con los pájaros que se van.
 - **Los pájaros como hilo:** una golondrina que vuela sola (Individual), una bandada en V (Grupal) y dos pájaros que llegan de lugares distintos y se encuentran (Online). De fondo, en todas las pantallas, una ruta punteada sale de una casa, cruza la pantalla con una bandada de golondrinas y llega a un barrio nuevo.
 - **Tarjeta de embarque:** banda cobalto con el logo, ruta de tu casa a la escala, la pregunta sobre el papel de color de su etapa y, en el talón, tu avatar, tu código de pasajero y el afiche del país.
 - **52 afiches de viaje ilustrados**, uno por país, con su lugar emblemático (`components/posters.jsx`).
