@@ -1,6 +1,6 @@
 # Emigrados como producto
 
-Notas para la etapa de creación y venta (no es parte de la entrega del juego).
+Notas sobre la línea de productos que acompaña al juego: el mazo de cartas y el Diario de viaje.
 
 ## Línea de productos
 
@@ -19,15 +19,3 @@ Notas para la etapa de creación y venta (no es parte de la entrega del juego).
 - **Sello de la escala con moneda:** el diario trae una moneda de plástico o aluminio con el sello de pasaporte. Se pone la moneda debajo del papel y se pinta encima con un lápiz de color: así queda el sello de la escala cuando se completa la semana. (Pensar el relieve de la moneda, dónde va guardada en el diario y el espacio del sello en cada página de semana.)
 - Formato estimado: A5, tapa dura, elástico, cinta, 192 a 224 páginas de papel marfil de 100 a 120 g.
 - Momentos de regalo: la despedida, el primer aniversario y las fiestas. Faja de papel con una pregunta como gancho.
-
-## Costos estimados (antes de pedir presupuestos)
-
-| | 200 a 300 u. (España, digital) | 1.000 u. (Europa) | 1.000 u. (China, puesto en España) |
-|---|---|---|---|
-| Mazo con caja rígida | €15 a 28 | €8 a 13 | €5 a 7,5 |
-| Diario A5 | €12 a 18 | €6 a 10 | €3,5 a 5,5 |
-
-- China suma flete (unos €0,6 a 1,2 por unidad), muestra de preproducción e inspección (obligatorias), IVA de importación y el arancel de la posición 9504.40 (verificar en TARIC).
-- Cumplir el reglamento europeo de seguridad de productos (GPSR) y tramitar el código EAN.
-- Plan: validar con 200 a 300 unidades en España con preventa (Verkami); al llegar a unas 1.000 ventas, pasar a offset de 2.000 a 3.000.
-- Precio de referencia: mazo €24,90 a 29,90; diario €19,90 a 24,90; kit de viaje (mazo y diario) como regalo de despedida.
