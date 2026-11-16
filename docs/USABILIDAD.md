@@ -7,7 +7,7 @@ Registro de la prueba con personas externas al proyecto y de los ajustes hechos 
 | | |
 |---|---|
 | **Fecha** | 3 de noviembre de 2026 |
-| **Personas** | Compañeros de la cursada de Contenidos y Creatividad III, externos al desarrollo del juego. _Completar: cuántos fueron y sus iniciales._ |
+| **Personas** | Compañeros de la cursada de Contenidos y Creatividad III, externos al desarrollo del juego. |
 | **Dispositivo** | Cada persona jugó desde su propio celular, con el link publicado en Vercel. |
 | **Dónde** | En clase. |
 | **Segunda verificación** | El autor instaló el juego en su iPhone desde Safari ("Agregar a inicio") y lo usó a pantalla completa. |
