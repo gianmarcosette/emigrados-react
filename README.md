@@ -79,7 +79,7 @@ Después de responder (o en cada pregunta de Grupal), **Compartir** arma imágen
 
 ## Tecnologías
 
-React 19, React Router 7, Vite 8, Vitest (133 tests) y oxlint. Sin backend: el modo Online usa un servidor simulado (`src/online/mockServer.js`) con las reglas del duelo ya listas para conectarse a uno real. Las siluetas de los países se calculan una vez con d3-geo y world-atlas (`npm run shapes`).
+React 19, React Router 7, Vite 8, Vitest (133 tests) y oxlint. Se instala en el celular como aplicación web (manifiesto en `public/manifest.webmanifest` y guardado sin conexión en `public/sw.js`). Sin backend: el modo Online usa un servidor simulado (`src/online/mockServer.js`) con las reglas del duelo ya listas para conectarse a uno real. Las siluetas de los países se calculan una vez con d3-geo y world-atlas (`npm run shapes`).
 
 ## Cómo correrlo
 
@@ -97,31 +97,37 @@ npm run build    # versión de producción en dist/
 src/
 ├── App.jsx            # Rutas
 ├── main.jsx           # BrowserRouter + JourneyProvider
-├── pages/             # Home, Individual, Grupal, Online, Maleta, Perfil, NotFound
+├── pages/             # Home, Individual, Grupal, Online, Maleta, Perfil, Carta, Pregunta, NotFound
 ├── components/        # Layout, QuestionCard (tarjeta de embarque), Suitcase y posters (maleta), Diary,
-│                      # FirstFlight, ShareSheet, PassengerAvatar y AvatarEditor, HomeBackdrop, paper (recortes)
+│                      # FirstFlight, ShareSheet, AskSheet, InstallCard, PassengerAvatar y AvatarEditor, HomeBackdrop,
+│                      # paper (recortes)
 ├── online/            # duel.js (reglas del duelo), talk.js (charla guiada), mockServer.js (servidor simulado)
 ├── data/              # questions.js (208 preguntas con su intensidad), countries.js (52 países), trivia.js (346 preguntas de
 │                      # cultura general de 31 países), logo.js (contornos del logo), talk.js, residence.js
-├── state/             # journey.js (reducer + guardado), profile.js, duels.js, drafts.js, firstFlight.js
-├── lib/               # shareCard.js (imágenes para compartir), suitcase.js, ticket.js, avatar.js, paper.js…
-└── __tests__/         # 17 archivos de tests
+├── state/             # journey.js (reducer + guardado), profile.js, duels.js, drafts.js, firstFlight.js,
+│                      # install.js (instalar en el celular), saveStatus.js, nightMode.js
+├── lib/               # shareCard.js (imágenes para compartir), letter.js (carta al futuro), ask.js (WhatsApp),
+│                      # suitcase.js, ticket.js, avatar.js, paper.js…
+└── __tests__/         # 22 archivos de tests
+public/                # Ícono, imagen para compartir, manifiesto y sw.js (guardado sin conexión)
+scripts/               # Generan las siluetas de los países y la tipografía de títulos
 docs/
 ├── PROMPTS.md         # Registro del proceso con IA
-└── USABILIDAD.md      # Prueba de usabilidad con una persona externa
+├── USABILIDAD.md      # Prueba de usabilidad con personas externas
+└── PRODUCTO.md        # La línea de productos: mazo de cartas y Diario de viaje
 ```
 
 ## Proceso con IA
 
-El juego se desarrolló iterando con **Claude Code**, el agente de IA de Anthropic. Cada pedido se trabajó en una rama, se verificó (tests, lint, build y capturas en celular y compu) y se integró a `main` con un pull request: hay más de 30 pull requests y más de 100 commits. Las decisiones de diseño se probaron primero con maquetas en el navegador, sin tocar el juego, y se aplicaron recién cuando estuvieron aprobadas. El detalle está en [`docs/PROMPTS.md`](docs/PROMPTS.md).
+El juego se desarrolló iterando con **Claude Code**, el agente de IA de Anthropic. Cada pedido se trabajó en una rama, se verificó (tests, lint, build y capturas en celular y compu) y se integró a `main` con un pull request: hay más de 40 pull requests y más de 140 commits. Las decisiones de diseño se probaron primero con maquetas en el navegador, sin tocar el juego, y se aplicaron recién cuando estuvieron aprobadas. El detalle está en [`docs/PROMPTS.md`](docs/PROMPTS.md).
 
 ## Consigna del Momento 3
 
 | Requisito | Dónde se cumple |
 |---|---|
-| Mecánica completa, pantallas, puntuación, victoria o derrota y navegación con React Router | 6 pantallas más 404 en `src/App.jsx`. La vuelta al mundo y los afiches en Individual, y el duelo con marcador y "¡Ganaste! / Ganó [rival] / ¡Empate!" en Online. |
+| Mecánica completa, pantallas, puntuación, victoria o derrota y navegación con React Router | 8 pantallas más 404 en `src/App.jsx`. La vuelta al mundo y los afiches en Individual, y el duelo con marcador y "¡Ganaste! / Ganó [rival] / ¡Empate!" en Online. |
 | Diseño visual pulido | Recortes de papel con filtros SVG, paleta coherente, animaciones, modo noche y versión para celular. |
 | Personalización narrativa y estética | Metáfora del viaje en todo el juego (vuelos, escalas, pasajero, maleta, diario) y mensajes propios. Sin textos de plantilla. |
 | Pruebas de usabilidad | [`docs/USABILIDAD.md`](docs/USABILIDAD.md) |
-| Despliegue en Vercel | [emigrados-react.vercel.app](https://emigrados-react.vercel.app). `vercel.json` hace que cualquier dirección abra el juego, también al recargar. |
+| Despliegue en Vercel | [emigrados-react.vercel.app](https://emigrados-react.vercel.app). `vercel.json` hace que cualquier dirección abra el juego, también al recargar. Se verificó en un iPhone, instalado en la pantalla de inicio. |
 | Repositorio y README | Este archivo y [`docs/PROMPTS.md`](docs/PROMPTS.md) |
